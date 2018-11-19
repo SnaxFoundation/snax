@@ -1,0 +1,6 @@
+add_subdirectory( snaxnode )
+add_subdirectory( clisnax )
+add_subdirectory( kxd )
+add_subdirectory( snax-launcher )
+add_subdirectory( snax-abigen )
+add_subdirectory( snax-blocklog )

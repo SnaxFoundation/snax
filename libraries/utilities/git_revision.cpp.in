@@ -1,0 +1,14 @@
+#include <stdint.h>
+#include <snax/utilities/git_revision.hpp>
+
+#define SNAX_GIT_REVISION_SHA "@SNAX_GIT_REVISION_SHA@"
+#define SNAX_GIT_REVISION_UNIX_TIMESTAMP @SNAX_GIT_REVISION_UNIX_TIMESTAMP@
+#define SNAX_GIT_REVISION_DESCRIPTION "@SNAX_GIT_REVISION_DESCRIPTION@"
+
+namespace snax { namespace utilities {
+
+const char* const git_revision_sha = SNAX_GIT_REVISION_SHA;
+const uint32_t git_revision_unix_timestamp = SNAX_GIT_REVISION_UNIX_TIMESTAMP;
+const char* const git_revision_description = SNAX_GIT_REVISION_DESCRIPTION;
+
+} } // end namespace snax::utilities

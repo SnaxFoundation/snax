@@ -1,0 +1,28 @@
+
+[submodule "libraries/chainbase"]
+	path = libraries/chainbase
+	url = https://github.com/SnaxFoundation/chainbase
+[submodule "libraries/appbase"]
+	path = libraries/appbase
+	url = https://github.com/SnaxFoundation/appbase
+[submodule "libraries/softfloat"]
+	path = libraries/softfloat
+	url = https://github.com/SnaxFoundation/berkeley-softfloat-3
+[submodule "externals/magic_get"]
+	path = externals/magic_get
+	url = https://github.com/SnaxFoundation/magic_get
+[submodule "libraries/wabt"]
+	path = libraries/wabt
+	url = https://github.com/SnaxFoundation/wabt
+[submodule "contracts/libc++/upstream"]
+	path = contracts/libc++/upstream
+	url = https://github.com/SnaxFoundation/libcxx
+[submodule "externals/binaryen"]
+	path = externals/binaryen
+	url = https://github.com/SnaxFoundation/binaryen
+[submodule "libraries/fc"]
+	path = libraries/fc
+	url = https://github.com/SnaxFoundation/fc
+[submodule "contracts/musl/upstream"]
+	path = contracts/musl/upstream
+	url = https://github.com/SnaxFoundation/musl

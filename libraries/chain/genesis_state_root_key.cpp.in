@@ -1,0 +1,12 @@
+/**
+ *  @file
+ *  @copyright defined in snax/LICENSE.txt
+ */
+
+#include <snax/chain/genesis_state.hpp>
+
+namespace snax { namespace chain {
+
+const string genesis_state::snax_root_key = "${SNAX_ROOT_KEY}";
+
+} } // namespace snax::chain
