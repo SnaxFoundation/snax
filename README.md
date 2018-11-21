@@ -1,68 +1,61 @@
+# Snax - Blockchain-Based Social Overlay
 
-# SNAX - The Most Powerful Infrastructure for Decentralized Applications
+## Some of the key features of Snax
 
-[![Build status](https://badge.buildkite.com/370fe5c79410f7d695e4e34c500b4e86e3ac021c6b1f739e20.svg?branch=master)](https://buildkite.com/SNAX/snax)
+1. Free rate limited transactions
+2. Free account registration
+3. Social transactions over the most popular social platforms (e.g. Twitter, Reddit)
+4. Low latency block confirmation (0.5 seconds)
+5. Low-overhead Byzantine Fault Tolerant Finality
+6. Smart contract platform powered by Web Assembly
+7. Designed for sparse header light client validation
+8. Hierarchical role based permissions
+9. Support for biometric hardware secured keys
+10. Designed for parallel execution of context free validation logic
 
-Welcome to the SNAX source code repository! This software enables businesses to rapidly build and deploy high-performance and high-security blockchain-based applications.
+## Disclaimer
+Snax is released under the open source MIT license and is offered “AS IS” without warranty of any kind, express or implied. Any security provided by the Snax software depends in part on how it is used, configured, and deployed. Snax is built upon many third-party libraries such as Binaryen (Apache License) and WAVM  (BSD 3-clause) which are also provided “AS IS” without warranty of any kind. Without limiting the generality of the foregoing, Block.one makes no representation or guarantee that Snax or any third-party libraries will perform as intended or will be free of errors, bugs or faulty code. Both may fail in large or small ways that could completely or partially limit functionality or compromise computer systems. If you use or implement Snax, you do so at your own risk. In no event will Block.one be liable to any party for any damages whatsoever, even if it had been advised of the possibility of damage.  
 
-Some of the groundbreaking features of SNAX include:
+## Installation
 
-1. Free Rate Limited Transactions 
-1. Low Latency Block confirmation (0.5 seconds)
-1. Low-overhead Byzantine Fault Tolerant Finality
-1. Designed for optional high-overhead, low-latency BFT finality 
-1. Smart contract platform powered by Web Assembly
-1. Designed for Sparse Header Light Client Validation
-1. Scheduled Recurring Transactions 
-1. Time Delay Security
-1. Hierarchical Role Based Permissions
-1. Support for Biometric Hardware Secured Keys (e.g. Apple Secure Enclave)
-1. Designed for Parallel Execution of Context Free Validation Logic
-1. Designed for Inter Blockchain Communication 
+**If you have previously installed Snax, please run the `snax_uninstall` script (it is in the directory where you cloned Snax) before downloading and using the binary releases.**
 
-SNAX is released under the open source MIT license and is offered “AS IS” without warranty of any kind, express or implied. Any security provided by the SNAX software depends in part on how it is used, configured, and deployed. SNAX is built upon many third-party libraries such as Binaryen (Apache License) and WAVM  (BSD 3-clause) which are also provided “AS IS” without warranty of any kind. Without limiting the generality of the foregoing, Block.one makes no representation or guarantee that SNAX or any third-party libraries will perform as intended or will be free of errors, bugs or faulty code. Both may fail in large or small ways that could completely or partially limit functionality or compromise computer systems. If you use or implement SNAX, you do so at your own risk. In no event will Block.one be liable to any party for any damages whatsoever, even if it had been advised of the possibility of damage.  
-
-Block.one is neither launching nor operating any initial public blockchains based upon the SNAX software. This release refers only to version 1.0 of our open source software. We caution those who wish to use blockchains built on SNAX to carefully vet the companies and organizations launching blockchains based on SNAX before disclosing any private keys to their derivative software. 
-
-There is no public testnet running currently.
-
-**If you have previously installed SNAX, please run the `snax_uninstall` script (it is in the directory where you cloned SNAX) before downloading and using the binary releases.**
-
-#### Mac OS X Brew Install
+### Mac OS X Brew Install
 ```sh
 $ brew tap snax/snax
 $ brew install snax
 ```
-#### Mac OS X Brew Uninstall
+### Mac OS X Brew Uninstall
 ```sh
 $ brew remove snax
 ```
-#### Ubuntu 18.04 Debian Package Install
+### Ubuntu 18.04 Debian Package Install
 ```sh
-$ wget https://github.com/SnaxFoundation/snax/releases/download/v1.4.3/snax-1.4.3.ubuntu-18.04-x86_64.deb
+$ wget https://github.com/SnaxFoundation/snax/releases/download/v0.1.0/snax-0.1.0.ubuntu-18.04-x86_64.deb
 $ sudo apt install ./snax-1.4.3.ubuntu-18.04-x86_64.deb
 ```
-#### Ubuntu 16.04 Debian Package Install
+### Ubuntu 16.04 Debian Package Install
 ```sh
 $ wget https://github.com/SnaxFoundation/snax/releases/download/v1.4.3/snax-1.4.3.ubuntu-16.04-x86_64.deb
 $ sudo apt install ./snax-1.4.3.ubuntu-16.04-x86_64.deb
 ```
-#### Debian Package Uninstall
+### Debian Package Uninstall
 ```sh
 $ sudo apt remove snax
 ```
-#### RPM Package Install
+### RPM Package Install
 ```sh
 $ wget https://github.com/SnaxFoundation/snax/releases/download/v1.4.3/snax-1.4.3.x86_64-0.x86_64.rpm
 $ sudo yum install ./snax-1.4.3.x86_64-0.x86_64.rpm
 ```
-#### RPM Package Uninstall
+### RPM Package Uninstall
 ```sh
 $ sudo yum remove snax.cdt
 ```
 
-## Supported Operating Systems
-SNAX currently supports the following operating systems:  
+## Supported OS
+
+Snax currently supports the following operating systems:  
 1. Amazon 2017.09 and higher
 2. Centos 7
 3. Fedora 25 and higher (Fedora 27 recommended)
@@ -73,14 +66,7 @@ SNAX currently supports the following operating systems:
 
 ## Resources
 1. [Website](https://snax.one)
-1. [Blog](https://medium.com/snax)
-1. [Developer Portal](https://developers.snax.one)
-1. [StackExchange for Q&A](https://snax.stackexchange.com/)
-1. [Community Telegram Group](https://t.me/SNAXProject)
-1. [Developer Telegram Group](https://t.me/joinchat/EaEnSUPktgfoI-XPfMYtcQ)
-1. [White Paper](https://github.com/SnaxFoundation/Documentation/blob/master/TechnicalWhitePaper.md)
-1. [Roadmap](https://github.com/SnaxFoundation/Documentation/blob/master/Roadmap.md)
-
-<a name="gettingstarted"></a>
-## Getting Started
-Instructions detailing the process of getting the software, building it, running a simple test network that produces blocks, account creation and uploading a sample contract to the blockchain can be found in [Getting Started](https://developers.snax.one/snax-snaxnode/docs/overview-1) on the [SNAX Developer Portal](https://developers.snax.one).
+2. [Blog](https://medium.com/@snax)
+3. [Discord](https://discord.gg/qygxJAZ)
+4. [White Paper](https://snax.one/whitepaper.pdf)
+5. [Roadmap](https://snax.one/roadmap)
