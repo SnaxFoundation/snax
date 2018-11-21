@@ -23,7 +23,7 @@ cleanup:
   - docker stop mongo || true
   except:
     changes:
-      - *.md
+      - "*.md"
 
 build:
   stage: build
@@ -37,7 +37,7 @@ build:
     variables:
       - $CI_COMMIT_MESSAGE =~ /skip-build/
     changes:
-      - *.md
+      - "*.md"
 
 test:jest:
   stage: test
@@ -48,7 +48,7 @@ test:jest:
     variables:
       - $CI_COMMIT_MESSAGE =~ /skip-test/
     changes:
-      - *.md
+      - "*.md"
 
 test:core:
   stage: test
@@ -76,4 +76,4 @@ build:docker:
   - docker rmi $REGISTRY/$CI_PROJECT_NAME:$CI_COMMIT_REF_NAME
   except:
     changes:
-      - *.md
+      - "*.md"
