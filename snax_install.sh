@@ -140,8 +140,6 @@ fi
    printf "\\tQQQQRQRQRQQQRQQQRQRBRBQBQBBBQBQBBBBBBBBBQBQQRQQBRQRBRBRQRQQBQQRBRQQQRBRQRBR\\n"
 
    printf "\\tFor more information:\\n"
-   printf "\\tSNAX website: https://snax.one\\n"
-   printf "\\tSNAX Telegram channel @ https://t.me/SNAXProject\\n"
-   printf "\\tSNAX resources: https://snax.one/resources/\\n"
-   printf "\\tSNAX Stack Exchange: https://snax.stackexchange.com\\n"
-   printf "\\tSNAX wiki: https://github.com/SnaxFoundation/snax/wiki\\n\\n\\n"
+   printf "\\tSnax website: https://snax.one\\n"
+   printf "\\tSnax Discord channel: https://discord.gg/qygxJAZ\\n"
+   printf "\\tSnax Telegram channel: https://t.me/snaxone\\n\\n\\n\\n"
