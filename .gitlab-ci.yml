@@ -63,6 +63,7 @@ test:core:
     changes:
       - contracts/platform/*
       - jest_tests/*
+      - "*.md"
 
 build:docker:
   stage: build-docker
