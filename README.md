@@ -25,7 +25,7 @@ GLIBCXX <= 3.4.20
 
 ## Installation
 
-Download latest release from https://github.com/SnaxFoundation/snax/releases
+Download latest release from [https://github.com/SnaxFoundation/snax/releases](https://github.com/SnaxFoundation/snax/releases)
 
 ```sh
 tar -xvf bin.tar.gz
@@ -33,8 +33,7 @@ tar -xvf bin.tar.gz
 
 ## Supported OS
 
-Snax currently supports the following operating systems:
-1. Linux x64
+Snax currently supports only Linux x64
 
 ## Resources
 1. [Website](https://snax.one)
