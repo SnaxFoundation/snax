@@ -1,0 +1,343 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Platform should add account correctly 1`] = `
+Object {
+  "more": false,
+  "rows": Array [
+    Object {
+      "account": "platform",
+      "account_count": 1,
+      "round_supply": "0.0000 SNAX",
+      "round_updated_account_count": 0,
+      "step_number": 0,
+      "token_dealer": "snax",
+      "total_attention_rate": "15.00000000000000000",
+      "updating": 0,
+    },
+  ],
+}
+`;
+
+exports[`Platform should add account correctly 2`] = `
+Object {
+  "more": false,
+  "rows": Array [
+    Object {
+      "attention_rate": "15.00000000000000000",
+      "id": 123,
+      "last_updated_step_number": 0,
+      "name": "test2",
+      "serial": 0,
+    },
+  ],
+}
+`;
+
+exports[`Platform should initialize correctly 1`] = `
+Object {
+  "more": false,
+  "rows": Array [
+    Object {
+      "account": "platform",
+      "account_count": 0,
+      "round_supply": "0.0000 SNAX",
+      "round_updated_account_count": 0,
+      "step_number": 0,
+      "token_dealer": "snax",
+      "total_attention_rate": "0.00000000000000000",
+      "updating": 0,
+    },
+  ],
+}
+`;
+
+exports[`Platform should initialize correctly 2`] = `
+Object {
+  "more": false,
+  "rows": Array [],
+}
+`;
+
+exports[`Platform should process next round correctly 1`] = `
+Object {
+  "more": false,
+  "rows": Array [
+    Object {
+      "account": "platform",
+      "account_count": 4,
+      "round_supply": "0.0000 SNAX",
+      "round_updated_account_count": 0,
+      "step_number": 1,
+      "token_dealer": "snax",
+      "total_attention_rate": "652.00000000000000000",
+      "updating": 0,
+    },
+  ],
+}
+`;
+
+exports[`Platform should process next round correctly 2`] = `
+Object {
+  "more": false,
+  "rows": Array [
+    Object {
+      "attention_rate": "15.00000000000000000",
+      "id": 123,
+      "last_updated_step_number": 1,
+      "name": "test2",
+      "serial": 0,
+    },
+    Object {
+      "attention_rate": "206.00000000000000000",
+      "id": 1007,
+      "last_updated_step_number": 1,
+      "name": "test1",
+      "serial": 3,
+    },
+    Object {
+      "attention_rate": "225.00000000000000000",
+      "id": 1105,
+      "last_updated_step_number": 1,
+      "name": "test1",
+      "serial": 1,
+    },
+    Object {
+      "attention_rate": "206.00000000000000000",
+      "id": 1200,
+      "last_updated_step_number": 1,
+      "name": "test1",
+      "serial": 2,
+    },
+  ],
+}
+`;
+
+exports[`Platform should process next round correctly 3`] = `
+Array [
+  Object {
+    "more": false,
+    "rows": Array [
+      Object {
+        "balance": "4627.9069 SNAX",
+      },
+    ],
+  },
+  Object {
+    "more": false,
+    "rows": Array [
+      Object {
+        "balance": "194372.0931 SNAX",
+      },
+    ],
+  },
+]
+`;
+
+exports[`Platform should update account's attention rate correctly 1`] = `
+Object {
+  "more": false,
+  "rows": Array [
+    Object {
+      "account": "platform",
+      "account_count": 1,
+      "round_supply": "0.0000 SNAX",
+      "round_updated_account_count": 0,
+      "step_number": 0,
+      "token_dealer": "snax",
+      "total_attention_rate": "20.00000000000000000",
+      "updating": 0,
+    },
+  ],
+}
+`;
+
+exports[`Platform should update account's attention rate correctly 2`] = `
+Object {
+  "more": false,
+  "rows": Array [
+    Object {
+      "attention_rate": "20.00000000000000000",
+      "id": 123,
+      "last_updated_step_number": 0,
+      "name": "test2",
+      "serial": 0,
+    },
+  ],
+}
+`;
+
+exports[`Platform should update multiple account's attention rate correctly 1`] = `
+Object {
+  "more": false,
+  "rows": Array [
+    Object {
+      "account": "platform",
+      "account_count": 2,
+      "round_supply": "0.0000 SNAX",
+      "round_updated_account_count": 0,
+      "step_number": 0,
+      "token_dealer": "snax",
+      "total_attention_rate": "45.00000000000000000",
+      "updating": 0,
+    },
+  ],
+}
+`;
+
+exports[`Platform should update multiple account's attention rate correctly 2`] = `
+Object {
+  "more": false,
+  "rows": Array [
+    Object {
+      "attention_rate": "25.00000000000000000",
+      "id": 123,
+      "last_updated_step_number": 0,
+      "name": "test2",
+      "serial": 0,
+    },
+    Object {
+      "attention_rate": "20.00000000000000000",
+      "id": 243,
+      "last_updated_step_number": 0,
+      "name": "test1",
+      "serial": 1,
+    },
+  ],
+}
+`;
+
+exports[`Platform shouldn't be able to add account or update attention rate when platform is updating 1`] = `"assertion failure with message: platform mustn't be in updating state when updatear action is called"`;
+
+exports[`Platform shouldn't be able to add account or update attention rate when platform is updating 2`] = `"assertion failure with message: platform mustn't be in updating state when updatearmult action is called"`;
+
+exports[`Platform shouldn't be able to add account or update attention rate when platform is updating 3`] = `"assertion failure with message: platform must not be in updating state when addaccount action is called"`;
+
+exports[`Platform shouldn't be able to add account or update attention rate when platform is updating 4`] = `
+Object {
+  "more": false,
+  "rows": Array [
+    Object {
+      "account": "platform",
+      "account_count": 1,
+      "round_supply": "0.0000 SNAX",
+      "round_updated_account_count": 0,
+      "step_number": 0,
+      "token_dealer": "snax",
+      "total_attention_rate": "225.00000000000000000",
+      "updating": 1,
+    },
+  ],
+}
+`;
+
+exports[`Platform shouldn't be able to add account or update attention rate when platform is updating 5`] = `
+Object {
+  "more": false,
+  "rows": Array [
+    Object {
+      "attention_rate": "225.00000000000000000",
+      "id": 1105,
+      "last_updated_step_number": 0,
+      "name": "test1",
+      "serial": 0,
+    },
+  ],
+}
+`;
+
+exports[`Platform shouldn't be able to add user with the same id second time 1`] = `"assertion failure with message: user already exists"`;
+
+exports[`Platform shouldn't be able to add user with the same id second time 2`] = `
+Object {
+  "more": false,
+  "rows": Array [
+    Object {
+      "account": "platform",
+      "account_count": 1,
+      "round_supply": "0.0000 SNAX",
+      "round_updated_account_count": 0,
+      "step_number": 0,
+      "token_dealer": "snax",
+      "total_attention_rate": "15.00000000000000000",
+      "updating": 0,
+    },
+  ],
+}
+`;
+
+exports[`Platform shouldn't be able to add user with the same id second time 3`] = `
+Object {
+  "more": false,
+  "rows": Array [
+    Object {
+      "attention_rate": "15.00000000000000000",
+      "id": 123,
+      "last_updated_step_number": 0,
+      "name": "test2",
+      "serial": 0,
+    },
+  ],
+}
+`;
+
+exports[`Platform shouldn't be able to initialize second time 1`] = `"assertion failure with message: platform is already initialized"`;
+
+exports[`Platform shouldn't be able to initialize second time 2`] = `
+Object {
+  "more": false,
+  "rows": Array [
+    Object {
+      "account": "platform",
+      "account_count": 0,
+      "round_supply": "0.0000 SNAX",
+      "round_updated_account_count": 0,
+      "step_number": 0,
+      "token_dealer": "snax",
+      "total_attention_rate": "0.00000000000000000",
+      "updating": 0,
+    },
+  ],
+}
+`;
+
+exports[`Platform shouldn't be able to initialize second time 3`] = `
+Object {
+  "more": false,
+  "rows": Array [],
+}
+`;
+
+exports[`Platform shouldn't be able to update non-existent account's attention rate 1`] = `"assertion failure with message: user doesn't exist in platform"`;
+
+exports[`Platform shouldn't be able to update non-existent account's attention rate 2`] = `
+Object {
+  "more": false,
+  "rows": Array [
+    Object {
+      "account": "platform",
+      "account_count": 1,
+      "round_supply": "0.0000 SNAX",
+      "round_updated_account_count": 0,
+      "step_number": 0,
+      "token_dealer": "snax",
+      "total_attention_rate": "15.00000000000000000",
+      "updating": 0,
+    },
+  ],
+}
+`;
+
+exports[`Platform shouldn't be able to update non-existent account's attention rate 3`] = `
+Object {
+  "more": false,
+  "rows": Array [
+    Object {
+      "attention_rate": "15.00000000000000000",
+      "id": 123,
+      "last_updated_step_number": 0,
+      "name": "test2",
+      "serial": 0,
+    },
+  ],
+}
+`;

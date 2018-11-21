@@ -1,0 +1,16 @@
+{
+  "dependencies": {
+    "@snaxfoundation/snaxjs": "^20.0.0-beta3",
+    "jest-cli": "23.6.0",
+    "node-fetch": "^2.2.0",
+    "text-encoding": "^0.7.0"
+  },
+  "jest": {
+    "testMatch": [
+      "**/*.js?(x)"
+    ]
+  },
+  "scripts": {
+    "test": "jest --runInBand"
+  }
+}
