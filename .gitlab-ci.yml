@@ -21,6 +21,9 @@ cleanup:
   - sudo rm -rf /tmp/*-*-*-*
   - rm -rf $WALLET_DIR
   - docker stop mongo || true
+  except:
+    changes:
+      - *.md
 
 build:
   stage: build
@@ -33,6 +36,8 @@ build:
   except:
     variables:
       - $CI_COMMIT_MESSAGE =~ /skip-build/
+    changes:
+      - *.md
 
 test:jest:
   stage: test
@@ -42,6 +47,8 @@ test:jest:
   except:
     variables:
       - $CI_COMMIT_MESSAGE =~ /skip-test/
+    changes:
+      - *.md
 
 test:core:
   stage: test
@@ -53,6 +60,9 @@ test:core:
   except:
     variables:
       - $CI_COMMIT_MESSAGE =~ /skip-test/
+    changes:
+      - contracts/platform/*
+      - jest_tests/*
 
 build:docker:
   stage: build-docker
@@ -64,3 +74,6 @@ build:docker:
   - docker build --rm -t $REGISTRY/$CI_PROJECT_NAME:$CI_COMMIT_REF_NAME .
   - docker push $REGISTRY/$CI_PROJECT_NAME:$CI_COMMIT_REF_NAME
   - docker rmi $REGISTRY/$CI_PROJECT_NAME:$CI_COMMIT_REF_NAME
+  except:
+    changes:
+      - *.md
