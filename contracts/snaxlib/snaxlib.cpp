@@ -41,7 +41,8 @@ void* sbrk(size_t num_bytes) {
 namespace snax {
 
    void set_blockchain_parameters(const snax::blockchain_parameters& params) {
-      char buf[sizeof(snax::blockchain_parameters)];
+      const auto platform_count = params.platforms.size();
+      char buf[sizeof(snax::blockchain_parameters) + (platform_count > 0 ? sizeof(snax::platform_config) * (platform_count - 1): 0)];
       snax::datastream<char *> ds( buf, sizeof(buf) );
       ds << params;
       set_blockchain_parameters_packed( buf, ds.tellp() );

@@ -1,0 +1,55 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Platform should call system's emitplatform correctly 1`] = `
+Array [
+  Object {
+    "more": false,
+    "rows": Array [],
+  },
+  Object {
+    "more": false,
+    "rows": Array [],
+  },
+  Object {
+    "more": false,
+    "rows": Array [],
+  },
+  Object {
+    "more": false,
+    "rows": Array [
+      Object {
+        "balance": "119400.0000 SNAX",
+      },
+    ],
+  },
+]
+`;
+
+exports[`Platform should call system's emitplatform correctly 2`] = `
+Array [
+  Object {
+    "more": false,
+    "rows": Array [],
+  },
+  Object {
+    "more": false,
+    "rows": Array [
+      Object {
+        "balance": "79600.0000 SNAX",
+      },
+    ],
+  },
+  Object {
+    "more": false,
+    "rows": Array [],
+  },
+  Object {
+    "more": false,
+    "rows": Array [
+      Object {
+        "balance": "119400.0000 SNAX",
+      },
+    ],
+  },
+]
+`;
