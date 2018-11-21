@@ -41,3 +41,4 @@ Snax currently supports only Linux x64
 3. [Discord](https://discord.gg/qygxJAZ)
 4. [White Paper](https://snax.one/whitepaper.pdf)
 5. [Roadmap](https://snax.one/roadmap)
+6. [Telegram](https://t.me/snaxone)
