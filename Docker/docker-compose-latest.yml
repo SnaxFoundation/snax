@@ -1,0 +1,33 @@
+version: "3"
+
+services:
+  snaxnoded:
+    image: snax/snax:latest
+    command: /opt/snax/bin/snaxnoded.sh --data-dir /opt/snax/bin/data-dir -e --http-alias=snaxnoded:8888 --http-alias=127.0.0.1:8888 --http-alias=localhost:8888
+    hostname: snaxnoded
+    ports:
+      - 8888:8888
+      - 9876:9876
+    expose:
+      - "8888"
+    volumes:
+      - snaxnode-data-volume:/opt/snax/bin/data-dir
+    cap_add:
+      - IPC_LOCK
+    stop_grace_period: 10m
+
+  kxd:
+    image: snax/snax:latest
+    command: /opt/snax/bin/kxd --wallet-dir /opt/snax/bin/data-dir --http-server-address=127.0.0.1:8900 --http-alias=kxd:8900 --http-alias=localhost:8900
+    hostname: kxd
+    links:
+      - snaxnoded
+    volumes:
+      - kxd-data-volume:/opt/snax/bin/data-dir
+    stop_grace_period: 10m
+
+volumes:
+ snaxnode-data-volume:
+   external: true
+ kxd-data-volume:
+   external: true
