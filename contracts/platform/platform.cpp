@@ -171,7 +171,7 @@ namespace snax {
                 !state.updating,
                 "platform must not be in updating state when addaccount action is called"
         );
-        snax_assert(attention_rate >= 0, "attention rate must be grater than zero or equal to zero");
+        snax_assert(attention_rate >= 0, "attention rate must be greater than zero or equal to zero");
         const auto& found = _accounts.find(id);
         snax_assert(found == _accounts.end() || found->name == N(snax.saving), "user already exists");
 
@@ -215,7 +215,7 @@ namespace snax {
 
         for (auto& account_to_add: accounts_to_add) {
             snax_assert(_accounts.find(account_to_add.id) == _accounts.end(), "user already exists");
-            snax_assert(account_to_add.attention_rate >= 0, "attention rate must be grater than zero");
+            snax_assert(account_to_add.attention_rate >= 0, "attention rate must be greater than zero");
             accumulated_attention_rate += account_to_add.attention_rate;
             _accounts.emplace(
                     _self, [&](auto &record) {

@@ -157,7 +157,7 @@ describe("Platform", async () => {
 
   const updatePlatform = async () => {
     await lockUpdate();
-    (await api.transact(
+    await api.transact(
       {
         actions: [
           {
@@ -177,7 +177,8 @@ describe("Platform", async () => {
         blocksBehind: 1,
         expireSeconds: 30
       }
-    )).processed.action_traces;
+    );
+    await verifyAccountsBalances(["test2", "test1", "snax", "platform"]);
     await api.transact(
       {
         actions: [
@@ -274,9 +275,9 @@ describe("Platform", async () => {
       id: 1007,
       attention_rate: 206.0
     });
-    await updatePlatform(1000);
+    await updatePlatform();
     await verifyStatesAndAccounts();
-    await verifyAccountsBalances(["test2", "test1"]);
+    await verifyAccountsBalances(["test2", "test1", "snax", "platform"]);
   });
 
   it("should initialize correctly", async () => {

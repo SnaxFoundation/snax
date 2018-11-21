@@ -59,6 +59,31 @@ Object {
 `;
 
 exports[`Platform should process next round correctly 1`] = `
+Array [
+  Object {
+    "more": false,
+    "rows": Array [],
+  },
+  Object {
+    "more": false,
+    "rows": Array [],
+  },
+  Object {
+    "more": false,
+    "rows": Array [],
+  },
+  Object {
+    "more": false,
+    "rows": Array [
+      Object {
+        "balance": "199000.0000 SNAX",
+      },
+    ],
+  },
+]
+`;
+
+exports[`Platform should process next round correctly 2`] = `
 Object {
   "more": false,
   "rows": Array [
@@ -76,7 +101,7 @@ Object {
 }
 `;
 
-exports[`Platform should process next round correctly 2`] = `
+exports[`Platform should process next round correctly 3`] = `
 Object {
   "more": false,
   "rows": Array [
@@ -112,7 +137,7 @@ Object {
 }
 `;
 
-exports[`Platform should process next round correctly 3`] = `
+exports[`Platform should process next round correctly 4`] = `
 Array [
   Object {
     "more": false,
@@ -129,6 +154,14 @@ Array [
         "balance": "194372.0931 SNAX",
       },
     ],
+  },
+  Object {
+    "more": false,
+    "rows": Array [],
+  },
+  Object {
+    "more": false,
+    "rows": Array [],
   },
 ]
 `;
