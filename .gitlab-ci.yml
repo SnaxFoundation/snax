@@ -1,12 +1,14 @@
 variables:
-  HOME: /home/eos
+  HOME_DIR: /home/eos
   NODEOS: http://localhost:8888
-  PATH_TO_MINTS: $HOME/$CI_PROJECT_DIR
-  JEST_TESTS: $HOME/$CI_PROJECT_DIR/jest_tests
-  SNAX_HOME: $HOME/$CI_PROJECT_DIR/build/
-  WALLET_DIR: $HOME/eos-wallet
-  MONGOD_CONF: $HOME/opt/mongodb/mongod.conf
+  PATH_TO_MINTS: $HOME_DIR/$CI_PROJECT_DIR
+  JEST_TESTS: $HOME_DIR/$CI_PROJECT_DIR/jest_tests
+  SNAX_HOME: $HOME_DIR/$CI_PROJECT_DIR/build/
+  WALLET_DIR: $HOME_DIR/eos-wallet
+  MONGOD_CONF: $HOME_DIR/opt/mongodb/mongod.conf
   DOCKER_DRIVER: overlay2
+  USERNAME: SnaxOne
+  ORG: SnaxFoundation
 
 stages:
 - cleanup
@@ -14,6 +16,7 @@ stages:
 - test
 - build-docker
 - deploy
+- publish
 
 cleanup:
   stage: cleanup
@@ -24,6 +27,8 @@ cleanup:
   except:
     changes:
       - "*.md"
+  tags:
+    - snax
 
 build:
   stage: build
@@ -33,11 +38,37 @@ build:
   - ./snax_build.sh
   - rm -rf /tmp/build-$CI_COMMIT_REF_NAME.tar.gz && tar -czf /tmp/build-$CI_COMMIT_REF_NAME.tar.gz build
   - sudo ./snax_install.sh
+  artifacts:
+    name: "$CI_COMMIT_REF_NAME"
+    paths:
+      - build/bin/
+  only:
+    - master
+    - tags
   except:
     variables:
       - $CI_COMMIT_MESSAGE =~ /skip-build/
     changes:
       - "*.md"
+  tags:
+    - snax
+
+build:tag:
+  stage: build
+  script:
+    - git submodule update --init --recursive
+    - if [ -f /tmp/build-$CI_COMMIT_REF_NAME.tar.gz ]; then tar -xf /tmp/build-$CI_COMMIT_REF_NAME.tar.gz; fi
+    - ./snax_build.sh
+    - rm -rf /tmp/build-$CI_COMMIT_REF_NAME.tar.gz && tar -czf /tmp/build-$CI_COMMIT_REF_NAME.tar.gz build
+    - sudo ./snax_install.sh
+  artifacts:
+    name: "$CI_COMMIT_REF_NAME"
+    paths:
+    - build/bin/
+  only:
+  - tags
+  tags:
+  - snax
 
 test:jest:
   stage: test
@@ -49,12 +80,14 @@ test:jest:
       - $CI_COMMIT_MESSAGE =~ /skip-test/
     changes:
       - "*.md"
+  tags:
+    - snax
 
 test:core:
   stage: test
   script:
   - docker run --rm -d --name mongo -p 27017:27017 mvertes/alpine-mongo
-  - export PATH=$HOME/opt/mongodb/bin:$PATH
+  - export PATH=$HOME_DIR/opt/mongodb/bin:$PATH
   - if [ -f /tmp/build-$CI_COMMIT_REF_NAME.tar.gz ]; then tar -xf /tmp/build-$CI_COMMIT_REF_NAME.tar.gz; fi
   - cd $SNAX_HOME && ctest --output-on-failure
   except:
@@ -64,6 +97,8 @@ test:core:
       - contracts/platform/*
       - jest_tests/*
       - "*.md"
+  tags:
+    - snax
 
 build:docker:
   stage: build-docker
@@ -78,3 +113,33 @@ build:docker:
   except:
     changes:
       - "*.md"
+  tags:
+    - snax
+
+build:docker:tag:
+  stage: build-docker
+  script:
+  - if [ -f /tmp/build-$CI_COMMIT_REF_NAME.tar.gz ]; then tar -xf /tmp/build-$CI_COMMIT_REF_NAME.tar.gz; fi
+  - cp -r /usr/local/lib .
+  - cp -r /usr/local/snax/bin .
+  - echo "$CI_COMMIT_REF_NAME:$CI_COMMIT_SHA" > snax-version
+  - docker build --rm -t $REGISTRY/$CI_PROJECT_NAME:$CI_COMMIT_TAG .
+  - docker push $REGISTRY/$CI_PROJECT_NAME:$CI_COMMIT_TAG
+  - docker rmi $REGISTRY/$CI_PROJECT_NAME:$CI_COMMIT_TAG
+  only:
+  - tags
+  tags:
+  - snax
+
+publish:
+  stage: publish
+  image: ${REGISTRY}/ok.sh:master
+  script:
+  - cd build/bin && tar cvzf bin.tar.gz *
+  - docker-entrypoint.sh $ORG $CI_PROJECT_NAME $CI_COMMIT_TAG bin.tar.gz ./bin.tar.gz
+  dependencies:
+    - build:tag
+  only:
+    - tags
+  tags:
+    - docker

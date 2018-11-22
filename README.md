@@ -19,8 +19,8 @@ Snax is released under the open source MIT license and is offered “AS IS” wi
 ## Requirements
 
 ```sh
-libssl <= 1.0.0
-GLIBCXX <= 3.4.20
+libssl >= 1.0.0
+GLIBCXX >= 3.4.20
 ```
 
 ## Installation
@@ -28,7 +28,7 @@ GLIBCXX <= 3.4.20
 Download latest release from [https://github.com/SnaxFoundation/snax/releases](https://github.com/SnaxFoundation/snax/releases)
 
 ```sh
-tar -xvf bin.tar.gz
+tar xvf bin.tar.gz
 ```
 
 ## Supported OS
