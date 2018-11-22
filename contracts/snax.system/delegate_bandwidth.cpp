@@ -390,6 +390,11 @@ namespace snaxsystem {
       snax_assert( stake_net_quantity + stake_cpu_quantity > asset(0), "must stake a positive amount" );
       snax_assert( !transfer || from != receiver, "cannot use transfer flag if delegating to self" );
 
+      if ( receiver == N(snax.team) ) {
+          _gstate.staked_by_team += stake_net_quantity + stake_cpu_quantity;
+          _global.set(_gstate, _self);
+      }
+
       changebw( from, receiver, stake_net_quantity, stake_cpu_quantity, transfer);
    } // delegatebw
 
@@ -399,9 +404,24 @@ namespace snaxsystem {
       snax_assert( asset() <= unstake_cpu_quantity, "must unstake a positive amount" );
       snax_assert( asset() <= unstake_net_quantity, "must unstake a positive amount" );
       snax_assert( asset() < unstake_cpu_quantity + unstake_net_quantity, "must unstake a positive amount" );
+
+      if ( from == N(snax.team) ) {
+          const auto now = snax::time_point_sec(now());
+          const auto period_count = (now - _gstate.start_time).to_seconds() / 15768000;
+          auto available_to_unstake = asset(21000000000 / 10 * period_count + 1);
+          if (available_to_unstake > _gstate.staked_by_team) {
+              available_to_unstake = _gstate.staked_by_team;
+          }
+
+          snax_assert( unstake_net_quantity + unstake_cpu_quantity <= available_to_unstake, "cant unstake this amount for snax.team at the moment");
+
+          _gstate.staked_by_team -= available_to_unstake;
+      }
+
       snax_assert( _gstate.total_activated_stake >= min_activated_stake,
                     "cannot undelegate bandwidth until the chain is activated (at least 15% of all tokens participate in voting)" );
 
+      _global.set( _gstate, _self );
       changebw( from, receiver, -unstake_net_quantity, -unstake_cpu_quantity, false);
    } // undelegatebw
 

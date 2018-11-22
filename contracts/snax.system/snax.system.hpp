@@ -52,9 +52,12 @@ namespace snaxsystem {
       uint16_t             last_producer_schedule_size = 0;
       double               total_producer_vote_weight = 0; /// the sum of all producer votes
       block_timestamp      last_name_close;
+      block_timestamp      start_time = block_timestamp(snax::time_point_sec(now()));
+      bool                 initialized = false;
       int64_t              min_supply_points = 100;
       int64_t              supply_offset = 0; /// initial supply offset
-      asset                circulating_supply = asset(21000000000); /// premine amount
+      asset                staked_by_team = asset(0);
+      asset                circulating_supply = asset(0); /// premine amount
       asset                total_supply = asset(100000000000); /// total supply amount
 
       // explicit serialization macro is not necessary, used here only to improve compilation time
