@@ -30,7 +30,7 @@ namespace snaxsystem {
                 "premine"
             }
         );
-        delegatebw(N(snax.team), N(snax.team), asset(21000000000 / 2), asset(21000000000 / 2), true);
+        delegatebw(N(snax.team), N(snax.team), asset(21000000000 / 2), asset(21000000000 / 2), false);
         _gstate.initialized = true;
         _gstate.circulating_supply += amount_to_stake_by_team;
         _global.set(_gstate, _self);
