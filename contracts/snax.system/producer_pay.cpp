@@ -23,18 +23,38 @@ namespace snaxsystem {
       require_auth(N(snax));
 
       if ( _gstate.staked_by_team == asset(0) && !_gstate.initialized ) {
-        const asset amount_to_stake_by_team = asset(21000000000);
+        const asset amount_to_issue = asset(21000000000);
 
         INLINE_ACTION_SENDER(snax::token, issue)(
             N(snax.token), {_self,N(active)},
             {
                 _self,
-                amount_to_stake_by_team,
+                amount_to_issue,
                 "premine"
             }
         );
 
-        delegatebw(_self, N(snax.team), asset(21000000000 / 2), asset(21000000000 / 2), true);
+        delegatebw(_self, N(snax.team), asset(20000000000 / 2), asset(20000000000 / 2), true);
+
+        INLINE_ACTION_SENDER(snax::token, transfer)(
+            N(snax.token), {_self,N(active)},
+            {
+                _self,
+                N(snax.airdrop)
+                asset(500000000),
+                "airdrop"
+            }
+        );
+
+        INLINE_ACTION_SENDER(snax::token, transfer)(
+            N(snax.token), {_self,N(active)},
+            {
+                _self,
+                N(snax.creator)
+                asset(500000000),
+                "account creation"
+            }
+        );
 
         _gstate.initialized = true;
         _gstate.circulating_supply += amount_to_stake_by_team;

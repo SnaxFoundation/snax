@@ -412,7 +412,7 @@ namespace snaxsystem {
               -
               _gstate.start_time.to_time_point().time_since_epoch().to_seconds()
           ) / 15768000;
-          auto available_to_unstake = asset(21000000000 / 10 * period_count + 1);
+          auto available_to_unstake = asset(20000000000 / 10 * period_count + 1);
           if (available_to_unstake > _gstate.staked_by_team) {
               available_to_unstake = _gstate.staked_by_team;
           }

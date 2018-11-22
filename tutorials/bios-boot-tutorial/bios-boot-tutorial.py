@@ -27,6 +27,9 @@ systemAccounts = [
     'snax.stake',
     'snax.token',
     'snax.vpay',
+    'snax.team',
+    'snax.creator',
+    'snax.airdrop',
 ]
 
 def jsonArg(a):
