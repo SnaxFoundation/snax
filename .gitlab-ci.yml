@@ -96,6 +96,7 @@ build:docker:
   tags:
     - snax
 
+
 publish:
   stage: publish
   image: ${REGISTRY}/ok.sh:master
