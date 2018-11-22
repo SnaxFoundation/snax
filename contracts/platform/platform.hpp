@@ -36,7 +36,7 @@ namespace snax {
         };
 
         platform( account_name s )
-        :contract(s), _accounts(s, s), _states(s, s)
+        :contract(s), _accounts(s, s), _platform_state(s, s)
          {}
 
         /// @abi action initialize
@@ -52,16 +52,16 @@ namespace snax {
         void sendpayments(uint64_t serial, uint64_t account_count);
 
         /// @abi action updatear
-        void updatear(uint64_t id, double attention_rate);
+        void updatear(uint64_t id, double attention_rate, bool add_account_if_not_exist);
 
         /// @abi action updatearmult
-        void updatearmult(vector<account_with_attention_rate> &updates);
+        void updatearmult(vector<account_with_attention_rate>& updates, bool add_account_if_not_exist);
 
         /// @abi action addaccount
         void addaccount(account_name account, uint64_t id, double attention_rate);
 
         /// @abi action addaccounts
-        void addaccounts(vector<account_to_add> &accounts_to_add);
+        void addaccounts(vector<account_to_add>& accounts_to_add);
 
 
     private:
@@ -116,15 +116,20 @@ namespace snax {
 
         typedef multi_index<N(accounts), account_with_balance> _accounts_balances;
         typedef multi_index<N(paccounts), account, indexed_by<N(serial), const_mem_fun<account, uint64_t, &account::by_serial>>, indexed_by<N(name), const_mem_fun<account, uint64_t, &account::by_account>>> acctable;
-        typedef multi_index<N(state), state> statetable;
+        typedef singleton<N(state), state> platform_state;
 
         acctable _accounts;
-        statetable _states;
+        platform_state _platform_state;
+        state _state;
 
         // Only contract itself is allowed to unlock update
         void unlock_update(asset current_amount);
 
         account find_account(account_name account);
+
+        void require_initialized();
+
+        void require_uninitialized();
 
         void update_state_next_round();
 
@@ -132,14 +137,6 @@ namespace snax {
 
         asset get_balance();
 
-        double convert_asset_to_double(asset value) const;
-
-        state get_state();
-
-        double get_token_portion(
-                const double account_attention_rate,
-                const double total_attention_rate
-        ) const;
     };
 
 } /// namespace snax

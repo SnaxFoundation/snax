@@ -340,7 +340,7 @@ Object {
 }
 `;
 
-exports[`Platform shouldn't be able to update non-existent account's attention rate 1`] = `"assertion failure with message: user doesn't exist in platform"`;
+exports[`Platform shouldn't be able to update non-existent account's attention rate 1`] = `"assertion failure with message: user doesnt exist"`;
 
 exports[`Platform shouldn't be able to update non-existent account's attention rate 2`] = `
 Object {

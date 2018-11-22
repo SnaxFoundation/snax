@@ -219,7 +219,8 @@ describe("Platform", async () => {
               }
             ],
             data: {
-              ...accountObj
+              ...accountObj,
+              add_account_if_not_exist: false
             }
           }
         ]
@@ -243,7 +244,7 @@ describe("Platform", async () => {
                 permission: "active"
               }
             ],
-            data: { updates }
+            data: { updates, add_account_if_not_exist: false }
           }
         ]
       },
