@@ -20,23 +20,6 @@ namespace snaxsystem {
       //print( "construct system\n" );
       _gstate = _global.exists() ? _global.get() : get_default_parameters();
 
-      if ( _gstate.staked_by_team == asset(0) && !_gstate.initialized ) {
-        const asset amount_to_stake_by_team = asset(21000000000);
-        INLINE_ACTION_SENDER(snax::token, issue)(
-            N(snax.token), {_self,N(active)},
-            {
-                _self,
-                amount_to_stake_by_team,
-                "premine"
-            }
-        );
-        delegatebw(_self, N(snax.team), asset(21000000000 / 2), asset(21000000000 / 2), true); 
-
-        _gstate.initialized = true;
-        _gstate.circulating_supply += amount_to_stake_by_team;
-        _global.set(_gstate, _self);
-      }
-
       auto itr = _rammarket.find(S(4,RAMCORE));
 
       if( itr == _rammarket.end() ) {
@@ -54,6 +37,7 @@ namespace snaxsystem {
       } else {
          //print( "ram market already created" );
       }
+
    }
 
    snax_global_state system_contract::get_default_parameters() {

@@ -22,6 +22,25 @@ namespace snaxsystem {
 
       require_auth(N(snax));
 
+      if ( _gstate.staked_by_team == asset(0) && !_gstate.initialized ) {
+        const asset amount_to_stake_by_team = asset(21000000000);
+
+        INLINE_ACTION_SENDER(snax::token, issue)(
+            N(snax.token), {_self,N(active)},
+            {
+                _self,
+                amount_to_stake_by_team,
+                "premine"
+            }
+        );
+
+        delegatebw(_self, N(snax.team), asset(21000000000 / 2), asset(21000000000 / 2), true);
+
+        _gstate.initialized = true;
+        _gstate.circulating_supply += amount_to_stake_by_team;
+        _global.set(_gstate, _self);
+      }
+
       /** until activated stake crosses this threshold no new rewards are paid */
       if( _gstate.total_activated_stake < min_activated_stake )
          return;
