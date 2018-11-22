@@ -1,11 +1,11 @@
 variables:
-  HOME: /home/eos
+  HOME_DIR: /home/eos
   NODEOS: http://localhost:8888
-  PATH_TO_MINTS: $HOME/$CI_PROJECT_DIR
-  JEST_TESTS: $HOME/$CI_PROJECT_DIR/jest_tests
-  SNAX_HOME: $HOME/$CI_PROJECT_DIR/build/
-  WALLET_DIR: $HOME/eos-wallet
-  MONGOD_CONF: $HOME/opt/mongodb/mongod.conf
+  PATH_TO_MINTS: $HOME_DIR/$CI_PROJECT_DIR
+  JEST_TESTS: $HOME_DIR/$CI_PROJECT_DIR/jest_tests
+  SNAX_HOME: $HOME_DIR/$CI_PROJECT_DIR/build/
+  WALLET_DIR: $HOME_DIR/eos-wallet
+  MONGOD_CONF: $HOME_DIR/opt/mongodb/mongod.conf
   DOCKER_DRIVER: overlay2
   USERNAME: SnaxOne
   ORG: SnaxFoundation
@@ -67,7 +67,7 @@ test:core:
   stage: test
   script:
   - docker run --rm -d --name mongo -p 27017:27017 mvertes/alpine-mongo
-  - export PATH=$HOME/opt/mongodb/bin:$PATH
+  - export PATH=$HOME_DIR/opt/mongodb/bin:$PATH
   - if [ -f /tmp/build-$CI_COMMIT_REF_NAME.tar.gz ]; then tar -xf /tmp/build-$CI_COMMIT_REF_NAME.tar.gz; fi
   - cd $SNAX_HOME && ctest --output-on-failure
   except:
@@ -96,7 +96,6 @@ build:docker:
   tags:
     - snax
 
-
 publish:
   stage: publish
   image: ${REGISTRY}/ok.sh:master
@@ -109,3 +108,70 @@ publish:
     - tags
   tags:
     - docker
+
+branches:cleanup:
+  stage: cleanup
+  script:
+  - sudo rm -rf /tmp/*-*-*-*
+  - rm -rf $WALLET_DIR
+  - docker stop mongo || true
+  except:
+    - master
+  tags:
+    - snax
+
+branches:build:
+  stage: build
+  script:
+  - git submodule update --init --recursive
+  - if [ -f /tmp/build-$CI_COMMIT_REF_NAME.tar.gz ]; then tar -xf /tmp/build-$CI_COMMIT_REF_NAME.tar.gz; fi
+  - ./snax_build.sh
+  - rm -rf /tmp/build-$CI_COMMIT_REF_NAME.tar.gz && tar -czf /tmp/build-$CI_COMMIT_REF_NAME.tar.gz build
+  - sudo ./snax_install.sh
+  except:
+    - master
+    variables:
+      - $CI_COMMIT_MESSAGE =~ /skip-build/
+  tags:
+    - snax
+
+branches:test:jest:
+  stage: test
+  script:
+  - if [ -f /tmp/build-$CI_COMMIT_REF_NAME.tar.gz ]; then tar -xf /tmp/build-$CI_COMMIT_REF_NAME.tar.gz; fi
+  - cd $JEST_TESTS && yarn install && yarn test
+  except:
+    - master
+    variables:
+      - $CI_COMMIT_MESSAGE =~ /skip-build/
+  tags:
+    - snax
+
+branches:test:core:
+  stage: test
+  script:
+  - docker run --rm -d --name mongo -p 27017:27017 mvertes/alpine-mongo
+  - export PATH=$HOME_DIR/opt/mongodb/bin:$PATH
+  - if [ -f /tmp/build-$CI_COMMIT_REF_NAME.tar.gz ]; then tar -xf /tmp/build-$CI_COMMIT_REF_NAME.tar.gz; fi
+  - cd $SNAX_HOME && ctest --output-on-failure
+  except:
+    - master
+    variables:
+      - $CI_COMMIT_MESSAGE =~ /skip-build/
+  tags:
+    - snax
+
+branches:build:docker:
+  stage: build-docker
+  script:
+  - if [ -f /tmp/build-$CI_COMMIT_REF_NAME.tar.gz ]; then tar -xf /tmp/build-$CI_COMMIT_REF_NAME.tar.gz; fi
+  - cp -r /usr/local/lib .
+  - cp -r /usr/local/snax/bin .
+  - echo "$CI_COMMIT_REF_NAME:$CI_COMMIT_SHA" > snax-version
+  - docker build --rm -t $REGISTRY/$CI_PROJECT_NAME:$CI_COMMIT_REF_NAME .
+  - docker push $REGISTRY/$CI_PROJECT_NAME:$CI_COMMIT_REF_NAME
+  - docker rmi $REGISTRY/$CI_PROJECT_NAME:$CI_COMMIT_REF_NAME
+  except:
+    - master
+  tags:
+    - snax
