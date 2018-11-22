@@ -27,6 +27,8 @@ cleanup:
   except:
     changes:
       - "*.md"
+  tags:
+    - snax
 
 build:
   stage: build
@@ -45,6 +47,8 @@ build:
       - $CI_COMMIT_MESSAGE =~ /skip-build/
     changes:
       - "*.md"
+  tags:
+    - snax
 
 test:jest:
   stage: test
@@ -56,6 +60,8 @@ test:jest:
       - $CI_COMMIT_MESSAGE =~ /skip-test/
     changes:
       - "*.md"
+  tags:
+    - snax
 
 test:core:
   stage: test
@@ -71,6 +77,8 @@ test:core:
       - contracts/platform/*
       - jest_tests/*
       - "*.md"
+  tags:
+    - snax
 
 build:docker:
   stage: build-docker
@@ -85,6 +93,8 @@ build:docker:
   except:
     changes:
       - "*.md"
+  tags:
+    - snax
 
 publish:
   stage: publish
