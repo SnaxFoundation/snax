@@ -406,8 +406,12 @@ namespace snaxsystem {
       snax_assert( asset() < unstake_cpu_quantity + unstake_net_quantity, "must unstake a positive amount" );
 
       if ( from == N(snax.team) ) {
-          const auto now = snax::time_point_sec(now());
-          const auto period_count = (now - _gstate.start_time).to_seconds() / 15768000;
+          const auto current_time = snax::time_point_sec(now());
+          const auto period_count = (
+              block_timestamp(current_time).to_time_point().time_since_epoch().to_seconds()
+              -
+              _gstate.start_time.to_time_point().time_since_epoch().to_seconds()
+          ) / 15768000;
           auto available_to_unstake = asset(21000000000 / 10 * period_count + 1);
           if (available_to_unstake > _gstate.staked_by_team) {
               available_to_unstake = _gstate.staked_by_team;
