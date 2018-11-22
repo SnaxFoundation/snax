@@ -96,3 +96,5 @@ publish:
     - build
   only:
     - tags
+  tags:
+    - docker
