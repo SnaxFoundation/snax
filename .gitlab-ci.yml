@@ -130,8 +130,6 @@ branches:build:
   - sudo ./snax_install.sh
   except:
     - master
-    variables:
-      - $CI_COMMIT_MESSAGE =~ /skip-build/
   tags:
     - snax
 
@@ -142,8 +140,6 @@ branches:test:jest:
   - cd $JEST_TESTS && yarn install && yarn test
   except:
     - master
-    variables:
-      - $CI_COMMIT_MESSAGE =~ /skip-build/
   tags:
     - snax
 
@@ -156,8 +152,6 @@ branches:test:core:
   - cd $SNAX_HOME && ctest --output-on-failure
   except:
     - master
-    variables:
-      - $CI_COMMIT_MESSAGE =~ /skip-build/
   tags:
     - snax
 
