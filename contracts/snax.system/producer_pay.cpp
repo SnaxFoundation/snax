@@ -121,9 +121,9 @@ namespace snaxsystem {
       const auto usecs_since_last_fill = ct - _gstate.last_pervote_bucket_fill;
 
       if( usecs_since_last_fill > 0 && _gstate.last_pervote_bucket_fill > 0 ) {
-          _accounts_balances balances(N(snax.token), N(snax.util));
-          const auto found = balances.find(S(4,CORE_SYMBOL));
-          auto payments = found != balances.end() ? found -> balance: asset(0);
+         _accounts_balances balances(N(snax.token), N(snax.util));
+         const auto found = balances.find(S(4,CORE_SYMBOL));
+         auto payments = found != balances.end() ? found -> balance: asset(0);
 
          auto to_producers       = payments / 2;
          auto to_per_block_pay   = to_producers / 2;
