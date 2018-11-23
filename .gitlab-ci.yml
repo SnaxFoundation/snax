@@ -53,6 +53,23 @@ build:
   tags:
     - snax
 
+build:tag:
+  stage: build
+  script:
+    - git submodule update --init --recursive
+    - if [ -f /tmp/build-$CI_COMMIT_REF_NAME.tar.gz ]; then tar -xf /tmp/build-$CI_COMMIT_REF_NAME.tar.gz; fi
+    - ./snax_build.sh
+    - rm -rf /tmp/build-$CI_COMMIT_REF_NAME.tar.gz && tar -czf /tmp/build-$CI_COMMIT_REF_NAME.tar.gz build
+    - sudo ./snax_install.sh
+  artifacts:
+    name: "$CI_COMMIT_REF_NAME"
+    paths:
+    - build/bin/
+  only:
+  - tags
+  tags:
+  - snax
+
 test:jest:
   stage: test
   script:
@@ -99,6 +116,21 @@ build:docker:
   tags:
     - snax
 
+build:docker:tag:
+  stage: build-docker
+  script:
+  - if [ -f /tmp/build-$CI_COMMIT_REF_NAME.tar.gz ]; then tar -xf /tmp/build-$CI_COMMIT_REF_NAME.tar.gz; fi
+  - cp -r /usr/local/lib .
+  - cp -r /usr/local/snax/bin .
+  - echo "$CI_COMMIT_REF_NAME:$CI_COMMIT_SHA" > snax-version
+  - docker build --rm -t $REGISTRY/$CI_PROJECT_NAME:$CI_COMMIT_TAG .
+  - docker push $REGISTRY/$CI_PROJECT_NAME:$CI_COMMIT_TAG
+  - docker rmi $REGISTRY/$CI_PROJECT_NAME:$CI_COMMIT_TAG
+  only:
+  - tags
+  tags:
+  - snax
+
 publish:
   stage: publish
   image: ${REGISTRY}/ok.sh:master
@@ -106,74 +138,8 @@ publish:
   - cd build/bin && tar cvzf bin.tar.gz *
   - docker-entrypoint.sh $ORG $CI_PROJECT_NAME $CI_COMMIT_TAG bin.tar.gz ./bin.tar.gz
   dependencies:
-    - build
+    - build:tag
   only:
     - tags
   tags:
     - docker
-
-branches:cleanup:
-  stage: cleanup
-  script:
-  - sudo rm -rf /tmp/*-*-*-*
-  - rm -rf $WALLET_DIR
-  - docker stop mongo || true
-  except:
-    - master
-    - tags
-  tags:
-    - snax
-
-branches:build:
-  stage: build
-  script:
-  - git submodule update --init --recursive
-  - if [ -f /tmp/build-$CI_COMMIT_REF_NAME.tar.gz ]; then tar -xf /tmp/build-$CI_COMMIT_REF_NAME.tar.gz; fi
-  - ./snax_build.sh
-  - rm -rf /tmp/build-$CI_COMMIT_REF_NAME.tar.gz && tar -czf /tmp/build-$CI_COMMIT_REF_NAME.tar.gz build
-  - sudo ./snax_install.sh
-  except:
-    - master
-    - tags
-  tags:
-    - snax
-
-branches:test:jest:
-  stage: test
-  script:
-  - if [ -f /tmp/build-$CI_COMMIT_REF_NAME.tar.gz ]; then tar -xf /tmp/build-$CI_COMMIT_REF_NAME.tar.gz; fi
-  - cd $JEST_TESTS && yarn install && yarn test
-  except:
-    - master
-    - tags
-  tags:
-    - snax
-
-branches:test:core:
-  stage: test
-  script:
-  - docker run --rm -d --name mongo -p 27017:27017 mvertes/alpine-mongo
-  - export PATH=$HOME_DIR/opt/mongodb/bin:$PATH
-  - if [ -f /tmp/build-$CI_COMMIT_REF_NAME.tar.gz ]; then tar -xf /tmp/build-$CI_COMMIT_REF_NAME.tar.gz; fi
-  - cd $SNAX_HOME && ctest --output-on-failure
-  except:
-    - master
-    - tags
-  tags:
-    - snax
-
-branches:build:docker:
-  stage: build-docker
-  script:
-  - if [ -f /tmp/build-$CI_COMMIT_REF_NAME.tar.gz ]; then tar -xf /tmp/build-$CI_COMMIT_REF_NAME.tar.gz; fi
-  - cp -r /usr/local/lib .
-  - cp -r /usr/local/snax/bin .
-  - echo "$CI_COMMIT_REF_NAME:$CI_COMMIT_SHA" > snax-version
-  - docker build --rm -t $REGISTRY/$CI_PROJECT_NAME:$CI_COMMIT_REF_NAME .
-  - docker push $REGISTRY/$CI_PROJECT_NAME:$CI_COMMIT_REF_NAME
-  - docker rmi $REGISTRY/$CI_PROJECT_NAME:$CI_COMMIT_REF_NAME
-  except:
-    - master
-    - tags
-  tags:
-    - snax
