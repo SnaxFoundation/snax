@@ -131,18 +131,18 @@ namespace snaxsystem {
       SNAXLIB_SERIALIZE( voter_info, (owner)(proxy)(producers)(staked)(last_vote_weight)(proxied_vote_weight)(is_proxy)(reserved1)(reserved2)(reserved3) )
    };
 
-   typedef snax::multi_index<N(accounts), account_with_balance> _accounts_balances;
+   typedef snax::multi_index< N(accounts), account_with_balance > _accounts_balances;
 
-   typedef snax::multi_index<N(plat_steps), platform_request> _platform_requests;
+   typedef snax::multi_index< N(plat_steps), platform_request > _platform_requests;
 
-   typedef snax::multi_index< N(voters), voter_info>  voters_table;
+   typedef snax::multi_index< N(voters), voter_info >  voters_table;
 
 
    typedef snax::multi_index< N(producers), producer_info,
                                indexed_by<N(prototalvote), const_mem_fun<producer_info, double, &producer_info::by_votes>  >
                                >  producers_table;
 
-   typedef snax::singleton<N(global), snax_global_state> global_state_singleton;
+   typedef snax::singleton< N(global), snax_global_state > global_state_singleton;
 
    //   static constexpr uint32_t     max_inflation_rate = 5;  // 5% annual inflation
    static constexpr uint32_t     seconds_per_day = 24 * 3600;

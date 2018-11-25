@@ -34,9 +34,9 @@ jest.setTimeout(1e6);
 
 const sleep = time => new Promise(resolve => setTimeout(resolve, time));
 
-describe("System", async () => {
+describe("Airdrop", async () => {
   beforeEach(async () => {
-    spawn("./setup_system.sh", [], {
+    spawn("./setup_airdrop.sh", [], {
       detached: true,
       stdio: "ignore"
     });
@@ -65,21 +65,22 @@ describe("System", async () => {
     }
   };
 
-  const emitplatform = async platform => {
+  const addplatform = async platform => {
     await api.transact(
       {
         actions: [
           {
-            account: "snax",
-            name: "emitplatform",
+            account: "snax.airdrop",
+            name: "addplatform",
             authorization: [
               {
-                actor: platform,
+                actor: "snax.airdrop",
                 permission: "active"
               }
             ],
             data: {
-              platform
+              platform,
+              amount_per_account: "20.0000 SNAX"
             }
           }
         ]
@@ -91,14 +92,56 @@ describe("System", async () => {
     );
   };
 
-  it("should call system's emitplatform correctly", async () => {
-    await emitplatform("platform");
-    await verifyAccountsBalances(["test2", "test1", "snax", "platform"]);
+  const request = async (platform, account) => {
+    await api.transact(
+      {
+        actions: [
+          {
+            account: "snax.airdrop",
+            name: "request",
+            authorization: [
+              {
+                actor: platform,
+                permission: "active"
+              }
+            ],
+            data: {
+              platform,
+              account
+            }
+          }
+        ]
+      },
+      {
+        blocksBehind: 1,
+        expireSeconds: 30
+      }
+    );
+  };
+
+  it("should add platform correctly", () => addplatform("platform"));
+
+  it("shouldn't be able to add platform because it's not in system", async () => {
+    await tryCatchExpect(() => addplatform("platform1"));
   });
 
-  it("should call system's emitplatform correctly", async () => {
-    await emitplatform("platform");
-    await emitplatform("test1");
-    await verifyAccountsBalances(["test2", "test1", "snax", "platform"]);
+  it("shouldn't be able to request because platform isn't added", async () => {
+    addplatform("test2");
+    await tryCatchExpect(() => request("platform", "test1"));
+  });
+
+  it("shouldn't be able to request because already requested", async () => {
+    await addplatform("platform");
+    await verifyAccountsBalances(["test1", "snax.airdrop"]);
+    await request("platform", "test1");
+    await verifyAccountsBalances(["test1", "snax.airdrop"]);
+    await request("platform", "test1");
+    await verifyAccountsBalances(["test1", "snax.airdrop"]);
+  });
+
+  it("should request airdrop for account correctly", async () => {
+    await addplatform("platform");
+    await request("platform", "test1");
+    await verifyAccountsBalances(["test1", "snax.airdrop"]);
   });
 });

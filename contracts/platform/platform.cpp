@@ -257,8 +257,9 @@ namespace snax {
         _state = _platform_state.get();
 
         _accounts_balances balances(N(snax.token), _self);
-        const auto platform_balance = *balances.find(_state.round_supply.symbol.name());
-        return platform_balance.balance;
+        const auto& platform_balance = balances.find(_state.round_supply.symbol.name());
+        snax_assert(platform_balance != balances.end(), "platform has no balance");
+        return platform_balance->balance;
     }
 
     void platform::update_state_total_attention_rate_and_user_count(const double additional_attention_rate, const uint64_t new_accounts) {

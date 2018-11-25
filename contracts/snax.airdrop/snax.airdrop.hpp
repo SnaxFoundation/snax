@@ -11,6 +11,7 @@
 #include <snaxlib/time.hpp>
 #include <snaxlib/asset.hpp>
 #include <snaxlib/singleton.hpp>
+#include <snax.system/snax.system.hpp>
 #include <math.h>
 
 #include <string>
@@ -68,10 +69,13 @@ namespace snax {
         typedef multi_index<N(accounts), account_with_balance> _accounts_balances;
         typedef multi_index<N(requested), account_n> _requested_accounts_table;
         typedef multi_index<N(platforms), platform_def> _platform_definitions_table;
+        typedef singleton<N(global), snaxsystem::snax_global_state> _snax_global_state;
 
         _platform_definitions_table _platform_definitions;
 
-        asset get_balance(symbol_name symbol);
+        asset get_balance(uint64_t symbol_name);
+
+        void check_platform_registered(account_name platform);
 
     };
 

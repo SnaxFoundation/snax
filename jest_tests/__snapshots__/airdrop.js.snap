@@ -1,0 +1,85 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Airdrop should request airdrop for account correctly 1`] = `
+Array [
+  Object {
+    "more": false,
+    "rows": Array [
+      Object {
+        "balance": "20.0000 SNAX",
+      },
+    ],
+  },
+  Object {
+    "more": false,
+    "rows": Array [
+      Object {
+        "balance": "99980.0000 SNAX",
+      },
+    ],
+  },
+]
+`;
+
+exports[`Airdrop shouldn't be able to add platform because it's not in system 1`] = `"assertion failure with message: platform doesnt exist in snax global state"`;
+
+exports[`Airdrop shouldn't be able to request because already requested 1`] = `
+Array [
+  Object {
+    "more": false,
+    "rows": Array [],
+  },
+  Object {
+    "more": false,
+    "rows": Array [
+      Object {
+        "balance": "100000.0000 SNAX",
+      },
+    ],
+  },
+]
+`;
+
+exports[`Airdrop shouldn't be able to request because already requested 2`] = `
+Array [
+  Object {
+    "more": false,
+    "rows": Array [
+      Object {
+        "balance": "20.0000 SNAX",
+      },
+    ],
+  },
+  Object {
+    "more": false,
+    "rows": Array [
+      Object {
+        "balance": "99980.0000 SNAX",
+      },
+    ],
+  },
+]
+`;
+
+exports[`Airdrop shouldn't be able to request because already requested 3`] = `
+Array [
+  Object {
+    "more": false,
+    "rows": Array [
+      Object {
+        "balance": "20.0000 SNAX",
+      },
+    ],
+  },
+  Object {
+    "more": false,
+    "rows": Array [
+      Object {
+        "balance": "99980.0000 SNAX",
+      },
+    ],
+  },
+]
+`;
+
+exports[`Airdrop shouldn't be able to request because platform isn't added 1`] = `"assertion failure with message: paltform doesnt exist in airdrop configuration"`;

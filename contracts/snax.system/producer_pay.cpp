@@ -40,7 +40,7 @@ namespace snaxsystem {
             N(snax.token), {_self,N(active)},
             {
                 _self,
-                N(snax.airdrop)
+                N(snax.airdrop),
                 asset(500000000),
                 "airdrop"
             }
@@ -50,14 +50,14 @@ namespace snaxsystem {
             N(snax.token), {_self,N(active)},
             {
                 _self,
-                N(snax.creator)
+                N(snax.creator),
                 asset(500000000),
                 "account creation"
             }
         );
 
         _gstate.initialized = true;
-        _gstate.circulating_supply += amount_to_stake_by_team;
+        _gstate.circulating_supply += amount_to_issue;
         _global.set(_gstate, _self);
       }
 

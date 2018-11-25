@@ -4,7 +4,6 @@ set(DEFAULT_SYSTEM_INCLUDE_FOLDERS ${CMAKE_SOURCE_DIR}/contracts/libc++/upstream
 
 set(STANDARD_INCLUDE_FOLDERS ${CMAKE_SOURCE_DIR}/contracts ${CMAKE_BINARY_DIR}/contracts ${CMAKE_SOURCE_DIR}/externals/magic_get/include)
 
-add_subdirectory(airdrop)
 add_subdirectory(snaxlib)
 add_subdirectory(musl)
 add_subdirectory(libc++)
@@ -12,6 +11,7 @@ add_subdirectory(simple.token)
 add_subdirectory(snax.token)
 add_subdirectory(snax.msig)
 add_subdirectory(snax.sudo)
+add_subdirectory(snax.airdrop)
 add_subdirectory(platform)
 add_subdirectory(multi_index_test)
 add_subdirectory(snapshot_test)

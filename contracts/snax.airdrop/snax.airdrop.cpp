@@ -1,4 +1,4 @@
-#include "airdrop.hpp"
+#include "snax.airdrop.hpp"
 
 using namespace std;
 
@@ -7,6 +7,7 @@ namespace snax {
     /// @abi action addplatform
     void airdrop::addplatform(const account_name platform, const asset amount_per_account) {
         require_auth(_self);
+        check_platform_registered(platform);
 
         snax_assert(_platform_definitions.find(platform) == _platform_definitions.end(), "platform already added");
 
@@ -19,6 +20,7 @@ namespace snax {
     /// @abi action request
     void airdrop::request(const account_name platform, const account_name account) {
         require_auth(platform);
+        check_platform_registered(platform);
 
         const auto& definition = _platform_definitions.find(platform);
         snax_assert(definition != _platform_definitions.end(), "paltform doesnt exist in airdrop configuration");
@@ -36,10 +38,20 @@ namespace snax {
         }
     }
 
-    asset airdrop::get_balance(const symbol_name symbol) {
+    asset airdrop::get_balance(const uint64_t symbol_name) {
         _accounts_balances balances(N(snax.token), _self);
-        const auto platform_balance = *balances.find(symbol);
-        return platform_balance.balance;
+        const auto& airdrop_balance = balances.find(symbol_name);
+        snax_assert(airdrop_balance != balances.end(), "aidrop has no balance");
+        return airdrop_balance->balance;
+    }
+
+    void airdrop::check_platform_registered(const account_name platform) {
+        _snax_global_state _state(N(snax), N(snax));
+        const auto& state = _state.get();
+        for (auto& platform_config: state.platforms) {
+            if (platform_config.account == platform) return;
+        }
+        snax_assert(false, "platform doesnt exist in snax global state");
     }
 
 }

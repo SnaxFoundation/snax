@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Platform should call system's emitplatform correctly 1`] = `
+exports[`System should call system's emitplatform correctly 1`] = `
 Array [
   Object {
     "more": false,
@@ -25,7 +25,7 @@ Array [
 ]
 `;
 
-exports[`Platform should call system's emitplatform correctly 2`] = `
+exports[`System should call system's emitplatform correctly 2`] = `
 Array [
   Object {
     "more": false,
