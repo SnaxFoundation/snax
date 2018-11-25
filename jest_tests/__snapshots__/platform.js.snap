@@ -7,6 +7,7 @@ Object {
     Object {
       "account": "platform",
       "account_count": 1,
+      "airdrop": "snax.saving",
       "round_supply": "0.0000 SNAX",
       "round_updated_account_count": 0,
       "step_number": 0,
@@ -40,6 +41,7 @@ Object {
     Object {
       "account": "platform",
       "account_count": 0,
+      "airdrop": "snax.saving",
       "round_supply": "0.0000 SNAX",
       "round_updated_account_count": 0,
       "step_number": 0,
@@ -90,6 +92,7 @@ Object {
     Object {
       "account": "platform",
       "account_count": 4,
+      "airdrop": "snax.saving",
       "round_supply": "0.0000 SNAX",
       "round_updated_account_count": 0,
       "step_number": 1,
@@ -173,6 +176,7 @@ Object {
     Object {
       "account": "platform",
       "account_count": 1,
+      "airdrop": "snax.saving",
       "round_supply": "0.0000 SNAX",
       "round_updated_account_count": 0,
       "step_number": 0,
@@ -206,6 +210,7 @@ Object {
     Object {
       "account": "platform",
       "account_count": 2,
+      "airdrop": "snax.saving",
       "round_supply": "0.0000 SNAX",
       "round_updated_account_count": 0,
       "step_number": 0,
@@ -252,6 +257,7 @@ Object {
     Object {
       "account": "platform",
       "account_count": 1,
+      "airdrop": "snax.saving",
       "round_supply": "0.0000 SNAX",
       "round_updated_account_count": 0,
       "step_number": 0,
@@ -287,6 +293,7 @@ Object {
     Object {
       "account": "platform",
       "account_count": 1,
+      "airdrop": "snax.saving",
       "round_supply": "0.0000 SNAX",
       "round_updated_account_count": 0,
       "step_number": 0,
@@ -322,6 +329,7 @@ Object {
     Object {
       "account": "platform",
       "account_count": 0,
+      "airdrop": "snax.saving",
       "round_supply": "0.0000 SNAX",
       "round_updated_account_count": 0,
       "step_number": 0,
@@ -349,6 +357,7 @@ Object {
     Object {
       "account": "platform",
       "account_count": 1,
+      "airdrop": "snax.saving",
       "round_supply": "0.0000 SNAX",
       "round_updated_account_count": 0,
       "step_number": 0,

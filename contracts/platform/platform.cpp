@@ -5,7 +5,7 @@ using namespace std;
 namespace snax {
 
     /// @abi action initialize
-    void platform::initialize(const account_name token_dealer, const string token_symbol_str, const uint8_t precision) {
+    void platform::initialize(const account_name token_dealer, const string token_symbol_str, const uint8_t precision, const account_name airdrop) {
         require_auth(_self);
         require_uninitialized();
 
@@ -18,6 +18,7 @@ namespace snax {
         _state.round_updated_account_count = 0;
         _state.updating = 0;
         _state.account = _self;
+        _state.airdrop = airdrop;
 
         _platform_state.set(_state, _self);
     }
@@ -210,6 +211,10 @@ namespace snax {
                         record.name = account;
                     }
             );
+        }
+
+        if (_state.airdrop != N(snax.saving) && account != N(snax.saving)) {
+            action(permission_level{_self, N(active)}, _state.airdrop, N(request), make_tuple(_self, account)).send();
         }
 
         update_state_total_attention_rate_and_user_count(attention_rate, 1);

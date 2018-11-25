@@ -40,7 +40,7 @@ namespace snax {
          {}
 
         /// @abi action initialize
-        void initialize(account_name token_dealer, string token_symbol_str, uint8_t precision);
+        void initialize(account_name token_dealer, string token_symbol_str, uint8_t precision, account_name airdrop);
 
         /// @abi action lockupdate
         void lockupdate();
@@ -97,6 +97,7 @@ namespace snax {
             double total_attention_rate;
             account_name token_dealer;
             account_name account;
+            account_name airdrop;
             asset round_supply;
             uint64_t round_updated_account_count;
 
@@ -105,7 +106,7 @@ namespace snax {
             }
 
             SNAXLIB_SERIALIZE(
-                state, (updating)(step_number)(account_count)(total_attention_rate)(token_dealer)(account)(round_supply)(round_updated_account_count)
+                state, (updating)(step_number)(account_count)(total_attention_rate)(token_dealer)(account)(airdrop)(round_supply)(round_updated_account_count)
             )
         };
 
