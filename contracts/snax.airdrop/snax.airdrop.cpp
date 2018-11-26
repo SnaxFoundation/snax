@@ -17,6 +17,20 @@ namespace snax {
         });
     }
 
+    /// @abi action upplatform
+    void airdrop::upplatform(const account_name platform, const asset amount_per_account) {
+        require_auth(_self);
+        check_platform_registered(platform);
+        const auto& found = _platform_definitions.find(platform);
+        
+        snax_assert(found != _platform_definitions.end(), "platform not found");
+
+        _platform_definitions.modify(found, _self, [&](auto& definition) {
+            definition.platform = platform;
+            definition.amount_per_account = amount_per_account;
+        });
+    }
+
     /// @abi action request
     void airdrop::request(const account_name platform, const account_name account) {
         require_auth(platform);

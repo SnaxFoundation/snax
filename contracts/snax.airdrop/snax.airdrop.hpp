@@ -32,6 +32,9 @@ namespace snax {
         /// @abi action addplatform
         void addplatform(account_name platform, asset amount_per_account);
 
+        /// @abi action upplatform
+        void upplatform(account_name platform, asset amount_per_account);
+
         /// @abi action request
         void request(account_name platform, account_name account);
 
@@ -49,7 +52,7 @@ namespace snax {
             SNAXLIB_SERIALIZE(account_n, (name))
         };
 
-        /// @abi table platform_def i64
+        /// @abi table platforms i64
         struct platform_def {
             account_name platform;
             asset amount_per_account;

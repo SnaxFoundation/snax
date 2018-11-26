@@ -43,6 +43,28 @@ describe("Airdrop", async () => {
     await sleep(6e3);
   });
 
+  const verifyStatesAndAccounts = async platforms => {
+    const [state, accounts] = await Promise.all(
+      [
+        api.rpc.get_table_rows({
+          code: "snax.airdrop",
+          scope: "snax.airdrop",
+          table: "platforms"
+        })
+      ].concat(
+        platforms.map(platform =>
+          api.rpc.get_table_rows({
+            code: "snax.airdrop",
+            scope: platform,
+            table: "requested"
+          })
+        )
+      )
+    );
+    expect(state).toMatchSnapshot();
+    expect(accounts).toMatchSnapshot();
+  };
+
   const verifyAccountsBalances = async accounts => {
     const tables = await Promise.all(
       accounts.map(account =>
@@ -92,6 +114,32 @@ describe("Airdrop", async () => {
     );
   };
 
+  const updateplatform = async (platform, amount_per_account) =>
+    api.transact(
+      {
+        actions: [
+          {
+            account: "snax.airdrop",
+            name: "upplatform",
+            authorization: [
+              {
+                actor: "snax.airdrop",
+                permission: "active"
+              }
+            ],
+            data: {
+              platform,
+              amount_per_account
+            }
+          }
+        ]
+      },
+      {
+        blocksBehind: 1,
+        expireSeconds: 30
+      }
+    );
+
   const request = async (platform, account) => {
     await api.transact(
       {
@@ -119,7 +167,16 @@ describe("Airdrop", async () => {
     );
   };
 
-  it("should add platform correctly", () => addplatform("platform"));
+  it("should add platform correctly", async () => {
+    await addplatform("platform");
+    await verifyStatesAndAccounts(["platform"]);
+  });
+
+  it("should update platform correctly", async () => {
+    await addplatform("platform");
+    await updateplatform("platform", "10.0000 SNAX");
+    await verifyStatesAndAccounts(["platform"]);
+  });
 
   it("shouldn't be able to add platform because it's not in system", async () => {
     await tryCatchExpect(() => addplatform("platform1"));
@@ -137,11 +194,13 @@ describe("Airdrop", async () => {
     await verifyAccountsBalances(["test1", "snax.airdrop"]);
     await request("platform", "test1");
     await verifyAccountsBalances(["test1", "snax.airdrop"]);
+    await verifyStatesAndAccounts(["test1"]);
   });
 
   it("should request airdrop for account correctly", async () => {
     await addplatform("platform");
     await request("platform", "test1");
     await verifyAccountsBalances(["test1", "snax.airdrop"]);
+    await verifyStatesAndAccounts(["platform"]);
   });
 });

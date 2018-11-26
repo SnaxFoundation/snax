@@ -321,7 +321,7 @@
    printf "\\tQMBRBRQRBRBQBRQRQRBRQRBBBBqYvrri. :7XBBBBQBQBRQRQRBRQRBQQRQRQRBRQRQQQRBRQRQ\\n"
    printf "\\tQQQQRQRQRQQQRQQQRQRBRBQBQBBBQBQBBBBBBBBBQBQQRQQBRQRBRBRQRQQBQQRBRQQQRBRQRBR\\n"
 
-   printf "\\n\\tSNAX has been successfully built. %02d:%02d:%02d\\n\\n" $(($TIME_END/3600)) $(($TIME_END%3600/60)) $(($TIME_END%60))
+   printf "\\n\\tSnax has been successfully built. %02d:%02d:%02d\\n\\n" $(($TIME_END/3600)) $(($TIME_END%3600/60)) $(($TIME_END%60))
    printf "\\tTo verify your installation run the following commands:\\n"
 
    print_instructions
