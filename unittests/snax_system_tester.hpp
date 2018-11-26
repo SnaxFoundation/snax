@@ -47,7 +47,7 @@ public:
       produce_blocks( 2 );
 
       create_accounts({ N(snax.token), N(snax.ram), N(snax.ramfee), N(snax.stake),
-               N(snax.bpay), N(snax.vpay), N(snax.saving), N(snax.names), N(snax.util) });
+               N(snax.bpay), N(snax.vpay), N(snax.empty), N(snax.names), N(snax.util) });
 
 
       produce_blocks( 100 );

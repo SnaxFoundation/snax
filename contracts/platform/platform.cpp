@@ -73,7 +73,7 @@ namespace snax {
                 _state.round_supply = current_balance;
                 _platform_state.set(_state, _self);
             }
-            if (account.name != N(snax.saving) && account.attention_rate > 0.1) {
+            if (account.name != N(snax.empty) && account.attention_rate > 0.1) {
                 snax_assert(account.last_updated_step_number < _state.step_number, "account already updated");
                 asset token_amount;
                 const int64_t portion = static_cast<int64_t>(_state.total_attention_rate / account.attention_rate);
@@ -137,7 +137,7 @@ namespace snax {
                     }
             );
         } else {
-            addaccount(N(snax.saving), id, attention_rate);
+            addaccount(N(snax.empty), id, attention_rate);
         }
     }
 
@@ -169,7 +169,7 @@ namespace snax {
 
                 total_attention_rate_diff += diff;
             } else {
-                addaccount(N(snax.saving), update.id, update.attention_rate);
+                addaccount(N(snax.empty), update.id, update.attention_rate);
             }
         }
 
@@ -189,7 +189,7 @@ namespace snax {
 
         snax_assert(attention_rate >= 0, "attention rate must be greater than zero or equal to zero");
         const auto& found = _accounts.find(id);
-        snax_assert(found == _accounts.end() || found->name == N(snax.saving), "user already exists");
+        snax_assert(found == _accounts.end() || found->name == N(snax.empty), "user already exists");
 
         if (found == _accounts.end()) {
             _accounts.emplace(
@@ -213,7 +213,7 @@ namespace snax {
             );
         }
 
-        if (_state.airdrop != N(snax.saving) && account != N(snax.saving)) {
+        if (_state.airdrop != N(snax.empty) && account != N(snax.empty)) {
             action(permission_level{_self, N(active)}, _state.airdrop, N(request), make_tuple(_self, account)).send();
         }
 
@@ -267,7 +267,7 @@ namespace snax {
         _state = _platform_state.get();
 
         _state.total_attention_rate += additional_attention_rate;
-        _state.account_count += new_accounts;
+        if (new_accounts > 0) _state.account_count += new_accounts;
         _platform_state.set(_state, _self);
     }
 

@@ -23,7 +23,7 @@ systemAccounts = [
     'snax.names',
     'snax.ram',
     'snax.ramfee',
-    'snax.saving',
+    'snax.empty',
     'snax.stake',
     'snax.token',
     'snax.vpay',

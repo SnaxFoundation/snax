@@ -125,7 +125,7 @@ namespace snaxsystem {
          const auto found = balances.find(S(4,CORE_SYMBOL));
          auto payments = found != balances.end() ? found -> balance: asset(0);
 
-         auto to_producers       = payments / 2;
+         auto to_producers       = payments;
          auto to_per_block_pay   = to_producers / 2;
          auto to_per_vote_pay    = to_producers - to_per_block_pay;
 

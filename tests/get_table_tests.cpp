@@ -48,7 +48,7 @@ BOOST_FIXTURE_TEST_CASE( get_scope_test, TESTER ) try {
    produce_blocks(2);
 
    create_accounts({ N(snax.token), N(snax.ram), N(snax.ramfee), N(snax.stake),
-      N(snax.bpay), N(snax.vpay), N(snax.team), N(snax.creator), N(snax.airdrop), N(snax.saving), N(snax.names), N(snax.util) });
+      N(snax.bpay), N(snax.vpay), N(snax.team), N(snax.creator), N(snax.airdrop), N(snax.empty), N(snax.names), N(snax.util) });
 
    std::vector<account_name> accs{N(inita), N(initb), N(initc), N(initd)};
    create_accounts(accs);
