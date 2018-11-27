@@ -171,6 +171,7 @@ namespace snaxsystem {
       snax_assert( 3 <= _gstate.max_authority_depth, "max_authority_depth should be at least 3" );
       double total_weight = 0;
       for (auto& platform: params.platforms) {
+          snax_assert(platform.weight >= 0, "platform weight must be greater than 0 or equal to 0");
           total_weight += platform.weight;
           snax_assert(platform.period > 0, "platform period must be greater than 0");
       }
