@@ -40,7 +40,7 @@ describe("Airdrop", async () => {
       detached: true,
       stdio: "ignore"
     });
-    await sleep(6e3);
+    await sleep(7e3);
   });
 
   const verifyStatesAndAccounts = async platforms => {
@@ -183,11 +183,11 @@ describe("Airdrop", async () => {
   });
 
   it("shouldn't be able to request because platform isn't added", async () => {
-    addplatform("test2");
+    await addplatform("test2");
     await tryCatchExpect(() => request("platform", "test1"));
   });
 
-  it("shouldn't be able to request because already requested", async () => {
+  it("should receive 0 after first request", async () => {
     await addplatform("platform");
     await verifyAccountsBalances(["test1", "snax.airdrop"]);
     await request("platform", "test1");
