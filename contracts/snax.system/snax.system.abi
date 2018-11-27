@@ -277,7 +277,7 @@
          {"name":"total_producer_vote_weight",    "type":"float64"},
          {"name":"last_name_close",               "type":"block_timestamp_type"},
          {"name":"start_time",                    "type":"block_timestamp_type"},
-         {"name":"intialized",                    "type":"bool"},
+         {"name":"initialized",                    "type":"bool"},
          {"name":"min_supply_points",             "type":"int64"},
          {"name":"supply_offset",                 "type":"int64"},
          {"name":"staked_by_team",                "type":"asset"},
