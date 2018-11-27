@@ -1,6 +1,6 @@
 #!/bin/bash
 ##########################################################################
-# This is the SNAX automated install script for Linux and Mac OS.
+# This is the Snax automated install script for Linux and Mac OS.
 # This file was downloaded from https://github.com/SnaxFoundation/snax
 #
 # Copyright (c) 2017, Respective Authors all rights reserved.
@@ -146,7 +146,7 @@
    if [ "$ARCH" == "Linux" ]; then
 
       if [ ! -e /etc/os-release ]; then
-         printf "\\n\\tSNAX currently supports Amazon, Centos, Fedora, Mint & Ubuntu Linux only.\\n"
+         printf "\\n\\tSnax currently supports Amazon, Centos, Fedora, Mint & Ubuntu Linux only.\\n"
          printf "\\tPlease install on the latest version of one of these Linux distributions.\\n"
          printf "\\thttps://aws.amazon.com/amazon-linux-ami/\\n"
          printf "\\thttps://www.centos.org/\\n"
@@ -238,7 +238,7 @@
 
    . "$FILE"
 
-   printf "\\n\\n>>>>>>>> ALL dependencies sucessfully found or installed . Installing SNAX\\n\\n"
+   printf "\\n\\n>>>>>>>> ALL dependencies sucessfully found or installed . Installing Snax\\n\\n"
    printf ">>>>>>>> CMAKE_BUILD_TYPE=%s\\n" "${CMAKE_BUILD_TYPE}"
    printf ">>>>>>>> ENABLE_COVERAGE_TESTING=%s\\n" "${ENABLE_COVERAGE_TESTING}"
    printf ">>>>>>>> DOXYGEN=%s\\n\\n" "${DOXYGEN}"
@@ -267,19 +267,19 @@
       -DENABLE_COVERAGE_TESTING="${ENABLE_COVERAGE_TESTING}" -DBUILD_DOXYGEN="${DOXYGEN}" \
       -DCMAKE_INSTALL_PREFIX="/usr/local/snax" "${SOURCE_DIR}"
    then
-      printf "\\n\\t>>>>>>>>>>>>>>>>>>>> CMAKE building SNAX has exited with the above error.\\n\\n"
+      printf "\\n\\t>>>>>>>>>>>>>>>>>>>> CMAKE building Snax has exited with the above error.\\n\\n"
       exit -1
    fi
 
    if [ "${START_MAKE}" == "false" ]; then
-      printf "\\n\\t>>>>>>>>>>>>>>>>>>>> SNAX has been successfully configured but not yet built.\\n\\n"
+      printf "\\n\\t>>>>>>>>>>>>>>>>>>>> Snax has been successfully configured but not yet built.\\n\\n"
       exit 0
    fi
 
    if [ -z ${JOBS} ]; then JOBS=$CPU_CORE; fi # Future proofing: Ensure $JOBS is set (usually set in scripts/snax_build_*.sh scripts)
    if ! make -j"${JOBS}"
    then
-      printf "\\n\\t>>>>>>>>>>>>>>>>>>>> MAKE building SNAX has exited with the above error.\\n\\n"
+      printf "\\n\\t>>>>>>>>>>>>>>>>>>>> MAKE building Snax has exited with the above error.\\n\\n"
       exit -1
    fi
 

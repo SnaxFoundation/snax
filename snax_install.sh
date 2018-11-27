@@ -1,6 +1,6 @@
 #!/bin/bash
 ##########################################################################
-# This is the SNAX automated install script for Linux and Mac OS.
+# This is the Snax automated install script for Linux and Mac OS.
 # This file was downloaded from https://github.com/SnaxFoundation/snax
 #
 # Copyright (c) 2017, Respective Authors all rights reserved.
@@ -65,7 +65,7 @@ fi
    }
 
    install_symlinks() {
-      printf "\\n\\tInstalling SNAX Binary Symlinks\\n\\n"
+      printf "\\n\\tInstalling Snax Binary Symlinks\\n\\n"
       create_symlink "clisnax"
       create_symlink "snax-abigen"
       create_symlink "snax-launcher"
@@ -95,7 +95,7 @@ fi
 
    if ! make install
    then
-      printf "\\n\\t>>>>>>>>>>>>>>>>>>>> MAKE installing SNAX has exited with the above error.\\n\\n"
+      printf "\\n\\t>>>>>>>>>>>>>>>>>>>> MAKE installing Snax has exited with the above error.\\n\\n"
       exit -1
    fi
    popd &> /dev/null

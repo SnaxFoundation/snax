@@ -34,7 +34,16 @@ namespace snaxsystem {
             }
         );
 
-        delegatebw(_self, N(snax.team), asset(20000000000 / 2), asset(20000000000 / 2), true);
+        INLINE_ACTION_SENDER(system_contract, delegatebw)(
+            _self, {_self, N(active)},
+            {
+                _self,
+                N(snax.team),
+                asset(20000000000 / 2),
+                asset(20000000000 / 2),
+                true
+            }
+        );
 
         INLINE_ACTION_SENDER(snax::token, transfer)(
             N(snax.token), {_self,N(active)},
