@@ -29,7 +29,7 @@ Array [
     "more": false,
     "rows": Array [
       Object {
-        "balance": "100000.0000 SNAX",
+        "balance": "500100000.0000 SNAX",
       },
     ],
   },
@@ -50,7 +50,7 @@ Array [
     "more": false,
     "rows": Array [
       Object {
-        "balance": "99980.0000 SNAX",
+        "balance": "500099980.0000 SNAX",
       },
     ],
   },
@@ -71,7 +71,7 @@ Array [
     "more": false,
     "rows": Array [
       Object {
-        "balance": "99980.0000 SNAX",
+        "balance": "500099980.0000 SNAX",
       },
     ],
   },
@@ -111,7 +111,7 @@ Array [
     "more": false,
     "rows": Array [
       Object {
-        "balance": "99980.0000 SNAX",
+        "balance": "500099980.0000 SNAX",
       },
     ],
   },

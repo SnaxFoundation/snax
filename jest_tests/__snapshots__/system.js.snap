@@ -18,7 +18,7 @@ Array [
     "more": false,
     "rows": Array [
       Object {
-        "balance": "119400.0000 SNAX",
+        "balance": "1194000000.0000 SNAX",
       },
     ],
   },
@@ -33,9 +33,34 @@ Array [
   },
   Object {
     "more": false,
+    "rows": Array [],
+  },
+  Object {
+    "more": false,
+    "rows": Array [],
+  },
+  Object {
+    "more": false,
     "rows": Array [
       Object {
-        "balance": "79600.0000 SNAX",
+        "balance": "1194000000.0000 SNAX",
+      },
+    ],
+  },
+]
+`;
+
+exports[`System should call system's emitplatform correctly 3`] = `
+Array [
+  Object {
+    "more": false,
+    "rows": Array [],
+  },
+  Object {
+    "more": false,
+    "rows": Array [
+      Object {
+        "balance": "796000000.0000 SNAX",
       },
     ],
   },
@@ -47,7 +72,52 @@ Array [
     "more": false,
     "rows": Array [
       Object {
-        "balance": "119400.0000 SNAX",
+        "balance": "1194000000.0000 SNAX",
+      },
+    ],
+  },
+]
+`;
+
+exports[`System should initialize system correctly 1`] = `
+Array [
+  Object {
+    "more": false,
+    "rows": Array [],
+  },
+  Object {
+    "more": false,
+    "rows": Array [],
+  },
+  Object {
+    "more": false,
+    "rows": Array [
+      Object {
+        "balance": "500000000.0000 SNAX",
+      },
+    ],
+  },
+  Object {
+    "more": false,
+    "rows": Array [
+      Object {
+        "balance": "500000000.0000 SNAX",
+      },
+    ],
+  },
+]
+`;
+
+exports[`System should undelegate snax.team resources correctly 1`] = `
+Array [
+  Object {
+    "more": false,
+    "rows": Array [
+      Object {
+        "cpu_weight": "8999999995.5000 SNAX",
+        "from": "snax.team",
+        "net_weight": "8999999995.5000 SNAX",
+        "to": "snax.team",
       },
     ],
   },

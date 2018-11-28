@@ -58,7 +58,7 @@ namespace snaxsystem {
       int64_t              supply_offset = 0; /// initial supply offset
       asset                staked_by_team = asset(0);
       asset                circulating_supply = asset(0); /// premine amount
-      asset                total_supply = asset(100000000000); /// total supply amount
+      asset                total_supply = asset(1000000000000000); /// total supply amount
 
       // explicit serialization macro is not necessary, used here only to improve compilation time
       SNAXLIB_SERIALIZE_DERIVED( snax_global_state, snax::blockchain_parameters,

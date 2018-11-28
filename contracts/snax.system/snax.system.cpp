@@ -38,6 +38,63 @@ namespace snaxsystem {
          //print( "ram market already created" );
       }
 
+      if ( _gstate.staked_by_team.amount == 0 && !_gstate.initialized ) {
+        const asset amount_to_issue = asset(210000000000000);
+
+        INLINE_ACTION_SENDER(snax::token, issue)(
+            N(snax.token), {_self,N(active)},
+            {
+                _self,
+                amount_to_issue,
+                "premine"
+            }
+        );
+
+        INLINE_ACTION_SENDER(system_contract, buyram)(
+            _self, {_self, N(active)},
+            {
+                _self,
+                N(snax.team),
+                asset(100000)
+            }
+        );
+
+        INLINE_ACTION_SENDER(system_contract, delegatebw)(
+            _self, {_self, N(active)},
+            {
+                _self,
+                N(snax.team),
+                asset((200000000000000 - 100000) / 2),
+                asset((200000000000000 - 100000) / 2),
+                true
+            }
+        );
+
+        INLINE_ACTION_SENDER(snax::token, transfer)(
+            N(snax.token), {_self,N(active)},
+            {
+                _self,
+                N(snax.airdrop),
+                asset(5000000000000),
+                "airdrop"
+            }
+        );
+
+        INLINE_ACTION_SENDER(snax::token, transfer)(
+            N(snax.token), {_self,N(active)},
+            {
+                _self,
+                N(snax.creator),
+                asset(5000000000000),
+                "account creation"
+            }
+        );
+
+        _gstate.initialized = true;
+        _gstate.circulating_supply += amount_to_issue;
+        _global.set(_gstate, _self);
+      }
+
    }
 
    snax_global_state system_contract::get_default_parameters() {
@@ -88,7 +145,7 @@ namespace snaxsystem {
         }
 
         const double minimal_supply_round_amount = static_cast<double>(_gstate.min_supply_points);
-        snax_assert(_gstate.circulating_supply + asset(10000) <= _gstate.total_supply, "system emission stopped");
+        snax_assert(_gstate.circulating_supply + asset(100000000) <= _gstate.total_supply, "system emission stopped");
         double a, b, offset1, offset2;
         const double total_supply_amount = convert_asset_to_double(_gstate.total_supply);
         double offset = static_cast<double>(_gstate.supply_offset);
@@ -105,7 +162,12 @@ namespace snaxsystem {
 
         const asset round_supply = asset(static_cast<int64_t>(supply_limit_in_round));
 
-        std::tie(offset1, offset2) = solve_quadratic_equation(a, b, static_cast<double>(_gstate.circulating_supply.amount));
+        auto circulating_supply_amount = _gstate.circulating_supply.amount - get_balance().amount;
+
+        if (circulating_supply_amount < 0)
+            circulating_supply_amount = 0;
+
+        std::tie(offset1, offset2) = solve_quadratic_equation(a, b, static_cast<double>(circulating_supply_amount));
         offset = offset1 < minimal_supply_round_amount ? offset1 : offset2;
 
         const auto amount_to_transfer = round_supply * static_cast<int64_t>(found_config->weight * 10000) / 10000;

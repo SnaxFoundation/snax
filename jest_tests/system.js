@@ -65,8 +65,8 @@ describe("System", async () => {
     }
   };
 
-  const emitplatform = async platform => {
-    await api.transact(
+  const emitplatform = platform =>
+    api.transact(
       {
         actions: [
           {
@@ -89,11 +89,153 @@ describe("System", async () => {
         expireSeconds: 30
       }
     );
+
+  const claimrewards = producer =>
+    api.transact(
+      {
+        actions: [
+          {
+            account: "snax",
+            name: "claimrewards",
+            authorization: [
+              {
+                actor: producer,
+                permission: "active"
+              }
+            ],
+            data: {
+              owner: producer
+            }
+          }
+        ]
+      },
+      {
+        blocksBehind: 1,
+        expireSeconds: 30
+      }
+    );
+
+  const undelegatebw = account =>
+    api.transact(
+      {
+        actions: [
+          {
+            account: "snax",
+            name: "undelegatebw",
+            authorization: [
+              {
+                actor: account,
+                permission: "active"
+              }
+            ],
+            data: {
+              from: account,
+              receiver: account,
+              unstake_net_quantity: "999999999.5000 SNAX",
+              unstake_cpu_quantity: "999999999.5000 SNAX"
+            }
+          }
+        ]
+      },
+      {
+        blocksBehind: 1,
+        expireSeconds: 30
+      }
+    );
+
+  const verifyBWTable = async accounts => {
+    const tables = await Promise.all(
+      accounts.map(account =>
+        api.rpc.get_table_rows({
+          code: "snax",
+          scope: account,
+          table: "delband"
+        })
+      )
+    );
+    expect(tables).toMatchSnapshot();
   };
+
+  const regproducer = producer =>
+    api.transact(
+      {
+        actions: [
+          {
+            account: "snax",
+            name: "regproducer",
+            authorization: [
+              {
+                actor: producer,
+                permission: "active"
+              }
+            ],
+            data: {
+              producer,
+              producer_key:
+                "SNAX8mo3cUJW1Yy1GGxQfexWGN7QPUB2rXccQP7brrpgJXGjiw6gKR",
+              url: "https://snax.one",
+              location: 0
+            }
+          }
+        ]
+      },
+      {
+        blocksBehind: 1,
+        expireSeconds: 30
+      }
+    );
+
+  const voteproducer = producers =>
+    api.transact(
+      {
+        actions: [
+          {
+            account: "snax",
+            name: "voteproducer",
+            authorization: [
+              {
+                actor: "snax.team",
+                permission: "active"
+              }
+            ],
+            data: {
+              voter: "snax.team",
+              proxy: "",
+              producers
+            }
+          }
+        ]
+      },
+      {
+        blocksBehind: 1,
+        expireSeconds: 30
+      }
+    );
+
+  it("should initialize system correctly", async () => {
+    await verifyAccountsBalances([
+      "snax",
+      "snax.team",
+      "snax.airdrop",
+      "snax.creator"
+    ]);
+  });
 
   it("should call system's emitplatform correctly", async () => {
     await emitplatform("platform");
     await verifyAccountsBalances(["test2", "test1", "snax", "platform"]);
+  });
+
+  it("should call system's emitplatform correctly", async () => {
+    await emitplatform("platform");
+    await verifyAccountsBalances(["test2", "test1", "snax", "platform"]);
+  });
+
+  it("should undelegate snax.team resources correctly", async () => {
+    await regproducer("test1");
+    await voteproducer(["test1"]);
+    await undelegatebw("snax.team");
+    await verifyBWTable(["snax.team"]);
   });
 
   it("should call system's emitplatform correctly", async () => {

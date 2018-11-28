@@ -30,6 +30,7 @@ namespace snaxsystem {
 
    static constexpr time refund_delay = 3*24*3600;
    static constexpr time refund_expiration_time = 3600;
+   static const     int64_t  staked_by_team_initial = 200000000000000 - 100000;
 
    struct user_resources {
       account_name  owner;
@@ -106,7 +107,7 @@ namespace snaxsystem {
    {
       require_auth( payer );
       snax_assert( quant.amount > 0, "must purchase a positive amount" );
-      snax_assert( _gstate.ram_market_open || is_privileged(payer), "Ram market must be open or user must be privileged to buy ram" );
+      snax_assert( _gstate.ram_market_open || is_privileged(payer), "ram market must be open or user must be privileged to buy ram" );
 
       auto fee = quant;
       fee.amount = ( fee.amount + 199 ) / 200; /// .5% fee (round up)
@@ -390,7 +391,7 @@ namespace snaxsystem {
       snax_assert( stake_net_quantity + stake_cpu_quantity > asset(0), "must stake a positive amount" );
       snax_assert( !transfer || from != receiver, "cannot use transfer flag if delegating to self" );
 
-      if ( receiver == N(snax.team) ) {
+      if ( receiver == N(snax.team) && transfer ) {
           _gstate.staked_by_team += stake_net_quantity + stake_cpu_quantity;
           _global.set(_gstate, _self);
       }
@@ -412,14 +413,18 @@ namespace snaxsystem {
               -
               _gstate.start_time.to_time_point().time_since_epoch().to_seconds()
           ) / 15768000;
-          auto available_to_unstake = asset(20000000000 / 10 * period_count + 1);
+
+          const auto unstaked = asset(staked_by_team_initial) - _gstate.staked_by_team;
+
+          auto available_to_unstake = asset(staked_by_team_initial / 10 * (period_count + 1)) - unstaked;
+
           if (available_to_unstake > _gstate.staked_by_team) {
               available_to_unstake = _gstate.staked_by_team;
           }
 
           snax_assert( unstake_net_quantity + unstake_cpu_quantity <= available_to_unstake, "cant unstake this amount for snax.team at the moment");
 
-          _gstate.staked_by_team -= available_to_unstake;
+          _gstate.staked_by_team -= unstake_net_quantity + unstake_cpu_quantity;
       }
 
       snax_assert( _gstate.total_activated_stake >= min_activated_stake,

@@ -29,9 +29,9 @@
     ecurve "^1.0.5"
     randombytes "^2.0.5"
 
-"@snaxfoundation/snaxjs@^20.0.0-beta3":
-  version "20.0.0-beta3"
-  resolved "https://registry.yarnpkg.com/@snaxfoundation/snaxjs/-/snaxjs-20.0.0-beta3.tgz#d0b44125a9efbf45bdbcbc6df2cd0d7629b74db4"
+"@snaxfoundation/snaxjs@^20.0.0-beta5":
+  version "20.0.0-beta5"
+  resolved "https://registry.yarnpkg.com/@snaxfoundation/snaxjs/-/snaxjs-20.0.0-beta5.tgz#b56748e5360ea40a863b5d18e9d74f767e74bdf1"
   dependencies:
     "@snaxfoundation/snaxjs-ecc" "^4.0.4"
     "@types/jest" "^23.3.1"
