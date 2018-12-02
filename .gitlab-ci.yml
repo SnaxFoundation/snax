@@ -42,9 +42,6 @@ build:
     name: "$CI_COMMIT_REF_NAME"
     paths:
       - build/bin/
-  only:
-    - master
-    - tags
   except:
     variables:
       - $CI_COMMIT_MESSAGE =~ /skip-build/

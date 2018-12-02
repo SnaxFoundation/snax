@@ -39,7 +39,7 @@ namespace snaxsystem {
       }
 
       if ( _gstate.staked_by_team.amount == 0 && !_gstate.initialized ) {
-        const asset amount_to_issue = asset(210000000000000);
+        const asset amount_to_issue = asset(21'000'000'000'0000);
 
         INLINE_ACTION_SENDER(snax::token, issue)(
             N(snax.token), {_self,N(active)},
@@ -55,7 +55,7 @@ namespace snaxsystem {
             {
                 _self,
                 N(snax.team),
-                asset(100000)
+                asset(10'0000)
             }
         );
 
@@ -64,8 +64,8 @@ namespace snaxsystem {
             {
                 _self,
                 N(snax.team),
-                asset((200000000000000 - 100000) / 2),
-                asset((200000000000000 - 100000) / 2),
+                asset(staked_by_team_initial / 2),
+                asset(staked_by_team_initial / 2),
                 true
             }
         );
@@ -75,7 +75,7 @@ namespace snaxsystem {
             {
                 _self,
                 N(snax.airdrop),
-                asset(5000000000000),
+                asset(500'000'000'0000),
                 "airdrop"
             }
         );
@@ -85,7 +85,7 @@ namespace snaxsystem {
             {
                 _self,
                 N(snax.creator),
-                asset(5000000000000),
+                asset(500'000'000'0000),
                 "account creation"
             }
         );
@@ -145,7 +145,7 @@ namespace snaxsystem {
         }
 
         const double minimal_supply_round_amount = static_cast<double>(_gstate.min_supply_points);
-        snax_assert(_gstate.circulating_supply + asset(100000000) <= _gstate.total_supply, "system emission stopped");
+        snax_assert(_gstate.circulating_supply + asset(10'000'0000) <= _gstate.total_supply, "system emission stopped");
         double a, b, offset1, offset2;
         const double total_supply_amount = convert_asset_to_double(_gstate.total_supply);
         double offset = static_cast<double>(_gstate.supply_offset);

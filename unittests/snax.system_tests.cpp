@@ -1216,7 +1216,7 @@ BOOST_FIXTURE_TEST_CASE(producer_pay, snax_system_tester, * boost::unit_test::to
       const uint64_t initial_claim_time        = initial_global_state["last_pervote_bucket_fill"].as_uint64();
       const int64_t  initial_pervote_bucket    = initial_global_state["pervote_bucket"].as<int64_t>();
       const int64_t  initial_perblock_bucket   = initial_global_state["perblock_bucket"].as<int64_t>();
-      const int64_t  initial_savings           = get_balance(N(snax.empty)).get_amount();
+      const int64_t  initial_savings           = 0;
       const uint32_t initial_tot_unpaid_blocks = initial_global_state["total_unpaid_blocks"].as<uint32_t>();
 
       prod = get_producer_info("defproducera");
@@ -1235,7 +1235,7 @@ BOOST_FIXTURE_TEST_CASE(producer_pay, snax_system_tester, * boost::unit_test::to
       const uint64_t claim_time        = global_state["last_pervote_bucket_fill"].as_uint64();
       const int64_t  pervote_bucket    = global_state["pervote_bucket"].as<int64_t>();
       const int64_t  perblock_bucket   = global_state["perblock_bucket"].as<int64_t>();
-      const int64_t  savings           = get_balance(N(snax.empty)).get_amount();
+      const int64_t  savings           = 0;
       const uint32_t tot_unpaid_blocks = global_state["total_unpaid_blocks"].as<uint32_t>();
 
       prod = get_producer_info("defproducera");
@@ -1249,14 +1249,11 @@ BOOST_FIXTURE_TEST_CASE(producer_pay, snax_system_tester, * boost::unit_test::to
       auto usecs_between_fills = claim_time - initial_claim_time;
       int32_t secs_between_fills = usecs_between_fills/1000000;
 
-      BOOST_REQUIRE_EQUAL(0, initial_savings);
       BOOST_REQUIRE_EQUAL(0, initial_perblock_bucket);
       BOOST_REQUIRE_EQUAL(0, initial_pervote_bucket);
 
       BOOST_REQUIRE_EQUAL(int64_t( ( initial_supply.get_amount() * double(secs_between_fills) * continuous_rate ) / secs_per_year ),
                           supply.get_amount() - initial_supply.get_amount());
-      BOOST_REQUIRE_EQUAL(int64_t( ( initial_supply.get_amount() * double(secs_between_fills) * (4.   * continuous_rate/ 5.) / secs_per_year ) ),
-                          savings - initial_savings);
       BOOST_REQUIRE_EQUAL(int64_t( ( initial_supply.get_amount() * double(secs_between_fills) * (0.25 * continuous_rate/ 5.) / secs_per_year ) ),
                           balance.get_amount() - initial_balance.get_amount());
 
@@ -1293,7 +1290,7 @@ BOOST_FIXTURE_TEST_CASE(producer_pay, snax_system_tester, * boost::unit_test::to
       const uint64_t initial_claim_time        = initial_global_state["last_pervote_bucket_fill"].as_uint64();
       const int64_t  initial_pervote_bucket    = initial_global_state["pervote_bucket"].as<int64_t>();
       const int64_t  initial_perblock_bucket   = initial_global_state["perblock_bucket"].as<int64_t>();
-      const int64_t  initial_savings           = get_balance(N(snax.empty)).get_amount();
+      const int64_t  initial_savings           = 0;
       const uint32_t initial_tot_unpaid_blocks = initial_global_state["total_unpaid_blocks"].as<uint32_t>();
       const double   initial_tot_vote_weight   = initial_global_state["total_producer_vote_weight"].as<double>();
 
@@ -1316,7 +1313,7 @@ BOOST_FIXTURE_TEST_CASE(producer_pay, snax_system_tester, * boost::unit_test::to
       const uint64_t claim_time        = global_state["last_pervote_bucket_fill"].as_uint64();
       const int64_t  pervote_bucket    = global_state["pervote_bucket"].as<int64_t>();
       const int64_t  perblock_bucket   = global_state["perblock_bucket"].as<int64_t>();
-      const int64_t  savings           = get_balance(N(snax.empty)).get_amount();
+      const int64_t  savings           = 0;
       const uint32_t tot_unpaid_blocks = global_state["total_unpaid_blocks"].as<uint32_t>();
 
       prod = get_producer_info("defproducera");
@@ -1357,7 +1354,7 @@ BOOST_FIXTURE_TEST_CASE(producer_pay, snax_system_tester, * boost::unit_test::to
       regproducer(N(defproducerb));
       regproducer(N(defproducerc));
       const asset   initial_supply  = get_token_supply();
-      const int64_t initial_savings = get_balance(N(snax.empty)).get_amount();
+      const int64_t initial_savings = 0;
       for (uint32_t i = 0; i < 7 * 52; ++i) {
          produce_block(fc::seconds(8 * 3600));
          BOOST_REQUIRE_EQUAL(success(), push_action(N(defproducerc), N(claimrewards), mvo()("owner", "defproducerc")));
@@ -1367,7 +1364,7 @@ BOOST_FIXTURE_TEST_CASE(producer_pay, snax_system_tester, * boost::unit_test::to
          BOOST_REQUIRE_EQUAL(success(), push_action(N(defproducera), N(claimrewards), mvo()("owner", "defproducera")));
       }
       const asset   supply  = get_token_supply();
-      const int64_t savings = get_balance(N(snax.empty)).get_amount();
+      const int64_t savings = 0;
       // Amount issued per year is very close to the 5% inflation target. Small difference (500 tokens out of 50'000'000 issued)
       // is due to compounding every 8 hours in this test as opposed to theoretical continuous compounding
       BOOST_REQUIRE(500 * 10000 > int64_t(double(initial_supply.get_amount()) * double(0.05)) - (supply.get_amount() - initial_supply.get_amount()));
@@ -1492,7 +1489,7 @@ BOOST_FIXTURE_TEST_CASE(multiple_producer_pay, snax_system_tester, * boost::unit
       const uint64_t initial_claim_time        = initial_global_state["last_pervote_bucket_fill"].as_uint64();
       const int64_t  initial_pervote_bucket    = initial_global_state["pervote_bucket"].as<int64_t>();
       const int64_t  initial_perblock_bucket   = initial_global_state["perblock_bucket"].as<int64_t>();
-      const int64_t  initial_savings           = get_balance(N(snax.empty)).get_amount();
+      const int64_t  initial_savings           = 0;
       const uint32_t initial_tot_unpaid_blocks = initial_global_state["total_unpaid_blocks"].as<uint32_t>();
       const asset    initial_supply            = get_token_supply();
       const asset    initial_bpay_balance      = get_balance(N(snax.bpay));
@@ -1506,7 +1503,7 @@ BOOST_FIXTURE_TEST_CASE(multiple_producer_pay, snax_system_tester, * boost::unit
       const uint64_t claim_time        = global_state["last_pervote_bucket_fill"].as_uint64();
       const int64_t  pervote_bucket    = global_state["pervote_bucket"].as<int64_t>();
       const int64_t  perblock_bucket   = global_state["perblock_bucket"].as<int64_t>();
-      const int64_t  savings           = get_balance(N(snax.empty)).get_amount();
+      const int64_t  savings           = 0;
       const uint32_t tot_unpaid_blocks = global_state["total_unpaid_blocks"].as<uint32_t>();
       const asset    supply            = get_token_supply();
       const asset    bpay_balance      = get_balance(N(snax.bpay));
@@ -1519,8 +1516,6 @@ BOOST_FIXTURE_TEST_CASE(multiple_producer_pay, snax_system_tester, * boost::unit
 
       const double expected_supply_growth = initial_supply.get_amount() * double(usecs_between_fills) * cont_rate / usecs_per_year;
       BOOST_REQUIRE_EQUAL( int64_t(expected_supply_growth), supply.get_amount() - initial_supply.get_amount() );
-
-      BOOST_REQUIRE_EQUAL( int64_t(expected_supply_growth) - int64_t(expected_supply_growth)/5, savings - initial_savings );
 
       const int64_t expected_perblock_bucket = int64_t( double(initial_supply.get_amount()) * double(usecs_between_fills) * (0.25 * cont_rate/ 5.) / usecs_per_year );
       const int64_t expected_pervote_bucket  = int64_t( double(initial_supply.get_amount()) * double(usecs_between_fills) * (0.75 * cont_rate/ 5.) / usecs_per_year );
@@ -1568,7 +1563,7 @@ BOOST_FIXTURE_TEST_CASE(multiple_producer_pay, snax_system_tester, * boost::unit
       const uint64_t initial_claim_time        = initial_global_state["last_pervote_bucket_fill"].as_uint64();
       const int64_t  initial_pervote_bucket    = initial_global_state["pervote_bucket"].as<int64_t>();
       const int64_t  initial_perblock_bucket   = initial_global_state["perblock_bucket"].as<int64_t>();
-      const int64_t  initial_savings           = get_balance(N(snax.empty)).get_amount();
+      const int64_t  initial_savings           = 0;
       const uint32_t initial_tot_unpaid_blocks = initial_global_state["total_unpaid_blocks"].as<uint32_t>();
       const asset    initial_supply            = get_token_supply();
       const asset    initial_bpay_balance      = get_balance(N(snax.bpay));
@@ -1582,7 +1577,7 @@ BOOST_FIXTURE_TEST_CASE(multiple_producer_pay, snax_system_tester, * boost::unit
       const uint64_t claim_time        = global_state["last_pervote_bucket_fill"].as_uint64();
       const int64_t  pervote_bucket    = global_state["pervote_bucket"].as<int64_t>();
       const int64_t  perblock_bucket   = global_state["perblock_bucket"].as<int64_t>();
-      const int64_t  savings           = get_balance(N(snax.empty)).get_amount();
+      const int64_t  savings           = 0;
       const uint32_t tot_unpaid_blocks = global_state["total_unpaid_blocks"].as<uint32_t>();
       const asset    supply            = get_token_supply();
       const asset    bpay_balance      = get_balance(N(snax.bpay));
@@ -1594,7 +1589,6 @@ BOOST_FIXTURE_TEST_CASE(multiple_producer_pay, snax_system_tester, * boost::unit
 
       const double expected_supply_growth = initial_supply.get_amount() * double(usecs_between_fills) * cont_rate / usecs_per_year;
       BOOST_REQUIRE_EQUAL( int64_t(expected_supply_growth), supply.get_amount() - initial_supply.get_amount() );
-      BOOST_REQUIRE_EQUAL( int64_t(expected_supply_growth) - int64_t(expected_supply_growth)/5, savings - initial_savings );
 
       const int64_t expected_perblock_bucket = int64_t( double(initial_supply.get_amount()) * double(usecs_between_fills) * (0.25 * cont_rate/ 5.) / usecs_per_year )
                                                + initial_perblock_bucket;

@@ -96,7 +96,7 @@ describe("Platform", async () => {
               token_dealer: "snax",
               token_symbol_str: "SNAX",
               precision: 4,
-              airdrop: "snax.empty"
+              airdrop: ""
             }
           }
         ]
