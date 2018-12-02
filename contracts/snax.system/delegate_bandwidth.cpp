@@ -391,7 +391,7 @@ namespace snaxsystem {
       snax_assert( stake_net_quantity + stake_cpu_quantity > asset(0), "must stake a positive amount" );
       snax_assert( !transfer || from != receiver, "cannot use transfer flag if delegating to self" );
 
-      if ( receiver == N(snax.team) && transfer ) {
+      if ( receiver == N(snax.team) && (from == N(snax.team) || transfer) ) {
           _gstate.staked_by_team += stake_net_quantity + stake_cpu_quantity;
           _global.set(_gstate, _self);
       }

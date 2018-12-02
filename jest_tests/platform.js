@@ -89,7 +89,7 @@ describe("Platform", async () => {
             authorization: [
               {
                 actor: account,
-                permission: "active"
+                permission: "owner"
               }
             ],
             data: {
@@ -167,7 +167,7 @@ describe("Platform", async () => {
             authorization: [
               {
                 actor: account,
-                permission: "active"
+                permission: "owner"
               }
             ],
             data: {}

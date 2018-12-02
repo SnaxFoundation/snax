@@ -203,8 +203,8 @@ BOOST_FIXTURE_TEST_CASE( bootseq_test, bootseq_tester ) {
 
 
         // Create SNAX tokens in snax.token, set its manager as snax
-        auto max_supply = core_from_string("10000000000.0000"); /// 1x larger than 1B initial tokens
-        auto initial_supply = core_from_string("1000000000.0000"); /// 1x larger than 1B initial tokens
+        auto max_supply = core_from_string("100000000000.0000"); /// 1x larger than 1B initial tokens
+        auto initial_supply = core_from_string("10000000000.0000"); /// 1x larger than 1B initial tokens
         create_currency(N(snax.token), config::system_account_name, max_supply);
         // Issue the genesis supply of 1 billion SNAX tokens to snax.system
         issue(N(snax.token), config::system_account_name, config::system_account_name, initial_supply);
