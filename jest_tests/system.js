@@ -21,7 +21,8 @@ const { account, privateKey } = {
 
 const signatureProvider = new snaxjs.JsSignatureProvider([
   privateKey,
-  "5JcWXD3XkpEYbwiVK9Pd3X5bLxLkaUkkJiST3Y9iA4wFrTeyeVL"
+  "5JcWXD3XkpEYbwiVK9Pd3X5bLxLkaUkkJiST3Y9iA4wFrTeyeVL",
+  "5JLYkoKuNXGGvUtzjRnP8DqUwt7xny3YGVaDpeqFDdCJKBoBkNC"
 ]);
 const api = new snaxjs.Api({
   rpc,

@@ -89,7 +89,6 @@ ecmd create account snax snax.util $pubsyskey $pubsyskey
 ecmd create account snax snax.names $pubsyskey $pubsyskey
 ecmd create account snax snax.ram $pubsyskey $pubsyskey
 ecmd create account snax snax.ramfee $pubsyskey $pubsyskey
-ecmd create account snax snax.empty $pubsyskey $pubsyskey
 ecmd create account snax snax.stake $pubsyskey $pubsyskey
 ecmd create account snax snax.token $pubsyskey $pubsyskey
 ecmd create account snax snax.vpay $pubsyskey $pubsyskey
