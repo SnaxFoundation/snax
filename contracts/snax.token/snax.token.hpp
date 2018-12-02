@@ -30,10 +30,12 @@ namespace snax {
                         account_name to,
                         asset        quantity,
                         string       memo );
-      
-      
+
+
          inline asset get_supply( symbol_name sym )const;
-         
+
+         inline asset get_max_supply( symbol_name sym )const;
+
          inline asset get_balance( account_name owner, symbol_name sym )const;
 
       private:
@@ -71,6 +73,13 @@ namespace snax {
       stats statstable( _self, sym );
       const auto& st = statstable.get( sym );
       return st.supply;
+   }
+
+   asset token::get_max_supply( symbol_name sym )const
+   {
+      stats statstable( _self, sym );
+      const auto& st = statstable.get( sym );
+      return st.max_supply;
    }
 
    asset token::get_balance( account_name owner, symbol_name sym )const

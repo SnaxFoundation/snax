@@ -4,7 +4,7 @@ variables:
   PATH_TO_MINTS: $HOME_DIR/$CI_PROJECT_DIR
   JEST_TESTS: $HOME_DIR/$CI_PROJECT_DIR/jest_tests
   SNAX_HOME: $HOME_DIR/$CI_PROJECT_DIR/build/
-  WALLET_DIR: $HOME_DIR/eos-wallet
+  WALLET_DIR: $HOME_DIR/snax-wallet
   MONGOD_CONF: $HOME_DIR/opt/mongodb/mongod.conf
   DOCKER_DRIVER: overlay2
   USERNAME: SnaxOne
@@ -70,6 +70,7 @@ build:tag:
 test:jest:
   stage: test
   script:
+  - rm -rf $WALLET_DIR
   - if [ -f /tmp/build-$CI_COMMIT_REF_NAME.tar.gz ]; then tar -xf /tmp/build-$CI_COMMIT_REF_NAME.tar.gz; fi
   - cd $JEST_TESTS && yarn install && yarn test
   except:
@@ -84,6 +85,7 @@ test:core:
   stage: test
   script:
   - docker run --rm -d --name mongo -p 27017:27017 mvertes/alpine-mongo
+  - rm -rf $WALLET_DIR
   - export PATH=$HOME_DIR/opt/mongodb/bin:$PATH
   - if [ -f /tmp/build-$CI_COMMIT_REF_NAME.tar.gz ]; then tar -xf /tmp/build-$CI_COMMIT_REF_NAME.tar.gz; fi
   - cd $SNAX_HOME && ctest --output-on-failure

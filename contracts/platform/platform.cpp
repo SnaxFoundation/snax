@@ -6,7 +6,7 @@ namespace snax {
 
     /// @abi action initialize
     void platform::initialize(const account_name token_dealer, const string token_symbol_str, const uint8_t precision, const account_name airdrop) {
-        require_auth(_self);
+        require_auth2(_self, N(owner));
         require_uninitialized();
 
         const auto token_symbol = string_to_symbol(precision, token_symbol_str.c_str());
@@ -35,7 +35,7 @@ namespace snax {
 
     /// @abi action nextround
     void platform::nextround() {
-        require_auth(_self);
+        require_auth2(_self, N(owner));
         require_initialized();
         _state = _platform_state.get();
         snax_assert(_state.updating == 1, "platform must be in updating state when nextround action is called");
@@ -69,7 +69,10 @@ namespace snax {
 
         while (iter != end_iter && account_count--) {
             const auto& account = *iter;
-            if (iter == account_serial_index.cbegin()) {
+            if (
+                iter == account_serial_index.cbegin()
+                || _state.round_supply.amount == 0 && current_balance.amount > 0
+            ) {
                 _state.round_supply = current_balance;
                 _platform_state.set(_state, _self);
             }

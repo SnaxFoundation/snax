@@ -280,9 +280,7 @@
          {"name":"initialized",                   "type":"bool"},
          {"name":"min_supply_points",             "type":"int64"},
          {"name":"supply_offset",                 "type":"int64"},
-         {"name":"staked_by_team",                "type":"asset"},
-         {"name":"circulating_supply",            "type":"asset"},
-         {"name":"total_supply",                  "type":"asset"}
+         {"name":"staked_by_team",                "type":"asset"}
       ]
     },{
       "name": "producer_info",

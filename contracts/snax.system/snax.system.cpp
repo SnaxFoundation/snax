@@ -91,7 +91,6 @@ namespace snaxsystem {
         );
 
         _gstate.initialized = true;
-        _gstate.circulating_supply += amount_to_issue;
         _global.set(_gstate, _self);
       }
 
@@ -127,6 +126,8 @@ namespace snaxsystem {
 
         const auto current_time = snax::time_point_sec(now());
 
+        const auto total_supply = snax::token(N(snax.token)).get_max_supply(snax::symbol_type(system_token_symbol).name());
+
         if (platform_requests.cbegin() != platform_requests.cend()) {
            auto last_request = platform_requests.end();
            snax_assert(
@@ -144,10 +145,12 @@ namespace snaxsystem {
            );
         }
 
+        const asset circulating_supply = snax::token(N(snax.token)).get_supply(snax::symbol_type(system_token_symbol).name());
+
         const double minimal_supply_round_amount = static_cast<double>(_gstate.min_supply_points);
-        snax_assert(_gstate.circulating_supply + asset(10'000'0000) <= _gstate.total_supply, "system emission stopped");
+        snax_assert(circulating_supply + asset(10'000'0000) <= total_supply, "system emission stopped");
         double a, b, offset1, offset2;
-        const double total_supply_amount = convert_asset_to_double(_gstate.total_supply);
+        const double total_supply_amount = convert_asset_to_double(total_supply);
         double offset = static_cast<double>(_gstate.supply_offset);
 
         std::tie(a, b) = get_parabola(minimal_supply_round_amount, total_supply_amount);
@@ -162,7 +165,7 @@ namespace snaxsystem {
 
         const asset round_supply = asset(static_cast<int64_t>(supply_limit_in_round));
 
-        auto circulating_supply_amount = _gstate.circulating_supply.amount - get_balance().amount;
+        auto circulating_supply_amount = circulating_supply.amount - get_balance().amount;
 
         if (circulating_supply_amount < 0)
             circulating_supply_amount = 0;
@@ -183,7 +186,6 @@ namespace snaxsystem {
                     "amount to issue to pay platform users"
                 }
             );
-            _gstate.circulating_supply += asset(amount_to_issue);
         }
 
         INLINE_ACTION_SENDER(snax::token, transfer)(

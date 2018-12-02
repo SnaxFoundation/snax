@@ -57,8 +57,6 @@ namespace snaxsystem {
       int64_t              min_supply_points = 100;
       int64_t              supply_offset = 0; /// initial supply offset
       asset                staked_by_team = asset(0);
-      asset                circulating_supply = asset(0); /// premine amount
-      asset                total_supply = asset(100'000'000'000'0000); /// total supply amount
 
       // explicit serialization macro is not necessary, used here only to improve compilation time
       SNAXLIB_SERIALIZE_DERIVED( snax_global_state, snax::blockchain_parameters,
@@ -66,7 +64,7 @@ namespace snaxsystem {
                                 (last_producer_schedule_update)(last_pervote_bucket_fill)
                                 (pervote_bucket)(perblock_bucket)(total_unpaid_blocks)(total_activated_stake)(thresh_activated_stake_time)
                                 (last_producer_schedule_size)(total_producer_vote_weight)(last_name_close)(start_time)(initialized)
-                                (min_supply_points)(supply_offset)(staked_by_team)(circulating_supply)(total_supply)
+                                (min_supply_points)(supply_offset)(staked_by_team)
                             )
    };
 
