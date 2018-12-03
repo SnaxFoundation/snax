@@ -604,6 +604,12 @@
        "index_type": "i64",
        "key_names" : ["newname"],
        "key_types" : ["account_name"]
+    },{
+       "name": "platsteps",
+       "type": "platform_request",
+       "index_type": "i64",
+       "key_names" : ["request"],
+       "key_types" : ["uint64"]
     }
    ],
    "ricardian_clauses": [],

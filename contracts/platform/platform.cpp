@@ -19,6 +19,7 @@ namespace snax {
         _state.updating = 0;
         _state.account = _self;
         _state.airdrop = airdrop;
+        _state.sent_amount = asset(0, token_symbol);
 
         _platform_state.set(_state, _self);
     }
@@ -66,6 +67,7 @@ namespace snax {
         snax_assert(iter != end_iter, "cant find account with this serial number");
 
         asset current_balance = get_balance();
+        asset sent_amount = _state.round_supply - _state.round_supply;
 
         while (iter != end_iter && account_count--) {
             const auto& account = *iter;
@@ -94,6 +96,7 @@ namespace snax {
                            N(snax.token), N(transfer),
                            make_tuple(_self, account.name, token_amount, string("payment for activity"))
                     ).send();
+                    sent_amount += token_amount;
                 }
                 _accounts.modify(
                     account, _self, [&](auto& account) {
@@ -107,9 +110,10 @@ namespace snax {
         const auto updated_account_count = total_accounts_to_update_count - account_count;
 
         if (iter == end_iter && _state.round_updated_account_count + updated_account_count == _state.account_count) {
-            unlock_update(current_balance);
+            unlock_update(current_balance, sent_amount);
         } else {
             _state.round_updated_account_count += updated_account_count;
+            _state.sent_amount += sent_amount;
             _platform_state.set(_state, _self);
         }
     }
@@ -275,13 +279,14 @@ namespace snax {
     }
 
     // Only contract itself is allowed to unlock update
-    void platform::unlock_update(const asset current_amount) {
+    void platform::unlock_update(const asset current_amount, const asset last_sent_amount) {
         require_initialized();
         _state = _platform_state.get();
 
         _state.updating = 0;
         _state.round_updated_account_count = 0;
         _state.round_supply -= _state.round_supply;
+        _state.sent_amount += last_sent_amount;
 
         _platform_state.set(_state, _self);
 
