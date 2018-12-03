@@ -40,7 +40,7 @@ describe("Airdrop", async () => {
       detached: true,
       stdio: "ignore"
     });
-    await sleep(7e3);
+    await sleep(10e3);
   });
 
   const verifyStatesAndAccounts = async platforms => {

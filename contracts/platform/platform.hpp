@@ -99,6 +99,7 @@ namespace snax {
             account_name account;
             account_name airdrop;
             asset round_supply;
+            asset sent_amount;
             uint64_t round_updated_account_count;
 
             uint64_t primary_key() const {
@@ -106,7 +107,7 @@ namespace snax {
             }
 
             SNAXLIB_SERIALIZE(
-                state, (updating)(step_number)(account_count)(total_attention_rate)(token_dealer)(account)(airdrop)(round_supply)(round_updated_account_count)
+                state, (updating)(step_number)(account_count)(total_attention_rate)(token_dealer)(account)(airdrop)(round_supply)(sent_amount)(round_updated_account_count)
             )
         };
 
@@ -124,7 +125,7 @@ namespace snax {
         state _state;
 
         // Only contract itself is allowed to unlock update
-        void unlock_update(asset current_amount);
+        void unlock_update(asset current_amount, asset sent_amount);
 
         account find_account(account_name account);
 

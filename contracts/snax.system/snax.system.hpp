@@ -93,6 +93,7 @@ namespace snaxsystem {
        uint64_t primary_key()const { return balance.symbol.name(); }
    };
 
+   // @abi table platsteps i64
    struct platform_request {
        block_timestamp request;
        asset token_amount;
@@ -133,7 +134,7 @@ namespace snaxsystem {
 
    typedef snax::multi_index< N(accounts), account_with_balance > _accounts_balances;
 
-   typedef snax::multi_index< N(plat_steps), platform_request > _platform_requests;
+   typedef snax::multi_index< N(platsteps), platform_request > _platform_requests;
 
    typedef snax::multi_index< N(voters), voter_info >  voters_table;
 
