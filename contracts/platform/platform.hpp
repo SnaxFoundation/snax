@@ -57,6 +57,9 @@ namespace snax {
         /// @abi action updatearmult
         void updatearmult(vector<account_with_attention_rate>& updates, bool add_account_if_not_exist);
 
+        /// @abi action dropaccount
+        void dropaccount(account_name account, uint32_t max_account_count);
+
         /// @abi action addaccount
         void addaccount(account_name account, uint64_t id, double attention_rate);
 
@@ -93,7 +96,8 @@ namespace snax {
         struct state {
             uint16_t updating;
             uint64_t step_number;
-            uint64_t account_count;
+            uint64_t registered_account_count;
+            uint64_t total_account_count;
             double total_attention_rate;
             account_name token_dealer;
             account_name account;
@@ -107,7 +111,7 @@ namespace snax {
             }
 
             SNAXLIB_SERIALIZE(
-                state, (updating)(step_number)(account_count)(total_attention_rate)(token_dealer)(account)(airdrop)(round_supply)(sent_amount)(round_updated_account_count)
+                state, (updating)(step_number)(registered_account_count)(total_account_count)(total_attention_rate)(token_dealer)(account)(airdrop)(round_supply)(sent_amount)(round_updated_account_count)
             )
         };
 
@@ -135,7 +139,7 @@ namespace snax {
 
         void update_state_next_round();
 
-        void update_state_total_attention_rate_and_user_count(double additional_attention_rate, uint64_t new_accounts);
+        void update_state_total_attention_rate_and_user_count(double additional_attention_rate, uint64_t new_accounts, uint64_t new_registered_accounts);
 
         asset get_balance();
 
