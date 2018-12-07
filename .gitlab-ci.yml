@@ -66,6 +66,23 @@ build:tag:
   - tags
   tags:
   - snax
+  
+build:tag:macos:
+  stage: build
+  script:
+    - git submodule update --init --recursive
+    - if [ -f /tmp/build-$CI_COMMIT_REF_NAME.tar.gz ]; then tar -xf /tmp/build-$CI_COMMIT_REF_NAME.tar.gz; fi
+    - ./snax_build.sh
+    - rm -rf /tmp/build-$CI_COMMIT_REF_NAME.tar.gz && tar -czf /tmp/build-$CI_COMMIT_REF_NAME.tar.gz build
+    - mv build/bin build/bin-mac
+  artifacts:
+    name: "macos-$CI_COMMIT_REF_NAME"
+    paths:
+    - build/bin-mac
+  only:
+  - tags
+  tags:
+  - macos
 
 test:jest:
   stage: test
@@ -134,10 +151,14 @@ publish:
   stage: publish
   image: ${REGISTRY}/ok.sh:master
   script:
-  - cd build/bin && tar cvzf bin.tar.gz *
-  - docker-entrypoint.sh $ORG $CI_PROJECT_NAME $CI_COMMIT_TAG bin.tar.gz ./bin.tar.gz
+  - cd build/bin && tar cvzf bin-linux.tar.gz *
+  - cd ../bin-mac && tar cvzf bin-macos.tar.gz *
+  - ok.sh create_release $ORG $CI_PROJECT_NAME $CI_COMMIT_TAG prerelease=true
+  - docker-entrypoint.sh $ORG $CI_PROJECT_NAME $CI_COMMIT_TAG bin-linux.tar.gz ./bin-linux.tar.gz
+  - docker-entrypoint.sh $ORG $CI_PROJECT_NAME $CI_COMMIT_TAG bin-macos.tar.gz ./bin-macos.tar.gz
   dependencies:
     - build:tag
+    - build:tag:macos
   only:
     - tags
   tags:
