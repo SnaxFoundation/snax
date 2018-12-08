@@ -93,6 +93,7 @@ describe("Platform", async () => {
               }
             ],
             data: {
+              name: "test_platform",
               token_dealer: "snax",
               token_symbol_str: "SNAX",
               precision: 4,
