@@ -191,7 +191,12 @@ namespace snax {
     /// @abi action dropaccount
     void platform::dropaccount(const account_name account, uint32_t max_account_count) {
         require_auth(_self);
+        require_initialized();
         _state = _platform_state.get();
+        snax_assert(
+                !_state.updating,
+                "platform must not be in updating state when dropaccount action is called"
+        );
 
         uint32_t removed_registered_accounts = 0;
         uint32_t removed_accounts = 0;
