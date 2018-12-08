@@ -191,15 +191,24 @@ namespace snax {
     /// @abi action dropaccount
     void platform::dropaccount(const account_name account, uint32_t max_account_count) {
         require_auth(_self);
+        _state = _platform_state.get();
 
+        uint32_t removed_registered_accounts = 0;
+        uint32_t removed_accounts = 0;
         while (max_account_count--) {
             const auto account_index = _accounts.get_index<N(name)>();
             const auto& found = account_index.find(account);
             if (found == account_index.end()) {
                 break;
             }
+            if (found->name) removed_registered_accounts++;
+            removed_accounts++;
             _accounts.erase(_accounts.find(found->id));
         }
+
+        _state.total_account_count -= removed_accounts;
+        _state.registered_account_count -= removed_registered_accounts;
+        _platform_state.set(_state, _self);
     }
 
     /// @abi action addaccount
