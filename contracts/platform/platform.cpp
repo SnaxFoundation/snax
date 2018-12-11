@@ -55,7 +55,6 @@ namespace snax {
         _platform_state.set(_state, _self);
     }
 
-
     /// @abi action sendpayments
     void platform::sendpayments(const uint64_t serial_num, uint64_t account_count) {
         require_auth(_self);
@@ -71,7 +70,7 @@ namespace snax {
 
         snax_assert(iter != end_iter, "cant find account with this serial number");
 
-        asset current_balance = get_balance();
+        asset current_balance = get_balance(_self);
         asset sent_amount = _state.round_supply - _state.round_supply;
 
         while (iter != end_iter && account_count--) {
@@ -114,13 +113,125 @@ namespace snax {
 
         const auto updated_account_count = total_accounts_to_update_count - account_count;
 
-        if (iter == end_iter && _state.round_updated_account_count + updated_account_count == _state.total_account_count) {
+        if (iter == end_iter && _state.round_updated_account_count + updated_account_count >= _state.total_account_count) {
             unlock_update(current_balance, sent_amount);
         } else {
             _state.round_updated_account_count += updated_account_count;
             _state.sent_amount += sent_amount;
             _platform_state.set(_state, _self);
         }
+    }
+
+    /// @abi action dropaccount
+    void platform::dropaccount(const account_name account, uint32_t max_account_count) {
+        require_auth(_self);
+        require_initialized();
+        _state = _platform_state.get();
+        snax_assert(
+                !_state.updating,
+                "platform must not be in updating state when dropaccount action is called"
+        );
+
+        uint32_t removed_registered_accounts = 0;
+        uint32_t removed_accounts = 0;
+        while (max_account_count--) {
+            const auto account_index = _accounts.get_index<N(name)>();
+            const auto& found = account_index.find(account);
+            if (found == account_index.end()) {
+                break;
+            }
+            if (found->name) removed_registered_accounts++;
+            removed_accounts++;
+            _accounts.erase(_accounts.find(found->id));
+        }
+
+        _state.total_account_count -= removed_accounts;
+        _state.registered_account_count -= removed_registered_accounts;
+        _platform_state.set(_state, _self);
+    }
+
+    /// @abi action addaccount
+    void platform::addaccount(const account_name account, const uint64_t id, const double attention_rate) {
+        require_auth(_self);
+        require_initialized();
+        _state = _platform_state.get();
+
+        snax_assert(
+                !_state.updating,
+                "platform must not be in updating state when addaccount action is called"
+        );
+
+        snax_assert(attention_rate >= 0, "attention rate must be greater than zero or equal to zero");
+        const auto& found = _accounts.find(id);
+        snax_assert(found == _accounts.end() || !found->name, "user already exists");
+
+        claim_transfered(id, account);
+
+        if (found == _accounts.end()) {
+            _accounts.emplace(
+                    _self, [&](auto &record) {
+                        record.attention_rate = attention_rate;
+                        record.id = id;
+                        record.name = account;
+                        record.serial = _state.total_account_count;
+                    }
+            );
+        } else {
+            _accounts.modify(
+                    found, _self, [&](auto &record) {
+                        const double diff = attention_rate - record.attention_rate;
+
+                        snax_assert(diff >= 0 || abs(diff) <= abs(record.attention_rate), "incorrect attention rate");
+
+                        record.attention_rate = attention_rate;
+                        record.name = account;
+                    }
+            );
+        }
+
+        if (_state.airdrop && account) {
+            action(permission_level{_self, N(active)}, _state.airdrop, N(request), make_tuple(_self, account)).send();
+        }
+
+        update_state_total_attention_rate_and_user_count(attention_rate, 1, account != 0);
+    };
+
+    /// @abi action addaccounts
+    void platform::addaccounts(vector<account_to_add> &accounts_to_add) {
+        require_auth(_self);
+        require_initialized();
+        _state = _platform_state.get();
+
+        snax_assert(
+                !_state.updating,
+                "platform must not be in updating state when addaccount action is called"
+        );
+
+        double accumulated_attention_rate = 0;
+        uint32_t index = 0;
+        uint32_t registered_accounts = 0;
+
+        for (auto& account_to_add: accounts_to_add) {
+            const auto& found_account = _accounts.find(account_to_add.id);
+            snax_assert(_accounts.find(account_to_add.id) == _accounts.end() || !found_account->name, "user already exists");
+            snax_assert(account_to_add.attention_rate >= 0, "attention rate must be greater than zero or equal to zero");
+            accumulated_attention_rate += account_to_add.attention_rate;
+            if (account_to_add.name) {
+                registered_accounts++;
+            }
+            claim_transfered(account_to_add.id, account_to_add.name);
+            _accounts.emplace(
+                    _self, [&](auto &record) {
+                        record.attention_rate = account_to_add.attention_rate;
+                        record.id = account_to_add.id;
+                        record.name = account_to_add.name;
+                        record.serial = _state.total_account_count + index;
+                    }
+            );
+            index++;
+        }
+
+        update_state_total_attention_rate_and_user_count(accumulated_attention_rate, accounts_to_add.size(), registered_accounts);
     }
 
     /// @abi action updatear
@@ -188,123 +299,45 @@ namespace snax {
         update_state_total_attention_rate_and_user_count(total_attention_rate_diff, 0, 0);
     }
 
-    /// @abi action dropaccount
-    void platform::dropaccount(const account_name account, uint32_t max_account_count) {
-        require_auth(_self);
+    /// @abi action trasnfertou
+    void platform::transfertou(const account_name from, const uint64_t to, const asset amount) {
+        require_auth(from);
         require_initialized();
-        _state = _platform_state.get();
-        snax_assert(
-                !_state.updating,
-                "platform must not be in updating state when dropaccount action is called"
-        );
 
-        uint32_t removed_registered_accounts = 0;
-        uint32_t removed_accounts = 0;
-        while (max_account_count--) {
-            const auto account_index = _accounts.get_index<N(name)>();
-            const auto& found = account_index.find(account);
-            if (found == account_index.end()) {
-                break;
-            }
-            if (found->name) removed_registered_accounts++;
-            removed_accounts++;
-            _accounts.erase(_accounts.find(found->id));
-        }
+        const asset balance = get_balance(from);
 
-        _state.total_account_count -= removed_accounts;
-        _state.registered_account_count -= removed_registered_accounts;
-        _platform_state.set(_state, _self);
-    }
+        snax_assert(balance >= amount, "from account doesnt have enough tokens");
 
-    /// @abi action addaccount
-    void platform::addaccount(const account_name account, const uint64_t id, const double attention_rate) {
-        require_auth(_self);
-        require_initialized();
-        _state = _platform_state.get();
+        const auto& to_account = _accounts.find(to);
 
-        snax_assert(
-                !_state.updating,
-                "platform must not be in updating state when addaccount action is called"
-        );
-
-        snax_assert(attention_rate >= 0, "attention rate must be greater than zero or equal to zero");
-        const auto& found = _accounts.find(id);
-        snax_assert(found == _accounts.end() || !found->name, "user already exists");
-
-        if (found == _accounts.end()) {
-            _accounts.emplace(
-                    _self, [&](auto &record) {
-                        record.attention_rate = attention_rate;
-                        record.id = id;
-                        record.name = account;
-                        record.serial = _state.total_account_count;
-                    }
-            );
+        if (to_account != _accounts.end() && to_account->name) {
+            action(permission_level{from, N(active)}, N(snax.token), N(transfer), make_tuple(from, to_account->name, amount, string("social transaction"))).send();
         } else {
-            _accounts.modify(
-                    found, _self, [&](auto &record) {
-                        const double diff = attention_rate - record.attention_rate;
+            action(permission_level{from, N(active)}, N(snax.token), N(transfer), make_tuple(from, N(snax.transf), amount, string("social transaction"))).send();
+            const auto& found_transfer = _transfers.find(to);
 
-                        snax_assert(diff >= 0 || abs(diff) <= abs(record.attention_rate), "incorrect attention rate");
-
-                        record.attention_rate = attention_rate;
-                        record.name = account;
-                    }
-            );
-        }
-
-        if (_state.airdrop && account) {
-            action(permission_level{_self, N(active)}, _state.airdrop, N(request), make_tuple(_self, account)).send();
-        }
-
-        update_state_total_attention_rate_and_user_count(attention_rate, 1, account != 0);
-    };
-
-    /// @abi action addaccount
-    void platform::addaccounts(vector<account_to_add> &accounts_to_add) {
-        require_auth(_self);
-        require_initialized();
-        _state = _platform_state.get();
-
-        snax_assert(
-                !_state.updating,
-                "platform must not be in updating state when addaccount action is called"
-        );
-
-        double accumulated_attention_rate = 0;
-        uint32_t index = 0;
-        uint32_t registered_accounts = 0;
-
-        for (auto& account_to_add: accounts_to_add) {
-            const auto& found_account = _accounts.find(account_to_add.id);
-            snax_assert(_accounts.find(account_to_add.id) == _accounts.end() || !found_account->name, "user already exists");
-            snax_assert(account_to_add.attention_rate >= 0, "attention rate must be greater than zero or equal to zero");
-            accumulated_attention_rate += account_to_add.attention_rate;
-            if (account_to_add.name) {
-                registered_accounts++;
+            if (found_transfer != _transfers.end()) {
+                _transfers.modify(found_transfer, _self, [&](auto& transfer) {
+                    transfer.amount += amount;
+                });
+            } else {
+                _transfers.emplace(_self, [&](auto& transfer) {
+                    transfer.amount += amount;
+                    transfer.id = to;
+                });
             }
-            _accounts.emplace(
-                    _self, [&](auto &record) {
-                        record.attention_rate = account_to_add.attention_rate;
-                        record.id = account_to_add.id;
-                        record.name = account_to_add.name;
-                        record.serial = _state.total_account_count + index;
-                    }
-            );
-            index++;
         }
 
-        update_state_total_attention_rate_and_user_count(accumulated_attention_rate, accounts_to_add.size(), registered_accounts);
     }
 
-    asset platform::get_balance() {
+    asset platform::get_balance(const account_name account) {
         require_initialized();
         _state = _platform_state.get();
 
-        _accounts_balances balances(N(snax.token), _self);
+        _accounts_balances balances(N(snax.token), account);
         const auto& platform_balance = balances.find(_state.round_supply.symbol.name());
-        snax_assert(platform_balance != balances.end(), "platform has no balance");
-        return platform_balance->balance;
+        const auto result = platform_balance != balances.end() ? platform_balance->balance: asset(0);
+        return result;
     }
 
     void platform::update_state_total_attention_rate_and_user_count(const double additional_attention_rate, const uint64_t new_accounts, const uint64_t new_registered_accounts) {
@@ -315,6 +348,20 @@ namespace snax {
         _state.total_account_count += new_accounts;
         _state.registered_account_count += new_registered_accounts;
         _platform_state.set(_state, _self);
+    }
+
+    void platform::claim_transfered(const uint64_t id, const account_name account) {
+        require_auth(_self);
+        require_initialized();
+
+        if (!account) return;
+
+        const auto& found = _transfers.find(id);
+
+        if (found != _transfers.end()) {
+            action(permission_level{N(snax.transf), N(active)}, N(snax.token), N(transfer), make_tuple(N(snax.transf), account, found->amount, string("social transaction"))).send();
+            _transfers.erase(found);
+        }
     }
 
     // Only contract itself is allowed to unlock update
@@ -351,5 +398,5 @@ namespace snax {
     }
 }
 
-SNAX_ABI(snax::platform, (initialize)(lockupdate)(nextround)(sendpayments)(addaccount)(addaccounts)(updatear)
+SNAX_ABI(snax::platform, (initialize)(lockupdate)(nextround)(sendpayments)(addaccount)(addaccounts)(updatear)(transfertou)
 (updatearmult))

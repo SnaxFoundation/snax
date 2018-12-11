@@ -36,7 +36,7 @@ namespace snax {
         };
 
         platform( account_name s )
-        :contract(s), _accounts(s, s), _platform_state(s, s)
+        :contract(s), _accounts(s, s), _platform_state(s, s), _transfers(s, s)
          {}
 
         /// @abi action initialize
@@ -66,8 +66,23 @@ namespace snax {
         /// @abi action addaccounts
         void addaccounts(vector<account_to_add>& accounts_to_add);
 
+        /// @abi action transfertou
+        void transfertou(account_name from, uint64_t to, asset amount);
+
 
     private:
+
+        /// @abi table transfers i64
+        struct transfer_rec {
+            uint64_t id;
+            asset amount;
+
+            uint64_t primary_key() const {
+                return id;
+            }
+
+            SNAXLIB_SERIALIZE(transfer_rec, (id)(amount))
+        };
 
         /// @abi table paccounts i64
         struct account {
@@ -122,12 +137,14 @@ namespace snax {
         };
 
         typedef multi_index<N(accounts), account_with_balance> _accounts_balances;
+        typedef multi_index<N(transfers), transfer_rec> transfers_table;
         typedef multi_index<N(paccounts), account, indexed_by<N(serial), const_mem_fun<account, uint64_t, &account::by_serial>>, indexed_by<N(name), const_mem_fun<account, uint64_t, &account::by_account>>> acctable;
         typedef singleton<N(state), state> platform_state;
 
         acctable _accounts;
         platform_state _platform_state;
         state _state;
+        transfers_table _transfers;
 
         // Only contract itself is allowed to unlock update
         void unlock_update(asset current_amount, asset sent_amount);
@@ -142,7 +159,9 @@ namespace snax {
 
         void update_state_total_attention_rate_and_user_count(double additional_attention_rate, uint64_t new_accounts, uint64_t new_registered_accounts);
 
-        asset get_balance();
+        asset get_balance(account_name account);
+
+        void claim_transfered(uint64_t id, account_name account);
 
     };
 
