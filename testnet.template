@@ -92,6 +92,7 @@ ecmd create account snax snax.ramfee $pubsyskey $pubsyskey
 ecmd create account snax snax.stake $pubsyskey $pubsyskey
 ecmd create account snax snax.token $pubsyskey $pubsyskey
 ecmd create account snax snax.vpay $pubsyskey $pubsyskey
+ecmd create account snax snax.transf $pubsyskey $pubsyskey
 ecmd create account snax snax.team $pubsyskey $pubsyskey
 ecmd create account snax snax.airdrop $pubsyskey $pubsyskey
 ecmd create account snax snax.creator $pubsyskey $pubsyskey
