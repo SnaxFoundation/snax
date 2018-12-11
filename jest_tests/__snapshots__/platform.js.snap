@@ -51,7 +51,7 @@ Object {
     Object {
       "account": "test1",
       "created": Object {
-        "slot": 1195752804,
+        "slot": 1195754018,
       },
       "id": 40,
     },
@@ -229,6 +229,63 @@ Array [
 ]
 `;
 
+exports[`Platform should process social transfer correctly 1`] = `
+Object {
+  "more": false,
+  "rows": Array [
+    Object {
+      "amount": "20.0000 SNAX",
+      "id": 15,
+    },
+  ],
+}
+`;
+
+exports[`Platform should process social transfer correctly 2`] = `
+Array [
+  Object {
+    "more": false,
+    "rows": Array [
+      Object {
+        "balance": "980.0000 SNAX",
+      },
+    ],
+  },
+  Object {
+    "more": false,
+    "rows": Array [],
+  },
+]
+`;
+
+exports[`Platform should process social transfer correctly 3`] = `
+Object {
+  "more": false,
+  "rows": Array [],
+}
+`;
+
+exports[`Platform should process social transfer correctly 4`] = `
+Array [
+  Object {
+    "more": false,
+    "rows": Array [
+      Object {
+        "balance": "980.0000 SNAX",
+      },
+    ],
+  },
+  Object {
+    "more": false,
+    "rows": Array [
+      Object {
+        "balance": "20.0000 SNAX",
+      },
+    ],
+  },
+]
+`;
+
 exports[`Platform should update account's attention rate correctly 1`] = `
 Object {
   "more": false,
@@ -324,7 +381,7 @@ Object {
     Object {
       "account": "test1",
       "created": Object {
-        "slot": 1195752776,
+        "slot": 1195753984,
       },
       "id": 42,
     },
