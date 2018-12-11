@@ -322,7 +322,7 @@ namespace snax {
                 });
             } else {
                 _transfers.emplace(_self, [&](auto& transfer) {
-                    transfer.amount += amount;
+                    transfer.amount = amount;
                     transfer.id = to;
                 });
             }
