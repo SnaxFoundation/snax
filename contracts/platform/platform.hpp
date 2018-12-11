@@ -36,7 +36,7 @@ namespace snax {
         };
 
         platform( account_name s )
-        :contract(s), _accounts(s, s), _platform_state(s, s)
+        :contract(s), _accounts(s, s), _platform_state(s, s), _pending_accounts(s, s)
          {}
 
         /// @abi action initialize
@@ -50,6 +50,12 @@ namespace snax {
 
         /// @abi action sendpayments
         void sendpayments(uint64_t serial, uint64_t account_count);
+
+        /// @abi action addpenacc
+        void addpenacc(const account_name account, const uint64_t id);
+
+        /// @abi action droppenacc
+        void droppenacc(const account_name account);
 
         /// @abi action updatear
         void updatear(uint64_t id, double attention_rate, bool add_account_if_not_exist);
@@ -68,6 +74,27 @@ namespace snax {
 
 
     private:
+
+        /// @abi table peaccounts i64
+        struct pending_rec {
+            account_name account;
+            uint64_t id;
+            block_timestamp created;
+
+            uint64_t primary_key() const {
+                return account;
+            }
+
+            uint64_t by_id() const {
+                return id;
+            }
+
+            uint64_t by_created() const {
+                return created.to_time_point().time_since_epoch().count();
+            }
+
+            SNAXLIB_SERIALIZE(pending_rec, (account)(id)(created));
+        };
 
         /// @abi table paccounts i64
         struct account {
@@ -123,9 +150,11 @@ namespace snax {
 
         typedef multi_index<N(accounts), account_with_balance> _accounts_balances;
         typedef multi_index<N(paccounts), account, indexed_by<N(serial), const_mem_fun<account, uint64_t, &account::by_serial>>, indexed_by<N(name), const_mem_fun<account, uint64_t, &account::by_account>>> acctable;
+        typedef multi_index<N(peaccounts), pending_rec, indexed_by<N(created), const_mem_fun<pending_rec, uint64_t, &pending_rec::by_created>>> peacctable;
         typedef singleton<N(state), state> platform_state;
 
         acctable _accounts;
+        peacctable _pending_accounts;
         platform_state _platform_state;
         state _state;
 

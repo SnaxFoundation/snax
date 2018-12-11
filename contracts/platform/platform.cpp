@@ -123,6 +123,34 @@ namespace snax {
         }
     }
 
+    /// @abi action addpenacc
+    void platform::addpenacc(const account_name account, const uint64_t id) {
+        require_auth(_self);
+        require_initialized();
+        _state = _platform_state.get();
+
+        const auto& found = _pending_accounts.find(account);
+
+        snax_assert(found == _pending_accounts.end(), "account already in pending queue");
+
+        _pending_accounts.emplace(_self, [&](auto& record) {
+            record.account = account;
+            record.id = id;
+            record.created = block_timestamp(snax::time_point_sec(now()));
+        });
+    }
+
+    /// @abi action droppenacc
+    void platform::droppenacc(const account_name account) {
+        require_auth(_self);
+        require_initialized();
+        const auto& found_acc = _pending_accounts.find(account);
+
+        snax_assert(found_acc != _pending_accounts.end(), "pending account not found");
+
+        _pending_accounts.erase(found_acc);
+    }
+
     /// @abi action updatear
     void platform::updatear(const uint64_t id, const double attention_rate, const bool add_account_if_not_exist) {
         require_auth(_self);
@@ -231,6 +259,12 @@ namespace snax {
         const auto& found = _accounts.find(id);
         snax_assert(found == _accounts.end() || !found->name, "user already exists");
 
+        const auto& pending = _pending_accounts.find(account);
+
+        if (pending != _pending_accounts.end()) {
+            _pending_accounts.erase(pending);
+        }
+
         if (found == _accounts.end()) {
             _accounts.emplace(
                     _self, [&](auto &record) {
@@ -280,17 +314,35 @@ namespace snax {
             snax_assert(_accounts.find(account_to_add.id) == _accounts.end() || !found_account->name, "user already exists");
             snax_assert(account_to_add.attention_rate >= 0, "attention rate must be greater than zero or equal to zero");
             accumulated_attention_rate += account_to_add.attention_rate;
+
             if (account_to_add.name) {
                 registered_accounts++;
             }
-            _accounts.emplace(
-                    _self, [&](auto &record) {
-                        record.attention_rate = account_to_add.attention_rate;
-                        record.id = account_to_add.id;
-                        record.name = account_to_add.name;
-                        record.serial = _state.total_account_count + index;
-                    }
-            );
+
+            const auto& pending = _pending_accounts.find(account_to_add.name);
+
+            if (pending != _pending_accounts.end()) {
+                _pending_accounts.erase(pending);
+            }
+
+            if (found_account != _accounts.end()) {
+                _accounts.modify(
+                        found_account, _self, [&](auto &record) {
+                            record.attention_rate = account_to_add.attention_rate;
+                            record.id = account_to_add.id;
+                            record.name = account_to_add.name;
+                        }
+                );
+            } else {
+                _accounts.emplace(
+                        _self, [&](auto &record) {
+                            record.attention_rate = account_to_add.attention_rate;
+                            record.id = account_to_add.id;
+                            record.name = account_to_add.name;
+                            record.serial = _state.total_account_count + index;
+                        }
+                );
+            }
             index++;
         }
 
@@ -351,5 +403,5 @@ namespace snax {
     }
 }
 
-SNAX_ABI(snax::platform, (initialize)(lockupdate)(nextround)(sendpayments)(addaccount)(addaccounts)(updatear)
+SNAX_ABI(snax::platform, (initialize)(lockupdate)(nextround)(addpenacc)(droppenacc)(sendpayments)(addaccount)(addaccounts)(updatear)
 (updatearmult))

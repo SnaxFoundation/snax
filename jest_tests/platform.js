@@ -40,6 +40,16 @@ describe("Platform", async () => {
     await sleep(6e3);
   });
 
+  const verifyPendingAccounts = async () => {
+    expect(
+      await api.rpc.get_table_rows({
+        code: account,
+        scope: account,
+        table: "peaccounts"
+      })
+    ).toMatchSnapshot();
+  };
+
   const verifyStatesAndAccounts = async () => {
     const [state, accounts] = await Promise.all([
       api.rpc.get_table_rows({
@@ -233,6 +243,57 @@ describe("Platform", async () => {
       }
     );
 
+  const addPendingAccount = (name, id) =>
+    api.transact(
+      {
+        actions: [
+          {
+            account: account,
+            name: "addpenacc",
+            authorization: [
+              {
+                actor: account,
+                permission: "active"
+              }
+            ],
+            data: {
+              account: name,
+              id
+            }
+          }
+        ]
+      },
+      {
+        blocksBehind: 1,
+        expireSeconds: 30
+      }
+    );
+
+  const dropPendingAccount = name =>
+    api.transact(
+      {
+        actions: [
+          {
+            account: account,
+            name: "droppenacc",
+            authorization: [
+              {
+                actor: account,
+                permission: "active"
+              }
+            ],
+            data: {
+              account: name
+            }
+          }
+        ]
+      },
+      {
+        blocksBehind: 1,
+        expireSeconds: 30
+      }
+    );
+
   const updateQualityRateMulti = updates =>
     api.transact(
       {
@@ -255,6 +316,30 @@ describe("Platform", async () => {
         expireSeconds: 30
       }
     );
+
+  it("should work with pending account correctly", async () => {
+    await initialize();
+    await verifyPendingAccounts();
+    await addPendingAccount("test1", 42);
+    await verifyPendingAccounts();
+    await verifyStatesAndAccounts();
+    await addUser({
+      account: "test1",
+      id: 42,
+      attention_rate: 225.0
+    });
+    await verifyPendingAccounts();
+    await verifyStatesAndAccounts();
+  });
+
+  it("should drop pending account correctly", async () => {
+    await initialize();
+    await verifyPendingAccounts();
+    await addPendingAccount("test1", 40);
+    await verifyPendingAccounts();
+    await dropPendingAccount("test1");
+    await verifyStatesAndAccounts();
+  });
 
   it("should process next round correctly", async () => {
     await initialize();
