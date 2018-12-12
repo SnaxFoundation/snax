@@ -29,6 +29,7 @@ Object {
     Object {
       "attention_rate": "15.00000000000000000",
       "id": 123,
+      "last_attention_rate_updated_step_number": 0,
       "last_updated_step_number": 0,
       "name": "test2",
       "serial": 0,
@@ -37,26 +38,15 @@ Object {
 }
 `;
 
-exports[`Platform should drop pending account correctly 1`] = `
-Object {
-  "more": false,
-  "rows": Array [],
-}
-`;
+exports[`Platform should drop pending account correctly 1`] = `Array []`;
 
 exports[`Platform should drop pending account correctly 2`] = `
-Object {
-  "more": false,
-  "rows": Array [
-    Object {
-      "account": "test1",
-      "created": Object {
-        "slot": 1195752804,
-      },
-      "id": 40,
-    },
-  ],
-}
+Array [
+  Object {
+    "account": "test1",
+    "id": 40,
+  },
+]
 `;
 
 exports[`Platform should drop pending account correctly 3`] = `
@@ -171,6 +161,7 @@ Object {
     Object {
       "attention_rate": "15.00000000000000000",
       "id": 123,
+      "last_attention_rate_updated_step_number": 0,
       "last_updated_step_number": 1,
       "name": "test2",
       "serial": 0,
@@ -178,6 +169,7 @@ Object {
     Object {
       "attention_rate": "206.00000000000000000",
       "id": 1007,
+      "last_attention_rate_updated_step_number": 0,
       "last_updated_step_number": 1,
       "name": "test1",
       "serial": 3,
@@ -185,6 +177,7 @@ Object {
     Object {
       "attention_rate": "225.00000000000000000",
       "id": 1105,
+      "last_attention_rate_updated_step_number": 0,
       "last_updated_step_number": 1,
       "name": "test1",
       "serial": 1,
@@ -192,6 +185,7 @@ Object {
     Object {
       "attention_rate": "206.00000000000000000",
       "id": 1200,
+      "last_attention_rate_updated_step_number": 0,
       "last_updated_step_number": 1,
       "name": "test1",
       "serial": 2,
@@ -229,6 +223,63 @@ Array [
 ]
 `;
 
+exports[`Platform should process social transfer correctly 1`] = `
+Object {
+  "more": false,
+  "rows": Array [
+    Object {
+      "amount": "20.0000 SNAX",
+      "id": 15,
+    },
+  ],
+}
+`;
+
+exports[`Platform should process social transfer correctly 2`] = `
+Array [
+  Object {
+    "more": false,
+    "rows": Array [
+      Object {
+        "balance": "980.0000 SNAX",
+      },
+    ],
+  },
+  Object {
+    "more": false,
+    "rows": Array [],
+  },
+]
+`;
+
+exports[`Platform should process social transfer correctly 3`] = `
+Object {
+  "more": false,
+  "rows": Array [],
+}
+`;
+
+exports[`Platform should process social transfer correctly 4`] = `
+Array [
+  Object {
+    "more": false,
+    "rows": Array [
+      Object {
+        "balance": "980.0000 SNAX",
+      },
+    ],
+  },
+  Object {
+    "more": false,
+    "rows": Array [
+      Object {
+        "balance": "20.0000 SNAX",
+      },
+    ],
+  },
+]
+`;
+
 exports[`Platform should update account's attention rate correctly 1`] = `
 Object {
   "more": false,
@@ -258,6 +309,7 @@ Object {
     Object {
       "attention_rate": "20.00000000000000000",
       "id": 123,
+      "last_attention_rate_updated_step_number": 1,
       "last_updated_step_number": 0,
       "name": "test2",
       "serial": 0,
@@ -295,6 +347,7 @@ Object {
     Object {
       "attention_rate": "25.00000000000000000",
       "id": 123,
+      "last_attention_rate_updated_step_number": 1,
       "last_updated_step_number": 0,
       "name": "test2",
       "serial": 0,
@@ -302,6 +355,7 @@ Object {
     Object {
       "attention_rate": "20.00000000000000000",
       "id": 243,
+      "last_attention_rate_updated_step_number": 1,
       "last_updated_step_number": 0,
       "name": "test1",
       "serial": 1,
@@ -310,26 +364,15 @@ Object {
 }
 `;
 
-exports[`Platform should work with pending account correctly 1`] = `
-Object {
-  "more": false,
-  "rows": Array [],
-}
-`;
+exports[`Platform should work with pending account correctly 1`] = `Array []`;
 
 exports[`Platform should work with pending account correctly 2`] = `
-Object {
-  "more": false,
-  "rows": Array [
-    Object {
-      "account": "test1",
-      "created": Object {
-        "slot": 1195752776,
-      },
-      "id": 42,
-    },
-  ],
-}
+Array [
+  Object {
+    "account": "test1",
+    "id": 42,
+  },
+]
 `;
 
 exports[`Platform should work with pending account correctly 3`] = `
@@ -361,12 +404,7 @@ Object {
 }
 `;
 
-exports[`Platform should work with pending account correctly 5`] = `
-Object {
-  "more": false,
-  "rows": Array [],
-}
-`;
+exports[`Platform should work with pending account correctly 5`] = `Array []`;
 
 exports[`Platform should work with pending account correctly 6`] = `
 Object {
@@ -397,6 +435,7 @@ Object {
     Object {
       "attention_rate": "225.00000000000000000",
       "id": 42,
+      "last_attention_rate_updated_step_number": 0,
       "last_updated_step_number": 0,
       "name": "test1",
       "serial": 0,
@@ -440,6 +479,7 @@ Object {
     Object {
       "attention_rate": "225.00000000000000000",
       "id": 1105,
+      "last_attention_rate_updated_step_number": 0,
       "last_updated_step_number": 0,
       "name": "test1",
       "serial": 0,
@@ -479,6 +519,7 @@ Object {
     Object {
       "attention_rate": "15.00000000000000000",
       "id": 123,
+      "last_attention_rate_updated_step_number": 0,
       "last_updated_step_number": 0,
       "name": "test2",
       "serial": 0,
@@ -549,6 +590,7 @@ Object {
     Object {
       "attention_rate": "15.00000000000000000",
       "id": 123,
+      "last_attention_rate_updated_step_number": 0,
       "last_updated_step_number": 0,
       "name": "test2",
       "serial": 0,

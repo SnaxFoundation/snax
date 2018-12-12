@@ -19,7 +19,14 @@ const { account, privateKey } = {
   privateKey: "5KQwrPbwdL6PhXujxW37FSSQZ1JiwsST4cqQzDeyXtP79zkvFD3"
 };
 
-const signatureProvider = new snaxjs.JsSignatureProvider([privateKey]);
+const signatureProvider = new snaxjs.JsSignatureProvider([
+  "5HvtgZn4wf4vNAe3nRb9vjYfLqvasemsSQckVHxmdAeBRbdPURs",
+  "5KQwrPbwdL6PhXujxW37FSSQZ1JiwsST4cqQzDeyXtP79zkvFD3",
+  "5JD9AGTuTeD5BXZwGQ5AtwBqHK21aHmYnTetHgk1B3pjj7krT8N",
+  "5JcWXD3XkpEYbwiVK9Pd3X5bLxLkaUkkJiST3Y9iA4wFrTeyeVL",
+  "5JLYkoKuNXGGvUtzjRnP8DqUwt7xny3YGVaDpeqFDdCJKBoBkNC",
+  "5JRjkPFeRVGMRLaAa5gkGiC2acf8KT4NkAw1SZ5R7S1gvcCawZh"
+]);
 const api = new snaxjs.Api({
   rpc,
   signatureProvider,
@@ -42,11 +49,11 @@ describe("Platform", async () => {
 
   const verifyPendingAccounts = async () => {
     expect(
-      await api.rpc.get_table_rows({
+      (await api.rpc.get_table_rows({
         code: account,
         scope: account,
         table: "peaccounts"
-      })
+      })).rows.map(({ created, ...object }) => object)
     ).toMatchSnapshot();
   };
 
@@ -65,6 +72,16 @@ describe("Platform", async () => {
     ]);
     expect(state).toMatchSnapshot();
     expect(accounts).toMatchSnapshot();
+  };
+
+  const verifyTransferTable = async () => {
+    expect(
+      await api.rpc.get_table_rows({
+        code: account,
+        scope: account,
+        table: "transfers"
+      })
+    ).toMatchSnapshot();
   };
 
   const verifyAccountsBalances = async accounts => {
@@ -134,6 +151,33 @@ describe("Platform", async () => {
             ],
             data: {
               ...accountObj
+            }
+          }
+        ]
+      },
+      {
+        blocksBehind: 1,
+        expireSeconds: 30
+      }
+    );
+
+  const socialTransfer = (from, to, amount) =>
+    api.transact(
+      {
+        actions: [
+          {
+            account: account,
+            name: "transfertou",
+            authorization: [
+              {
+                actor: from,
+                permission: "active"
+              }
+            ],
+            data: {
+              from,
+              to,
+              amount
             }
           }
         ]
@@ -339,6 +383,20 @@ describe("Platform", async () => {
     await verifyPendingAccounts();
     await dropPendingAccount("test1");
     await verifyStatesAndAccounts();
+  });
+
+  it("should process social transfer correctly", async () => {
+    await initialize();
+    await socialTransfer("test.transf", 15, "20.0000 SNAX");
+    await verifyTransferTable();
+    await verifyAccountsBalances(["test.transf", "test1"]);
+    await addUser({
+      account: "test1",
+      id: 15,
+      attention_rate: 15.0
+    });
+    await verifyTransferTable();
+    await verifyAccountsBalances(["test.transf", "test1"]);
   });
 
   it("should process next round correctly", async () => {
