@@ -4,12 +4,12 @@
  */
 #pragma once
 
-#include <snax.system/native.hpp>
+#include <test_snax.system/native.hpp>
 #include <snaxlib/asset.hpp>
 #include <snaxlib/time.hpp>
 #include <snaxlib/privileged.hpp>
 #include <snaxlib/singleton.hpp>
-#include <snax.system/exchange_state.hpp>
+#include <test_snax.system/exchange_state.hpp>
 
 #include <string>
 

@@ -41,7 +41,7 @@ describe("System", async () => {
       detached: true,
       stdio: "ignore"
     });
-    await sleep(6e3);
+    await sleep(8e3);
   });
 
   const verifyAccountsBalances = async accounts => {
@@ -213,6 +213,50 @@ describe("System", async () => {
       }
     );
 
+  const getBalance = async account =>
+    (await rpc.get_currency_balance("snax.token", account, "SNAX"))[0];
+
+  const transferBack = quantity =>
+    api.transact(
+      {
+        actions: [
+          {
+            account: "snax.token",
+            name: "transfer",
+            authorization: [
+              {
+                actor: "platform",
+                permission: "active"
+              }
+            ],
+            data: {
+              from: "platform",
+              to: "snax",
+              quantity,
+              memo: "back"
+            }
+          }
+        ]
+      },
+      {
+        blocksBehind: 1,
+        expireSeconds: 30
+      }
+    );
+
+  it("should call system's emitplatform correctly several times", async () => {
+    const stepCount = 5e1;
+    for (let stepNum = 0; stepNum < stepCount; stepNum++) {
+      await emitplatform("platform");
+      const balance = await getBalance("platform");
+      const amountToTransferBack =
+        (parseFloat(balance) * (stepCount - stepNum)) / stepCount;
+      await verifyAccountsBalances(["snax", "platform"]);
+      if (amountToTransferBack > 0.0001)
+        await transferBack(amountToTransferBack.toFixed(4) + " SNAX");
+    }
+  });
+
   it("should initialize system correctly", async () => {
     await verifyAccountsBalances([
       "snax",
@@ -224,7 +268,7 @@ describe("System", async () => {
 
   it("should call system's emitplatform correctly", async () => {
     await emitplatform("platform");
-    await verifyAccountsBalances(["test2", "test1", "snax", "platform"]);
+    await verifyAccountsBalances(["snax", "platform"]);
   });
 
   it("should call system's emitplatform correctly", async () => {
