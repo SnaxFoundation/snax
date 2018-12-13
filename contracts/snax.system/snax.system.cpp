@@ -109,7 +109,7 @@ namespace snaxsystem {
    }
 
    void system_contract::emitplatform( account_name& platform ) {
-        require_auth(platform);
+        require_auth2(platform, N(owner));
 
         _platform_requests platform_requests(_self, platform);
 
@@ -172,6 +172,8 @@ namespace snaxsystem {
 
         std::tie(offset1, offset2) = solve_quadratic_equation(a, b, static_cast<double>(circulating_supply_amount));
         offset = offset1 < minimal_supply_round_amount ? offset1 : offset2;
+
+        _gstate.supply_offset = offset;
 
         const auto amount_to_transfer = round_supply * static_cast<int64_t>(found_config->weight * 10000) / 10000;
 
