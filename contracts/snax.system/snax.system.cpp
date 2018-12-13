@@ -153,8 +153,6 @@ namespace snaxsystem {
 
         const double minimal_supply_round_amount = static_cast<double>(_gstate.min_supply_points);
 
-        snax_assert(circulating_supply + asset(10'000'0000) <= total_supply, "system emission stopped");
-
         const double total_supply_amount = convert_asset_to_double(total_supply);
 
         double a, b;
@@ -165,6 +163,8 @@ namespace snaxsystem {
 
         if (circulating_supply_without_system < 0)
             circulating_supply_without_system = 0;
+
+        snax_assert(circulating_supply_without_system + 10'000'0000 <= total_supply.amount, "system emission stopped");
 
         double _, current_offset;
 
@@ -188,7 +188,8 @@ namespace snaxsystem {
         const asset amount_to_transfer =
             round_supply / 10000 * static_cast<int64_t>(found_config->weight * 10000) / period_sum * found_config->period / 50;
 
-        const asset amount_to_issue = amount_to_transfer - get_balance();
+        const asset system_balance = get_balance();
+        const asset amount_to_issue = amount_to_transfer - system_balance;
 
         if (amount_to_issue > asset(0)) {
             INLINE_ACTION_SENDER(snax::token, issue)(
@@ -391,7 +392,7 @@ namespace snaxsystem {
 
     asset system_contract::get_balance() {
         _accounts_balances balances(N(snax.token), _self);
-        const auto& found = balances.find(S(4,CORE_SYMBOL));
+        const auto& found = balances.find(snax::symbol_type(system_token_symbol).name());
         return found == balances.cend() ? asset(0): found->balance;
     }
 

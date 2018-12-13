@@ -41,7 +41,7 @@ describe("System", async () => {
       detached: true,
       stdio: "ignore"
     });
-    await sleep(8e3);
+    await sleep(10e3);
   });
 
   const verifyAccountsBalances = async accounts => {
@@ -269,11 +269,6 @@ describe("System", async () => {
   it("should call system's emitplatform correctly", async () => {
     await emitplatform("platform");
     await verifyAccountsBalances(["snax", "platform"]);
-  });
-
-  it("should call system's emitplatform correctly", async () => {
-    await emitplatform("platform");
-    await verifyAccountsBalances(["test2", "test1", "snax", "platform"]);
   });
 
   it("should undelegate snax.team resources correctly", async () => {

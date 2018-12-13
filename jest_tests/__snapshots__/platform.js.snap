@@ -125,7 +125,7 @@ Array [
     "more": false,
     "rows": Array [
       Object {
-        "balance": "1990000000.0000 SNAX",
+        "balance": "1579999980.0000 SNAX",
       },
     ],
   },
@@ -143,7 +143,7 @@ Object {
       "registered_account_count": 4,
       "round_supply": "0.0000 SNAX",
       "round_updated_account_count": 0,
-      "sent_amount": "1990000000.0000 SNAX",
+      "sent_amount": "1579999980.0000 SNAX",
       "step_number": 1,
       "token_dealer": "snax",
       "total_account_count": 4,
@@ -200,7 +200,7 @@ Array [
     "more": false,
     "rows": Array [
       Object {
-        "balance": "46279069.7674 SNAX",
+        "balance": "36744185.5813 SNAX",
       },
     ],
   },
@@ -208,7 +208,7 @@ Array [
     "more": false,
     "rows": Array [
       Object {
-        "balance": "1943720930.2326 SNAX",
+        "balance": "1543255794.4187 SNAX",
       },
     ],
   },
