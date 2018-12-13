@@ -46,7 +46,7 @@ namespace snax {
         _state = _platform_state.get();
         snax_assert(_state.updating == 1, "platform must be in updating state when nextround action is called");
 
-        action(permission_level{_self, N(active)}, _state.token_dealer, N(emitplatform), make_tuple(_self)).send();
+        action(permission_level{_self, N(owner)}, _state.token_dealer, N(emitplatform), make_tuple(_self)).send();
 
         _state.step_number++;
         _state.round_updated_account_count = 0;
@@ -54,7 +54,6 @@ namespace snax {
 
         _platform_state.set(_state, _self);
     }
-
 
     /// @abi action sendpayments
     void platform::sendpayments(const uint64_t serial_num, uint64_t account_count) {
@@ -71,7 +70,7 @@ namespace snax {
 
         snax_assert(iter != end_iter, "cant find account with this serial number");
 
-        asset current_balance = get_balance();
+        asset current_balance = get_balance(_self);
         asset sent_amount = _state.round_supply - _state.round_supply;
 
         while (iter != end_iter && account_count--) {
@@ -114,13 +113,41 @@ namespace snax {
 
         const auto updated_account_count = total_accounts_to_update_count - account_count;
 
-        if (iter == end_iter && _state.round_updated_account_count + updated_account_count == _state.total_account_count) {
+        if (iter == end_iter && _state.round_updated_account_count + updated_account_count >= _state.total_account_count) {
             unlock_update(current_balance, sent_amount);
         } else {
             _state.round_updated_account_count += updated_account_count;
             _state.sent_amount += sent_amount;
             _platform_state.set(_state, _self);
         }
+    }
+
+    /// @abi action addpenacc
+    void platform::addpenacc(const account_name account, const uint64_t id) {
+        require_auth(_self);
+        require_initialized();
+        _state = _platform_state.get();
+
+        const auto& found = _pending_accounts.find(account);
+
+        snax_assert(found == _pending_accounts.end(), "account already in pending queue");
+
+        _pending_accounts.emplace(_self, [&](auto& record) {
+            record.account = account;
+            record.id = id;
+            record.created = block_timestamp(snax::time_point_sec(now()));
+        });
+    }
+
+    /// @abi action droppenacc
+    void platform::droppenacc(const account_name account) {
+        require_auth(_self);
+        require_initialized();
+        const auto& found_acc = _pending_accounts.find(account);
+
+        snax_assert(found_acc != _pending_accounts.end(), "pending account not found");
+
+        _pending_accounts.erase(found_acc);
     }
 
     /// @abi action updatear
@@ -146,6 +173,7 @@ namespace snax {
             _accounts.modify(
                     found, _self, [&](auto &record) {
                         record.attention_rate = attention_rate;
+                        record.last_attention_rate_updated_step_number = _state.step_number + 1;
                     }
             );
         } else {
@@ -176,6 +204,7 @@ namespace snax {
                 _accounts.modify(
                         account, _self, [&](auto &record) {
                             record.attention_rate = attention_rate;
+                            record.last_attention_rate_updated_step_number = _state.step_number + 1;
                         }
                 );
 
@@ -231,6 +260,14 @@ namespace snax {
         const auto& found = _accounts.find(id);
         snax_assert(found == _accounts.end() || !found->name, "user already exists");
 
+        const auto& pending = _pending_accounts.find(account);
+
+        if (pending != _pending_accounts.end()) {
+            _pending_accounts.erase(pending);
+        }
+
+        claim_transfered(id, account);
+
         if (found == _accounts.end()) {
             _accounts.emplace(
                     _self, [&](auto &record) {
@@ -260,7 +297,7 @@ namespace snax {
         update_state_total_attention_rate_and_user_count(attention_rate, 1, account != 0);
     };
 
-    /// @abi action addaccount
+    /// @abi action addaccounts
     void platform::addaccounts(vector<account_to_add> &accounts_to_add) {
         require_auth(_self);
         require_initialized();
@@ -280,34 +317,86 @@ namespace snax {
             snax_assert(_accounts.find(account_to_add.id) == _accounts.end() || !found_account->name, "user already exists");
             snax_assert(account_to_add.attention_rate >= 0, "attention rate must be greater than zero or equal to zero");
             accumulated_attention_rate += account_to_add.attention_rate;
+
             if (account_to_add.name) {
                 registered_accounts++;
             }
-            _accounts.emplace(
-                    _self, [&](auto &record) {
-                        record.attention_rate = account_to_add.attention_rate;
-                        record.id = account_to_add.id;
-                        record.name = account_to_add.name;
-                        record.serial = _state.total_account_count + index;
-                    }
-            );
+
+            const auto& pending = _pending_accounts.find(account_to_add.name);
+
+            if (pending != _pending_accounts.end()) {
+                _pending_accounts.erase(pending);
+            }
+
+            claim_transfered(account_to_add.id, account_to_add.name);
+
+            if (found_account != _accounts.end()) {
+                _accounts.modify(
+                        found_account, _self, [&](auto &record) {
+                            record.attention_rate = account_to_add.attention_rate;
+                            record.id = account_to_add.id;
+                            record.name = account_to_add.name;
+                        }
+                );
+            } else {
+                _accounts.emplace(
+                        _self, [&](auto &record) {
+                            record.attention_rate = account_to_add.attention_rate;
+                            record.id = account_to_add.id;
+                            record.name = account_to_add.name;
+                            record.serial = _state.total_account_count + index;
+                        }
+                );
+            }
             index++;
         }
 
         update_state_total_attention_rate_and_user_count(accumulated_attention_rate, accounts_to_add.size(), registered_accounts);
     }
 
-    asset platform::get_balance() {
+    /// @abi action trasnfertou
+    void platform::transfertou(const account_name from, const uint64_t to, const asset amount) {
+        require_auth(from);
+        require_initialized();
+
+        const asset balance = get_balance(from);
+
+        snax_assert(balance >= amount, "from account doesnt have enough tokens");
+
+        const auto& to_account = _accounts.find(to);
+
+        if (to_account != _accounts.end() && to_account->name) {
+            action(permission_level{from, N(active)}, N(snax.token), N(transfer), make_tuple(from, to_account->name, amount, string("social transaction"))).send();
+        } else {
+            action(permission_level{from, N(active)}, N(snax.token), N(transfer), make_tuple(from, N(snax.transf), amount, string("social transaction"))).send();
+            const auto& found_transfer = _transfers.find(to);
+
+            if (found_transfer != _transfers.end()) {
+                _transfers.modify(found_transfer, _self, [&](auto& transfer) {
+                    transfer.amount += amount;
+                });
+            } else {
+                _transfers.emplace(_self, [&](auto& transfer) {
+                    transfer.amount = amount;
+                    transfer.id = to;
+                });
+            }
+        }
+
+    }
+
+    asset platform::get_balance(const account_name account) {
         require_initialized();
         _state = _platform_state.get();
 
-        _accounts_balances balances(N(snax.token), _self);
+        _accounts_balances balances(N(snax.token), account);
         const auto& platform_balance = balances.find(_state.round_supply.symbol.name());
-        snax_assert(platform_balance != balances.end(), "platform has no balance");
-        return platform_balance->balance;
+        const auto result = platform_balance != balances.end() ? platform_balance->balance: asset(0);
+        return result;
     }
 
     void platform::update_state_total_attention_rate_and_user_count(const double additional_attention_rate, const uint64_t new_accounts, const uint64_t new_registered_accounts) {
+        require_auth(_self);
         require_initialized();
         _state = _platform_state.get();
 
@@ -317,8 +406,23 @@ namespace snax {
         _platform_state.set(_state, _self);
     }
 
+    void platform::claim_transfered(const uint64_t id, const account_name account) {
+        require_auth(_self);
+        require_initialized();
+
+        if (!account) return;
+
+        const auto& found = _transfers.find(id);
+
+        if (found != _transfers.end()) {
+            action(permission_level{N(snax.transf), N(active)}, N(snax.token), N(transfer), make_tuple(N(snax.transf), account, found->amount, string("social transaction"))).send();
+            _transfers.erase(found);
+        }
+    }
+
     // Only contract itself is allowed to unlock update
     void platform::unlock_update(const asset current_amount, const asset last_sent_amount) {
+        require_auth(_self);
         require_initialized();
         _state = _platform_state.get();
 
@@ -351,5 +455,5 @@ namespace snax {
     }
 }
 
-SNAX_ABI(snax::platform, (initialize)(lockupdate)(nextround)(sendpayments)(addaccount)(addaccounts)(updatear)
+SNAX_ABI(snax::platform, (initialize)(lockupdate)(nextround)(addpenacc)(droppenacc)(sendpayments)(addaccount)(addaccounts)(updatear)(transfertou)
 (updatearmult))

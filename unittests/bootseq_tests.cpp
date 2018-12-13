@@ -182,7 +182,7 @@ BOOST_FIXTURE_TEST_CASE( bootseq_test, bootseq_tester ) {
     try {
 
         // Create snax.msig and snax.token
-        create_accounts({N(snax.msig), N(snax.token), N(snax.ram), N(snax.ramfee), N(snax.stake), N(snax.vpay), N(snax.creator), N(snax.airdrop), N(snax.team), N(snax.bpay), N(snax.util) });
+        create_accounts({N(snax.msig), N(snax.token), N(snax.ram), N(snax.ramfee), N(snax.stake), N(snax.transf), N(snax.vpay), N(snax.creator), N(snax.airdrop), N(snax.team), N(snax.bpay), N(snax.util) });
 
         // Set code for the following accounts:
         //  - snax (code: snax.bios) (already set by tester constructor)

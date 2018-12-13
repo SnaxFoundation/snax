@@ -76,7 +76,7 @@ describe("System", async () => {
             authorization: [
               {
                 actor: platform,
-                permission: "active"
+                permission: "owner"
               }
             ],
             data: {
