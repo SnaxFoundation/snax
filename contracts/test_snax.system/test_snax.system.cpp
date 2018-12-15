@@ -1,4 +1,4 @@
-#include "snax.system.hpp"
+#include "test_snax.system.hpp"
 #include <snaxlib/dispatcher.hpp>
 
 #include "producer_pay.cpp"
@@ -213,11 +213,6 @@ namespace snaxsystem {
                 }
             );
         }
-
-        platform_requests.emplace(_self, [&](auto& record) {
-            record.token_amount = amount_to_transfer;
-            record.request = block_timestamp(current_time);
-        });
 
         _global.set( _gstate, _self );
 

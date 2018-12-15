@@ -8,17 +8,9 @@ Array [
   },
   Object {
     "more": false,
-    "rows": Array [],
-  },
-  Object {
-    "more": false,
-    "rows": Array [],
-  },
-  Object {
-    "more": false,
     "rows": Array [
       Object {
-        "balance": "1194000000.0000 SNAX",
+        "balance": "526666666.6666 SNAX",
       },
     ],
   },
@@ -43,14 +35,14 @@ Array [
     "more": false,
     "rows": Array [
       Object {
-        "balance": "1194000000.0000 SNAX",
+        "balance": "526666666.6666 SNAX",
       },
     ],
   },
 ]
 `;
 
-exports[`System should call system's emitplatform correctly 3`] = `
+exports[`System should call system's emitplatform correctly several times 1`] = `
 Array [
   Object {
     "more": false,
@@ -60,10 +52,36 @@ Array [
     "more": false,
     "rows": Array [
       Object {
-        "balance": "796000000.0000 SNAX",
+        "balance": "526666666.6666 SNAX",
       },
     ],
   },
+]
+`;
+
+exports[`System should call system's emitplatform correctly several times 2`] = `
+Array [
+  Object {
+    "more": false,
+    "rows": Array [
+      Object {
+        "balance": "3511111.1133 SNAX",
+      },
+    ],
+  },
+  Object {
+    "more": false,
+    "rows": Array [
+      Object {
+        "balance": "523155555.5533 SNAX",
+      },
+    ],
+  },
+]
+`;
+
+exports[`System should call system's emitplatform correctly several times 3`] = `
+Array [
   Object {
     "more": false,
     "rows": Array [],
@@ -72,7 +90,806 @@ Array [
     "more": false,
     "rows": Array [
       Object {
-        "balance": "1194000000.0000 SNAX",
+        "balance": "533618666.6644 SNAX",
+      },
+    ],
+  },
+]
+`;
+
+exports[`System should call system's emitplatform correctly several times 4`] = `
+Array [
+  Object {
+    "more": false,
+    "rows": Array [],
+  },
+  Object {
+    "more": false,
+    "rows": Array [
+      Object {
+        "balance": "544453955.5532 SNAX",
+      },
+    ],
+  },
+]
+`;
+
+exports[`System should call system's emitplatform correctly several times 5`] = `
+Array [
+  Object {
+    "more": false,
+    "rows": Array [],
+  },
+  Object {
+    "more": false,
+    "rows": Array [
+      Object {
+        "balance": "555704210.9598 SNAX",
+      },
+    ],
+  },
+]
+`;
+
+exports[`System should call system's emitplatform correctly several times 6`] = `
+Array [
+  Object {
+    "more": false,
+    "rows": Array [],
+  },
+  Object {
+    "more": false,
+    "rows": Array [
+      Object {
+        "balance": "567418308.8034 SNAX",
+      },
+    ],
+  },
+]
+`;
+
+exports[`System should call system's emitplatform correctly several times 7`] = `
+Array [
+  Object {
+    "more": false,
+    "rows": Array [],
+  },
+  Object {
+    "more": false,
+    "rows": Array [
+      Object {
+        "balance": "579625708.8203 SNAX",
+      },
+    ],
+  },
+]
+`;
+
+exports[`System should call system's emitplatform correctly several times 8`] = `
+Array [
+  Object {
+    "more": false,
+    "rows": Array [],
+  },
+  Object {
+    "more": false,
+    "rows": Array [
+      Object {
+        "balance": "592357580.3317 SNAX",
+      },
+    ],
+  },
+]
+`;
+
+exports[`System should call system's emitplatform correctly several times 9`] = `
+Array [
+  Object {
+    "more": false,
+    "rows": Array [],
+  },
+  Object {
+    "more": false,
+    "rows": Array [
+      Object {
+        "balance": "605647677.3730 SNAX",
+      },
+    ],
+  },
+]
+`;
+
+exports[`System should call system's emitplatform correctly several times 10`] = `
+Array [
+  Object {
+    "more": false,
+    "rows": Array [],
+  },
+  Object {
+    "more": false,
+    "rows": Array [
+      Object {
+        "balance": "619532643.8597 SNAX",
+      },
+    ],
+  },
+]
+`;
+
+exports[`System should call system's emitplatform correctly several times 11`] = `
+Array [
+  Object {
+    "more": false,
+    "rows": Array [],
+  },
+  Object {
+    "more": false,
+    "rows": Array [
+      Object {
+        "balance": "634052324.9347 SNAX",
+      },
+    ],
+  },
+]
+`;
+
+exports[`System should call system's emitplatform correctly several times 12`] = `
+Array [
+  Object {
+    "more": false,
+    "rows": Array [],
+  },
+  Object {
+    "more": false,
+    "rows": Array [
+      Object {
+        "balance": "649250116.1535 SNAX",
+      },
+    ],
+  },
+]
+`;
+
+exports[`System should call system's emitplatform correctly several times 13`] = `
+Array [
+  Object {
+    "more": false,
+    "rows": Array [],
+  },
+  Object {
+    "more": false,
+    "rows": Array [
+      Object {
+        "balance": "665173358.1071 SNAX",
+      },
+    ],
+  },
+]
+`;
+
+exports[`System should call system's emitplatform correctly several times 14`] = `
+Array [
+  Object {
+    "more": false,
+    "rows": Array [],
+  },
+  Object {
+    "more": false,
+    "rows": Array [
+      Object {
+        "balance": "681873783.5523 SNAX",
+      },
+    ],
+  },
+]
+`;
+
+exports[`System should call system's emitplatform correctly several times 15`] = `
+Array [
+  Object {
+    "more": false,
+    "rows": Array [],
+  },
+  Object {
+    "more": false,
+    "rows": Array [
+      Object {
+        "balance": "699408025.1636 SNAX",
+      },
+    ],
+  },
+]
+`;
+
+exports[`System should call system's emitplatform correctly several times 16`] = `
+Array [
+  Object {
+    "more": false,
+    "rows": Array [],
+  },
+  Object {
+    "more": false,
+    "rows": Array [
+      Object {
+        "balance": "717838193.5391 SNAX",
+      },
+    ],
+  },
+]
+`;
+
+exports[`System should call system's emitplatform correctly several times 17`] = `
+Array [
+  Object {
+    "more": false,
+    "rows": Array [],
+  },
+  Object {
+    "more": false,
+    "rows": Array [
+      Object {
+        "balance": "737232536.7683 SNAX",
+      },
+    ],
+  },
+]
+`;
+
+exports[`System should call system's emitplatform correctly several times 18`] = `
+Array [
+  Object {
+    "more": false,
+    "rows": Array [],
+  },
+  Object {
+    "more": false,
+    "rows": Array [
+      Object {
+        "balance": "757666194.8525 SNAX",
+      },
+    ],
+  },
+]
+`;
+
+exports[`System should call system's emitplatform correctly several times 19`] = `
+Array [
+  Object {
+    "more": false,
+    "rows": Array [],
+  },
+  Object {
+    "more": false,
+    "rows": Array [
+      Object {
+        "balance": "779222064.9499 SNAX",
+      },
+    ],
+  },
+]
+`;
+
+exports[`System should call system's emitplatform correctly several times 20`] = `
+Array [
+  Object {
+    "more": false,
+    "rows": Array [],
+  },
+  Object {
+    "more": false,
+    "rows": Array [
+      Object {
+        "balance": "801991796.2820 SNAX",
+      },
+    ],
+  },
+]
+`;
+
+exports[`System should call system's emitplatform correctly several times 21`] = `
+Array [
+  Object {
+    "more": false,
+    "rows": Array [],
+  },
+  Object {
+    "more": false,
+    "rows": Array [
+      Object {
+        "balance": "826076937.2738 SNAX",
+      },
+    ],
+  },
+]
+`;
+
+exports[`System should call system's emitplatform correctly several times 22`] = `
+Array [
+  Object {
+    "more": false,
+    "rows": Array [],
+  },
+  Object {
+    "more": false,
+    "rows": Array [
+      Object {
+        "balance": "851590261.9895 SNAX",
+      },
+    ],
+  },
+]
+`;
+
+exports[`System should call system's emitplatform correctly several times 23`] = `
+Array [
+  Object {
+    "more": false,
+    "rows": Array [],
+  },
+  Object {
+    "more": false,
+    "rows": Array [
+      Object {
+        "balance": "878657308.2889 SNAX",
+      },
+    ],
+  },
+]
+`;
+
+exports[`System should call system's emitplatform correctly several times 24`] = `
+Array [
+  Object {
+    "more": false,
+    "rows": Array [],
+  },
+  Object {
+    "more": false,
+    "rows": Array [
+      Object {
+        "balance": "907418166.9204 SNAX",
+      },
+    ],
+  },
+]
+`;
+
+exports[`System should call system's emitplatform correctly several times 25`] = `
+Array [
+  Object {
+    "more": false,
+    "rows": Array [],
+  },
+  Object {
+    "more": false,
+    "rows": Array [
+      Object {
+        "balance": "938029569.0034 SNAX",
+      },
+    ],
+  },
+]
+`;
+
+exports[`System should call system's emitplatform correctly several times 26`] = `
+Array [
+  Object {
+    "more": false,
+    "rows": Array [],
+  },
+  Object {
+    "more": false,
+    "rows": Array [
+      Object {
+        "balance": "970667329.3216 SNAX",
+      },
+    ],
+  },
+]
+`;
+
+exports[`System should call system's emitplatform correctly several times 27`] = `
+Array [
+  Object {
+    "more": false,
+    "rows": Array [],
+  },
+  Object {
+    "more": false,
+    "rows": Array [
+      Object {
+        "balance": "1005529215.7941 SNAX",
+      },
+    ],
+  },
+]
+`;
+
+exports[`System should call system's emitplatform correctly several times 28`] = `
+Array [
+  Object {
+    "more": false,
+    "rows": Array [],
+  },
+  Object {
+    "more": false,
+    "rows": Array [
+      Object {
+        "balance": "1042838330.7729 SNAX",
+      },
+    ],
+  },
+]
+`;
+
+exports[`System should call system's emitplatform correctly several times 29`] = `
+Array [
+  Object {
+    "more": false,
+    "rows": Array [],
+  },
+  Object {
+    "more": false,
+    "rows": Array [
+      Object {
+        "balance": "1082847109.7440 SNAX",
+      },
+    ],
+  },
+]
+`;
+
+exports[`System should call system's emitplatform correctly several times 30`] = `
+Array [
+  Object {
+    "more": false,
+    "rows": Array [],
+  },
+  Object {
+    "more": false,
+    "rows": Array [
+      Object {
+        "balance": "1125842067.3899 SNAX",
+      },
+    ],
+  },
+]
+`;
+
+exports[`System should call system's emitplatform correctly several times 31`] = `
+Array [
+  Object {
+    "more": false,
+    "rows": Array [],
+  },
+  Object {
+    "more": false,
+    "rows": Array [
+      Object {
+        "balance": "1172149451.9661 SNAX",
+      },
+    ],
+  },
+]
+`;
+
+exports[`System should call system's emitplatform correctly several times 32`] = `
+Array [
+  Object {
+    "more": false,
+    "rows": Array [],
+  },
+  Object {
+    "more": false,
+    "rows": Array [
+      Object {
+        "balance": "1222142008.1663 SNAX",
+      },
+    ],
+  },
+]
+`;
+
+exports[`System should call system's emitplatform correctly several times 33`] = `
+Array [
+  Object {
+    "more": false,
+    "rows": Array [],
+  },
+  Object {
+    "more": false,
+    "rows": Array [
+      Object {
+        "balance": "1276247098.3364 SNAX",
+      },
+    ],
+  },
+]
+`;
+
+exports[`System should call system's emitplatform correctly several times 34`] = `
+Array [
+  Object {
+    "more": false,
+    "rows": Array [],
+  },
+  Object {
+    "more": false,
+    "rows": Array [
+      Object {
+        "balance": "1334956495.6086 SNAX",
+      },
+    ],
+  },
+]
+`;
+
+exports[`System should call system's emitplatform correctly several times 35`] = `
+Array [
+  Object {
+    "more": false,
+    "rows": Array [],
+  },
+  Object {
+    "more": false,
+    "rows": Array [
+      Object {
+        "balance": "1398838243.7950 SNAX",
+      },
+    ],
+  },
+]
+`;
+
+exports[`System should call system's emitplatform correctly several times 36`] = `
+Array [
+  Object {
+    "more": false,
+    "rows": Array [],
+  },
+  Object {
+    "more": false,
+    "rows": Array [
+      Object {
+        "balance": "1468551084.1539 SNAX",
+      },
+    ],
+  },
+]
+`;
+
+exports[`System should call system's emitplatform correctly several times 37`] = `
+Array [
+  Object {
+    "more": false,
+    "rows": Array [],
+  },
+  Object {
+    "more": false,
+    "rows": Array [
+      Object {
+        "balance": "1544862085.0077 SNAX",
+      },
+    ],
+  },
+]
+`;
+
+exports[`System should call system's emitplatform correctly several times 38`] = `
+Array [
+  Object {
+    "more": false,
+    "rows": Array [],
+  },
+  Object {
+    "more": false,
+    "rows": Array [
+      Object {
+        "balance": "1628668287.2988 SNAX",
+      },
+    ],
+  },
+]
+`;
+
+exports[`System should call system's emitplatform correctly several times 39`] = `
+Array [
+  Object {
+    "more": false,
+    "rows": Array [],
+  },
+  Object {
+    "more": false,
+    "rows": Array [
+      Object {
+        "balance": "1721023410.6811 SNAX",
+      },
+    ],
+  },
+]
+`;
+
+exports[`System should call system's emitplatform correctly several times 40`] = `
+Array [
+  Object {
+    "more": false,
+    "rows": Array [],
+  },
+  Object {
+    "more": false,
+    "rows": Array [
+      Object {
+        "balance": "1823170969.3776 SNAX",
+      },
+    ],
+  },
+]
+`;
+
+exports[`System should call system's emitplatform correctly several times 41`] = `
+Array [
+  Object {
+    "more": false,
+    "rows": Array [],
+  },
+  Object {
+    "more": false,
+    "rows": Array [
+      Object {
+        "balance": "1936585549.6478 SNAX",
+      },
+    ],
+  },
+]
+`;
+
+exports[`System should call system's emitplatform correctly several times 42`] = `
+Array [
+  Object {
+    "more": false,
+    "rows": Array [],
+  },
+  Object {
+    "more": false,
+    "rows": Array [
+      Object {
+        "balance": "2063024536.0515 SNAX",
+      },
+    ],
+  },
+]
+`;
+
+exports[`System should call system's emitplatform correctly several times 43`] = `
+Array [
+  Object {
+    "more": false,
+    "rows": Array [],
+  },
+  Object {
+    "more": false,
+    "rows": Array [
+      Object {
+        "balance": "2204593289.3155 SNAX",
+      },
+    ],
+  },
+]
+`;
+
+exports[`System should call system's emitplatform correctly several times 44`] = `
+Array [
+  Object {
+    "more": false,
+    "rows": Array [],
+  },
+  Object {
+    "more": false,
+    "rows": Array [
+      Object {
+        "balance": "2363827741.0916 SNAX",
+      },
+    ],
+  },
+]
+`;
+
+exports[`System should call system's emitplatform correctly several times 45`] = `
+Array [
+  Object {
+    "more": false,
+    "rows": Array [],
+  },
+  Object {
+    "more": false,
+    "rows": Array [
+      Object {
+        "balance": "2543799672.3921 SNAX",
+      },
+    ],
+  },
+]
+`;
+
+exports[`System should call system's emitplatform correctly several times 46`] = `
+Array [
+  Object {
+    "more": false,
+    "rows": Array [],
+  },
+  Object {
+    "more": false,
+    "rows": Array [
+      Object {
+        "balance": "2748251713.8850 SNAX",
+      },
+    ],
+  },
+]
+`;
+
+exports[`System should call system's emitplatform correctly several times 47`] = `
+Array [
+  Object {
+    "more": false,
+    "rows": Array [],
+  },
+  Object {
+    "more": false,
+    "rows": Array [
+      Object {
+        "balance": "2981771531.0698 SNAX",
+      },
+    ],
+  },
+]
+`;
+
+exports[`System should call system's emitplatform correctly several times 48`] = `
+Array [
+  Object {
+    "more": false,
+    "rows": Array [],
+  },
+  Object {
+    "more": false,
+    "rows": Array [
+      Object {
+        "balance": "3250017998.3708 SNAX",
+      },
+    ],
+  },
+]
+`;
+
+exports[`System should call system's emitplatform correctly several times 49`] = `
+Array [
+  Object {
+    "more": false,
+    "rows": Array [],
+  },
+  Object {
+    "more": false,
+    "rows": Array [
+      Object {
+        "balance": "3560016798.4752 SNAX",
+      },
+    ],
+  },
+]
+`;
+
+exports[`System should call system's emitplatform correctly several times 50`] = `
+Array [
+  Object {
+    "more": false,
+    "rows": Array [],
+  },
+  Object {
+    "more": false,
+    "rows": Array [
+      Object {
+        "balance": "3920549347.8762 SNAX",
       },
     ],
   },

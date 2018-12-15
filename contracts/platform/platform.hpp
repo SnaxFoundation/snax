@@ -116,8 +116,9 @@ namespace snax {
             account_name name;
             uint64_t id;
             double attention_rate;
-            uint64_t serial;
+            uint32_t serial;
             uint16_t last_updated_step_number;
+            uint16_t last_attention_rate_updated_step_number;
 
             uint64_t primary_key() const {
                 return id;
@@ -131,7 +132,11 @@ namespace snax {
                 return serial;
             }
 
-            SNAXLIB_SERIALIZE(account, (name)(id)(attention_rate)(serial)(last_updated_step_number))
+            uint64_t by_last_updated_attention_rate() const {
+                return last_attention_rate_updated_step_number;
+            }
+
+            SNAXLIB_SERIALIZE(account, (name)(id)(attention_rate)(serial)(last_updated_step_number)(last_attention_rate_updated_step_number))
         };
 
         /// @abi table state i64
@@ -165,7 +170,11 @@ namespace snax {
 
         typedef multi_index<N(accounts), account_with_balance> _accounts_balances;
         typedef multi_index<N(transfers), transfer_rec> transfers_table;
-        typedef multi_index<N(paccounts), account, indexed_by<N(serial), const_mem_fun<account, uint64_t, &account::by_serial>>, indexed_by<N(name), const_mem_fun<account, uint64_t, &account::by_account>>> acctable;
+        typedef multi_index<N(paccounts), account,
+                indexed_by<N(serial), const_mem_fun<account, uint64_t, &account::by_serial>>,
+                indexed_by<N(name), const_mem_fun<account, uint64_t, &account::by_account>>,
+                indexed_by<N(last_attention_rate_updated_step_number), const_mem_fun<account, uint64_t, &account::by_last_updated_attention_rate>>
+        > acctable;
         typedef multi_index<N(peaccounts), pending_rec, indexed_by<N(created), const_mem_fun<pending_rec, uint64_t, &pending_rec::by_created>>> peacctable;
         typedef singleton<N(state), state> platform_state;
 

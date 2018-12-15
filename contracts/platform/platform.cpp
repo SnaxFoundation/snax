@@ -46,7 +46,7 @@ namespace snax {
         _state = _platform_state.get();
         snax_assert(_state.updating == 1, "platform must be in updating state when nextround action is called");
 
-        action(permission_level{_self, N(active)}, _state.token_dealer, N(emitplatform), make_tuple(_self)).send();
+        action(permission_level{_self, N(owner)}, _state.token_dealer, N(emitplatform), make_tuple(_self)).send();
 
         _state.step_number++;
         _state.round_updated_account_count = 0;
@@ -173,6 +173,7 @@ namespace snax {
             _accounts.modify(
                     found, _self, [&](auto &record) {
                         record.attention_rate = attention_rate;
+                        record.last_attention_rate_updated_step_number = _state.step_number + 1;
                     }
             );
         } else {
@@ -203,6 +204,7 @@ namespace snax {
                 _accounts.modify(
                         account, _self, [&](auto &record) {
                             record.attention_rate = attention_rate;
+                            record.last_attention_rate_updated_step_number = _state.step_number + 1;
                         }
                 );
 

@@ -1766,7 +1766,7 @@ BOOST_FIXTURE_TEST_CASE(producer_onblock_check, snax_system_tester) try {
    transfer(config::system_account_name, "producvotera", core_from_string("200000000.0000"), config::system_account_name);
    BOOST_REQUIRE_EQUAL(success(), stake("producvotera", core_from_string("70000000.0000"), core_from_string("70000000.0000") ));
    BOOST_REQUIRE_EQUAL(success(), vote( N(producvotera), vector<account_name>(producer_names.begin(), producer_names.begin()+10)));
-   BOOST_CHECK_EQUAL( wasm_assert_msg( "cannot undelegate bandwidth until the chain is activated (at least 15% of all tokens participate in voting)" ),
+   BOOST_CHECK_EQUAL( wasm_assert_msg( "cannot undelegate bandwidth until the chain is activated (at least 10% of all tokens participate in voting)" ),
                       unstake( "producvotera", core_from_string("50.0000"), core_from_string("50.0000") ) );
 
    // give a chance for everyone to produce blocks
@@ -1789,7 +1789,7 @@ BOOST_FIXTURE_TEST_CASE(producer_onblock_check, snax_system_tester) try {
    }
 
    {
-      const char* claimrewards_activation_error_message = "cannot claim rewards until the chain is activated (at least 15% of all tokens participate in voting)";
+      const char* claimrewards_activation_error_message = "cannot claim rewards until the chain is activated (at least 10% of all tokens participate in voting)";
       BOOST_CHECK_EQUAL(0, get_global_state()["total_unpaid_blocks"].as<uint32_t>());
       BOOST_REQUIRE_EQUAL(wasm_assert_msg( claimrewards_activation_error_message ),
                           push_action(producer_names.front(), N(claimrewards), mvo()("owner", producer_names.front())));
@@ -1799,7 +1799,7 @@ BOOST_FIXTURE_TEST_CASE(producer_onblock_check, snax_system_tester) try {
       BOOST_REQUIRE_EQUAL(0, get_balance(producer_names.back()).get_amount());
    }
 
-   // stake across 15% boundary
+   // stake across 10% boundary
    transfer(config::system_account_name, "producvoterb", core_from_string("100000000.0000"), config::system_account_name);
    BOOST_REQUIRE_EQUAL(success(), stake("producvoterb", core_from_string("4000000.0000"), core_from_string("4000000.0000")));
    transfer(config::system_account_name, "producvoterc", core_from_string("100000000.0000"), config::system_account_name);
@@ -2064,7 +2064,7 @@ BOOST_FIXTURE_TEST_CASE( elect_producers /*_and_parameters*/, snax_system_tester
    BOOST_REQUIRE_EQUAL( success(), regproducer( "defproducer2", 2) );
    BOOST_REQUIRE_EQUAL( success(), regproducer( "defproducer3", 3) );
 
-   //stake more than 15% of total SNAX supply to activate chain
+   //stake more than 10% of total SNAX supply to activate chain
    transfer( "snax", "alice1111111", core_from_string("600000000.0000"), "snax" );
    BOOST_REQUIRE_EQUAL( success(), stake( "alice1111111", "alice1111111", core_from_string("300000000.0000"), core_from_string("300000000.0000") ) );
    //vote for producers
@@ -2250,7 +2250,7 @@ BOOST_FIXTURE_TEST_CASE( multiple_namebids, snax_system_tester ) try {
    BOOST_REQUIRE_EXCEPTION( create_account_with_resources( N(prefd), N(david) ),
                             fc::exception, fc_assert_exception_message_is( not_closed_message ) );
 
-   // stake enough to go above the 15% threshold
+   // stake enough to go above the 10% threshold
    stake_with_transfer( config::system_account_name, "alice", core_from_string( "10000000.0000" ), core_from_string( "10000000.0000" ) );
    BOOST_REQUIRE_EQUAL(0, get_producer_info("producer")["unpaid_blocks"].as<uint32_t>());
    BOOST_REQUIRE_EQUAL( success(), vote( N(alice), { N(producer) } ) );

@@ -49,11 +49,11 @@ describe("Platform", async () => {
 
   const verifyPendingAccounts = async () => {
     expect(
-      await api.rpc.get_table_rows({
+      (await api.rpc.get_table_rows({
         code: account,
         scope: account,
         table: "peaccounts"
-      })
+      })).rows.map(({ created, ...object }) => object)
     ).toMatchSnapshot();
   };
 

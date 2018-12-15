@@ -2,7 +2,7 @@
  *  @file
  *  @copyright defined in snax/LICENSE.txt
  */
-#include "snax.system.hpp"
+#include "test_snax.system.hpp"
 
 #include <snaxlib/snax.hpp>
 #include <snaxlib/print.hpp>
