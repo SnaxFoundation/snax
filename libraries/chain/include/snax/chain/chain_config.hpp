@@ -65,10 +65,56 @@ struct chain_config {
                  << "Max Authority Depth: " << c.max_authority_depth << "\n"
                  << "Platforms configs: " << c.platforms << "\n";
    }
-};
 
-       bool operator==(const chain_config& a, const chain_config& b);
-inline bool operator!=(const chain_config& a, const chain_config& b) { return !(a == b); }
+   friend inline bool operator ==( const chain_config& lhs, const chain_config& rhs ) {
+      return   std::tie(   lhs.max_block_net_usage,
+                           lhs.target_block_net_usage_pct,
+                           lhs.max_transaction_net_usage,
+                           lhs.base_per_transaction_net_usage,
+                           lhs.net_usage_leeway,
+                           lhs.context_free_discount_net_usage_num,
+                           lhs.context_free_discount_net_usage_den,
+                           lhs.max_block_cpu_usage,
+                           lhs.target_block_cpu_usage_pct,
+                           lhs.max_transaction_cpu_usage,
+                           lhs.max_transaction_cpu_usage,
+                           lhs.ram_market_open,
+                           lhs.enabled_contracts_by_non_privileged_users,
+                           lhs.max_transaction_lifetime,
+                           lhs.deferred_trx_expiration_window,
+                           lhs.max_transaction_delay,
+                           lhs.max_inline_action_size,
+                           lhs.max_inline_action_depth,
+                           lhs.max_authority_depth,
+                           lhs.platforms
+                        )
+               ==
+               std::tie(   rhs.max_block_net_usage,
+                           rhs.target_block_net_usage_pct,
+                           rhs.max_transaction_net_usage,
+                           rhs.base_per_transaction_net_usage,
+                           rhs.net_usage_leeway,
+                           rhs.context_free_discount_net_usage_num,
+                           rhs.context_free_discount_net_usage_den,
+                           rhs.max_block_cpu_usage,
+                           rhs.target_block_cpu_usage_pct,
+                           rhs.max_transaction_cpu_usage,
+                           rhs.max_transaction_cpu_usage,
+                           rhs.ram_market_open,
+                           rhs.enabled_contracts_by_non_privileged_users,
+                           rhs.max_transaction_lifetime,
+                           rhs.deferred_trx_expiration_window,
+                           rhs.max_transaction_delay,
+                           rhs.max_inline_action_size,
+                           rhs.max_inline_action_depth,
+                           rhs.max_authority_depth,
+                           rhs.platforms
+                        );
+   };
+
+   friend inline bool operator !=( const chain_config& lhs, const chain_config& rhs ) { return !(lhs == rhs); }
+
+};
 
 } } // namespace snax::chain
 
@@ -87,5 +133,4 @@ FC_REFLECT(snax::chain::chain_config,
            (max_inline_action_size)(max_inline_action_depth)(max_authority_depth)
 
            (platforms)
-
 )

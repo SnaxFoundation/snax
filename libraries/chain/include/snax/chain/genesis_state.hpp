@@ -6,6 +6,7 @@
 #pragma once
 
 #include <snax/chain/chain_config.hpp>
+#include <snax/chain/config.hpp>
 #include <snax/chain/types.hpp>
 
 #include <fc/crypto/sha256.hpp>
@@ -54,6 +55,14 @@ struct genesis_state {
     * This is the SHA256 serialization of the genesis_state.
     */
    chain_id_type compute_chain_id() const;
+
+   friend inline bool operator==( const genesis_state& lhs, const genesis_state& rhs ) {
+      return std::tie( lhs.initial_configuration, lhs.initial_timestamp, lhs.initial_key )
+               == std::tie( rhs.initial_configuration, rhs.initial_timestamp, rhs.initial_key );
+   };
+
+   friend inline bool operator!=( const genesis_state& lhs, const genesis_state& rhs ) { return !(lhs == rhs); }
+
 };
 
 } } // namespace snax::chain

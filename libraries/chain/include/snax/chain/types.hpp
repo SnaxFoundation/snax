@@ -178,6 +178,12 @@ namespace snax { namespace chain {
    class account_object;
    class producer_object;
 
+   struct platform_config {
+       account_name account;
+       double weight;
+       uint32_t period;
+   };
+
    using block_id_type       = fc::sha256;
    using checksum_type       = fc::sha256;
    using checksum256_type    = fc::sha256;
@@ -199,21 +205,10 @@ namespace snax { namespace chain {
     */
    typedef vector<std::pair<uint16_t,vector<char>>> extensions_type;
 
-   struct platform_config {
-
-       account_name account;
-
-       double weight;
-
-       uint32_t period;
-
-   };
-
 
 } }  // snax::chain
 
 FC_REFLECT( snax::chain::void_t, )
-
 
 FC_REFLECT(snax::chain::platform_config,
     (account)(weight)(period)

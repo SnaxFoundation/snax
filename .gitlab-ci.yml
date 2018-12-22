@@ -1,6 +1,6 @@
 variables:
-  HOME_DIR: /home/eos
-  NODEOS: http://localhost:8888
+  HOME_DIR: /home/snax
+  NODSNAX: http://localhost:8888
   PATH_TO_MINTS: $HOME_DIR/$CI_PROJECT_DIR
   JEST_TESTS: $HOME_DIR/$CI_PROJECT_DIR/jest_tests
   SNAX_HOME: $HOME_DIR/$CI_PROJECT_DIR/build/

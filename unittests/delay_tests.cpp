@@ -3,8 +3,6 @@
 #include <snax/chain/producer_object.hpp>
 #include <snax/chain/global_property_object.hpp>
 #include <snax/chain/generated_transaction_object.hpp>
-#include <snax.system/snax.system.wast.hpp>
-#include <snax.system/snax.system.abi.hpp>
 #include <snax.token/snax.token.wast.hpp>
 #include <snax.token/snax.token.abi.hpp>
 

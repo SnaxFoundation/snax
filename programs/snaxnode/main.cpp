@@ -6,10 +6,8 @@
 
 #include <snax/chain_plugin/chain_plugin.hpp>
 #include <snax/http_plugin/http_plugin.hpp>
-#include <snax/history_plugin/history_plugin.hpp>
 #include <snax/net_plugin/net_plugin.hpp>
 #include <snax/producer_plugin/producer_plugin.hpp>
-#include <snax/utilities/common.hpp>
 
 #include <fc/log/logger_config.hpp>
 #include <fc/log/appender.hpp>
@@ -94,7 +92,6 @@ int main(int argc, char** argv)
 {
    try {
       app().set_version(snax::snaxnode::config::version);
-      app().register_plugin<history_plugin>();
 
       auto root = fc::app_path();
       app().set_default_data_dir(root / "snax/snaxnode/data" );
