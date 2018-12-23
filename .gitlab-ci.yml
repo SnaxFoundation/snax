@@ -1,5 +1,5 @@
 variables:
-  HOME_DIR: /home/snax
+  HOME_DIR: /home/eos
   NODSNAX: http://localhost:8888
   PATH_TO_MINTS: $HOME_DIR/$CI_PROJECT_DIR
   JEST_TESTS: $HOME_DIR/$CI_PROJECT_DIR/jest_tests
