@@ -67,7 +67,7 @@ struct chain_config {
    }
 
    friend inline bool operator ==( const chain_config& lhs, const chain_config& rhs ) {
-      return   std::tie(   lhs.max_block_net_usage,
+      bool result =  std::tie(   lhs.max_block_net_usage,
                            lhs.target_block_net_usage_pct,
                            lhs.max_transaction_net_usage,
                            lhs.base_per_transaction_net_usage,
@@ -85,8 +85,7 @@ struct chain_config {
                            lhs.max_transaction_delay,
                            lhs.max_inline_action_size,
                            lhs.max_inline_action_depth,
-                           lhs.max_authority_depth,
-                           lhs.platforms
+                           lhs.max_authority_depth
                         )
                ==
                std::tie(   rhs.max_block_net_usage,
@@ -107,9 +106,16 @@ struct chain_config {
                            rhs.max_transaction_delay,
                            rhs.max_inline_action_size,
                            rhs.max_inline_action_depth,
-                           rhs.max_authority_depth,
-                           rhs.platforms
+                           rhs.max_authority_depth
                         );
+          result &= lhs.platforms.size() == rhs.platforms.size();
+          for (uint16_t i = 0; i < lhs.platforms.size(); i++) {
+              result &=
+                lhs.platforms[i].weight == rhs.platforms[i].weight
+                && lhs.platforms[i].period == rhs.platforms[i].period
+                && lhs.platforms[i].account == rhs.platforms[i].account;
+          }
+          return result;
    };
 
    friend inline bool operator !=( const chain_config& lhs, const chain_config& rhs ) { return !(lhs == rhs); }
