@@ -151,6 +151,7 @@ void apply_context::require_authorization( const account_name& account ) {
    SNAX_ASSERT( false, missing_auth_exception, "missing authority of ${account}", ("account",account));
 }
 
+void apply_context::require_set_contract_ability( const account_object& account ) {
    const auto& configuration = control.get_global_properties().configuration;
 
    SNAX_ASSERT( configuration.enabled_contracts_by_non_privileged_users || account.privileged, action_validate_exception,
