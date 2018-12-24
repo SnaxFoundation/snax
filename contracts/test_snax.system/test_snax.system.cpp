@@ -38,7 +38,9 @@ namespace snaxsystem {
          //print( "ram market already created" );
       }
 
-      if ( _gstate.staked_by_team.amount == 0 && !_gstate.initialized ) {
+      const int64_t system_token_max_supply = snax::token(N(snax.token)).get_max_supply(snax::symbol_type(system_token_symbol).name()).amount;
+
+      if ( _gstate.staked_by_team.amount == 0 && !_gstate.initialized && system_token_max_supply == 100'000'000'000'0000 ) {
         const asset amount_to_issue = asset(21'000'000'000'0000);
 
         INLINE_ACTION_SENDER(snax::token, issue)(
@@ -93,7 +95,6 @@ namespace snaxsystem {
         _gstate.initialized = true;
         _global.set(_gstate, _self);
       }
-
    }
 
    snax_global_state system_contract::get_default_parameters() {

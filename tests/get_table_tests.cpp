@@ -134,7 +134,7 @@ BOOST_FIXTURE_TEST_CASE( get_table_test, TESTER ) try {
    // create currency
    auto act = mutable_variant_object()
          ("issuer",       "snax")
-         ("maximum_supply", snax::chain::asset::from_string("1000000000.0000 SNAX"));
+         ("maximum_supply", snax::chain::asset::from_string("100000000000.0000 SNAX"));
    push_action(N(snax.token), N(create), N(snax.token), act );
 
    // issue
@@ -329,7 +329,7 @@ BOOST_FIXTURE_TEST_CASE( get_table_by_seckey_test, TESTER ) try {
    // create currency
    auto act = mutable_variant_object()
          ("issuer",       "snax")
-         ("maximum_supply", snax::chain::asset::from_string("1000000000.0000 SNAX"));
+         ("maximum_supply", snax::chain::asset::from_string("100000000000.0000 SNAX"));
    push_action(N(snax.token), N(create), N(snax.token), act );
 
    // issue
