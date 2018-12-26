@@ -213,6 +213,7 @@ describe("Platform", async () => {
 
   const updatePlatform = async () => {
     await lockUpdate();
+    await verifyStatesAndAccounts();
     await api.transact(
       {
         actions: [
@@ -235,6 +236,7 @@ describe("Platform", async () => {
       }
     );
     await verifyAccountsBalances(["test2", "test1", "snax", "platform"]);
+    await verifyStatesAndAccounts();
     await api.transact(
       {
         actions: [
@@ -248,7 +250,7 @@ describe("Platform", async () => {
               }
             ],
             data: {
-              serial: 0,
+              lower_account_name: "",
               account_count: 1000
             }
           }
@@ -361,6 +363,37 @@ describe("Platform", async () => {
       }
     );
 
+  it("should process next round correctly", async () => {
+    await initialize();
+    await addUser({
+      account: "test1",
+      id: 123,
+      attention_rate: 15.0,
+      attention_rate_rating_position: 3
+    });
+    await addUser({
+      account: "test2",
+      id: 1105,
+      attention_rate: 225.0,
+      attention_rate_rating_position: 2
+    });
+    await addUser({
+      account: "test2",
+      id: 1200,
+      attention_rate: 206.0,
+      attention_rate_rating_position: 1
+    });
+    await addUser({
+      account: "test1",
+      id: 1007,
+      attention_rate: 206.0,
+      attention_rate_rating_position: 1
+    });
+    await updatePlatform();
+    await verifyStatesAndAccounts();
+    await verifyAccountsBalances(["test2", "test1", "snax", "platform"]);
+  });
+
   it("should work with pending account correctly", async () => {
     await initialize();
     await verifyPendingAccounts();
@@ -370,7 +403,8 @@ describe("Platform", async () => {
     await addUser({
       account: "test1",
       id: 42,
-      attention_rate: 225.0
+      attention_rate: 225.0,
+      attention_rate_rating_position: 1
     });
     await verifyPendingAccounts();
     await verifyStatesAndAccounts();
@@ -393,37 +427,11 @@ describe("Platform", async () => {
     await addUser({
       account: "test1",
       id: 15,
-      attention_rate: 15.0
+      attention_rate: 15.0,
+      attention_rate_rating_position: 1
     });
     await verifyTransferTable();
     await verifyAccountsBalances(["test.transf", "test1"]);
-  });
-
-  it("should process next round correctly", async () => {
-    await initialize();
-    await addUser({
-      account: "test2",
-      id: 123,
-      attention_rate: 15.0
-    });
-    await addUser({
-      account: "test1",
-      id: 1105,
-      attention_rate: 225.0
-    });
-    await addUser({
-      account: "test1",
-      id: 1200,
-      attention_rate: 206.0
-    });
-    await addUser({
-      account: "test1",
-      id: 1007,
-      attention_rate: 206.0
-    });
-    await updatePlatform();
-    await verifyStatesAndAccounts();
-    await verifyAccountsBalances(["test2", "test1", "snax", "platform"]);
   });
 
   it("should initialize correctly", async () => {
@@ -442,7 +450,8 @@ describe("Platform", async () => {
     const result = await addUser({
       account: "test2",
       id: 123,
-      attention_rate: 15.0
+      attention_rate: 15.0,
+      attention_rate_rating_position: 1
     });
     await verifyStatesAndAccounts();
   });
@@ -452,13 +461,15 @@ describe("Platform", async () => {
     await addUser({
       account: "test2",
       id: 123,
-      attention_rate: 15.0
+      attention_rate: 15.0,
+      attention_rate_rating_position: 1
     });
     await tryCatchExpect(() =>
       addUser({
         account: "test2",
         id: 123,
-        attention_rate: 26.0
+        attention_rate: 26.0,
+        attention_rate_rating_position: 2
       })
     );
     await verifyStatesAndAccounts();
@@ -469,11 +480,13 @@ describe("Platform", async () => {
     await addUser({
       account: "test2",
       id: 123,
-      attention_rate: 15.0
+      attention_rate: 15.0,
+      attention_rate_rating_position: 2
     });
     await updateQualityRate({
       id: 123,
-      attention_rate: 20.0
+      attention_rate: 20.0,
+      attention_rate_rating_position: 1
     });
     await verifyStatesAndAccounts();
   });
@@ -483,16 +496,18 @@ describe("Platform", async () => {
     await addUser({
       account: "test2",
       id: 123,
-      attention_rate: 15.0
+      attention_rate: 15.0,
+      attention_rate_rating_position: 1
     });
     await addUser({
       account: "test1",
       id: 243,
-      attention_rate: 8.0
+      attention_rate: 8.0,
+      attention_rate_rating_position: 2
     });
     await updateQualityRateMulti([
-      { id: 243, attention_rate: 20.0 },
-      { id: 123, attention_rate: 25.0 }
+      { id: 243, attention_rate: 20.0, attention_rate_rating_position: 2 },
+      { id: 123, attention_rate: 25.0, attention_rate_rating_position: 1 }
     ]);
     await verifyStatesAndAccounts();
   });
@@ -502,12 +517,14 @@ describe("Platform", async () => {
     await addUser({
       account: "test2",
       id: 123,
-      attention_rate: 15.0
+      attention_rate: 15.0,
+      attention_rate_rating_position: 1
     });
     await tryCatchExpect(() =>
       updateQualityRate({
         id: 250,
-        attention_rate: 20.0
+        attention_rate: 20.0,
+        attention_rate_rating_position: 2
       })
     );
 
@@ -519,20 +536,23 @@ describe("Platform", async () => {
     await addUser({
       account: "test1",
       id: 1105,
-      attention_rate: 225.0
+      attention_rate: 225.0,
+      attention_rate_rating_position: 1
     });
     await lockUpdate();
     await tryCatchExpect(() =>
       updateQualityRate({
         id: 1105,
-        attention_rate: 20.0
+        attention_rate: 20.0,
+        attention_rate_rating_position: 1
       })
     );
     await tryCatchExpect(() =>
       updateQualityRateMulti([
         {
           id: 1105,
-          attention_rate: 20.0
+          attention_rate: 20.0,
+          attention_rate_rating_position: 1
         }
       ])
     );
@@ -540,7 +560,8 @@ describe("Platform", async () => {
       addUser({
         account: "test2",
         id: 123,
-        attention_rate: 15.0
+        attention_rate: 15.0,
+        attention_rate_rating_position: 2
       })
     );
     await verifyStatesAndAccounts();
