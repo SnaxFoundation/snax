@@ -34,8 +34,14 @@ set( CMAKE_CXX_EXTENSIONS ON )
 set( CXX_STANDARD_REQUIRED ON)
 
 set(VERSION_MAJOR 1)
-set(VERSION_MINOR 4)
-set(VERSION_PATCH 3)
+set(VERSION_MINOR 5)
+set(VERSION_PATCH 2)
+
+if(VERSION_SUFFIX)
+    set(VERSION_FULL "${VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_PATCH}-${VERSION_SUFFIX}")
+else()
+    set(VERSION_FULL "${VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_PATCH}")
+endif()
 
 set( CLI_CLIENT_EXECUTABLE_NAME clisnax )
 set( NODE_EXECUTABLE_NAME snaxnode )
@@ -49,12 +55,17 @@ if("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
     if (CMAKE_CXX_COMPILER_VERSION VERSION_LESS 6.0)
         message(FATAL_ERROR "GCC version must be at least 6.0!")
     endif()
-elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
+    if ("${CMAKE_GENERATOR}" STREQUAL "Ninja")
+       add_compile_options(-fdiagnostics-color=always)
+    endif()
+elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang" OR "${CMAKE_CXX_COMPILER_ID}" STREQUAL "AppleClang")
     if (CMAKE_CXX_COMPILER_VERSION VERSION_LESS 4.0)
         message(FATAL_ERROR "Clang version must be at least 4.0!")
     endif()
+    if ("${CMAKE_GENERATOR}" STREQUAL "Ninja")
+       add_compile_options(-fcolor-diagnostics)
+    endif()
 endif()
-
 
 set(CMAKE_EXPORT_COMPILE_COMMANDS "ON")
 set(BUILD_DOXYGEN FALSE CACHE BOOL "Build doxygen documentation on every make")
@@ -246,19 +257,19 @@ install(FILES ${CMAKE_BINARY_DIR}/modules/snax-config.cmake DESTINATION ${CMAKE_
 configure_file(${CMAKE_SOURCE_DIR}/CMakeModules/SnaxTester.cmake.in ${CMAKE_BINARY_DIR}/modules/SnaxTester.cmake @ONLY)
 install(FILES ${CMAKE_BINARY_DIR}/modules/SnaxTester.cmake DESTINATION ${CMAKE_INSTALL_FULL_LIBDIR}/cmake/snax)
 
-configure_file(${CMAKE_SOURCE_DIR}/LICENSE
+configure_file(${CMAKE_SOURCE_DIR}/LICENSE 
                ${CMAKE_BINARY_DIR}/licenses/snax/LICENSE COPYONLY)
-configure_file(${CMAKE_SOURCE_DIR}/libraries/wabt/LICENSE
+configure_file(${CMAKE_SOURCE_DIR}/libraries/wabt/LICENSE 
                ${CMAKE_BINARY_DIR}/licenses/snax/LICENSE.wabt COPYONLY)
-configure_file(${CMAKE_SOURCE_DIR}/libraries/softfloat/COPYING.txt
+configure_file(${CMAKE_SOURCE_DIR}/libraries/softfloat/COPYING.txt 
                ${CMAKE_BINARY_DIR}/licenses/snax/LICENSE.softfloat COPYONLY)
-configure_file(${CMAKE_SOURCE_DIR}/libraries/wasm-jit/LICENSE
+configure_file(${CMAKE_SOURCE_DIR}/libraries/wasm-jit/LICENSE 
                ${CMAKE_BINARY_DIR}/licenses/snax/LICENSE.wavm COPYONLY)
-configure_file(${CMAKE_SOURCE_DIR}/libraries/fc/secp256k1/upstream/COPYING
+configure_file(${CMAKE_SOURCE_DIR}/libraries/fc/secp256k1/upstream/COPYING 
                ${CMAKE_BINARY_DIR}/licenses/snax/LICENSE.secp256k1 COPYONLY)
-configure_file(${CMAKE_SOURCE_DIR}/libraries/fc/src/network/LICENSE.go
+configure_file(${CMAKE_SOURCE_DIR}/libraries/fc/src/network/LICENSE.go 
                ${CMAKE_BINARY_DIR}/licenses/snax/LICENSE.go COPYONLY)
-configure_file(${CMAKE_SOURCE_DIR}/externals/binaryen/LICENSE
+configure_file(${CMAKE_SOURCE_DIR}/externals/binaryen/LICENSE 
                ${CMAKE_BINARY_DIR}/licenses/snax/LICENSE.binaryen COPYONLY)
 
 install(FILES LICENSE DESTINATION ${CMAKE_INSTALL_FULL_DATAROOTDIR}/licenses/snax/)

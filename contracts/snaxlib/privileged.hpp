@@ -6,13 +6,10 @@
 namespace snax {
 
     struct platform_config {
-
         account_name account;
-
         double weight;
-
         uint32_t period;
-
+        
         SNAXLIB_SERIALIZE(platform_config, (account)(weight)(period))
     };
 

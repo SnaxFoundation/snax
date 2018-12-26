@@ -7,7 +7,7 @@ add_library( snax_testing
              ${HEADERS}
         )
 
-target_link_libraries( snax_testing snax_chain snax_utilities fc chainbase Logging IR WAST WASM Runtime )
+target_link_libraries( snax_testing snax_chain fc chainbase Logging IR WAST WASM Runtime )
 target_include_directories( snax_testing
                             PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/include" "${CMAKE_CURRENT_BINARY_DIR}/include"
                                    "${CMAKE_CURRENT_SOURCE_DIR}/../wasm-jit/Include"
