@@ -38,7 +38,9 @@ namespace snaxsystem {
          //print( "ram market already created" );
       }
 
-      if ( _gstate.staked_by_team.amount == 0 && !_gstate.initialized ) {
+      const int64_t system_token_max_supply = snax::token(N(snax.token)).get_max_supply(snax::symbol_type(system_token_symbol).name()).amount;
+
+      if ( _gstate.staked_by_team.amount == 0 && !_gstate.initialized && system_token_max_supply == 100'000'000'000'0000 ) {
         const asset amount_to_issue = asset(21'000'000'000'0000);
 
         INLINE_ACTION_SENDER(snax::token, issue)(
@@ -159,7 +161,7 @@ namespace snaxsystem {
 
         std::tie(a, b) = get_parabola(minimal_supply_round_amount, total_supply_amount);
 
-        auto circulating_supply_without_system = circulating_supply.amount - get_balance().amount;
+        auto circulating_supply_without_system = circulating_supply.amount - get_balance(_self).amount;
 
         if (circulating_supply_without_system < 0)
             circulating_supply_without_system = 0;
@@ -188,7 +190,7 @@ namespace snaxsystem {
         const asset amount_to_transfer =
             round_supply / 10000 * static_cast<int64_t>(found_config->weight * 10000) / period_sum * found_config->period / 50;
 
-        const asset system_balance = get_balance();
+        const asset system_balance = get_balance(_self);
         const asset amount_to_issue = amount_to_transfer - system_balance;
 
         if (amount_to_issue > asset(0)) {
@@ -390,8 +392,8 @@ namespace snaxsystem {
         return static_cast<double>(value.amount);
     }
 
-    asset system_contract::get_balance() {
-        _accounts_balances balances(N(snax.token), _self);
+    asset system_contract::get_balance(const account_name account) {
+        _accounts_balances balances(N(snax.token), account);
         const auto& found = balances.find(snax::symbol_type(system_token_symbol).name());
         return found == balances.cend() ? asset(0): found->balance;
     }

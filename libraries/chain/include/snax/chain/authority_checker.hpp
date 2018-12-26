@@ -7,8 +7,7 @@
 #include <snax/chain/types.hpp>
 #include <snax/chain/authority.hpp>
 #include <snax/chain/exceptions.hpp>
-
-#include <snax/utilities/parallel_markers.hpp>
+#include <snax/chain/parallel_markers.hpp>
 
 #include <fc/scoped_exit.hpp>
 
@@ -148,11 +147,11 @@ namespace detail {
          bool all_keys_used() const { return boost::algorithm::all_of_equal(_used_keys, true); }
 
          flat_set<public_key_type> used_keys() const {
-            auto range = utilities::filter_data_by_marker(provided_keys, _used_keys, true);
+            auto range = filter_data_by_marker(provided_keys, _used_keys, true);
             return {range.begin(), range.end()};
          }
          flat_set<public_key_type> unused_keys() const {
-            auto range = utilities::filter_data_by_marker(provided_keys, _used_keys, false);
+            auto range = filter_data_by_marker(provided_keys, _used_keys, false);
             return {range.begin(), range.end()};
          }
 
