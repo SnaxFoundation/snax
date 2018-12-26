@@ -27,12 +27,14 @@ namespace snax {
         struct account_with_attention_rate {
             uint64_t id;
             double attention_rate;
+            uint32_t attention_rate_rating_position;
         };
 
         struct account_to_add {
             account_name name;
             uint64_t id;
             double attention_rate;
+            uint32_t attention_rate_rating_position;
         };
 
         platform( account_name s )
@@ -49,7 +51,7 @@ namespace snax {
         void nextround();
 
         /// @abi action sendpayments
-        void sendpayments(uint64_t serial, uint64_t account_count);
+        void sendpayments(account_name lower_account_name, uint64_t account_count);
 
         /// @abi action addpenacc
         void addpenacc(const account_name account, const uint64_t id);
@@ -58,7 +60,7 @@ namespace snax {
         void droppenacc(const account_name account);
 
         /// @abi action updatear
-        void updatear(uint64_t id, double attention_rate, bool add_account_if_not_exist);
+        void updatear(uint64_t id, double attention_rate, uint32_t attention_rate_rating_position, bool add_account_if_not_exist);
 
         /// @abi action updatearmult
         void updatearmult(vector<account_with_attention_rate>& updates, bool add_account_if_not_exist);
@@ -67,7 +69,7 @@ namespace snax {
         void dropaccount(account_name account, uint32_t max_account_count);
 
         /// @abi action addaccount
-        void addaccount(account_name account, uint64_t id, double attention_rate);
+        void addaccount(account_name account, uint64_t id, double attention_rate, uint32_t attention_rate_rating_position);
 
         /// @abi action addaccounts
         void addaccounts(vector<account_to_add>& accounts_to_add);
@@ -150,9 +152,9 @@ namespace snax {
         /// @abi table state i64
         struct state {
             string platform_name;
-            uint16_t updating;
-            uint64_t step_number;
-            uint64_t registered_account_count;
+            uint8_t updating;
+            uint16_t step_number;
+            uint64_t registered_user_count;
             uint64_t total_account_count;
             double total_attention_rate;
             account_name token_dealer;
@@ -167,7 +169,7 @@ namespace snax {
             }
 
             SNAXLIB_SERIALIZE(
-                state, (platform_name)(updating)(step_number)(registered_account_count)(total_account_count)(total_attention_rate)(token_dealer)(account)(airdrop)(round_supply)(sent_amount)(round_updated_account_count)
+                state, (platform_name)(updating)(step_number)(registered_user_count)(total_account_count)(total_attention_rate)(token_dealer)(account)(airdrop)(round_supply)(sent_amount)(round_updated_account_count)
             )
         };
 
