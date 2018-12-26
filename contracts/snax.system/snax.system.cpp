@@ -331,14 +331,31 @@ namespace snaxsystem {
                             const authority& active*/ ) {
 
       if( creator != _self ) {
+         uint16_t length = 0;
          auto tmp = newact >> 4;
          bool has_dot = false;
-
+         bool begin = false;
+         int8_t previous_empty = 0;
          for( uint32_t i = 0; i < 12; ++i ) {
-           has_dot |= !(tmp & 0x1f);
-           tmp >>= 5;
+            const bool current = !!(tmp & 0x1f);
+            if (current && previous_empty == 1) {
+                has_dot = true;
+                length += 2;
+                previous_empty = -1;
+            } else if (current) {
+                if (!begin) {
+                    begin = true;
+                }
+                length++;
+            } else if (begin && previous_empty == 0) {
+                previous_empty = 1;
+            } else if (begin && (previous_empty == 1 || previous_empty == -1)) {
+                break;
+            }
+            tmp >>= 5;
          }
-         if( has_dot ) { // or is less than 12 characters
+
+         if( has_dot || length < 6 ) { // has dot or is less than 6 characters
             auto suffix = snax::name_suffix(newact);
             if( suffix == newact ) {
                name_bid_table bids(_self,_self);
