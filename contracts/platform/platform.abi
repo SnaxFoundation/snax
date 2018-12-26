@@ -48,10 +48,7 @@
           "name": "attention_rate",
           "type": "float64"
         },{
-          "name": "serial",
-          "type": "uint32"
-        },{
-          "name": "last_updated_step_number",
+          "name": "last_paid_step_number",
           "type": "uint16"
         },{
           "name": "last_attention_rate_updated_step_number",
@@ -330,10 +327,14 @@
       "name": "paccounts",
       "index_type": "i64",
       "key_names": [
+        "id",
+        "account",
         "name"
       ],
       "key_types": [
-        "name"
+        "uint64",
+        "name",
+        "float64"
       ],
       "type": "account"
     },{
