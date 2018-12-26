@@ -2,8 +2,6 @@
  *  @file
  *  @copyright defined in snax/LICENSE.txt
  */
-#include <snax/utilities/key_conversion.hpp>
-#include <snax/utilities/rand.hpp>
 #include <snax/chain/genesis_state.hpp>
 #include <snax/wallet_plugin/wallet.hpp>
 #include <snax/wallet_plugin/wallet_manager.hpp>
@@ -20,7 +18,6 @@ BOOST_AUTO_TEST_SUITE(wallet_tests)
 BOOST_AUTO_TEST_CASE(wallet_test)
 { try {
    using namespace snax::wallet;
-   using namespace snax::utilities;
 
    wallet_data d;
    soft_wallet wallet(d);

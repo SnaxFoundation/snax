@@ -1,0 +1,74 @@
+steps:
+  - command: |
+        echo "AUTHENTICATING GOOGLE SERVICE ACCOUNT" && \
+        gcloud --quiet auth activate-service-account b1-automation-svc@b1-automation-dev.iam.gserviceaccount.com --key-file=/etc/gcp-service-account.json && \
+        docker-credential-gcr configure-docker && \
+        echo "BUILDING BUILD IMAGE" && \
+        cd Docker/builder && \
+        docker build -t snax/builder:latest -t snax/builder:$BUILDKITE_COMMIT . --build-arg branch=$BUILDKITE_COMMIT && \
+        docker tag snax/builder:$BUILDKITE_COMMIT gcr.io/b1-automation-dev/snax/builder:$BUILDKITE_COMMIT && \
+        docker tag snax/builder:latest gcr.io/b1-automation-dev/snax/builder:latest && \
+        echo "PUSHING DOCKER IMAGES" && \
+        docker push gcr.io/b1-automation-dev/snax/builder:$BUILDKITE_COMMIT && \
+        docker push gcr.io/b1-automation-dev/snax/builder:latest && \
+        echo "TRASHING OLD IMAGES" && \
+        docker rmi snax/builder:$BUILDKITE_COMMIT && \
+        docker rmi snax/builder:latest && \
+        docker rmi gcr.io/b1-automation-dev/snax/builder:$BUILDKITE_COMMIT && \
+        docker rmi gcr.io/b1-automation-dev/snax/builder:latest
+    label: "Docker build builder"
+    agents:
+      queue: "automation-docker-builder-fleet"
+    timeout: 300
+
+  - wait
+
+  - command: |
+        echo "AUTHENTICATING GOOGLE SERVICE ACCOUNT" && \
+        gcloud --quiet auth activate-service-account b1-automation-svc@b1-automation-dev.iam.gserviceaccount.com --key-file=/etc/gcp-service-account.json && \
+        docker-credential-gcr configure-docker && \
+        echo "BUILDING SNAX IMAGE" && \
+        docker pull gcr.io/b1-automation-dev/snax/builder:$BUILDKITE_COMMIT && \
+        cd Docker && \
+        docker build -t snax/snax:latest -t snax/snax:$BUILDKITE_COMMIT . --build-arg branch=$BUILDKITE_BRANCH && \
+        docker tag snax/snax:$BUILDKITE_COMMIT gcr.io/b1-automation-dev/snax/snax:$BUILDKITE_COMMIT && \
+        docker tag snax/snax:latest gcr.io/b1-automation-dev/snax/snax:latest && \
+        echo "PUSHING DOCKER IMAGES" && \
+        docker push gcr.io/b1-automation-dev/snax/snax:$BUILDKITE_COMMIT && \
+        docker push gcr.io/b1-automation-dev/snax/snax:latest && \
+        echo "TRASHING OLD IMAGES" && \
+        docker rmi snax/snax:$BUILDKITE_COMMIT && \
+        docker rmi snax/snax:latest && \
+        docker rmi gcr.io/b1-automation-dev/snax/snax:$BUILDKITE_COMMIT && \
+        docker rmi gcr.io/b1-automation-dev/snax/snax:latest && \
+        docker rmi gcr.io/b1-automation-dev/snax/builder:$BUILDKITE_COMMIT
+    label: "Docker build snax"
+    agents:
+      queue: "automation-docker-builder-fleet"
+    timeout: 300
+
+  - command: |
+        echo "AUTHENTICATING GOOGLE SERVICE ACCOUNT" && \
+        gcloud --quiet auth activate-service-account b1-automation-svc@b1-automation-dev.iam.gserviceaccount.com --key-file=/etc/gcp-service-account.json && \
+        docker-credential-gcr configure-docker && \
+        echo "BUILDING SNAX DEV IMAGE" && \
+        docker pull gcr.io/b1-automation-dev/snax/builder:$BUILDKITE_COMMIT && \
+        cd Docker/dev && \
+        docker build -t snax/snax-dev:latest -t snax/snax-dev:$BUILDKITE_COMMIT . --build-arg branch=$BUILDKITE_BRANCH && \
+        docker tag snax/snax-dev:$BUILDKITE_COMMIT gcr.io/b1-automation-dev/snax/snax-dev:$BUILDKITE_COMMIT && \
+        docker tag snax/snax-dev:latest gcr.io/b1-automation-dev/snax/snax-dev:latest && \
+        echo "PUSHING DOCKER IMAGES" && \
+        docker push gcr.io/b1-automation-dev/snax/snax-dev:$BUILDKITE_COMMIT && \
+        docker push gcr.io/b1-automation-dev/snax/snax-dev:latest && \
+        echo "TRASHING OLD IMAGES" && \
+        docker rmi snax/snax-dev:$BUILDKITE_COMMIT && \
+        docker rmi snax/snax-dev:latest && \
+        docker rmi gcr.io/b1-automation-dev/snax/snax-dev:$BUILDKITE_COMMIT && \
+        docker rmi gcr.io/b1-automation-dev/snax/snax-dev:latest && \
+        docker rmi gcr.io/b1-automation-dev/snax/builder:$BUILDKITE_COMMIT
+    label: "Docker build snax-dev"
+    agents:
+      queue: "automation-docker-builder-fleet"
+    timeout: 300
+
+  - wait

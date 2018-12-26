@@ -259,14 +259,20 @@ class Node(object):
             cmd="%s %s" % (Utils.MongoPath, self.mongoEndpointArgs)
             subcommand='db.blocks.findOne( { "block_num": %d } )' % (blockNum)
             if Utils.Debug: Utils.Print("cmd: echo '%s' | %s" % (subcommand, cmd))
+            start=time.perf_counter()
             try:
                 block=Node.runMongoCmdReturnJson(cmd.split(), subcommand, exitOnError=exitOnError)
+                if Utils.Debug:
+                    end=time.perf_counter()
+                    Utils.Print("cmd Duration: %.3f sec" % (end-start))
+
                 if block is not None:
                     return block
             except subprocess.CalledProcessError as ex:
                 if not silentErrors:
+                    end=time.perf_counter()
                     msg=ex.output.decode("utf-8")
-                    errorMsg="Exception during get db node get block. %s" % (msg)
+                    errorMsg="Exception during get db node get block.  cmd Duration: %.3f sec. %s" % (end-start, msg)
                     if exitOnError:
                         Utils.cmdError(errorMsg)
                         Utils.errorExit(errorMsg)
@@ -280,14 +286,19 @@ class Node(object):
         cmd="%s %s" % (Utils.MongoPath, self.mongoEndpointArgs)
         subcommand='db.blocks.findOne( { "block_id": "%s" } )' % (blockId)
         if Utils.Debug: Utils.Print("cmd: echo '%s' | %s" % (subcommand, cmd))
+        start=time.perf_counter()
         try:
             trans=Node.runMongoCmdReturnJson(cmd.split(), subcommand)
+            if Utils.Debug:
+                end=time.perf_counter()
+                Utils.Print("cmd Duration: %.3f sec" % (end-start))
             if trans is not None:
                 return trans
         except subprocess.CalledProcessError as ex:
             if not silentErrors:
+                end=time.perf_counter()
                 msg=ex.output.decode("utf-8")
-                Utils.Print("ERROR: Exception during db get block by id. %s" % (msg))
+                Utils.Print("ERROR: Exception during db get block by id.  cmd Duration: %.3f sec. %s" % (end-start, msg))
             return None
 
         return None
@@ -360,13 +371,18 @@ class Node(object):
         #subcommand='db.Transactions.findOne( { $and : [ { "trx_id": "%s" }, {"irreversible":true} ] } )' % (transId)
         subcommand='db.transactions.findOne( { "trx_id": "%s" } )' % (transId)
         if Utils.Debug: Utils.Print("cmd: echo '%s' | %s" % (subcommand, cmd))
+        start=time.perf_counter()
         try:
             trans=Node.runMongoCmdReturnJson(cmd.split(), subcommand, exitOnError=exitOnError)
+            if Utils.Debug:
+                end=time.perf_counter()
+                Utils.Print("cmd Duration: %.3f sec" % (end-start))
             if trans is not None:
                 return trans
         except subprocess.CalledProcessError as ex:
+            end=time.perf_counter()
             msg=ex.output.decode("utf-8")
-            errorMsg="Exception during get db node get trans in mongodb with transaction id=%s. %s" % (transId,msg)
+            errorMsg="Exception during get db node get trans in mongodb with transaction id=%s.  cmd Duration: %.3f sec.  %s" % (transId, end-start, msg)
             if exitOnError:
                 Utils.cmdError("" % (errorMsg))
                 Utils.errorExit("Failed to retrieve transaction in mongodb for transaction id=%s" % (transId))
@@ -548,15 +564,20 @@ class Node(object):
         try:
             timeout = 3
             for i in range(0,(int(60/timeout) - 1)):
+                start=time.perf_counter()
                 trans=Node.runMongoCmdReturnJson(cmd.split(), subcommand, exitOnError=exitOnError)
                 if trans is not None:
+                    if Utils.Debug:
+                        end=time.perf_counter()
+                        Utils.Print("cmd Duration: %.3f sec" % (end-start))
                     return trans
                 time.sleep(timeout)
             return trans
         except subprocess.CalledProcessError as ex:
             msg=ex.output.decode("utf-8")
             if exitOnError:
-                Utils.cmdError("Exception during get account from db for %s. %s" % (name, msg))
+                end=time.perf_counter()
+                Utils.cmdError("Exception during get account from db for %s.  cmd Duration: %.3f sec.  %s" % (name, end-start, msg))
                 Utils.errorExit("Failed during get account from db for %s. %s" % (name, msg))
 
             Utils.Print("ERROR: Exception during get account from db for %s. %s" % (name, msg))

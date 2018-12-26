@@ -245,7 +245,7 @@ namespace snaxsystem {
          std::tuple<double, double> get_parabola(double x0, double y0) const;
          double calculate_parabola(double a, double b, double c, double x) const;
          double convert_asset_to_double(asset value) const;
-         asset get_balance();
+         asset get_balance(account_name account);
 
          void update_elected_producers( block_timestamp timestamp );
 

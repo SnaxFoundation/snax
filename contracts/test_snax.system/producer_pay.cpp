@@ -82,11 +82,18 @@ namespace snaxsystem {
       const auto usecs_since_last_fill = ct - _gstate.last_pervote_bucket_fill;
 
       if( usecs_since_last_fill > 0 && _gstate.last_pervote_bucket_fill > 0 ) {
-         _accounts_balances balances(N(snax.token), N(snax.util));
-         const auto found = balances.find(S(4,CORE_SYMBOL));
-         auto payments = found != balances.end() ? found -> balance: asset(0);
+         const asset payments = get_balance(N(snax.util));
+         const asset max_supply = snax::token(N(snax.token)).get_max_supply(snax::symbol_type(system_token_symbol).name());
 
-         auto to_producers       = payments;
+         asset additional_emission = max_supply - token_supply;
+
+         if (additional_emission.amount >= 1'000'000'000) {
+             additional_emission = asset(additional_emission.amount / 1'000'000'000);
+         } else {
+             additional_emission = asset(0);
+         }
+
+         auto to_producers       = payments + additional_emission;
          auto to_per_block_pay   = to_producers / 2;
          auto to_per_vote_pay    = to_producers - to_per_block_pay;
 
@@ -130,6 +137,8 @@ namespace snaxsystem {
          INLINE_ACTION_SENDER(snax::token, transfer)( N(snax.token), {N(snax.vpay),N(active)},
                                                        { N(snax.vpay), owner, asset(producer_per_vote_pay), std::string("producer vote pay") } );
       }
+
+      _global.set(_gstate, _self);
    }
 
 } //namespace snaxsystem

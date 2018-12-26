@@ -50,7 +50,7 @@ add_library( snax_chain
              ${HEADERS}
              )
 
-target_link_libraries( snax_chain snax_utilities fc chainbase Logging IR WAST WASM Runtime
+target_link_libraries( snax_chain fc chainbase Logging IR WAST WASM Runtime
                        softfloat builtins wabt
                      )
 target_include_directories( snax_chain
