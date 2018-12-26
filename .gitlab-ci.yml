@@ -66,7 +66,7 @@ build:tag:
   - tags
   tags:
   - snax
-  
+
 build:tag:macos:
   stage: build
   script:
