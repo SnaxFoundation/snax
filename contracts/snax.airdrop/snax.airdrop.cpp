@@ -22,7 +22,7 @@ namespace snax {
         require_auth(_self);
         check_platform_registered(platform);
         const auto& found = _platform_definitions.find(platform);
-        
+
         snax_assert(found != _platform_definitions.end(), "platform not found");
 
         _platform_definitions.modify(found, _self, [&](auto& definition) {
@@ -55,8 +55,7 @@ namespace snax {
     asset airdrop::get_balance(const uint64_t symbol_name) {
         _accounts_balances balances(N(snax.token), _self);
         const auto& airdrop_balance = balances.find(symbol_name);
-        snax_assert(airdrop_balance != balances.end(), "aidrop has no balance");
-        return airdrop_balance->balance;
+        return airdrop_balance != balances.end() ? airdrop_balance->balance: asset(0, symbol_name);
     }
 
     void airdrop::check_platform_registered(const account_name platform) {
