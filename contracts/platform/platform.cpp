@@ -68,8 +68,6 @@ namespace snax {
         const auto& end_iter = account_account_index.cend();
         uint32_t updated_account_count = 0;
 
-        snax_assert(iter != end_iter, "cant find account with such lower name");
-
         asset current_balance = get_balance(_self);
         asset sent_amount = _state.round_supply - _state.round_supply;
         asset total_balance = _state.round_supply;
