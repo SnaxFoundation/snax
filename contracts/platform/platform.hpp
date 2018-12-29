@@ -38,7 +38,7 @@ namespace snax {
         };
 
         platform( account_name s )
-        :contract(s), _accounts(s, s), _platform_state(s, s), _transfers(s, s), _pending_accounts(s, s)
+        :contract(s), _users(s, s), _accounts(s, s), _platform_state(s, s), _transfers(s, s), _pending_accounts(s, s)
          {}
 
         /// @abi action initialize
@@ -115,38 +115,38 @@ namespace snax {
 
         /// @abi table paccounts i64
         struct account {
+            uint64_t id;
             account_name name;
+            uint16_t last_paid_step_number;
+            string verification_tweet;
+
+            uint64_t primary_key() const {
+                return id;
+            }
+
+            uint64_t by_name() const {
+                return name;
+            }
+
+            SNAXLIB_SERIALIZE(account, (id)(name)(last_paid_step_number)(verification_tweet))
+        };
+
+        /// @abi table pusers i64
+        struct user {
             uint64_t id;
             double attention_rate;
             uint32_t attention_rate_rating_position;
-            uint16_t last_paid_step_number;
             uint16_t last_attention_rate_updated_step_number;
 
             uint64_t primary_key() const {
                 return id;
             }
 
-            uint64_t by_account() const {
-                return name;
-            }
-
-            uint64_t by_last_attention_rate_updated_step_number() const {
-                return last_attention_rate_updated_step_number;
-            }
-
-            uint64_t by_last_paid_step_number() const {
-                return last_paid_step_number;
-            }
-
-            double by_attention_rate() const {
-                return attention_rate;
-            }
-
             uint64_t by_attention_rate_rating_position() const {
                 return attention_rate_rating_position;
             }
 
-            SNAXLIB_SERIALIZE(account, (name)(id)(attention_rate)(attention_rate_rating_position)(last_paid_step_number)(last_attention_rate_updated_step_number))
+            SNAXLIB_SERIALIZE(user, (id)(attention_rate)(attention_rate_rating_position)(last_attention_rate_updated_step_number))
         };
 
         /// @abi table state i64
@@ -155,7 +155,7 @@ namespace snax {
             uint8_t updating;
             uint16_t step_number;
             uint64_t registered_user_count;
-            uint64_t total_account_count;
+            uint64_t total_user_count;
             double total_attention_rate;
             account_name token_dealer;
             account_name account;
@@ -169,7 +169,7 @@ namespace snax {
             }
 
             SNAXLIB_SERIALIZE(
-                state, (platform_name)(updating)(step_number)(registered_user_count)(total_account_count)(total_attention_rate)(token_dealer)(account)(airdrop)(round_supply)(sent_amount)(round_updated_account_count)
+                state, (platform_name)(updating)(step_number)(registered_user_count)(total_user_count)(total_attention_rate)(token_dealer)(account)(airdrop)(round_supply)(sent_amount)(round_updated_account_count)
             )
         };
 
@@ -178,20 +178,23 @@ namespace snax {
             uint64_t primary_key()const { return balance.symbol.name(); }
         };
 
-        typedef multi_index<N(accounts), account_with_balance> _accounts_balances;
+        typedef multi_index<N(accounts), account_with_balance> _users_balances;
         typedef multi_index<N(transfers), transfer_rec> transfers_table;
         typedef multi_index<N(paccounts), account,
-                indexed_by<N(name), const_mem_fun<account, uint64_t, &account::by_account>>,
-                indexed_by<N(attention_rate_rating_position), const_mem_fun<account, uint64_t, &account::by_attention_rate_rating_position>>
-        > acctable;
+                indexed_by<N(name), const_mem_fun<account, uint64_t, &account::by_name>>
+        > registered_account_table;
+        typedef multi_index<N(pusers), user,
+                indexed_by<N(attention_rate_rating_position), const_mem_fun<user, uint64_t, &user::by_attention_rate_rating_position>>
+        > usertable;
         typedef multi_index<N(peaccounts), pending_rec, indexed_by<N(created), const_mem_fun<pending_rec, uint64_t, &pending_rec::by_created>>> peacctable;
         typedef singleton<N(state), state> platform_state;
 
-        acctable _accounts;
+        usertable _users;
         peacctable _pending_accounts;
         platform_state _platform_state;
         state _state;
         transfers_table _transfers;
+        registered_account_table _accounts;
 
         // Only contract itself is allowed to unlock update
         void unlock_update(asset current_amount, asset sent_amount);

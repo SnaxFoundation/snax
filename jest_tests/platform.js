@@ -58,7 +58,7 @@ describe("Platform", async () => {
   };
 
   const verifyStatesAndAccounts = async () => {
-    const [state, accounts] = await Promise.all([
+    const [state, accounts, users] = await Promise.all([
       api.rpc.get_table_rows({
         code: account,
         scope: account,
@@ -68,10 +68,16 @@ describe("Platform", async () => {
         code: account,
         scope: account,
         table: "paccounts"
+      }),
+      api.rpc.get_table_rows({
+        code: account,
+        scope: account,
+        table: "pusers"
       })
     ]);
     expect(state).toMatchSnapshot();
     expect(accounts).toMatchSnapshot();
+    expect(users).toMatchSnapshot();
   };
 
   const verifyTransferTable = async () => {

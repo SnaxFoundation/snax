@@ -18,7 +18,7 @@ namespace snax {
         _state.token_dealer = token_dealer;
         _state.total_attention_rate = 0.0;
         _state.round_updated_account_count = 0;
-        _state.total_account_count = 0;
+        _state.total_user_count = 0;
         _state.registered_user_count = 0;
         _state.updating = 0;
         _state.account = _self;
@@ -62,10 +62,10 @@ namespace snax {
 
         snax_assert(_state.updating == 2, "platform must be in updating state and nextround must be called before sending payments");
 
-        const auto account_account_index = _accounts.get_index<N(name)>();
-        auto iter = account_account_index.lower_bound(lower_account_name ? lower_account_name: 1);
+        const auto& _accounts_account_index = _accounts.get_index<N(name)>();
+        auto iter = _accounts_account_index.lower_bound(lower_account_name ? lower_account_name: 1);
 
-        const auto& end_iter = account_account_index.cend();
+        const auto& end_iter = _accounts_account_index.cend();
         uint32_t updated_account_count = 0;
 
         asset current_balance = get_balance(_self);
@@ -81,13 +81,14 @@ namespace snax {
         }
 
         while (iter != end_iter && account_count--) {
-            const auto& account = *_accounts.find(iter->id);
+            const auto& account = *iter;
+            const auto& user = *_users.find(account.id);
             if (account.name) {
                 updated_account_count++;
-                if (account.attention_rate > 0.1) {
+                if (user.attention_rate > 0.1) {
                     snax_assert(account.last_paid_step_number < _state.step_number + 1, "account already updated");
                     asset token_amount;
-                    const int64_t portion = static_cast<int64_t>(_state.total_attention_rate / account.attention_rate);
+                    const int64_t portion = static_cast<int64_t>(_state.total_attention_rate / user.attention_rate);
                     if (portion < total_balance.amount) {
                         token_amount = total_balance / portion;
                         if (token_amount.amount > current_balance.amount) {
@@ -105,7 +106,7 @@ namespace snax {
                         sent_amount += token_amount;
                     }
                     _accounts.modify(
-                        account, _self, [&](auto& account) {
+                        _accounts.find(account.id), _self, [&](auto& account) {
                             account.last_paid_step_number = _state.step_number;
                         }
                     );
@@ -160,18 +161,18 @@ namespace snax {
         snax_assert(!_state.updating,
                      "platform mustn't be in updating state when updatear action is called");
 
-        const auto &found = _accounts.find(id);
+        const auto &found = _users.find(id);
 
-        snax_assert(found != _accounts.end() || add_account_if_not_exist, "user doesnt exist");
+        snax_assert(found != _users.end() || add_account_if_not_exist, "user doesnt exist");
 
-        if (found != _accounts.end()) {
+        if (found != _users.end()) {
             const double diff = attention_rate - found->attention_rate;
 
             snax_assert(diff >= 0 || abs(diff) <= abs(found->attention_rate), "incorrect attention rate");
 
             update_state_total_attention_rate_and_user_count(diff, 0, 0);
 
-            _accounts.modify(
+            _users.modify(
                     found, _self, [&](auto &record) {
                         record.attention_rate = attention_rate;
                         record.attention_rate_rating_position = attention_rate_rating_position;
@@ -195,16 +196,16 @@ namespace snax {
         double total_attention_rate_diff = 0;
 
         for (auto& update: updates) {
-            const auto& account = _accounts.find(update.id);
-            snax_assert(account != _accounts.end() || add_account_if_not_exist, "user doesnt exist");
-            if (account != _accounts.end()) {
+            const auto& account = _users.find(update.id);
+            snax_assert(account != _users.end() || add_account_if_not_exist, "user doesnt exist");
+            if (account != _users.end()) {
                 const double attention_rate = update.attention_rate;
                 const double diff = attention_rate - account->attention_rate;
                 const uint32_t attention_rate_rating_position = update.attention_rate_rating_position;
 
                 snax_assert(diff >= 0 || abs(diff) <= abs(account->attention_rate), "incorrect attention rate");
 
-                _accounts.modify(
+                _users.modify(
                         account, _self, [&](auto &record) {
                             record.attention_rate = attention_rate;
                             record.attention_rate_rating_position = attention_rate_rating_position;
@@ -234,17 +235,17 @@ namespace snax {
         uint32_t removed_registered_accounts = 0;
         uint32_t removed_accounts = 0;
         while (max_account_count--) {
-            const auto account_index = _accounts.get_index<N(name)>();
-            const auto& found = account_index.find(account);
-            if (found == account_index.end()) {
+            const auto& _accounts_account_index = _accounts.get_index<N(name)>();
+            const auto& found = _accounts_account_index.find(account);
+            if (found == _accounts_account_index.end()) {
                 break;
             }
             if (found->name) removed_registered_accounts++;
             removed_accounts++;
-            _accounts.erase(_accounts.find(found->id));
+            _users.erase(_users.find(found->id));
         }
 
-        _state.total_account_count -= removed_accounts;
+        _state.total_user_count -= removed_accounts;
         _state.registered_user_count -= removed_registered_accounts;
         _platform_state.set(_state, _self);
     }
@@ -261,8 +262,10 @@ namespace snax {
         );
 
         snax_assert(attention_rate >= 0, "attention rate must be greater than zero or equal to zero");
-        const auto& found = _accounts.find(id);
-        snax_assert(found == _accounts.end() || !found->name, "user already exists");
+        const auto& found_user = _users.find(id);
+        const auto& found_account = _accounts.find(id);
+
+        snax_assert(found_user == _users.end() || found_account == _accounts.end(), "user already exists");
 
         const auto& pending = _pending_accounts.find(account);
 
@@ -272,29 +275,40 @@ namespace snax {
 
         claim_transfered(id, account);
 
-        if (found == _accounts.end()) {
-            _accounts.emplace(
+        if (found_user == _users.end()) {
+            _users.emplace(
                     _self, [&](auto &record) {
                         record.attention_rate = attention_rate;
                         record.id = id;
-                        record.name = account;
                         record.last_attention_rate_updated_step_number = _state.step_number;
                         record.attention_rate_rating_position = attention_rate_rating_position;
                     }
             );
         } else {
-            _accounts.modify(
-                    found, _self, [&](auto &record) {
+            _users.modify(
+                    found_user, _self, [&](auto &record) {
                         const double diff = attention_rate - record.attention_rate;
-
                         snax_assert(diff >= 0 || abs(diff) <= abs(record.attention_rate), "incorrect attention rate");
-
                         record.attention_rate = attention_rate;
-                        record.name = account;
                         record.last_attention_rate_updated_step_number = _state.step_number;
                         record.attention_rate_rating_position = attention_rate_rating_position;
                     }
             );
+        }
+
+        if (account) {
+            if (found_account == _accounts.end()) {
+                _accounts.emplace(_self, [&](auto& record) {
+                    record.name = account;
+                    record.id = id;
+                    record.last_paid_step_number = 0;
+                });
+            } else {
+                _accounts.modify(found_account, _self, [&](auto& record) {
+                    record.name = account;
+                    record.id = id;
+                });
+            }
         }
 
         if (_state.airdrop && account) {
@@ -320,8 +334,9 @@ namespace snax {
         uint32_t registered_accounts = 0;
 
         for (auto& account_to_add: accounts_to_add) {
+            const auto& found_user = _users.find(account_to_add.id);
             const auto& found_account = _accounts.find(account_to_add.id);
-            snax_assert(_accounts.find(account_to_add.id) == _accounts.end() || !found_account->name, "user already exists");
+            snax_assert(_users.find(account_to_add.id) == _users.end() || found_account == _accounts.end(), "user already exists");
             snax_assert(account_to_add.attention_rate >= 0, "attention rate must be greater than zero or equal to zero");
             accumulated_attention_rate += account_to_add.attention_rate;
 
@@ -337,27 +352,41 @@ namespace snax {
 
             claim_transfered(account_to_add.id, account_to_add.name);
 
-            if (found_account != _accounts.end()) {
-                _accounts.modify(
-                        found_account, _self, [&](auto &record) {
+            if (found_user != _users.end()) {
+                _users.modify(
+                        found_user, _self, [&](auto &record) {
                             record.attention_rate = account_to_add.attention_rate;
                             record.id = account_to_add.id;
-                            record.name = account_to_add.name;
                             record.attention_rate_rating_position = account_to_add.attention_rate_rating_position;
                             record.last_attention_rate_updated_step_number = _state.step_number;
                         }
                 );
             } else {
-                _accounts.emplace(
+                _users.emplace(
                         _self, [&](auto &record) {
                             record.attention_rate = account_to_add.attention_rate;
                             record.id = account_to_add.id;
-                            record.name = account_to_add.name;
                             record.attention_rate_rating_position = account_to_add.attention_rate_rating_position;
                             record.last_attention_rate_updated_step_number = _state.step_number;
                         }
                 );
             }
+
+            if (account_to_add.name) {
+                if (found_account == _accounts.end()) {
+                    _accounts.emplace(_self, [&](auto& record) {
+                        record.name = account_to_add.name;
+                        record.id = account_to_add.id;
+                        record.last_paid_step_number = 0;
+                    });
+                } else {
+                    _accounts.modify(found_account, _self, [&](auto& record) {
+                        record.name = account_to_add.name;
+                        record.id = account_to_add.id;
+                    });
+                }
+            }
+
             index++;
         }
 
@@ -373,9 +402,10 @@ namespace snax {
 
         snax_assert(balance >= amount, "from account doesnt have enough tokens");
 
-        const auto& to_account = _accounts.find(to);
+        const auto& _accounts_account_index = _accounts.get_index<N(name)>();
+        const auto& to_account = _accounts_account_index.find(to);
 
-        if (to_account != _accounts.end() && to_account->name) {
+        if (to_account != _accounts_account_index.end() && to_account->name) {
             action(permission_level{from, N(active)}, N(snax.token), N(transfer), make_tuple(from, to_account->name, amount, string("social transaction"))).send();
         } else {
             action(permission_level{from, N(active)}, N(snax.token), N(transfer), make_tuple(from, N(snax.transf), amount, string("social transaction"))).send();
@@ -399,7 +429,7 @@ namespace snax {
         require_initialized();
         _state = _platform_state.get();
 
-        _accounts_balances balances(N(snax.token), account);
+        _users_balances balances(N(snax.token), account);
         const auto& platform_balance = balances.find(_state.round_supply.symbol.name());
         const auto result = platform_balance != balances.end() ? platform_balance->balance: asset(0);
         return result;
@@ -411,7 +441,7 @@ namespace snax {
         _state = _platform_state.get();
 
         _state.total_attention_rate += additional_attention_rate;
-        _state.total_account_count += new_accounts;
+        _state.total_user_count += new_accounts;
         _state.registered_user_count += new_registered_accounts;
         _platform_state.set(_state, _self);
     }
@@ -447,14 +477,6 @@ namespace snax {
         if (current_amount.amount > 0) {
             action(permission_level{_self, N(active)}, N(snax.token), N(transfer), make_tuple(_self, N(snax), current_amount, string("rest of money"))).send();
         }
-    }
-
-    platform::account platform::find_account(const account_name account) {
-        const auto account_index = _accounts.get_index<N(name)>();
-        const auto& found = account_index.find(account);
-        snax_assert(found != account_index.end(), "user doesn't exist in platform");
-
-        return *found;
     }
 
     void platform::require_initialized() {

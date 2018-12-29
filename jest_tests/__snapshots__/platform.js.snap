@@ -14,8 +14,8 @@ Object {
       "sent_amount": "0.0000 SNAX",
       "step_number": 0,
       "token_dealer": "snax",
-      "total_account_count": 1,
       "total_attention_rate": "15.00000000000000000",
+      "total_user_count": 1,
       "updating": 0,
     },
   ],
@@ -27,12 +27,24 @@ Object {
   "more": false,
   "rows": Array [
     Object {
+      "id": 123,
+      "last_paid_step_number": 0,
+      "name": "test2",
+      "verification_tweet": "",
+    },
+  ],
+}
+`;
+
+exports[`Platform should add account correctly 3`] = `
+Object {
+  "more": false,
+  "rows": Array [
+    Object {
       "attention_rate": "15.00000000000000000",
       "attention_rate_rating_position": 1,
       "id": 123,
       "last_attention_rate_updated_step_number": 0,
-      "last_paid_step_number": 0,
-      "name": "test2",
     },
   ],
 }
@@ -63,8 +75,8 @@ Object {
       "sent_amount": "0.0000 SNAX",
       "step_number": 0,
       "token_dealer": "snax",
-      "total_account_count": 0,
       "total_attention_rate": "0.00000000000000000",
+      "total_user_count": 0,
       "updating": 0,
     },
   ],
@@ -72,6 +84,13 @@ Object {
 `;
 
 exports[`Platform should drop pending account correctly 4`] = `
+Object {
+  "more": false,
+  "rows": Array [],
+}
+`;
+
+exports[`Platform should drop pending account correctly 5`] = `
 Object {
   "more": false,
   "rows": Array [],
@@ -92,8 +111,8 @@ Object {
       "sent_amount": "0.0000 SNAX",
       "step_number": 0,
       "token_dealer": "snax",
-      "total_account_count": 0,
       "total_attention_rate": "0.00000000000000000",
+      "total_user_count": 0,
       "updating": 0,
     },
   ],
@@ -101,6 +120,13 @@ Object {
 `;
 
 exports[`Platform should initialize correctly 2`] = `
+Object {
+  "more": false,
+  "rows": Array [],
+}
+`;
+
+exports[`Platform should initialize correctly 3`] = `
 Object {
   "more": false,
   "rows": Array [],
@@ -121,8 +147,8 @@ Object {
       "sent_amount": "0.0000 SNAX",
       "step_number": 0,
       "token_dealer": "snax",
-      "total_account_count": 4,
       "total_attention_rate": "652.00000000000000000",
+      "total_user_count": 4,
       "updating": 1,
     },
   ],
@@ -134,42 +160,66 @@ Object {
   "more": false,
   "rows": Array [
     Object {
-      "attention_rate": "15.00000000000000000",
-      "attention_rate_rating_position": 3,
       "id": 123,
-      "last_attention_rate_updated_step_number": 0,
       "last_paid_step_number": 0,
       "name": "test1",
+      "verification_tweet": "",
     },
     Object {
-      "attention_rate": "206.00000000000000000",
-      "attention_rate_rating_position": 1,
       "id": 1007,
-      "last_attention_rate_updated_step_number": 0,
       "last_paid_step_number": 0,
       "name": "test1",
+      "verification_tweet": "",
     },
     Object {
-      "attention_rate": "225.00000000000000000",
-      "attention_rate_rating_position": 2,
       "id": 1105,
-      "last_attention_rate_updated_step_number": 0,
       "last_paid_step_number": 0,
       "name": "test2",
+      "verification_tweet": "",
     },
     Object {
-      "attention_rate": "206.00000000000000000",
-      "attention_rate_rating_position": 1,
       "id": 1200,
-      "last_attention_rate_updated_step_number": 0,
       "last_paid_step_number": 0,
       "name": "test2",
+      "verification_tweet": "",
     },
   ],
 }
 `;
 
 exports[`Platform should process next round correctly 3`] = `
+Object {
+  "more": false,
+  "rows": Array [
+    Object {
+      "attention_rate": "15.00000000000000000",
+      "attention_rate_rating_position": 3,
+      "id": 123,
+      "last_attention_rate_updated_step_number": 0,
+    },
+    Object {
+      "attention_rate": "206.00000000000000000",
+      "attention_rate_rating_position": 1,
+      "id": 1007,
+      "last_attention_rate_updated_step_number": 0,
+    },
+    Object {
+      "attention_rate": "225.00000000000000000",
+      "attention_rate_rating_position": 2,
+      "id": 1105,
+      "last_attention_rate_updated_step_number": 0,
+    },
+    Object {
+      "attention_rate": "206.00000000000000000",
+      "attention_rate_rating_position": 1,
+      "id": 1200,
+      "last_attention_rate_updated_step_number": 0,
+    },
+  ],
+}
+`;
+
+exports[`Platform should process next round correctly 4`] = `
 Array [
   Object {
     "more": false,
@@ -194,7 +244,7 @@ Array [
 ]
 `;
 
-exports[`Platform should process next round correctly 4`] = `
+exports[`Platform should process next round correctly 5`] = `
 Object {
   "more": false,
   "rows": Array [
@@ -208,49 +258,9 @@ Object {
       "sent_amount": "0.0000 SNAX",
       "step_number": 0,
       "token_dealer": "snax",
-      "total_account_count": 4,
       "total_attention_rate": "652.00000000000000000",
+      "total_user_count": 4,
       "updating": 2,
-    },
-  ],
-}
-`;
-
-exports[`Platform should process next round correctly 5`] = `
-Object {
-  "more": false,
-  "rows": Array [
-    Object {
-      "attention_rate": "15.00000000000000000",
-      "attention_rate_rating_position": 3,
-      "id": 123,
-      "last_attention_rate_updated_step_number": 0,
-      "last_paid_step_number": 0,
-      "name": "test1",
-    },
-    Object {
-      "attention_rate": "206.00000000000000000",
-      "attention_rate_rating_position": 1,
-      "id": 1007,
-      "last_attention_rate_updated_step_number": 0,
-      "last_paid_step_number": 0,
-      "name": "test1",
-    },
-    Object {
-      "attention_rate": "225.00000000000000000",
-      "attention_rate_rating_position": 2,
-      "id": 1105,
-      "last_attention_rate_updated_step_number": 0,
-      "last_paid_step_number": 0,
-      "name": "test2",
-    },
-    Object {
-      "attention_rate": "206.00000000000000000",
-      "attention_rate_rating_position": 1,
-      "id": 1200,
-      "last_attention_rate_updated_step_number": 0,
-      "last_paid_step_number": 0,
-      "name": "test2",
     },
   ],
 }
@@ -261,18 +271,28 @@ Object {
   "more": false,
   "rows": Array [
     Object {
-      "account": "platform",
-      "airdrop": "",
-      "platform_name": "test_platform",
-      "registered_user_count": 4,
-      "round_supply": "0.0000 SNAX",
-      "round_updated_account_count": 0,
-      "sent_amount": "1579999980.0000 SNAX",
-      "step_number": 1,
-      "token_dealer": "snax",
-      "total_account_count": 4,
-      "total_attention_rate": "652.00000000000000000",
-      "updating": 0,
+      "id": 123,
+      "last_paid_step_number": 0,
+      "name": "test1",
+      "verification_tweet": "",
+    },
+    Object {
+      "id": 1007,
+      "last_paid_step_number": 0,
+      "name": "test1",
+      "verification_tweet": "",
+    },
+    Object {
+      "id": 1105,
+      "last_paid_step_number": 0,
+      "name": "test2",
+      "verification_tweet": "",
+    },
+    Object {
+      "id": 1200,
+      "last_paid_step_number": 0,
+      "name": "test2",
+      "verification_tweet": "",
     },
   ],
 }
@@ -287,38 +307,116 @@ Object {
       "attention_rate_rating_position": 3,
       "id": 123,
       "last_attention_rate_updated_step_number": 0,
-      "last_paid_step_number": 0,
-      "name": "test1",
     },
     Object {
       "attention_rate": "206.00000000000000000",
       "attention_rate_rating_position": 1,
       "id": 1007,
       "last_attention_rate_updated_step_number": 0,
-      "last_paid_step_number": 0,
-      "name": "test1",
     },
     Object {
       "attention_rate": "225.00000000000000000",
       "attention_rate_rating_position": 2,
       "id": 1105,
       "last_attention_rate_updated_step_number": 0,
-      "last_paid_step_number": 0,
-      "name": "test2",
     },
     Object {
       "attention_rate": "206.00000000000000000",
       "attention_rate_rating_position": 1,
       "id": 1200,
       "last_attention_rate_updated_step_number": 0,
-      "last_paid_step_number": 0,
-      "name": "test2",
     },
   ],
 }
 `;
 
 exports[`Platform should process next round correctly 8`] = `
+Object {
+  "more": false,
+  "rows": Array [
+    Object {
+      "account": "platform",
+      "airdrop": "",
+      "platform_name": "test_platform",
+      "registered_user_count": 4,
+      "round_supply": "0.0000 SNAX",
+      "round_updated_account_count": 0,
+      "sent_amount": "1579999980.0000 SNAX",
+      "step_number": 1,
+      "token_dealer": "snax",
+      "total_attention_rate": "652.00000000000000000",
+      "total_user_count": 4,
+      "updating": 0,
+    },
+  ],
+}
+`;
+
+exports[`Platform should process next round correctly 9`] = `
+Object {
+  "more": false,
+  "rows": Array [
+    Object {
+      "id": 123,
+      "last_paid_step_number": 0,
+      "name": "test1",
+      "verification_tweet": "",
+    },
+    Object {
+      "id": 1007,
+      "last_paid_step_number": 0,
+      "name": "test1",
+      "verification_tweet": "",
+    },
+    Object {
+      "id": 1105,
+      "last_paid_step_number": 0,
+      "name": "test2",
+      "verification_tweet": "",
+    },
+    Object {
+      "id": 1200,
+      "last_paid_step_number": 0,
+      "name": "test2",
+      "verification_tweet": "",
+    },
+  ],
+}
+`;
+
+exports[`Platform should process next round correctly 10`] = `
+Object {
+  "more": false,
+  "rows": Array [
+    Object {
+      "attention_rate": "15.00000000000000000",
+      "attention_rate_rating_position": 3,
+      "id": 123,
+      "last_attention_rate_updated_step_number": 0,
+    },
+    Object {
+      "attention_rate": "206.00000000000000000",
+      "attention_rate_rating_position": 1,
+      "id": 1007,
+      "last_attention_rate_updated_step_number": 0,
+    },
+    Object {
+      "attention_rate": "225.00000000000000000",
+      "attention_rate_rating_position": 2,
+      "id": 1105,
+      "last_attention_rate_updated_step_number": 0,
+    },
+    Object {
+      "attention_rate": "206.00000000000000000",
+      "attention_rate_rating_position": 1,
+      "id": 1200,
+      "last_attention_rate_updated_step_number": 0,
+    },
+  ],
+}
+`;
+
+exports[`Platform should process next round correctly 11`] = `
 Array [
   Object {
     "more": false,
@@ -418,8 +516,8 @@ Object {
       "sent_amount": "0.0000 SNAX",
       "step_number": 0,
       "token_dealer": "snax",
-      "total_account_count": 1,
       "total_attention_rate": "20.00000000000000000",
+      "total_user_count": 1,
       "updating": 0,
     },
   ],
@@ -431,12 +529,24 @@ Object {
   "more": false,
   "rows": Array [
     Object {
+      "id": 123,
+      "last_paid_step_number": 0,
+      "name": "test2",
+      "verification_tweet": "",
+    },
+  ],
+}
+`;
+
+exports[`Platform should update account's attention rate correctly 3`] = `
+Object {
+  "more": false,
+  "rows": Array [
+    Object {
       "attention_rate": "20.00000000000000000",
       "attention_rate_rating_position": 1,
       "id": 123,
       "last_attention_rate_updated_step_number": 0,
-      "last_paid_step_number": 0,
-      "name": "test2",
     },
   ],
 }
@@ -456,8 +566,8 @@ Object {
       "sent_amount": "0.0000 SNAX",
       "step_number": 0,
       "token_dealer": "snax",
-      "total_account_count": 2,
       "total_attention_rate": "45.00000000000000000",
+      "total_user_count": 2,
       "updating": 0,
     },
   ],
@@ -469,20 +579,36 @@ Object {
   "more": false,
   "rows": Array [
     Object {
+      "id": 123,
+      "last_paid_step_number": 0,
+      "name": "test2",
+      "verification_tweet": "",
+    },
+    Object {
+      "id": 243,
+      "last_paid_step_number": 0,
+      "name": "test1",
+      "verification_tweet": "",
+    },
+  ],
+}
+`;
+
+exports[`Platform should update multiple account's attention rate correctly 3`] = `
+Object {
+  "more": false,
+  "rows": Array [
+    Object {
       "attention_rate": "25.00000000000000000",
       "attention_rate_rating_position": 1,
       "id": 123,
       "last_attention_rate_updated_step_number": 0,
-      "last_paid_step_number": 0,
-      "name": "test2",
     },
     Object {
       "attention_rate": "20.00000000000000000",
       "attention_rate_rating_position": 2,
       "id": 243,
       "last_attention_rate_updated_step_number": 0,
-      "last_paid_step_number": 0,
-      "name": "test1",
     },
   ],
 }
@@ -513,8 +639,8 @@ Object {
       "sent_amount": "0.0000 SNAX",
       "step_number": 0,
       "token_dealer": "snax",
-      "total_account_count": 0,
       "total_attention_rate": "0.00000000000000000",
+      "total_user_count": 0,
       "updating": 0,
     },
   ],
@@ -528,9 +654,16 @@ Object {
 }
 `;
 
-exports[`Platform should work with pending account correctly 5`] = `Array []`;
+exports[`Platform should work with pending account correctly 5`] = `
+Object {
+  "more": false,
+  "rows": Array [],
+}
+`;
 
-exports[`Platform should work with pending account correctly 6`] = `
+exports[`Platform should work with pending account correctly 6`] = `Array []`;
+
+exports[`Platform should work with pending account correctly 7`] = `
 Object {
   "more": false,
   "rows": Array [
@@ -544,15 +677,29 @@ Object {
       "sent_amount": "0.0000 SNAX",
       "step_number": 0,
       "token_dealer": "snax",
-      "total_account_count": 1,
       "total_attention_rate": "225.00000000000000000",
+      "total_user_count": 1,
       "updating": 0,
     },
   ],
 }
 `;
 
-exports[`Platform should work with pending account correctly 7`] = `
+exports[`Platform should work with pending account correctly 8`] = `
+Object {
+  "more": false,
+  "rows": Array [
+    Object {
+      "id": 42,
+      "last_paid_step_number": 0,
+      "name": "test1",
+      "verification_tweet": "",
+    },
+  ],
+}
+`;
+
+exports[`Platform should work with pending account correctly 9`] = `
 Object {
   "more": false,
   "rows": Array [
@@ -561,8 +708,6 @@ Object {
       "attention_rate_rating_position": 1,
       "id": 42,
       "last_attention_rate_updated_step_number": 0,
-      "last_paid_step_number": 0,
-      "name": "test1",
     },
   ],
 }
@@ -588,8 +733,8 @@ Object {
       "sent_amount": "0.0000 SNAX",
       "step_number": 0,
       "token_dealer": "snax",
-      "total_account_count": 1,
       "total_attention_rate": "225.00000000000000000",
+      "total_user_count": 1,
       "updating": 1,
     },
   ],
@@ -601,12 +746,24 @@ Object {
   "more": false,
   "rows": Array [
     Object {
+      "id": 1105,
+      "last_paid_step_number": 0,
+      "name": "test1",
+      "verification_tweet": "",
+    },
+  ],
+}
+`;
+
+exports[`Platform shouldn't be able to add account or update attention rate when platform is updating 6`] = `
+Object {
+  "more": false,
+  "rows": Array [
+    Object {
       "attention_rate": "225.00000000000000000",
       "attention_rate_rating_position": 1,
       "id": 1105,
       "last_attention_rate_updated_step_number": 0,
-      "last_paid_step_number": 0,
-      "name": "test1",
     },
   ],
 }
@@ -628,8 +785,8 @@ Object {
       "sent_amount": "0.0000 SNAX",
       "step_number": 0,
       "token_dealer": "snax",
-      "total_account_count": 1,
       "total_attention_rate": "15.00000000000000000",
+      "total_user_count": 1,
       "updating": 0,
     },
   ],
@@ -641,12 +798,24 @@ Object {
   "more": false,
   "rows": Array [
     Object {
+      "id": 123,
+      "last_paid_step_number": 0,
+      "name": "test2",
+      "verification_tweet": "",
+    },
+  ],
+}
+`;
+
+exports[`Platform shouldn't be able to add user with the same id second time 4`] = `
+Object {
+  "more": false,
+  "rows": Array [
+    Object {
       "attention_rate": "15.00000000000000000",
       "attention_rate_rating_position": 1,
       "id": 123,
       "last_attention_rate_updated_step_number": 0,
-      "last_paid_step_number": 0,
-      "name": "test2",
     },
   ],
 }
@@ -668,8 +837,8 @@ Object {
       "sent_amount": "0.0000 SNAX",
       "step_number": 0,
       "token_dealer": "snax",
-      "total_account_count": 0,
       "total_attention_rate": "0.00000000000000000",
+      "total_user_count": 0,
       "updating": 0,
     },
   ],
@@ -677,6 +846,13 @@ Object {
 `;
 
 exports[`Platform shouldn't be able to initialize second time 3`] = `
+Object {
+  "more": false,
+  "rows": Array [],
+}
+`;
+
+exports[`Platform shouldn't be able to initialize second time 4`] = `
 Object {
   "more": false,
   "rows": Array [],
@@ -699,8 +875,8 @@ Object {
       "sent_amount": "0.0000 SNAX",
       "step_number": 0,
       "token_dealer": "snax",
-      "total_account_count": 1,
       "total_attention_rate": "15.00000000000000000",
+      "total_user_count": 1,
       "updating": 0,
     },
   ],
@@ -712,12 +888,24 @@ Object {
   "more": false,
   "rows": Array [
     Object {
+      "id": 123,
+      "last_paid_step_number": 0,
+      "name": "test2",
+      "verification_tweet": "",
+    },
+  ],
+}
+`;
+
+exports[`Platform shouldn't be able to update non-existent account's attention rate 4`] = `
+Object {
+  "more": false,
+  "rows": Array [
+    Object {
       "attention_rate": "15.00000000000000000",
       "attention_rate_rating_position": 1,
       "id": 123,
       "last_attention_rate_updated_step_number": 0,
-      "last_paid_step_number": 0,
-      "name": "test2",
     },
   ],
 }
