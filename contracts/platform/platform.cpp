@@ -35,6 +35,8 @@ namespace snax {
         require_initialized();
         _state = _platform_state.get();
 
+        snax_assert(!_state.updating, "platform is already updating");
+
         _state.updating = 1;
         _platform_state.set(_state, _self);
     }
