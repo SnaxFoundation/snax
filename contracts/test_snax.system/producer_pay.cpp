@@ -114,8 +114,8 @@ namespace snaxsystem {
          INLINE_ACTION_SENDER(snax::token, transfer)( N(snax.token), {N(snax.util),N(active)},
                                                        { N(snax.util), N(snax.vpay), asset(to_per_vote_pay), "fund per-vote bucket" } );
 
-         _gstate.pervote_bucket  += to_per_vote_pay.amount;
-         _gstate.perblock_bucket += to_per_block_pay.amount;
+         _gstate.pervote_bucket  += to_per_vote_pay.amount + semi_emission.amount;
+         _gstate.perblock_bucket += to_per_block_pay.amount + semi_emission.amount;
 
          _gstate.last_pervote_bucket_fill = ct;
       }
