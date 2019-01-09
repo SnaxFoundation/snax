@@ -93,7 +93,18 @@ namespace snaxsystem {
              additional_emission = asset(0);
          }
 
-         auto to_producers       = payments + additional_emission;
+         const asset semi_emission = asset(additional_emission.amount / 2);
+
+         if (additional_emission > asset(0) && semi_emission > asset(0)) {
+
+             INLINE_ACTION_SENDER(snax::token, issue)( N(snax.token), {N(snax),N(active)},
+                                                           { N(snax.bpay), semi_emission, "fund per-block bucket" } );
+
+             INLINE_ACTION_SENDER(snax::token, issue)( N(snax.token), {N(snax),N(active)},
+                                                           { N(snax.vpay), semi_emission, "fund per-vote bucket" } );
+         }
+
+         auto to_producers       = payments;
          auto to_per_block_pay   = to_producers / 2;
          auto to_per_vote_pay    = to_producers - to_per_block_pay;
 
@@ -103,8 +114,8 @@ namespace snaxsystem {
          INLINE_ACTION_SENDER(snax::token, transfer)( N(snax.token), {N(snax.util),N(active)},
                                                        { N(snax.util), N(snax.vpay), asset(to_per_vote_pay), "fund per-vote bucket" } );
 
-         _gstate.pervote_bucket  += to_per_vote_pay.amount;
-         _gstate.perblock_bucket += to_per_block_pay.amount;
+         _gstate.pervote_bucket  += to_per_vote_pay.amount + semi_emission.amount;
+         _gstate.perblock_bucket += to_per_block_pay.amount + semi_emission.amount;
 
          _gstate.last_pervote_bucket_fill = ct;
       }
