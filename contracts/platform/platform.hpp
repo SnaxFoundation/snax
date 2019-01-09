@@ -119,6 +119,7 @@ namespace snax {
             account_name name;
             uint16_t last_paid_step_number;
             string verification_tweet;
+            block_timestamp created;
 
             uint64_t primary_key() const {
                 return id;

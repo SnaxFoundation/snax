@@ -289,11 +289,11 @@ namespace snax {
         } else {
             _users.modify(
                     found_user, _self, [&](auto &record) {
-                        const double diff = attention_rate - record.attention_rate;
-                        snax_assert(diff >= 0 || abs(diff) <= abs(record.attention_rate), "incorrect attention rate");
-                        record.attention_rate = attention_rate;
-                        record.last_attention_rate_updated_step_number = _state.step_number;
-                        record.attention_rate_rating_position = attention_rate_rating_position;
+                        if (attention_rate > record.attention_rate) {
+                            record.attention_rate = attention_rate;
+                            record.last_attention_rate_updated_step_number = _state.step_number;
+                            record.attention_rate_rating_position = attention_rate_rating_position;
+                        }
                     }
             );
         }
@@ -304,6 +304,7 @@ namespace snax {
                     record.name = account;
                     record.id = id;
                     record.last_paid_step_number = 0;
+                    record.created = block_timestamp(snax::time_point_sec(now()));
                 });
             } else {
                 _accounts.modify(found_account, _self, [&](auto& record) {
@@ -357,10 +358,11 @@ namespace snax {
             if (found_user != _users.end()) {
                 _users.modify(
                         found_user, _self, [&](auto &record) {
-                            record.attention_rate = account_to_add.attention_rate;
-                            record.id = account_to_add.id;
-                            record.attention_rate_rating_position = account_to_add.attention_rate_rating_position;
-                            record.last_attention_rate_updated_step_number = _state.step_number;
+                            if (account_to_add.attention_rate > record.attention_rate) {
+                                record.attention_rate = account_to_add.attention_rate;
+                                record.attention_rate_rating_position = account_to_add.attention_rate_rating_position;
+                                record.last_attention_rate_updated_step_number = _state.step_number;
+                            }
                         }
                 );
             } else {
@@ -380,6 +382,7 @@ namespace snax {
                         record.name = account_to_add.name;
                         record.id = account_to_add.id;
                         record.last_paid_step_number = 0;
+                        record.created = block_timestamp(snax::time_point_sec(now()));
                     });
                 } else {
                     _accounts.modify(found_account, _self, [&](auto& record) {
