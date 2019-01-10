@@ -258,11 +258,6 @@ namespace snax {
         require_initialized();
         _state = _platform_state.get();
 
-        snax_assert(
-                !_state.updating,
-                "platform must not be in updating state when addaccount action is called"
-        );
-
         snax_assert(attention_rate >= 0, "attention rate must be greater than zero or equal to zero");
         const auto& found_user = _users.find(id);
         const auto& found_account = _accounts.find(id);
@@ -278,6 +273,10 @@ namespace snax {
         claim_transfered(id, account);
 
         if (found_user == _users.end()) {
+            snax_assert(
+                    !_state.updating,
+                    "platform must not be in updating state when addaccount action is called and account doesnt exist"
+            );
             _users.emplace(
                     _self, [&](auto &record) {
                         record.attention_rate = attention_rate;
@@ -327,11 +326,6 @@ namespace snax {
         require_initialized();
         _state = _platform_state.get();
 
-        snax_assert(
-                !_state.updating,
-                "platform must not be in updating state when addaccount action is called"
-        );
-
         double accumulated_attention_rate = 0;
         uint32_t index = 0;
         uint32_t registered_accounts = 0;
@@ -366,6 +360,10 @@ namespace snax {
                         }
                 );
             } else {
+                snax_assert(
+                        !_state.updating,
+                        "platform must not be in updating state when addaccounts action is called and user doesnt exist"
+                );
                 _users.emplace(
                         _self, [&](auto &record) {
                             record.attention_rate = account_to_add.attention_rate;
