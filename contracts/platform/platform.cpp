@@ -405,10 +405,9 @@ namespace snax {
 
         snax_assert(balance >= amount, "from account doesnt have enough tokens");
 
-        const auto& _accounts_account_index = _accounts.get_index<N(name)>();
-        const auto& to_account = _accounts_account_index.find(to);
+        const auto& to_account = _accounts.find(to);
 
-        if (to_account != _accounts_account_index.end() && to_account->name) {
+        if (to_account != _accounts.end() && to_account->name) {
             action(permission_level{from, N(active)}, N(snax.token), N(transfer), make_tuple(from, to_account->name, amount, string("social transaction"))).send();
         } else {
             action(permission_level{from, N(active)}, N(snax.token), N(transfer), make_tuple(from, N(snax.transf), amount, string("social transaction"))).send();
