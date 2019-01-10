@@ -129,7 +129,11 @@ namespace snax {
                 return name;
             }
 
-            SNAXLIB_SERIALIZE(account, (id)(name)(last_paid_step_number)(verification_tweet))
+            uint64_t by_created() const {
+                return created.to_time_point().time_since_epoch().count();
+            }
+
+            SNAXLIB_SERIALIZE(account, (id)(name)(last_paid_step_number)(verification_tweet)(created))
         };
 
         /// @abi table pusers i64
@@ -182,7 +186,8 @@ namespace snax {
         typedef multi_index<N(accounts), account_with_balance> _users_balances;
         typedef multi_index<N(transfers), transfer_rec> transfers_table;
         typedef multi_index<N(paccounts), account,
-                indexed_by<N(name), const_mem_fun<account, uint64_t, &account::by_name>>
+                indexed_by<N(name), const_mem_fun<account, uint64_t, &account::by_name>>,
+                indexed_by<N(created), const_mem_fun<account, uint64_t, &account::by_created>>
         > registered_account_table;
         typedef multi_index<N(pusers), user,
                 indexed_by<N(attention_rate_rating_position), const_mem_fun<user, uint64_t, &user::by_attention_rate_rating_position>>
