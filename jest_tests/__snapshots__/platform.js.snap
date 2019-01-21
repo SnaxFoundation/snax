@@ -23,21 +23,15 @@ Object {
 `;
 
 exports[`Platform should add account correctly 2`] = `
-Object {
-  "more": false,
-  "rows": Array [
-    Object {
-      "created": Object {
-        "slot": 1202802584,
-      },
-      "id": 123,
-      "last_paid_step_number": 0,
-      "name": "test2",
-      "stat_diff": Array [],
-      "verification_tweet": "",
-    },
-  ],
-}
+Array [
+  Object {
+    "id": 123,
+    "last_paid_step_number": 0,
+    "name": "test2",
+    "stat_diff": Array [],
+    "verification_tweet": "",
+  },
+]
 `;
 
 exports[`Platform should add account correctly 3`] = `
@@ -87,12 +81,7 @@ Object {
 }
 `;
 
-exports[`Platform should drop pending account correctly 4`] = `
-Object {
-  "more": false,
-  "rows": Array [],
-}
-`;
+exports[`Platform should drop pending account correctly 4`] = `Array []`;
 
 exports[`Platform should drop pending account correctly 5`] = `
 Object {
@@ -123,12 +112,7 @@ Object {
 }
 `;
 
-exports[`Platform should initialize correctly 2`] = `
-Object {
-  "more": false,
-  "rows": Array [],
-}
-`;
+exports[`Platform should initialize correctly 2`] = `Array []`;
 
 exports[`Platform should initialize correctly 3`] = `
 Object {
@@ -160,51 +144,36 @@ Object {
 `;
 
 exports[`Platform should process next round correctly 2`] = `
-Object {
-  "more": false,
-  "rows": Array [
-    Object {
-      "created": Object {
-        "slot": 1202802390,
-      },
-      "id": 123,
-      "last_paid_step_number": 0,
-      "name": "test1",
-      "stat_diff": Array [],
-      "verification_tweet": "",
-    },
-    Object {
-      "created": Object {
-        "slot": 1202802410,
-      },
-      "id": 1007,
-      "last_paid_step_number": 0,
-      "name": "test1",
-      "stat_diff": Array [],
-      "verification_tweet": "",
-    },
-    Object {
-      "created": Object {
-        "slot": 1202802400,
-      },
-      "id": 1105,
-      "last_paid_step_number": 0,
-      "name": "test2",
-      "stat_diff": Array [],
-      "verification_tweet": "",
-    },
-    Object {
-      "created": Object {
-        "slot": 1202802406,
-      },
-      "id": 1200,
-      "last_paid_step_number": 0,
-      "name": "test2",
-      "stat_diff": Array [],
-      "verification_tweet": "",
-    },
-  ],
-}
+Array [
+  Object {
+    "id": 123,
+    "last_paid_step_number": 0,
+    "name": "test1",
+    "stat_diff": Array [],
+    "verification_tweet": "",
+  },
+  Object {
+    "id": 1007,
+    "last_paid_step_number": 0,
+    "name": "test1",
+    "stat_diff": Array [],
+    "verification_tweet": "",
+  },
+  Object {
+    "id": 1105,
+    "last_paid_step_number": 0,
+    "name": "test2",
+    "stat_diff": Array [],
+    "verification_tweet": "",
+  },
+  Object {
+    "id": 1200,
+    "last_paid_step_number": 0,
+    "name": "test2",
+    "stat_diff": Array [],
+    "verification_tweet": "",
+  },
+]
 `;
 
 exports[`Platform should process next round correctly 3`] = `
@@ -287,51 +256,36 @@ Object {
 `;
 
 exports[`Platform should process next round correctly 6`] = `
-Object {
-  "more": false,
-  "rows": Array [
-    Object {
-      "created": Object {
-        "slot": 1202802390,
-      },
-      "id": 123,
-      "last_paid_step_number": 0,
-      "name": "test1",
-      "stat_diff": Array [],
-      "verification_tweet": "",
-    },
-    Object {
-      "created": Object {
-        "slot": 1202802410,
-      },
-      "id": 1007,
-      "last_paid_step_number": 0,
-      "name": "test1",
-      "stat_diff": Array [],
-      "verification_tweet": "",
-    },
-    Object {
-      "created": Object {
-        "slot": 1202802400,
-      },
-      "id": 1105,
-      "last_paid_step_number": 0,
-      "name": "test2",
-      "stat_diff": Array [],
-      "verification_tweet": "",
-    },
-    Object {
-      "created": Object {
-        "slot": 1202802406,
-      },
-      "id": 1200,
-      "last_paid_step_number": 0,
-      "name": "test2",
-      "stat_diff": Array [],
-      "verification_tweet": "",
-    },
-  ],
-}
+Array [
+  Object {
+    "id": 123,
+    "last_paid_step_number": 0,
+    "name": "test1",
+    "stat_diff": Array [],
+    "verification_tweet": "",
+  },
+  Object {
+    "id": 1007,
+    "last_paid_step_number": 0,
+    "name": "test1",
+    "stat_diff": Array [],
+    "verification_tweet": "",
+  },
+  Object {
+    "id": 1105,
+    "last_paid_step_number": 0,
+    "name": "test2",
+    "stat_diff": Array [],
+    "verification_tweet": "",
+  },
+  Object {
+    "id": 1200,
+    "last_paid_step_number": 0,
+    "name": "test2",
+    "stat_diff": Array [],
+    "verification_tweet": "",
+  },
+]
 `;
 
 exports[`Platform should process next round correctly 7`] = `
@@ -389,51 +343,36 @@ Object {
 `;
 
 exports[`Platform should process next round correctly 9`] = `
-Object {
-  "more": false,
-  "rows": Array [
-    Object {
-      "created": Object {
-        "slot": 1202802390,
-      },
-      "id": 123,
-      "last_paid_step_number": 0,
-      "name": "test1",
-      "stat_diff": Array [],
-      "verification_tweet": "",
-    },
-    Object {
-      "created": Object {
-        "slot": 1202802410,
-      },
-      "id": 1007,
-      "last_paid_step_number": 0,
-      "name": "test1",
-      "stat_diff": Array [],
-      "verification_tweet": "",
-    },
-    Object {
-      "created": Object {
-        "slot": 1202802400,
-      },
-      "id": 1105,
-      "last_paid_step_number": 0,
-      "name": "test2",
-      "stat_diff": Array [],
-      "verification_tweet": "",
-    },
-    Object {
-      "created": Object {
-        "slot": 1202802406,
-      },
-      "id": 1200,
-      "last_paid_step_number": 0,
-      "name": "test2",
-      "stat_diff": Array [],
-      "verification_tweet": "",
-    },
-  ],
-}
+Array [
+  Object {
+    "id": 123,
+    "last_paid_step_number": 0,
+    "name": "test1",
+    "stat_diff": Array [],
+    "verification_tweet": "",
+  },
+  Object {
+    "id": 1007,
+    "last_paid_step_number": 0,
+    "name": "test1",
+    "stat_diff": Array [],
+    "verification_tweet": "",
+  },
+  Object {
+    "id": 1105,
+    "last_paid_step_number": 0,
+    "name": "test2",
+    "stat_diff": Array [],
+    "verification_tweet": "",
+  },
+  Object {
+    "id": 1200,
+    "last_paid_step_number": 0,
+    "name": "test2",
+    "stat_diff": Array [],
+    "verification_tweet": "",
+  },
+]
 `;
 
 exports[`Platform should process next round correctly 10`] = `
@@ -577,26 +516,20 @@ Object {
 `;
 
 exports[`Platform should update account's attention rate correctly 2`] = `
-Object {
-  "more": false,
-  "rows": Array [
-    Object {
-      "created": Object {
-        "slot": 1202802640,
-      },
-      "id": 123,
-      "last_paid_step_number": 0,
-      "name": "test2",
-      "stat_diff": Array [
-        5,
-        10,
-        20,
-        30,
-      ],
-      "verification_tweet": "",
-    },
-  ],
-}
+Array [
+  Object {
+    "id": 123,
+    "last_paid_step_number": 0,
+    "name": "test2",
+    "stat_diff": Array [
+      5,
+      10,
+      20,
+      30,
+    ],
+    "verification_tweet": "",
+  },
+]
 `;
 
 exports[`Platform should update account's attention rate correctly 3`] = `
@@ -636,41 +569,32 @@ Object {
 `;
 
 exports[`Platform should update multiple account's attention rate correctly 2`] = `
-Object {
-  "more": false,
-  "rows": Array [
-    Object {
-      "created": Object {
-        "slot": 1202802670,
-      },
-      "id": 123,
-      "last_paid_step_number": 0,
-      "name": "test2",
-      "stat_diff": Array [
-        5,
-        10,
-        20,
-        30,
-      ],
-      "verification_tweet": "",
-    },
-    Object {
-      "created": Object {
-        "slot": 1202802680,
-      },
-      "id": 243,
-      "last_paid_step_number": 0,
-      "name": "test1",
-      "stat_diff": Array [
-        5,
-        10,
-        20,
-        30,
-      ],
-      "verification_tweet": "",
-    },
-  ],
-}
+Array [
+  Object {
+    "id": 123,
+    "last_paid_step_number": 0,
+    "name": "test2",
+    "stat_diff": Array [
+      5,
+      10,
+      20,
+      30,
+    ],
+    "verification_tweet": "",
+  },
+  Object {
+    "id": 243,
+    "last_paid_step_number": 0,
+    "name": "test1",
+    "stat_diff": Array [
+      5,
+      10,
+      20,
+      30,
+    ],
+    "verification_tweet": "",
+  },
+]
 `;
 
 exports[`Platform should update multiple account's attention rate correctly 3`] = `
@@ -726,12 +650,7 @@ Object {
 }
 `;
 
-exports[`Platform should work with pending account correctly 4`] = `
-Object {
-  "more": false,
-  "rows": Array [],
-}
-`;
+exports[`Platform should work with pending account correctly 4`] = `Array []`;
 
 exports[`Platform should work with pending account correctly 5`] = `
 Object {
@@ -765,21 +684,15 @@ Object {
 `;
 
 exports[`Platform should work with pending account correctly 8`] = `
-Object {
-  "more": false,
-  "rows": Array [
-    Object {
-      "created": Object {
-        "slot": 1202802462,
-      },
-      "id": 42,
-      "last_paid_step_number": 0,
-      "name": "test1",
-      "stat_diff": Array [],
-      "verification_tweet": "",
-    },
-  ],
-}
+Array [
+  Object {
+    "id": 42,
+    "last_paid_step_number": 0,
+    "name": "test1",
+    "stat_diff": Array [],
+    "verification_tweet": "",
+  },
+]
 `;
 
 exports[`Platform should work with pending account correctly 9`] = `
@@ -825,21 +738,15 @@ Object {
 `;
 
 exports[`Platform shouldn't be able to add account or update attention rate when platform is updating 5`] = `
-Object {
-  "more": false,
-  "rows": Array [
-    Object {
-      "created": Object {
-        "slot": 1202802750,
-      },
-      "id": 1105,
-      "last_paid_step_number": 0,
-      "name": "test1",
-      "stat_diff": Array [],
-      "verification_tweet": "",
-    },
-  ],
-}
+Array [
+  Object {
+    "id": 1105,
+    "last_paid_step_number": 0,
+    "name": "test1",
+    "stat_diff": Array [],
+    "verification_tweet": "",
+  },
+]
 `;
 
 exports[`Platform shouldn't be able to add account or update attention rate when platform is updating 6`] = `
@@ -881,21 +788,15 @@ Object {
 `;
 
 exports[`Platform shouldn't be able to add user with the same id second time 3`] = `
-Object {
-  "more": false,
-  "rows": Array [
-    Object {
-      "created": Object {
-        "slot": 1202802604,
-      },
-      "id": 123,
-      "last_paid_step_number": 0,
-      "name": "test2",
-      "stat_diff": Array [],
-      "verification_tweet": "",
-    },
-  ],
-}
+Array [
+  Object {
+    "id": 123,
+    "last_paid_step_number": 0,
+    "name": "test2",
+    "stat_diff": Array [],
+    "verification_tweet": "",
+  },
+]
 `;
 
 exports[`Platform shouldn't be able to add user with the same id second time 4`] = `
@@ -936,12 +837,7 @@ Object {
 }
 `;
 
-exports[`Platform shouldn't be able to initialize second time 3`] = `
-Object {
-  "more": false,
-  "rows": Array [],
-}
-`;
+exports[`Platform shouldn't be able to initialize second time 3`] = `Array []`;
 
 exports[`Platform shouldn't be able to initialize second time 4`] = `
 Object {
@@ -975,21 +871,15 @@ Object {
 `;
 
 exports[`Platform shouldn't be able to update non-existent account's attention rate 3`] = `
-Object {
-  "more": false,
-  "rows": Array [
-    Object {
-      "created": Object {
-        "slot": 1202802714,
-      },
-      "id": 123,
-      "last_paid_step_number": 0,
-      "name": "test2",
-      "stat_diff": Array [],
-      "verification_tweet": "",
-    },
-  ],
-}
+Array [
+  Object {
+    "id": 123,
+    "last_paid_step_number": 0,
+    "name": "test2",
+    "stat_diff": Array [],
+    "verification_tweet": "",
+  },
+]
 `;
 
 exports[`Platform shouldn't be able to update non-existent account's attention rate 4`] = `

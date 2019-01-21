@@ -76,7 +76,7 @@ describe("Platform", async () => {
       })
     ]);
     expect(state).toMatchSnapshot();
-    expect(accounts).toMatchSnapshot();
+    expect(accounts.rows.map(({ created, ...row }) => row)).toMatchSnapshot();
     expect(users).toMatchSnapshot();
   };
 
