@@ -492,7 +492,8 @@ describe("Platform", async () => {
     await updateQualityRate({
       id: 123,
       attention_rate: 20.0,
-      attention_rate_rating_position: 1
+      attention_rate_rating_position: 1,
+      stat_diff: [5, 10, 20, 30]
     });
     await verifyStatesAndAccounts();
   });
@@ -512,8 +513,18 @@ describe("Platform", async () => {
       attention_rate_rating_position: 2
     });
     await updateQualityRateMulti([
-      { id: 243, attention_rate: 20.0, attention_rate_rating_position: 2 },
-      { id: 123, attention_rate: 25.0, attention_rate_rating_position: 1 }
+      {
+        id: 243,
+        attention_rate: 20.0,
+        attention_rate_rating_position: 2,
+        stat_diff: [5, 10, 20, 30]
+      },
+      {
+        id: 123,
+        attention_rate: 25.0,
+        attention_rate_rating_position: 1,
+        stat_diff: [5, 10, 20, 30]
+      }
     ]);
     await verifyStatesAndAccounts();
   });
@@ -530,7 +541,8 @@ describe("Platform", async () => {
       updateQualityRate({
         id: 250,
         attention_rate: 20.0,
-        attention_rate_rating_position: 2
+        attention_rate_rating_position: 2,
+        stat_diff: [5, 10, 20, 30]
       })
     );
 
@@ -550,7 +562,8 @@ describe("Platform", async () => {
       updateQualityRate({
         id: 1105,
         attention_rate: 20.0,
-        attention_rate_rating_position: 1
+        attention_rate_rating_position: 1,
+        stat_diff: [5, 10, 20, 30]
       })
     );
     await tryCatchExpect(() =>
@@ -558,7 +571,8 @@ describe("Platform", async () => {
         {
           id: 1105,
           attention_rate: 20.0,
-          attention_rate_rating_position: 1
+          attention_rate_rating_position: 1,
+          stat_diff: [5, 10, 20, 30]
         }
       ])
     );

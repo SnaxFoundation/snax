@@ -28,6 +28,7 @@ namespace snax {
             uint64_t id;
             double attention_rate;
             uint32_t attention_rate_rating_position;
+            vector<uint32_t> stat_diff;
         };
 
         struct account_to_add {
@@ -60,7 +61,7 @@ namespace snax {
         void droppenacc(const account_name account);
 
         /// @abi action updatear
-        void updatear(uint64_t id, double attention_rate, uint32_t attention_rate_rating_position, bool add_account_if_not_exist);
+        void updatear(uint64_t id, double attention_rate, uint32_t attention_rate_rating_position, vector<uint32_t> stat_diff, bool add_account_if_not_exist);
 
         /// @abi action updatearmult
         void updatearmult(vector<account_with_attention_rate>& updates, bool add_account_if_not_exist);
@@ -120,6 +121,7 @@ namespace snax {
             uint16_t last_paid_step_number;
             string verification_tweet;
             block_timestamp created;
+            vector<uint32_t> stat_diff;
 
             uint64_t primary_key() const {
                 return id;
@@ -133,7 +135,7 @@ namespace snax {
                 return created.to_time_point().time_since_epoch().count();
             }
 
-            SNAXLIB_SERIALIZE(account, (id)(name)(last_paid_step_number)(verification_tweet)(created))
+            SNAXLIB_SERIALIZE(account, (id)(name)(last_paid_step_number)(verification_tweet)(created)(stat_diff))
         };
 
         /// @abi table pusers i64

@@ -155,7 +155,7 @@ namespace snax {
     }
 
     /// @abi action updatear
-    void platform::updatear(const uint64_t id, const double attention_rate, const uint32_t attention_rate_rating_position, const bool add_account_if_not_exist) {
+    void platform::updatear(const uint64_t id, const double attention_rate, const uint32_t attention_rate_rating_position, const vector<uint32_t> stat_diff, const bool add_account_if_not_exist) {
         require_auth(_self);
         require_initialized();
         _state = _platform_state.get();
@@ -181,6 +181,14 @@ namespace snax {
                         record.last_attention_rate_updated_step_number = _state.step_number;
                     }
             );
+
+            const auto &found_account = _accounts.find(id);
+
+            if (found_account != _accounts.end()) {
+                _accounts.modify(found_account, _self, [&](auto &record) {
+                    record.stat_diff = stat_diff;
+                });
+            }
         } else {
             addaccount(0, id, attention_rate, attention_rate_rating_position);
         }
@@ -198,22 +206,30 @@ namespace snax {
         double total_attention_rate_diff = 0;
 
         for (auto& update: updates) {
-            const auto& account = _users.find(update.id);
-            snax_assert(account != _users.end() || add_account_if_not_exist, "user doesnt exist");
-            if (account != _users.end()) {
+            const auto& user = _users.find(update.id);
+            snax_assert(user != _users.end() || add_account_if_not_exist, "user doesnt exist");
+            if (user != _users.end()) {
                 const double attention_rate = update.attention_rate;
-                const double diff = attention_rate - account->attention_rate;
+                const double diff = attention_rate - user->attention_rate;
                 const uint32_t attention_rate_rating_position = update.attention_rate_rating_position;
 
-                snax_assert(diff >= 0 || abs(diff) <= abs(account->attention_rate), "incorrect attention rate");
+                snax_assert(diff >= 0 || abs(diff) <= abs(user->attention_rate), "incorrect attention rate");
 
                 _users.modify(
-                        account, _self, [&](auto &record) {
+                        user, _self, [&](auto &record) {
                             record.attention_rate = attention_rate;
                             record.attention_rate_rating_position = attention_rate_rating_position;
                             record.last_attention_rate_updated_step_number = _state.step_number;
                         }
                 );
+
+                const auto &found_account = _accounts.find(update.id);
+
+                if (found_account != _accounts.end()) {
+                    _accounts.modify(found_account, _self, [&](auto &record) {
+                        record.stat_diff = update.stat_diff;
+                    });
+                }
 
                 total_attention_rate_diff += diff;
             } else {
@@ -414,11 +430,11 @@ namespace snax {
             const auto& found_transfer = _transfers.find(to);
 
             if (found_transfer != _transfers.end()) {
-                _transfers.modify(found_transfer, _self, [&](auto& transfer) {
+                _transfers.modify(found_transfer, from, [&](auto& transfer) {
                     transfer.amount += amount;
                 });
             } else {
-                _transfers.emplace(_self, [&](auto& transfer) {
+                _transfers.emplace(from, [&](auto& transfer) {
                     transfer.amount = amount;
                     transfer.id = to;
                 });
