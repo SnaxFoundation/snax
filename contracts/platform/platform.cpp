@@ -87,8 +87,9 @@ namespace snax {
             const auto& user = *_users.find(account.id);
             if (account.name) {
                 updated_account_count++;
-                if (user.attention_rate > 0.1) {
+                if (user.attention_rate > 0.1 && user.last_attention_rate_updated_step_number == _state.step_number) {
                     snax_assert(account.last_paid_step_number < _state.step_number + 1, "account already updated");
+
                     asset token_amount;
                     const int64_t portion = static_cast<int64_t>(_state.total_attention_rate / user.attention_rate);
                     if (portion < total_balance.amount) {
