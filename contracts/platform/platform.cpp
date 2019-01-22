@@ -155,7 +155,7 @@ namespace snax {
     }
 
     /// @abi action updatear
-    void platform::updatear(const uint64_t id, const double attention_rate, const uint32_t attention_rate_rating_position, const vector<uint32_t> stat_diff, const bool add_account_if_not_exist) {
+    void platform::updatear(const uint64_t id, const double attention_rate, const uint32_t attention_rate_rating_position, const vector<uint32_t> stat_diff, const uint8_t tweets_ranked_in_period, const bool add_account_if_not_exist) {
         require_auth(_self);
         require_initialized();
         _state = _platform_state.get();
@@ -179,6 +179,7 @@ namespace snax {
                         record.attention_rate = attention_rate;
                         record.attention_rate_rating_position = attention_rate_rating_position;
                         record.last_attention_rate_updated_step_number = _state.step_number;
+                        record.tweets_ranked_in_last_period = tweets_ranked_in_period;
                     }
             );
 
@@ -190,7 +191,7 @@ namespace snax {
                 });
             }
         } else {
-            addaccount(0, id, attention_rate, attention_rate_rating_position);
+            addaccount(0, id, attention_rate, attention_rate_rating_position, string(""));
         }
     }
 
@@ -220,6 +221,7 @@ namespace snax {
                             record.attention_rate = attention_rate;
                             record.attention_rate_rating_position = attention_rate_rating_position;
                             record.last_attention_rate_updated_step_number = _state.step_number;
+                            record.tweets_ranked_in_last_period = update.tweets_ranked_in_period;
                         }
                 );
 
@@ -233,7 +235,7 @@ namespace snax {
 
                 total_attention_rate_diff += diff;
             } else {
-                addaccount(0, update.id, update.attention_rate, update.attention_rate_rating_position);
+                addaccount(0, update.id, update.attention_rate, update.attention_rate_rating_position, string(""));
             }
         }
 
@@ -269,7 +271,7 @@ namespace snax {
     }
 
     /// @abi action addaccount
-    void platform::addaccount(const account_name account, const uint64_t id, const double attention_rate, const uint32_t attention_rate_rating_position) {
+    void platform::addaccount(const account_name account, const uint64_t id, const double attention_rate, const uint32_t attention_rate_rating_position, const string verification_tweet) {
         require_auth(_self);
         require_initialized();
         _state = _platform_state.get();
@@ -314,19 +316,17 @@ namespace snax {
         }
 
         if (account) {
-            if (found_account == _accounts.end()) {
-                _accounts.emplace(_self, [&](auto& record) {
-                    record.name = account;
-                    record.id = id;
-                    record.last_paid_step_number = 0;
-                    record.created = block_timestamp(snax::time_point_sec(now()));
-                });
-            } else {
-                _accounts.modify(found_account, _self, [&](auto& record) {
-                    record.name = account;
-                    record.id = id;
-                });
-            }
+            snax_assert(found_account == _accounts.end(), "account already exists");
+            snax_assert(verification_tweet.size() > 0, "link to verification tweet can't be empty");
+            snax_assert(is_account(account), "account isnt registered");
+
+            _accounts.emplace(_self, [&](auto& record) {
+                record.name = account;
+                record.id = id;
+                record.last_paid_step_number = 0;
+                record.created = block_timestamp(snax::time_point_sec(now()));
+                record.verification_tweet = verification_tweet;
+            });
         }
 
         if (_state.airdrop && account) {
@@ -340,73 +340,22 @@ namespace snax {
     void platform::addaccounts(vector<account_to_add> &accounts_to_add) {
         require_auth(_self);
         require_initialized();
-        _state = _platform_state.get();
 
         double accumulated_attention_rate = 0;
-        uint32_t index = 0;
         uint32_t registered_accounts = 0;
 
         for (auto& account_to_add: accounts_to_add) {
-            const auto& found_user = _users.find(account_to_add.id);
-            const auto& found_account = _accounts.find(account_to_add.id);
-            snax_assert(_users.find(account_to_add.id) == _users.end() || found_account == _accounts.end(), "user already exists");
-            snax_assert(account_to_add.attention_rate >= 0, "attention rate must be greater than zero or equal to zero");
+            addaccount(
+                account_to_add.name,
+                account_to_add.id,
+                account_to_add.attention_rate,
+                account_to_add.attention_rate_rating_position,
+                account_to_add.verification_tweet
+            );
+
             accumulated_attention_rate += account_to_add.attention_rate;
 
-            if (account_to_add.name) {
-                registered_accounts++;
-            }
-
-            const auto& pending = _pending_accounts.find(account_to_add.name);
-
-            if (pending != _pending_accounts.end()) {
-                _pending_accounts.erase(pending);
-            }
-
-            claim_transfered(account_to_add.id, account_to_add.name);
-
-            if (found_user != _users.end()) {
-                _users.modify(
-                        found_user, _self, [&](auto &record) {
-                            if (account_to_add.attention_rate > record.attention_rate) {
-                                record.attention_rate = account_to_add.attention_rate;
-                                record.attention_rate_rating_position = account_to_add.attention_rate_rating_position;
-                                record.last_attention_rate_updated_step_number = _state.step_number;
-                            }
-                        }
-                );
-            } else {
-                snax_assert(
-                        !_state.updating,
-                        "platform must not be in updating state when addaccounts action is called and user doesnt exist"
-                );
-                _users.emplace(
-                        _self, [&](auto &record) {
-                            record.attention_rate = account_to_add.attention_rate;
-                            record.id = account_to_add.id;
-                            record.attention_rate_rating_position = account_to_add.attention_rate_rating_position;
-                            record.last_attention_rate_updated_step_number = _state.step_number;
-                        }
-                );
-            }
-
-            if (account_to_add.name) {
-                if (found_account == _accounts.end()) {
-                    _accounts.emplace(_self, [&](auto& record) {
-                        record.name = account_to_add.name;
-                        record.id = account_to_add.id;
-                        record.last_paid_step_number = 0;
-                        record.created = block_timestamp(snax::time_point_sec(now()));
-                    });
-                } else {
-                    _accounts.modify(found_account, _self, [&](auto& record) {
-                        record.name = account_to_add.name;
-                        record.id = account_to_add.id;
-                    });
-                }
-            }
-
-            index++;
+            if (account_to_add.name) registered_accounts++;
         }
 
         update_state_total_attention_rate_and_user_count(accumulated_attention_rate, accounts_to_add.size(), registered_accounts);

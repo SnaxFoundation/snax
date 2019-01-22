@@ -29,7 +29,7 @@ Array [
     "last_paid_step_number": 0,
     "name": "test2",
     "stat_diff": Array [],
-    "verification_tweet": "",
+    "verification_tweet": "https://twitter.com/SnaxTeam/status/1083836521751478272",
   },
 ]
 `;
@@ -43,6 +43,7 @@ Object {
       "attention_rate_rating_position": 1,
       "id": 123,
       "last_attention_rate_updated_step_number": 0,
+      "tweets_ranked_in_last_period": 0,
     },
   ],
 }
@@ -150,28 +151,28 @@ Array [
     "last_paid_step_number": 0,
     "name": "test1",
     "stat_diff": Array [],
-    "verification_tweet": "",
+    "verification_tweet": "https://twitter.com/SnaxTeam/status/1083836521751478272",
   },
   Object {
     "id": 1007,
     "last_paid_step_number": 0,
     "name": "test1",
     "stat_diff": Array [],
-    "verification_tweet": "",
+    "verification_tweet": "https://twitter.com/SnaxTeam/status/1083836521751478272",
   },
   Object {
     "id": 1105,
     "last_paid_step_number": 0,
     "name": "test2",
     "stat_diff": Array [],
-    "verification_tweet": "",
+    "verification_tweet": "https://twitter.com/SnaxTeam/status/1083836521751478272",
   },
   Object {
     "id": 1200,
     "last_paid_step_number": 0,
     "name": "test2",
     "stat_diff": Array [],
-    "verification_tweet": "",
+    "verification_tweet": "https://twitter.com/SnaxTeam/status/1083836521751478272",
   },
 ]
 `;
@@ -185,24 +186,28 @@ Object {
       "attention_rate_rating_position": 3,
       "id": 123,
       "last_attention_rate_updated_step_number": 0,
+      "tweets_ranked_in_last_period": 0,
     },
     Object {
       "attention_rate": "206.00000000000000000",
       "attention_rate_rating_position": 1,
       "id": 1007,
       "last_attention_rate_updated_step_number": 0,
+      "tweets_ranked_in_last_period": 0,
     },
     Object {
       "attention_rate": "225.00000000000000000",
       "attention_rate_rating_position": 2,
       "id": 1105,
       "last_attention_rate_updated_step_number": 0,
+      "tweets_ranked_in_last_period": 0,
     },
     Object {
       "attention_rate": "206.00000000000000000",
       "attention_rate_rating_position": 1,
       "id": 1200,
       "last_attention_rate_updated_step_number": 0,
+      "tweets_ranked_in_last_period": 0,
     },
   ],
 }
@@ -262,28 +267,28 @@ Array [
     "last_paid_step_number": 0,
     "name": "test1",
     "stat_diff": Array [],
-    "verification_tweet": "",
+    "verification_tweet": "https://twitter.com/SnaxTeam/status/1083836521751478272",
   },
   Object {
     "id": 1007,
     "last_paid_step_number": 0,
     "name": "test1",
     "stat_diff": Array [],
-    "verification_tweet": "",
+    "verification_tweet": "https://twitter.com/SnaxTeam/status/1083836521751478272",
   },
   Object {
     "id": 1105,
     "last_paid_step_number": 0,
     "name": "test2",
     "stat_diff": Array [],
-    "verification_tweet": "",
+    "verification_tweet": "https://twitter.com/SnaxTeam/status/1083836521751478272",
   },
   Object {
     "id": 1200,
     "last_paid_step_number": 0,
     "name": "test2",
     "stat_diff": Array [],
-    "verification_tweet": "",
+    "verification_tweet": "https://twitter.com/SnaxTeam/status/1083836521751478272",
   },
 ]
 `;
@@ -297,24 +302,28 @@ Object {
       "attention_rate_rating_position": 3,
       "id": 123,
       "last_attention_rate_updated_step_number": 0,
+      "tweets_ranked_in_last_period": 0,
     },
     Object {
       "attention_rate": "206.00000000000000000",
       "attention_rate_rating_position": 1,
       "id": 1007,
       "last_attention_rate_updated_step_number": 0,
+      "tweets_ranked_in_last_period": 0,
     },
     Object {
       "attention_rate": "225.00000000000000000",
       "attention_rate_rating_position": 2,
       "id": 1105,
       "last_attention_rate_updated_step_number": 0,
+      "tweets_ranked_in_last_period": 0,
     },
     Object {
       "attention_rate": "206.00000000000000000",
       "attention_rate_rating_position": 1,
       "id": 1200,
       "last_attention_rate_updated_step_number": 0,
+      "tweets_ranked_in_last_period": 0,
     },
   ],
 }
@@ -349,28 +358,28 @@ Array [
     "last_paid_step_number": 0,
     "name": "test1",
     "stat_diff": Array [],
-    "verification_tweet": "",
+    "verification_tweet": "https://twitter.com/SnaxTeam/status/1083836521751478272",
   },
   Object {
     "id": 1007,
     "last_paid_step_number": 0,
     "name": "test1",
     "stat_diff": Array [],
-    "verification_tweet": "",
+    "verification_tweet": "https://twitter.com/SnaxTeam/status/1083836521751478272",
   },
   Object {
     "id": 1105,
     "last_paid_step_number": 0,
     "name": "test2",
     "stat_diff": Array [],
-    "verification_tweet": "",
+    "verification_tweet": "https://twitter.com/SnaxTeam/status/1083836521751478272",
   },
   Object {
     "id": 1200,
     "last_paid_step_number": 0,
     "name": "test2",
     "stat_diff": Array [],
-    "verification_tweet": "",
+    "verification_tweet": "https://twitter.com/SnaxTeam/status/1083836521751478272",
   },
 ]
 `;
@@ -384,24 +393,28 @@ Object {
       "attention_rate_rating_position": 3,
       "id": 123,
       "last_attention_rate_updated_step_number": 0,
+      "tweets_ranked_in_last_period": 0,
     },
     Object {
       "attention_rate": "206.00000000000000000",
       "attention_rate_rating_position": 1,
       "id": 1007,
       "last_attention_rate_updated_step_number": 0,
+      "tweets_ranked_in_last_period": 0,
     },
     Object {
       "attention_rate": "225.00000000000000000",
       "attention_rate_rating_position": 2,
       "id": 1105,
       "last_attention_rate_updated_step_number": 0,
+      "tweets_ranked_in_last_period": 0,
     },
     Object {
       "attention_rate": "206.00000000000000000",
       "attention_rate_rating_position": 1,
       "id": 1200,
       "last_attention_rate_updated_step_number": 0,
+      "tweets_ranked_in_last_period": 0,
     },
   ],
 }
@@ -527,7 +540,7 @@ Array [
       20,
       30,
     ],
-    "verification_tweet": "",
+    "verification_tweet": "https://twitter.com/SnaxTeam/status/1083836521751478272",
   },
 ]
 `;
@@ -541,6 +554,7 @@ Object {
       "attention_rate_rating_position": 1,
       "id": 123,
       "last_attention_rate_updated_step_number": 0,
+      "tweets_ranked_in_last_period": 7,
     },
   ],
 }
@@ -580,7 +594,7 @@ Array [
       20,
       30,
     ],
-    "verification_tweet": "",
+    "verification_tweet": "https://twitter.com/SnaxTeam/status/1083836521751478272",
   },
   Object {
     "id": 243,
@@ -592,7 +606,7 @@ Array [
       20,
       30,
     ],
-    "verification_tweet": "",
+    "verification_tweet": "https://twitter.com/SnaxTeam/status/1083836521751478272",
   },
 ]
 `;
@@ -606,12 +620,14 @@ Object {
       "attention_rate_rating_position": 1,
       "id": 123,
       "last_attention_rate_updated_step_number": 0,
+      "tweets_ranked_in_last_period": 10,
     },
     Object {
       "attention_rate": "20.00000000000000000",
       "attention_rate_rating_position": 2,
       "id": 243,
       "last_attention_rate_updated_step_number": 0,
+      "tweets_ranked_in_last_period": 6,
     },
   ],
 }
@@ -690,7 +706,7 @@ Array [
     "last_paid_step_number": 0,
     "name": "test1",
     "stat_diff": Array [],
-    "verification_tweet": "",
+    "verification_tweet": "https://twitter.com/SnaxTeam/status/1083836521751478272",
   },
 ]
 `;
@@ -704,6 +720,7 @@ Object {
       "attention_rate_rating_position": 1,
       "id": 42,
       "last_attention_rate_updated_step_number": 0,
+      "tweets_ranked_in_last_period": 0,
     },
   ],
 }
@@ -744,7 +761,7 @@ Array [
     "last_paid_step_number": 0,
     "name": "test1",
     "stat_diff": Array [],
-    "verification_tweet": "",
+    "verification_tweet": "https://twitter.com/SnaxTeam/status/1083836521751478272",
   },
 ]
 `;
@@ -758,6 +775,7 @@ Object {
       "attention_rate_rating_position": 1,
       "id": 1105,
       "last_attention_rate_updated_step_number": 0,
+      "tweets_ranked_in_last_period": 0,
     },
   ],
 }
@@ -794,7 +812,7 @@ Array [
     "last_paid_step_number": 0,
     "name": "test2",
     "stat_diff": Array [],
-    "verification_tweet": "",
+    "verification_tweet": "https://twitter.com/SnaxTeam/status/1083836521751478272",
   },
 ]
 `;
@@ -808,6 +826,7 @@ Object {
       "attention_rate_rating_position": 1,
       "id": 123,
       "last_attention_rate_updated_step_number": 0,
+      "tweets_ranked_in_last_period": 0,
     },
   ],
 }
@@ -877,7 +896,7 @@ Array [
     "last_paid_step_number": 0,
     "name": "test2",
     "stat_diff": Array [],
-    "verification_tweet": "",
+    "verification_tweet": "https://twitter.com/SnaxTeam/status/1083836521751478272",
   },
 ]
 `;
@@ -891,6 +910,7 @@ Object {
       "attention_rate_rating_position": 1,
       "id": 123,
       "last_attention_rate_updated_step_number": 0,
+      "tweets_ranked_in_last_period": 0,
     },
   ],
 }

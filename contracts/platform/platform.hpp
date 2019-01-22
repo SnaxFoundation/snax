@@ -29,6 +29,7 @@ namespace snax {
             double attention_rate;
             uint32_t attention_rate_rating_position;
             vector<uint32_t> stat_diff;
+            uint8_t tweets_ranked_in_period;
         };
 
         struct account_to_add {
@@ -36,6 +37,7 @@ namespace snax {
             uint64_t id;
             double attention_rate;
             uint32_t attention_rate_rating_position;
+            string verification_tweet;
         };
 
         platform( account_name s )
@@ -61,7 +63,7 @@ namespace snax {
         void droppenacc(const account_name account);
 
         /// @abi action updatear
-        void updatear(uint64_t id, double attention_rate, uint32_t attention_rate_rating_position, vector<uint32_t> stat_diff, bool add_account_if_not_exist);
+        void updatear(uint64_t id, double attention_rate, uint32_t attention_rate_rating_position, vector<uint32_t> stat_diff, uint8_t tweets_ranked_in_period, bool add_account_if_not_exist);
 
         /// @abi action updatearmult
         void updatearmult(vector<account_with_attention_rate>& updates, bool add_account_if_not_exist);
@@ -70,7 +72,7 @@ namespace snax {
         void dropaccount(account_name account, uint32_t max_account_count);
 
         /// @abi action addaccount
-        void addaccount(account_name account, uint64_t id, double attention_rate, uint32_t attention_rate_rating_position);
+        void addaccount(account_name account, uint64_t id, double attention_rate, uint32_t attention_rate_rating_position, string verification_tweet);
 
         /// @abi action addaccounts
         void addaccounts(vector<account_to_add>& accounts_to_add);
@@ -144,6 +146,7 @@ namespace snax {
             double attention_rate;
             uint32_t attention_rate_rating_position;
             uint16_t last_attention_rate_updated_step_number;
+            uint8_t tweets_ranked_in_last_period;
 
             uint64_t primary_key() const {
                 return id;
@@ -153,7 +156,7 @@ namespace snax {
                 return attention_rate_rating_position;
             }
 
-            SNAXLIB_SERIALIZE(user, (id)(attention_rate)(attention_rate_rating_position)(last_attention_rate_updated_step_number))
+            SNAXLIB_SERIALIZE(user, (id)(attention_rate)(attention_rate_rating_position)(last_attention_rate_updated_step_number)(tweets_ranked_in_last_period))
         };
 
         /// @abi table state i64
