@@ -35,7 +35,7 @@ struct genesis_state {
       .max_transaction_cpu_usage            = config::default_max_transaction_cpu_usage,
       .min_transaction_cpu_usage            = config::default_min_transaction_cpu_usage,
 
-      .ram_market_open                      = config::ram_market_open,
+      .resources_market_open                      = config::resources_market_open,
       .enabled_contracts_by_non_privileged_users = config::enabled_contracts_by_non_privileged_users,
       .max_transaction_lifetime             = config::default_max_trx_lifetime,
       .deferred_trx_expiration_window       = config::default_deferred_trx_expiration_window,
