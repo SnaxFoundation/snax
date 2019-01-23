@@ -29,7 +29,8 @@ struct chain_config {
    uint32_t   target_block_cpu_usage_pct;          ///< the target percent (1% == 100, 100%= 10,000) of maximum cpu usage; exceeding this triggers congestion handling
    uint32_t   max_transaction_cpu_usage;           ///< the maximum billable cpu usage (in microseconds) that the chain will allow regardless of account limits
    uint32_t   min_transaction_cpu_usage;           ///< the minimum billable cpu usage (in microseconds) that the chain requires
-   uint32_t   resources_market_open;                     ///< allows non privileged users to buy ram
+   uint32_t   resources_market_open;               ///< allows non privileged users to buy ram
+   uint32_t   top_producers_limit;                 ///< max allowed quantity of producers in system top list
    uint32_t   enabled_contracts_by_non_privileged_users; ///< allows non privileged users to add contracts to system
 
    uint32_t   max_transaction_lifetime;            ///< the maximum number of seconds that an input transaction's expiration can be ahead of the time of the block in which it is first included
@@ -55,6 +56,7 @@ struct chain_config {
                  << "Max Transaction CPU Usage: " << c.max_transaction_cpu_usage << ", "
                  << "Min Transaction CPU Usage: " << c.min_transaction_cpu_usage << ", "
                  << "Ram market open: " << c.resources_market_open << ", "
+                 << "Top producers count: " << c.top_producers_limit << ", "
                  << "Enabled contracts by non privileged users: " << c.enabled_contracts_by_non_privileged_users << ", "
 
                  << "Max Transaction Lifetime: " << c.max_transaction_lifetime << ", "
@@ -79,6 +81,7 @@ struct chain_config {
                            lhs.max_transaction_cpu_usage,
                            lhs.max_transaction_cpu_usage,
                            lhs.resources_market_open,
+                           lhs.top_producers_limit,
                            lhs.enabled_contracts_by_non_privileged_users,
                            lhs.max_transaction_lifetime,
                            lhs.deferred_trx_expiration_window,
@@ -100,6 +103,7 @@ struct chain_config {
                            rhs.max_transaction_cpu_usage,
                            rhs.max_transaction_cpu_usage,
                            rhs.resources_market_open,
+                           rhs.top_producers_limit,
                            rhs.enabled_contracts_by_non_privileged_users,
                            rhs.max_transaction_lifetime,
                            rhs.deferred_trx_expiration_window,
@@ -133,7 +137,7 @@ FC_REFLECT(snax::chain::chain_config,
            (max_block_cpu_usage)(target_block_cpu_usage_pct)
            (max_transaction_cpu_usage)(min_transaction_cpu_usage)
 
-           (resources_market_open)(enabled_contracts_by_non_privileged_users)
+           (resources_market_open)(top_producers_limit)(enabled_contracts_by_non_privileged_users)
 
            (max_transaction_lifetime)(deferred_trx_expiration_window)(max_transaction_delay)
            (max_inline_action_size)(max_inline_action_depth)(max_authority_depth)
