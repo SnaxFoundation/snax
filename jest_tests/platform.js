@@ -80,11 +80,11 @@ describe("Platform", async () => {
     expect(users).toMatchSnapshot();
   };
 
-  const verifyTransferTable = async () => {
+  const verifyTransferTable = async id => {
     expect(
       await api.rpc.get_table_rows({
         code: account,
-        scope: account,
+        scope: id,
         table: "transfers"
       })
     ).toMatchSnapshot();
@@ -369,6 +369,42 @@ describe("Platform", async () => {
       }
     );
 
+  it("should process social transfer correctly", async () => {
+    await initialize();
+    await socialTransfer("test.transf", 15, "20.0000 SNAX");
+    await verifyTransferTable(15);
+    await verifyAccountsBalances(["test.transf", "test1"]);
+    await addUser({
+      verification_tweet:
+        "https://twitter.com/SnaxTeam/status/1083836521751478272",
+      account: "test1",
+      id: 15,
+      attention_rate: 15.0,
+      attention_rate_rating_position: 1
+    });
+    await verifyTransferTable(15);
+    await verifyAccountsBalances(["test.transf", "test1"]);
+  });
+
+  it("should process social transfers with different assets correctly", async () => {
+    await initialize();
+    await socialTransfer("test.transf", 15, "20.0000 SNIX");
+    await socialTransfer("test.transf", 15, "20.0000 SNAX");
+    await socialTransfer("test.transf", 30, "20.0000 SNIX");
+    await verifyTransferTable(15);
+    await verifyAccountsBalances(["test.transf", "test1"]);
+    await addUser({
+      verification_tweet:
+        "https://twitter.com/SnaxTeam/status/1083836521751478272",
+      account: "test1",
+      id: 15,
+      attention_rate: 15.0,
+      attention_rate_rating_position: 1
+    });
+    await verifyTransferTable(15);
+    await verifyAccountsBalances(["test.transf", "test1"]);
+  });
+
   it("should process next round correctly", async () => {
     await initialize();
     await addUser({
@@ -433,23 +469,6 @@ describe("Platform", async () => {
     await verifyPendingAccounts();
     await dropPendingAccount("test1");
     await verifyStatesAndAccounts();
-  });
-
-  it("should process social transfer correctly", async () => {
-    await initialize();
-    await socialTransfer("test.transf", 15, "20.0000 SNAX");
-    await verifyTransferTable();
-    await verifyAccountsBalances(["test.transf", "test1"]);
-    await addUser({
-      verification_tweet:
-        "https://twitter.com/SnaxTeam/status/1083836521751478272",
-      account: "test1",
-      id: 15,
-      attention_rate: 15.0,
-      attention_rate_rating_position: 1
-    });
-    await verifyTransferTable();
-    await verifyAccountsBalances(["test.transf", "test1"]);
   });
 
   it("should initialize correctly", async () => {

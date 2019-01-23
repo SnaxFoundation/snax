@@ -41,7 +41,7 @@ namespace snax {
         };
 
         platform( account_name s )
-        :contract(s), _users(s, s), _accounts(s, s), _platform_state(s, s), _transfers(s, s), _pending_accounts(s, s)
+        :contract(s), _users(s, s), _accounts(s, s), _platform_state(s, s), _pending_accounts(s, s)
          {}
 
         /// @abi action initialize
@@ -110,7 +110,7 @@ namespace snax {
             asset amount;
 
             uint64_t primary_key() const {
-                return id;
+                return amount.symbol.name();
             }
 
             SNAXLIB_SERIALIZE(transfer_rec, (id)(amount))
@@ -204,7 +204,6 @@ namespace snax {
         peacctable _pending_accounts;
         platform_state _platform_state;
         state _state;
-        transfers_table _transfers;
         registered_account_table _accounts;
 
         // Only contract itself is allowed to unlock update
@@ -220,7 +219,7 @@ namespace snax {
 
         void update_state_total_attention_rate_and_user_count(double additional_attention_rate, uint64_t new_accounts, uint64_t new_registered_accounts);
 
-        asset get_balance(account_name account);
+        asset get_balance(account_name account, symbol_type symbol_name);
 
         void claim_transfered(uint64_t id, account_name account);
 

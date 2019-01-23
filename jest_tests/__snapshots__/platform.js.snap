@@ -469,6 +469,9 @@ Array [
       Object {
         "balance": "980.0000 SNAX",
       },
+      Object {
+        "balance": "1000.0000 SNIX",
+      },
     ],
   },
   Object {
@@ -493,6 +496,9 @@ Array [
       Object {
         "balance": "980.0000 SNAX",
       },
+      Object {
+        "balance": "1000.0000 SNIX",
+      },
     ],
   },
   Object {
@@ -500,6 +506,76 @@ Array [
     "rows": Array [
       Object {
         "balance": "20.0000 SNAX",
+      },
+    ],
+  },
+]
+`;
+
+exports[`Platform should process social transfers with different assets correctly 1`] = `
+Object {
+  "more": false,
+  "rows": Array [
+    Object {
+      "amount": "20.0000 SNAX",
+      "id": 15,
+    },
+    Object {
+      "amount": "20.0000 SNIX",
+      "id": 15,
+    },
+  ],
+}
+`;
+
+exports[`Platform should process social transfers with different assets correctly 2`] = `
+Array [
+  Object {
+    "more": false,
+    "rows": Array [
+      Object {
+        "balance": "980.0000 SNAX",
+      },
+      Object {
+        "balance": "960.0000 SNIX",
+      },
+    ],
+  },
+  Object {
+    "more": false,
+    "rows": Array [],
+  },
+]
+`;
+
+exports[`Platform should process social transfers with different assets correctly 3`] = `
+Object {
+  "more": false,
+  "rows": Array [],
+}
+`;
+
+exports[`Platform should process social transfers with different assets correctly 4`] = `
+Array [
+  Object {
+    "more": false,
+    "rows": Array [
+      Object {
+        "balance": "980.0000 SNAX",
+      },
+      Object {
+        "balance": "960.0000 SNIX",
+      },
+    ],
+  },
+  Object {
+    "more": false,
+    "rows": Array [
+      Object {
+        "balance": "20.0000 SNAX",
+      },
+      Object {
+        "balance": "20.0000 SNIX",
       },
     ],
   },

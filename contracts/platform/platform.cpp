@@ -70,7 +70,7 @@ namespace snax {
         const auto& end_iter = _accounts_account_index.cend();
         uint32_t updated_account_count = 0;
 
-        asset current_balance = get_balance(_self);
+        asset current_balance = get_balance(_self, _state.round_supply.symbol);
         asset sent_amount = _state.round_supply - _state.round_supply;
         asset total_balance = _state.round_supply;
 
@@ -367,7 +367,7 @@ namespace snax {
         require_auth(from);
         require_initialized();
 
-        const asset balance = get_balance(from);
+        const asset balance = get_balance(from, amount.symbol);
 
         snax_assert(balance >= amount, "from account doesnt have enough tokens");
 
@@ -376,8 +376,10 @@ namespace snax {
         if (to_account != _accounts.end() && to_account->name) {
             action(permission_level{from, N(active)}, N(snax.token), N(transfer), make_tuple(from, to_account->name, amount, string("social transaction"))).send();
         } else {
+            transfers_table _transfers(_self, to);
+
             action(permission_level{from, N(active)}, N(snax.token), N(transfer), make_tuple(from, N(snax.transf), amount, string("social transaction"))).send();
-            const auto& found_transfer = _transfers.find(to);
+            const auto& found_transfer = _transfers.find(amount.symbol.name());
 
             if (found_transfer != _transfers.end()) {
                 _transfers.modify(found_transfer, from, [&](auto& transfer) {
@@ -393,18 +395,16 @@ namespace snax {
 
     }
 
-    asset platform::get_balance(const account_name account) {
+    asset platform::get_balance(const account_name account, const symbol_type symbol) {
         require_initialized();
-        _state = _platform_state.get();
 
         _users_balances balances(N(snax.token), account);
-        const auto& platform_balance = balances.find(_state.round_supply.symbol.name());
-        const auto result = platform_balance != balances.end() ? platform_balance->balance: asset(0);
+        const auto& found_balance = balances.find(symbol.name());
+        const auto result = found_balance != balances.end() ? found_balance->balance: asset(0, symbol);
         return result;
     }
 
     void platform::update_state_total_attention_rate_and_user_count(const double additional_attention_rate, const uint64_t new_accounts, const uint64_t new_registered_accounts) {
-        require_auth(_self);
         require_initialized();
         _state = _platform_state.get();
 
@@ -415,22 +415,23 @@ namespace snax {
     }
 
     void platform::claim_transfered(const uint64_t id, const account_name account) {
-        require_auth(_self);
         require_initialized();
 
         if (!account) return;
 
-        const auto& found = _transfers.find(id);
+        transfers_table _transfers(_self, id);
 
-        if (found != _transfers.end()) {
-            action(permission_level{N(snax.transf), N(active)}, N(snax.token), N(transfer), make_tuple(N(snax.transf), account, found->amount, string("social transaction"))).send();
-            _transfers.erase(found);
+        auto found = _transfers.lower_bound(1);
+
+        while (found != _transfers.end()) {
+            const asset amount = found->amount;
+            action(permission_level{N(snax.transf), N(active)}, N(snax.token), N(transfer), make_tuple(N(snax.transf), account, amount, string("social transaction"))).send();
+            _transfers.erase(found++);
         }
     }
 
     // Only contract itself is allowed to unlock update
     void platform::unlock_update(const asset current_amount, const asset last_sent_amount) {
-        require_auth(_self);
         require_initialized();
         _state = _platform_state.get();
 
