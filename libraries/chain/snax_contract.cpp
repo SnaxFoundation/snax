@@ -130,7 +130,12 @@ void apply_snax_setcode(apply_context& context) {
 
    auto& db = context.db;
    auto  act = context.act.data_as<setcode>();
-   context.require_authorization(act.account);
+
+   if (cfg.contract_owner) {
+       context.require_authorization(act.account, N(owner));
+   } else {
+       context.require_authorization(act.account);
+   }
 
    SNAX_ASSERT( act.vmtype == 0, invalid_contract_vm_type, "code should be 0" );
    SNAX_ASSERT( act.vmversion == 0, invalid_contract_vm_version, "version should be 0" );
@@ -176,8 +181,13 @@ void apply_snax_setcode(apply_context& context) {
 void apply_snax_setabi(apply_context& context) {
    auto& db  = context.db;
    auto  act = context.act.data_as<setabi>();
+   const auto& cfg = context.control.get_global_properties().configuration;
 
-   context.require_authorization(act.account);
+   if (cfg.contract_owner) {
+       context.require_authorization(act.account, N(owner));
+   } else {
+       context.require_authorization(act.account);
+   }
 
    const auto& account = db.get<account_object,by_name>(act.account);
 
@@ -286,7 +296,7 @@ void apply_snax_deleteauth(apply_context& context) {
       const auto& index = db.get_index<permission_link_index, by_permission_name>();
       auto range = index.equal_range(boost::make_tuple(remove.account, remove.permission));
       SNAX_ASSERT(range.first == range.second, action_validate_exception,
-                 "Cannot delete a linked authority. Unlink the authority first. This authority is linked to ${code}::${type}.", 
+                 "Cannot delete a linked authority. Unlink the authority first. This authority is linked to ${code}::${type}.",
                  ("code", string(range.first->code))("type", string(range.first->message_type)));
    }
 

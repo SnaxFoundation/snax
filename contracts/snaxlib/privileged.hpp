@@ -60,6 +60,8 @@ namespace snax {
 
       uint32_t enabled_contracts_by_non_privileged_users;
 
+      uint32_t contract_owner;
+
       /**
        * The numerator for the discount on cpu usage for CFA's
        *
@@ -118,7 +120,7 @@ namespace snax {
                         (max_block_cpu_usage)(target_block_cpu_usage_pct)
                         (max_transaction_cpu_usage)(min_transaction_cpu_usage)
 
-                        (resources_market_open)(top_producers_limit)(enabled_contracts_by_non_privileged_users)
+                        (resources_market_open)(top_producers_limit)(enabled_contracts_by_non_privileged_users)(contract_owner)
 
                         (max_transaction_lifetime)(deferred_trx_expiration_window)(max_transaction_delay)
                         (max_inline_action_size)(max_inline_action_depth)(max_authority_depth)
