@@ -76,15 +76,15 @@ describe("Platform", async () => {
       })
     ]);
     expect(state).toMatchSnapshot();
-    expect(accounts).toMatchSnapshot();
+    expect(accounts.rows.map(({ created, ...row }) => row)).toMatchSnapshot();
     expect(users).toMatchSnapshot();
   };
 
-  const verifyTransferTable = async () => {
+  const verifyTransferTable = async id => {
     expect(
       await api.rpc.get_table_rows({
         code: account,
-        scope: account,
+        scope: id,
         table: "transfers"
       })
     ).toMatchSnapshot();
@@ -369,27 +369,71 @@ describe("Platform", async () => {
       }
     );
 
+  it("should process social transfer correctly", async () => {
+    await initialize();
+    await socialTransfer("test.transf", 15, "20.0000 SNAX");
+    await verifyTransferTable(15);
+    await verifyAccountsBalances(["test.transf", "test1"]);
+    await addUser({
+      verification_tweet:
+        "https://twitter.com/SnaxTeam/status/1083836521751478272",
+      account: "test1",
+      id: 15,
+      attention_rate: 15.0,
+      attention_rate_rating_position: 1
+    });
+    await verifyTransferTable(15);
+    await verifyAccountsBalances(["test.transf", "test1"]);
+  });
+
+  it("should process social transfers with different assets correctly", async () => {
+    await initialize();
+    await socialTransfer("test.transf", 15, "20.0000 SNIX");
+    await socialTransfer("test.transf", 15, "20.0000 SNAX");
+    await socialTransfer("test.transf", 30, "20.0000 SNIX");
+    await verifyTransferTable(15);
+    await verifyAccountsBalances(["test.transf", "test1"]);
+    await addUser({
+      verification_tweet:
+        "https://twitter.com/SnaxTeam/status/1083836521751478272",
+      account: "test1",
+      id: 15,
+      attention_rate: 15.0,
+      attention_rate_rating_position: 1
+    });
+    await verifyTransferTable(15);
+    await verifyAccountsBalances(["test.transf", "test1"]);
+  });
+
   it("should process next round correctly", async () => {
     await initialize();
     await addUser({
+      verification_tweet:
+        "https://twitter.com/SnaxTeam/status/1083836521751478272",
       account: "test1",
       id: 123,
       attention_rate: 15.0,
       attention_rate_rating_position: 3
     });
     await addUser({
+      verification_tweet:
+        "https://twitter.com/SnaxTeam/status/1083836521751478272",
       account: "test2",
       id: 1105,
       attention_rate: 225.0,
       attention_rate_rating_position: 2
     });
     await addUser({
+      verification_tweet:
+        "https://twitter.com/SnaxTeam/status/1083836521751478272",
       account: "test2",
       id: 1200,
       attention_rate: 206.0,
       attention_rate_rating_position: 1
     });
     await addUser({
+      verification_tweet:
+        "https://twitter.com/SnaxTeam/status/1083836521751478272",
       account: "test1",
       id: 1007,
       attention_rate: 206.0,
@@ -407,6 +451,8 @@ describe("Platform", async () => {
     await verifyPendingAccounts();
     await verifyStatesAndAccounts();
     await addUser({
+      verification_tweet:
+        "https://twitter.com/SnaxTeam/status/1083836521751478272",
       account: "test1",
       id: 42,
       attention_rate: 225.0,
@@ -425,21 +471,6 @@ describe("Platform", async () => {
     await verifyStatesAndAccounts();
   });
 
-  it("should process social transfer correctly", async () => {
-    await initialize();
-    await socialTransfer("test.transf", 15, "20.0000 SNAX");
-    await verifyTransferTable();
-    await verifyAccountsBalances(["test.transf", "test1"]);
-    await addUser({
-      account: "test1",
-      id: 15,
-      attention_rate: 15.0,
-      attention_rate_rating_position: 1
-    });
-    await verifyTransferTable();
-    await verifyAccountsBalances(["test.transf", "test1"]);
-  });
-
   it("should initialize correctly", async () => {
     await initialize();
     await verifyStatesAndAccounts();
@@ -454,6 +485,8 @@ describe("Platform", async () => {
   it("should add account correctly", async () => {
     await initialize();
     const result = await addUser({
+      verification_tweet:
+        "https://twitter.com/SnaxTeam/status/1083836521751478272",
       account: "test2",
       id: 123,
       attention_rate: 15.0,
@@ -465,6 +498,8 @@ describe("Platform", async () => {
   it("shouldn't be able to add user with the same id second time", async () => {
     await initialize();
     await addUser({
+      verification_tweet:
+        "https://twitter.com/SnaxTeam/status/1083836521751478272",
       account: "test2",
       id: 123,
       attention_rate: 15.0,
@@ -472,6 +507,8 @@ describe("Platform", async () => {
     });
     await tryCatchExpect(() =>
       addUser({
+        verification_tweet:
+          "https://twitter.com/SnaxTeam/status/1083836521751478272",
         account: "test2",
         id: 123,
         attention_rate: 26.0,
@@ -484,6 +521,8 @@ describe("Platform", async () => {
   it("should update account's attention rate correctly", async () => {
     await initialize();
     await addUser({
+      verification_tweet:
+        "https://twitter.com/SnaxTeam/status/1083836521751478272",
       account: "test2",
       id: 123,
       attention_rate: 15.0,
@@ -492,7 +531,9 @@ describe("Platform", async () => {
     await updateQualityRate({
       id: 123,
       attention_rate: 20.0,
-      attention_rate_rating_position: 1
+      attention_rate_rating_position: 1,
+      stat_diff: [5, 10, 20, 30],
+      tweets_ranked_in_period: 7
     });
     await verifyStatesAndAccounts();
   });
@@ -500,20 +541,36 @@ describe("Platform", async () => {
   it("should update multiple account's attention rate correctly", async () => {
     await initialize();
     await addUser({
+      verification_tweet:
+        "https://twitter.com/SnaxTeam/status/1083836521751478272",
       account: "test2",
       id: 123,
       attention_rate: 15.0,
       attention_rate_rating_position: 1
     });
     await addUser({
+      verification_tweet:
+        "https://twitter.com/SnaxTeam/status/1083836521751478272",
       account: "test1",
       id: 243,
       attention_rate: 8.0,
       attention_rate_rating_position: 2
     });
     await updateQualityRateMulti([
-      { id: 243, attention_rate: 20.0, attention_rate_rating_position: 2 },
-      { id: 123, attention_rate: 25.0, attention_rate_rating_position: 1 }
+      {
+        id: 243,
+        attention_rate: 20.0,
+        attention_rate_rating_position: 2,
+        stat_diff: [5, 10, 20, 30],
+        tweets_ranked_in_period: 6
+      },
+      {
+        id: 123,
+        attention_rate: 25.0,
+        attention_rate_rating_position: 1,
+        stat_diff: [5, 10, 20, 30],
+        tweets_ranked_in_period: 10
+      }
     ]);
     await verifyStatesAndAccounts();
   });
@@ -521,6 +578,8 @@ describe("Platform", async () => {
   it("shouldn't be able to update non-existent account's attention rate", async () => {
     await initialize();
     await addUser({
+      verification_tweet:
+        "https://twitter.com/SnaxTeam/status/1083836521751478272",
       account: "test2",
       id: 123,
       attention_rate: 15.0,
@@ -530,7 +589,9 @@ describe("Platform", async () => {
       updateQualityRate({
         id: 250,
         attention_rate: 20.0,
-        attention_rate_rating_position: 2
+        attention_rate_rating_position: 2,
+        stat_diff: [5, 10, 20, 30],
+        tweets_ranked_in_period: 42
       })
     );
 
@@ -540,6 +601,8 @@ describe("Platform", async () => {
   it("shouldn't be able to add account or update attention rate when platform is updating", async () => {
     await initialize();
     await addUser({
+      verification_tweet:
+        "https://twitter.com/SnaxTeam/status/1083836521751478272",
       account: "test1",
       id: 1105,
       attention_rate: 225.0,
@@ -550,7 +613,9 @@ describe("Platform", async () => {
       updateQualityRate({
         id: 1105,
         attention_rate: 20.0,
-        attention_rate_rating_position: 1
+        attention_rate_rating_position: 1,
+        stat_diff: [5, 10, 20, 30],
+        tweets_ranked_in_period: 16
       })
     );
     await tryCatchExpect(() =>
@@ -558,12 +623,16 @@ describe("Platform", async () => {
         {
           id: 1105,
           attention_rate: 20.0,
-          attention_rate_rating_position: 1
+          attention_rate_rating_position: 1,
+          stat_diff: [5, 10, 20, 30],
+          tweets_ranked_in_period: 117
         }
       ])
     );
     await tryCatchExpect(() =>
       addUser({
+        verification_tweet:
+          "https://twitter.com/SnaxTeam/status/1083836521751478272",
         account: "test2",
         id: 123,
         attention_rate: 15.0,

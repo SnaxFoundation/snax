@@ -23,17 +23,15 @@ Object {
 `;
 
 exports[`Platform should add account correctly 2`] = `
-Object {
-  "more": false,
-  "rows": Array [
-    Object {
-      "id": 123,
-      "last_paid_step_number": 0,
-      "name": "test2",
-      "verification_tweet": "",
-    },
-  ],
-}
+Array [
+  Object {
+    "id": 123,
+    "last_paid_step_number": 0,
+    "name": "test2",
+    "stat_diff": Array [],
+    "verification_tweet": "https://twitter.com/SnaxTeam/status/1083836521751478272",
+  },
+]
 `;
 
 exports[`Platform should add account correctly 3`] = `
@@ -45,6 +43,7 @@ Object {
       "attention_rate_rating_position": 1,
       "id": 123,
       "last_attention_rate_updated_step_number": 0,
+      "tweets_ranked_in_last_period": 0,
     },
   ],
 }
@@ -83,12 +82,7 @@ Object {
 }
 `;
 
-exports[`Platform should drop pending account correctly 4`] = `
-Object {
-  "more": false,
-  "rows": Array [],
-}
-`;
+exports[`Platform should drop pending account correctly 4`] = `Array []`;
 
 exports[`Platform should drop pending account correctly 5`] = `
 Object {
@@ -119,12 +113,7 @@ Object {
 }
 `;
 
-exports[`Platform should initialize correctly 2`] = `
-Object {
-  "more": false,
-  "rows": Array [],
-}
-`;
+exports[`Platform should initialize correctly 2`] = `Array []`;
 
 exports[`Platform should initialize correctly 3`] = `
 Object {
@@ -156,35 +145,36 @@ Object {
 `;
 
 exports[`Platform should process next round correctly 2`] = `
-Object {
-  "more": false,
-  "rows": Array [
-    Object {
-      "id": 123,
-      "last_paid_step_number": 0,
-      "name": "test1",
-      "verification_tweet": "",
-    },
-    Object {
-      "id": 1007,
-      "last_paid_step_number": 0,
-      "name": "test1",
-      "verification_tweet": "",
-    },
-    Object {
-      "id": 1105,
-      "last_paid_step_number": 0,
-      "name": "test2",
-      "verification_tweet": "",
-    },
-    Object {
-      "id": 1200,
-      "last_paid_step_number": 0,
-      "name": "test2",
-      "verification_tweet": "",
-    },
-  ],
-}
+Array [
+  Object {
+    "id": 123,
+    "last_paid_step_number": 0,
+    "name": "test1",
+    "stat_diff": Array [],
+    "verification_tweet": "https://twitter.com/SnaxTeam/status/1083836521751478272",
+  },
+  Object {
+    "id": 1007,
+    "last_paid_step_number": 0,
+    "name": "test1",
+    "stat_diff": Array [],
+    "verification_tweet": "https://twitter.com/SnaxTeam/status/1083836521751478272",
+  },
+  Object {
+    "id": 1105,
+    "last_paid_step_number": 0,
+    "name": "test2",
+    "stat_diff": Array [],
+    "verification_tweet": "https://twitter.com/SnaxTeam/status/1083836521751478272",
+  },
+  Object {
+    "id": 1200,
+    "last_paid_step_number": 0,
+    "name": "test2",
+    "stat_diff": Array [],
+    "verification_tweet": "https://twitter.com/SnaxTeam/status/1083836521751478272",
+  },
+]
 `;
 
 exports[`Platform should process next round correctly 3`] = `
@@ -196,24 +186,28 @@ Object {
       "attention_rate_rating_position": 3,
       "id": 123,
       "last_attention_rate_updated_step_number": 0,
+      "tweets_ranked_in_last_period": 0,
     },
     Object {
       "attention_rate": "206.00000000000000000",
       "attention_rate_rating_position": 1,
       "id": 1007,
       "last_attention_rate_updated_step_number": 0,
+      "tweets_ranked_in_last_period": 0,
     },
     Object {
       "attention_rate": "225.00000000000000000",
       "attention_rate_rating_position": 2,
       "id": 1105,
       "last_attention_rate_updated_step_number": 0,
+      "tweets_ranked_in_last_period": 0,
     },
     Object {
       "attention_rate": "206.00000000000000000",
       "attention_rate_rating_position": 1,
       "id": 1200,
       "last_attention_rate_updated_step_number": 0,
+      "tweets_ranked_in_last_period": 0,
     },
   ],
 }
@@ -267,35 +261,36 @@ Object {
 `;
 
 exports[`Platform should process next round correctly 6`] = `
-Object {
-  "more": false,
-  "rows": Array [
-    Object {
-      "id": 123,
-      "last_paid_step_number": 0,
-      "name": "test1",
-      "verification_tweet": "",
-    },
-    Object {
-      "id": 1007,
-      "last_paid_step_number": 0,
-      "name": "test1",
-      "verification_tweet": "",
-    },
-    Object {
-      "id": 1105,
-      "last_paid_step_number": 0,
-      "name": "test2",
-      "verification_tweet": "",
-    },
-    Object {
-      "id": 1200,
-      "last_paid_step_number": 0,
-      "name": "test2",
-      "verification_tweet": "",
-    },
-  ],
-}
+Array [
+  Object {
+    "id": 123,
+    "last_paid_step_number": 0,
+    "name": "test1",
+    "stat_diff": Array [],
+    "verification_tweet": "https://twitter.com/SnaxTeam/status/1083836521751478272",
+  },
+  Object {
+    "id": 1007,
+    "last_paid_step_number": 0,
+    "name": "test1",
+    "stat_diff": Array [],
+    "verification_tweet": "https://twitter.com/SnaxTeam/status/1083836521751478272",
+  },
+  Object {
+    "id": 1105,
+    "last_paid_step_number": 0,
+    "name": "test2",
+    "stat_diff": Array [],
+    "verification_tweet": "https://twitter.com/SnaxTeam/status/1083836521751478272",
+  },
+  Object {
+    "id": 1200,
+    "last_paid_step_number": 0,
+    "name": "test2",
+    "stat_diff": Array [],
+    "verification_tweet": "https://twitter.com/SnaxTeam/status/1083836521751478272",
+  },
+]
 `;
 
 exports[`Platform should process next round correctly 7`] = `
@@ -307,24 +302,28 @@ Object {
       "attention_rate_rating_position": 3,
       "id": 123,
       "last_attention_rate_updated_step_number": 0,
+      "tweets_ranked_in_last_period": 0,
     },
     Object {
       "attention_rate": "206.00000000000000000",
       "attention_rate_rating_position": 1,
       "id": 1007,
       "last_attention_rate_updated_step_number": 0,
+      "tweets_ranked_in_last_period": 0,
     },
     Object {
       "attention_rate": "225.00000000000000000",
       "attention_rate_rating_position": 2,
       "id": 1105,
       "last_attention_rate_updated_step_number": 0,
+      "tweets_ranked_in_last_period": 0,
     },
     Object {
       "attention_rate": "206.00000000000000000",
       "attention_rate_rating_position": 1,
       "id": 1200,
       "last_attention_rate_updated_step_number": 0,
+      "tweets_ranked_in_last_period": 0,
     },
   ],
 }
@@ -353,35 +352,36 @@ Object {
 `;
 
 exports[`Platform should process next round correctly 9`] = `
-Object {
-  "more": false,
-  "rows": Array [
-    Object {
-      "id": 123,
-      "last_paid_step_number": 0,
-      "name": "test1",
-      "verification_tweet": "",
-    },
-    Object {
-      "id": 1007,
-      "last_paid_step_number": 0,
-      "name": "test1",
-      "verification_tweet": "",
-    },
-    Object {
-      "id": 1105,
-      "last_paid_step_number": 0,
-      "name": "test2",
-      "verification_tweet": "",
-    },
-    Object {
-      "id": 1200,
-      "last_paid_step_number": 0,
-      "name": "test2",
-      "verification_tweet": "",
-    },
-  ],
-}
+Array [
+  Object {
+    "id": 123,
+    "last_paid_step_number": 0,
+    "name": "test1",
+    "stat_diff": Array [],
+    "verification_tweet": "https://twitter.com/SnaxTeam/status/1083836521751478272",
+  },
+  Object {
+    "id": 1007,
+    "last_paid_step_number": 0,
+    "name": "test1",
+    "stat_diff": Array [],
+    "verification_tweet": "https://twitter.com/SnaxTeam/status/1083836521751478272",
+  },
+  Object {
+    "id": 1105,
+    "last_paid_step_number": 0,
+    "name": "test2",
+    "stat_diff": Array [],
+    "verification_tweet": "https://twitter.com/SnaxTeam/status/1083836521751478272",
+  },
+  Object {
+    "id": 1200,
+    "last_paid_step_number": 0,
+    "name": "test2",
+    "stat_diff": Array [],
+    "verification_tweet": "https://twitter.com/SnaxTeam/status/1083836521751478272",
+  },
+]
 `;
 
 exports[`Platform should process next round correctly 10`] = `
@@ -393,24 +393,28 @@ Object {
       "attention_rate_rating_position": 3,
       "id": 123,
       "last_attention_rate_updated_step_number": 0,
+      "tweets_ranked_in_last_period": 0,
     },
     Object {
       "attention_rate": "206.00000000000000000",
       "attention_rate_rating_position": 1,
       "id": 1007,
       "last_attention_rate_updated_step_number": 0,
+      "tweets_ranked_in_last_period": 0,
     },
     Object {
       "attention_rate": "225.00000000000000000",
       "attention_rate_rating_position": 2,
       "id": 1105,
       "last_attention_rate_updated_step_number": 0,
+      "tweets_ranked_in_last_period": 0,
     },
     Object {
       "attention_rate": "206.00000000000000000",
       "attention_rate_rating_position": 1,
       "id": 1200,
       "last_attention_rate_updated_step_number": 0,
+      "tweets_ranked_in_last_period": 0,
     },
   ],
 }
@@ -465,6 +469,9 @@ Array [
       Object {
         "balance": "980.0000 SNAX",
       },
+      Object {
+        "balance": "1000.0000 SNIX",
+      },
     ],
   },
   Object {
@@ -489,6 +496,9 @@ Array [
       Object {
         "balance": "980.0000 SNAX",
       },
+      Object {
+        "balance": "1000.0000 SNIX",
+      },
     ],
   },
   Object {
@@ -496,6 +506,76 @@ Array [
     "rows": Array [
       Object {
         "balance": "20.0000 SNAX",
+      },
+    ],
+  },
+]
+`;
+
+exports[`Platform should process social transfers with different assets correctly 1`] = `
+Object {
+  "more": false,
+  "rows": Array [
+    Object {
+      "amount": "20.0000 SNAX",
+      "id": 15,
+    },
+    Object {
+      "amount": "20.0000 SNIX",
+      "id": 15,
+    },
+  ],
+}
+`;
+
+exports[`Platform should process social transfers with different assets correctly 2`] = `
+Array [
+  Object {
+    "more": false,
+    "rows": Array [
+      Object {
+        "balance": "980.0000 SNAX",
+      },
+      Object {
+        "balance": "960.0000 SNIX",
+      },
+    ],
+  },
+  Object {
+    "more": false,
+    "rows": Array [],
+  },
+]
+`;
+
+exports[`Platform should process social transfers with different assets correctly 3`] = `
+Object {
+  "more": false,
+  "rows": Array [],
+}
+`;
+
+exports[`Platform should process social transfers with different assets correctly 4`] = `
+Array [
+  Object {
+    "more": false,
+    "rows": Array [
+      Object {
+        "balance": "980.0000 SNAX",
+      },
+      Object {
+        "balance": "960.0000 SNIX",
+      },
+    ],
+  },
+  Object {
+    "more": false,
+    "rows": Array [
+      Object {
+        "balance": "20.0000 SNAX",
+      },
+      Object {
+        "balance": "20.0000 SNIX",
       },
     ],
   },
@@ -525,17 +605,20 @@ Object {
 `;
 
 exports[`Platform should update account's attention rate correctly 2`] = `
-Object {
-  "more": false,
-  "rows": Array [
-    Object {
-      "id": 123,
-      "last_paid_step_number": 0,
-      "name": "test2",
-      "verification_tweet": "",
-    },
-  ],
-}
+Array [
+  Object {
+    "id": 123,
+    "last_paid_step_number": 0,
+    "name": "test2",
+    "stat_diff": Array [
+      5,
+      10,
+      20,
+      30,
+    ],
+    "verification_tweet": "https://twitter.com/SnaxTeam/status/1083836521751478272",
+  },
+]
 `;
 
 exports[`Platform should update account's attention rate correctly 3`] = `
@@ -547,6 +630,7 @@ Object {
       "attention_rate_rating_position": 1,
       "id": 123,
       "last_attention_rate_updated_step_number": 0,
+      "tweets_ranked_in_last_period": 7,
     },
   ],
 }
@@ -575,23 +659,32 @@ Object {
 `;
 
 exports[`Platform should update multiple account's attention rate correctly 2`] = `
-Object {
-  "more": false,
-  "rows": Array [
-    Object {
-      "id": 123,
-      "last_paid_step_number": 0,
-      "name": "test2",
-      "verification_tweet": "",
-    },
-    Object {
-      "id": 243,
-      "last_paid_step_number": 0,
-      "name": "test1",
-      "verification_tweet": "",
-    },
-  ],
-}
+Array [
+  Object {
+    "id": 123,
+    "last_paid_step_number": 0,
+    "name": "test2",
+    "stat_diff": Array [
+      5,
+      10,
+      20,
+      30,
+    ],
+    "verification_tweet": "https://twitter.com/SnaxTeam/status/1083836521751478272",
+  },
+  Object {
+    "id": 243,
+    "last_paid_step_number": 0,
+    "name": "test1",
+    "stat_diff": Array [
+      5,
+      10,
+      20,
+      30,
+    ],
+    "verification_tweet": "https://twitter.com/SnaxTeam/status/1083836521751478272",
+  },
+]
 `;
 
 exports[`Platform should update multiple account's attention rate correctly 3`] = `
@@ -603,12 +696,14 @@ Object {
       "attention_rate_rating_position": 1,
       "id": 123,
       "last_attention_rate_updated_step_number": 0,
+      "tweets_ranked_in_last_period": 10,
     },
     Object {
       "attention_rate": "20.00000000000000000",
       "attention_rate_rating_position": 2,
       "id": 243,
       "last_attention_rate_updated_step_number": 0,
+      "tweets_ranked_in_last_period": 6,
     },
   ],
 }
@@ -647,12 +742,7 @@ Object {
 }
 `;
 
-exports[`Platform should work with pending account correctly 4`] = `
-Object {
-  "more": false,
-  "rows": Array [],
-}
-`;
+exports[`Platform should work with pending account correctly 4`] = `Array []`;
 
 exports[`Platform should work with pending account correctly 5`] = `
 Object {
@@ -686,17 +776,15 @@ Object {
 `;
 
 exports[`Platform should work with pending account correctly 8`] = `
-Object {
-  "more": false,
-  "rows": Array [
-    Object {
-      "id": 42,
-      "last_paid_step_number": 0,
-      "name": "test1",
-      "verification_tweet": "",
-    },
-  ],
-}
+Array [
+  Object {
+    "id": 42,
+    "last_paid_step_number": 0,
+    "name": "test1",
+    "stat_diff": Array [],
+    "verification_tweet": "https://twitter.com/SnaxTeam/status/1083836521751478272",
+  },
+]
 `;
 
 exports[`Platform should work with pending account correctly 9`] = `
@@ -708,6 +796,7 @@ Object {
       "attention_rate_rating_position": 1,
       "id": 42,
       "last_attention_rate_updated_step_number": 0,
+      "tweets_ranked_in_last_period": 0,
     },
   ],
 }
@@ -717,7 +806,7 @@ exports[`Platform shouldn't be able to add account or update attention rate when
 
 exports[`Platform shouldn't be able to add account or update attention rate when platform is updating 2`] = `"assertion failure with message: platform mustn't be in updating state when updatearmult action is called"`;
 
-exports[`Platform shouldn't be able to add account or update attention rate when platform is updating 3`] = `"assertion failure with message: platform must not be in updating state when addaccount action is called"`;
+exports[`Platform shouldn't be able to add account or update attention rate when platform is updating 3`] = `"assertion failure with message: platform must not be in updating state when addaccount action is called and account doesnt exist"`;
 
 exports[`Platform shouldn't be able to add account or update attention rate when platform is updating 4`] = `
 Object {
@@ -742,17 +831,15 @@ Object {
 `;
 
 exports[`Platform shouldn't be able to add account or update attention rate when platform is updating 5`] = `
-Object {
-  "more": false,
-  "rows": Array [
-    Object {
-      "id": 1105,
-      "last_paid_step_number": 0,
-      "name": "test1",
-      "verification_tweet": "",
-    },
-  ],
-}
+Array [
+  Object {
+    "id": 1105,
+    "last_paid_step_number": 0,
+    "name": "test1",
+    "stat_diff": Array [],
+    "verification_tweet": "https://twitter.com/SnaxTeam/status/1083836521751478272",
+  },
+]
 `;
 
 exports[`Platform shouldn't be able to add account or update attention rate when platform is updating 6`] = `
@@ -764,6 +851,7 @@ Object {
       "attention_rate_rating_position": 1,
       "id": 1105,
       "last_attention_rate_updated_step_number": 0,
+      "tweets_ranked_in_last_period": 0,
     },
   ],
 }
@@ -794,17 +882,15 @@ Object {
 `;
 
 exports[`Platform shouldn't be able to add user with the same id second time 3`] = `
-Object {
-  "more": false,
-  "rows": Array [
-    Object {
-      "id": 123,
-      "last_paid_step_number": 0,
-      "name": "test2",
-      "verification_tweet": "",
-    },
-  ],
-}
+Array [
+  Object {
+    "id": 123,
+    "last_paid_step_number": 0,
+    "name": "test2",
+    "stat_diff": Array [],
+    "verification_tweet": "https://twitter.com/SnaxTeam/status/1083836521751478272",
+  },
+]
 `;
 
 exports[`Platform shouldn't be able to add user with the same id second time 4`] = `
@@ -816,6 +902,7 @@ Object {
       "attention_rate_rating_position": 1,
       "id": 123,
       "last_attention_rate_updated_step_number": 0,
+      "tweets_ranked_in_last_period": 0,
     },
   ],
 }
@@ -845,12 +932,7 @@ Object {
 }
 `;
 
-exports[`Platform shouldn't be able to initialize second time 3`] = `
-Object {
-  "more": false,
-  "rows": Array [],
-}
-`;
+exports[`Platform shouldn't be able to initialize second time 3`] = `Array []`;
 
 exports[`Platform shouldn't be able to initialize second time 4`] = `
 Object {
@@ -884,17 +966,15 @@ Object {
 `;
 
 exports[`Platform shouldn't be able to update non-existent account's attention rate 3`] = `
-Object {
-  "more": false,
-  "rows": Array [
-    Object {
-      "id": 123,
-      "last_paid_step_number": 0,
-      "name": "test2",
-      "verification_tweet": "",
-    },
-  ],
-}
+Array [
+  Object {
+    "id": 123,
+    "last_paid_step_number": 0,
+    "name": "test2",
+    "stat_diff": Array [],
+    "verification_tweet": "https://twitter.com/SnaxTeam/status/1083836521751478272",
+  },
+]
 `;
 
 exports[`Platform shouldn't be able to update non-existent account's attention rate 4`] = `
@@ -906,6 +986,7 @@ Object {
       "attention_rate_rating_position": 1,
       "id": 123,
       "last_attention_rate_updated_step_number": 0,
+      "tweets_ranked_in_last_period": 0,
     },
   ],
 }
