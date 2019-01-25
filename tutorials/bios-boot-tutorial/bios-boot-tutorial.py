@@ -17,7 +17,6 @@ unlockTimeout = 999999999
 fastUnstakeSystem = './fast.refund/snax.system/snax.system.wasm'
 
 systemAccounts = [
-    'snax.util',
     'snax.bpay',
     'snax.msig',
     'snax.names',

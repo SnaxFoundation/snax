@@ -85,7 +85,6 @@ echo snax.* keys: $prisyskey $pubsyskey >> $logfile
 wcmd import -n ignition --private-key $prisyskey
 ecmd create account snax snax.bpay $pubsyskey $pubsyskey
 ecmd create account snax snax.msig $pubsyskey $pubsyskey
-ecmd create account snax snax.util $pubsyskey $pubsyskey
 ecmd create account snax snax.names $pubsyskey $pubsyskey
 ecmd create account snax snax.ram $pubsyskey $pubsyskey
 ecmd create account snax snax.ramfee $pubsyskey $pubsyskey
