@@ -28,6 +28,8 @@ namespace snax {
             uint64_t id;
             double attention_rate;
             uint32_t attention_rate_rating_position;
+            vector<uint32_t> stat_diff;
+            uint8_t tweets_ranked_in_period;
         };
 
         struct account_to_add {
@@ -35,10 +37,11 @@ namespace snax {
             uint64_t id;
             double attention_rate;
             uint32_t attention_rate_rating_position;
+            string verification_tweet;
         };
 
         platform( account_name s )
-        :contract(s), _users(s, s), _accounts(s, s), _platform_state(s, s), _transfers(s, s), _pending_accounts(s, s)
+        :contract(s), _users(s, s), _accounts(s, s), _platform_state(s, s), _pending_accounts(s, s)
          {}
 
         /// @abi action initialize
@@ -60,7 +63,7 @@ namespace snax {
         void droppenacc(const account_name account);
 
         /// @abi action updatear
-        void updatear(uint64_t id, double attention_rate, uint32_t attention_rate_rating_position, bool add_account_if_not_exist);
+        void updatear(uint64_t id, double attention_rate, uint32_t attention_rate_rating_position, vector<uint32_t> stat_diff, uint8_t tweets_ranked_in_period, bool add_account_if_not_exist);
 
         /// @abi action updatearmult
         void updatearmult(vector<account_with_attention_rate>& updates, bool add_account_if_not_exist);
@@ -69,7 +72,7 @@ namespace snax {
         void dropaccount(account_name account, uint32_t max_account_count);
 
         /// @abi action addaccount
-        void addaccount(account_name account, uint64_t id, double attention_rate, uint32_t attention_rate_rating_position);
+        void addaccount(account_name account, uint64_t id, double attention_rate, uint32_t attention_rate_rating_position, string verification_tweet);
 
         /// @abi action addaccounts
         void addaccounts(vector<account_to_add>& accounts_to_add);
@@ -107,7 +110,7 @@ namespace snax {
             asset amount;
 
             uint64_t primary_key() const {
-                return id;
+                return amount.symbol.name();
             }
 
             SNAXLIB_SERIALIZE(transfer_rec, (id)(amount))
@@ -120,6 +123,7 @@ namespace snax {
             uint16_t last_paid_step_number;
             string verification_tweet;
             block_timestamp created;
+            vector<uint32_t> stat_diff;
 
             uint64_t primary_key() const {
                 return id;
@@ -133,7 +137,7 @@ namespace snax {
                 return created.to_time_point().time_since_epoch().count();
             }
 
-            SNAXLIB_SERIALIZE(account, (id)(name)(last_paid_step_number)(verification_tweet)(created))
+            SNAXLIB_SERIALIZE(account, (id)(name)(last_paid_step_number)(verification_tweet)(created)(stat_diff))
         };
 
         /// @abi table pusers i64
@@ -142,6 +146,7 @@ namespace snax {
             double attention_rate;
             uint32_t attention_rate_rating_position;
             uint16_t last_attention_rate_updated_step_number;
+            uint8_t tweets_ranked_in_last_period;
 
             uint64_t primary_key() const {
                 return id;
@@ -151,7 +156,7 @@ namespace snax {
                 return attention_rate_rating_position;
             }
 
-            SNAXLIB_SERIALIZE(user, (id)(attention_rate)(attention_rate_rating_position)(last_attention_rate_updated_step_number))
+            SNAXLIB_SERIALIZE(user, (id)(attention_rate)(attention_rate_rating_position)(last_attention_rate_updated_step_number)(tweets_ranked_in_last_period))
         };
 
         /// @abi table state i64
@@ -199,7 +204,6 @@ namespace snax {
         peacctable _pending_accounts;
         platform_state _platform_state;
         state _state;
-        transfers_table _transfers;
         registered_account_table _accounts;
 
         // Only contract itself is allowed to unlock update
@@ -215,7 +219,7 @@ namespace snax {
 
         void update_state_total_attention_rate_and_user_count(double additional_attention_rate, uint64_t new_accounts, uint64_t new_registered_accounts);
 
-        asset get_balance(account_name account);
+        asset get_balance(account_name account, symbol_type symbol_name);
 
         void claim_transfered(uint64_t id, account_name account);
 
