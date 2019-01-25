@@ -29,8 +29,10 @@ struct chain_config {
    uint32_t   target_block_cpu_usage_pct;          ///< the target percent (1% == 100, 100%= 10,000) of maximum cpu usage; exceeding this triggers congestion handling
    uint32_t   max_transaction_cpu_usage;           ///< the maximum billable cpu usage (in microseconds) that the chain will allow regardless of account limits
    uint32_t   min_transaction_cpu_usage;           ///< the minimum billable cpu usage (in microseconds) that the chain requires
-   uint32_t   ram_market_open;                     ///< allows non privileged users to buy ram
+   uint32_t   resources_market_open;               ///< allows non privileged users to buy ram
+   uint32_t   top_producers_limit;                 ///< max allowed quantity of producers in system top list
    uint32_t   enabled_contracts_by_non_privileged_users; ///< allows non privileged users to add contracts to system
+   uint32_t   contract_owner;                      ///< require owner permission to set contract
 
    uint32_t   max_transaction_lifetime;            ///< the maximum number of seconds that an input transaction's expiration can be ahead of the time of the block in which it is first included
    uint32_t   deferred_trx_expiration_window;      ///< the number of seconds after the time a deferred transaction can first execute until it expires
@@ -54,8 +56,10 @@ struct chain_config {
                  << "Target Block CPU Usage Percent: " << ((double)c.target_block_cpu_usage_pct / (double)config::percent_1) << "%, "
                  << "Max Transaction CPU Usage: " << c.max_transaction_cpu_usage << ", "
                  << "Min Transaction CPU Usage: " << c.min_transaction_cpu_usage << ", "
-                 << "Ram market open: " << c.ram_market_open << ", "
+                 << "Ram market open: " << c.resources_market_open << ", "
+                 << "Top producers count: " << c.top_producers_limit << ", "
                  << "Enabled contracts by non privileged users: " << c.enabled_contracts_by_non_privileged_users << ", "
+                 << "Require owner permission to set contract: " << c.contract_owner << ", "
 
                  << "Max Transaction Lifetime: " << c.max_transaction_lifetime << ", "
                  << "Deferred Transaction Expiration Window: " << c.deferred_trx_expiration_window << ", "
@@ -78,8 +82,10 @@ struct chain_config {
                            lhs.target_block_cpu_usage_pct,
                            lhs.max_transaction_cpu_usage,
                            lhs.max_transaction_cpu_usage,
-                           lhs.ram_market_open,
+                           lhs.resources_market_open,
+                           lhs.top_producers_limit,
                            lhs.enabled_contracts_by_non_privileged_users,
+                           lhs.contract_owner,
                            lhs.max_transaction_lifetime,
                            lhs.deferred_trx_expiration_window,
                            lhs.max_transaction_delay,
@@ -99,8 +105,10 @@ struct chain_config {
                            rhs.target_block_cpu_usage_pct,
                            rhs.max_transaction_cpu_usage,
                            rhs.max_transaction_cpu_usage,
-                           rhs.ram_market_open,
+                           rhs.resources_market_open,
+                           rhs.top_producers_limit,
                            rhs.enabled_contracts_by_non_privileged_users,
+                           rhs.contract_owner,
                            rhs.max_transaction_lifetime,
                            rhs.deferred_trx_expiration_window,
                            rhs.max_transaction_delay,
@@ -133,7 +141,7 @@ FC_REFLECT(snax::chain::chain_config,
            (max_block_cpu_usage)(target_block_cpu_usage_pct)
            (max_transaction_cpu_usage)(min_transaction_cpu_usage)
 
-           (ram_market_open)(enabled_contracts_by_non_privileged_users)
+           (resources_market_open)(top_producers_limit)(enabled_contracts_by_non_privileged_users)(contract_owner)
 
            (max_transaction_lifetime)(deferred_trx_expiration_window)(max_transaction_delay)
            (max_inline_action_size)(max_inline_action_depth)(max_authority_depth)

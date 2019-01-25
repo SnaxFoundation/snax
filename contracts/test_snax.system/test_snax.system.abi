@@ -236,7 +236,6 @@
       "name": "blockchain_parameters",
       "base": "",
       "fields": [
-
          {"name":"max_block_net_usage",                       "type":"uint64"},
          {"name":"target_block_net_usage_pct",                "type":"uint32"},
          {"name":"max_transaction_net_usage",                 "type":"uint32"},
@@ -248,8 +247,10 @@
          {"name":"target_block_cpu_usage_pct",                "type":"uint32"},
          {"name":"max_transaction_cpu_usage",                 "type":"uint32"},
          {"name":"min_transaction_cpu_usage",                 "type":"uint32"},
-         {"name":"ram_market_open",                           "type":"uint32"},
+         {"name":"resources_market_open",                     "type":"uint32"},
+         {"name":"top_producers_limit",                       "type":"uint32"},
          {"name":"enabled_contracts_by_non_privileged_users", "type":"uint32"},
+         {"name":"contract_owner",                            "type":"uint32"},
          {"name":"max_transaction_lifetime",                  "type":"uint32"},
          {"name":"deferred_trx_expiration_window",            "type":"uint32"},
          {"name":"max_transaction_delay",                     "type":"uint32"},
@@ -257,7 +258,6 @@
          {"name":"max_inline_action_depth",                   "type":"uint16"},
          {"name":"max_authority_depth",                       "type":"uint16"},
          {"name":"platforms",                                 "type":"platform_config[]"}
-
       ]
     },{
       "name": "snax_global_state",
