@@ -216,11 +216,6 @@ namespace snaxsystem {
             );
         }
 
-        platform_requests.emplace(_self, [&](auto& record) {
-            record.token_amount = amount_to_transfer;
-            record.request = block_timestamp(current_time);
-        });
-
         _global.set( _gstate, _self );
 
    }
