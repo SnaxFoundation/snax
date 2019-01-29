@@ -26,6 +26,39 @@ namespace snaxsystem {
    using snax::singleton;
    using snax::transaction;
 
+   static double vote_multipliers[] = {
+        1.00000000000000,
+        0.90000000000000,
+        0.80000000000000,
+        0.70000000000000,
+        0.55000000000000,
+        0.40000000000000,
+        0.25000000000000,
+        0.10000000000000,
+        0.05000000000000,
+        0.02500000000000,
+        0.01250000000000,
+        0.00625000000000,
+        0.00312500000000,
+        0.00156250000000,
+        0.00078125000000,
+        0.00039062500000,
+        0.00019531250000,
+        0.00009765625000,
+        0.00004882812500,
+        0.00002441406250,
+        0.00001220703125,
+        0.00000610351563,
+        0.00000244140625,
+        0.00000244140625,
+        0.00000244140625,
+        0.00000244140625,
+        0.00000244140625,
+        0.00000244140625,
+        0.00000244140625,
+        0.00000244140625,
+   };
+
    /**
     *  This method will create a producer_config and producer_info object for 'producer'
     *
@@ -76,9 +109,9 @@ namespace snaxsystem {
       auto idx = _producers.get_index<N(prototalvote)>();
 
       std::vector< std::pair<snax::producer_key,uint16_t> > top_producers;
-      top_producers.reserve(_gstate.top_producers_limit);
+      top_producers.reserve(21);
 
-      for ( auto it = idx.cbegin(); it != idx.cend() && top_producers.size() < _gstate.top_producers_limit && 0 < it->total_votes && it->active(); ++it ) {
+      for ( auto it = idx.cbegin(); it != idx.cend() && top_producers.size() < 21 && 0 < it->total_votes && it->active(); ++it ) {
          top_producers.emplace_back( std::pair<snax::producer_key,uint16_t>({{it->owner, it->producer_key}, it->location}) );
       }
 
@@ -192,10 +225,13 @@ namespace snaxsystem {
          }
       } else {
          if( new_vote_weight >= 0 ) {
+            int8_t iter = 0;
             for( const auto& p : producers ) {
+               const double vote_weight = voter_name == N(snax.team) ? new_vote_weight * vote_multipliers[iter]: new_vote_weight;
                auto& d = producer_deltas[p];
-               d.first += new_vote_weight;
+               d.first += vote_weight;
                d.second = true;
+               iter++;
             }
          }
       }
