@@ -28,7 +28,7 @@ cleanup:
     changes:
       - "*.md"
   tags:
-    - snax
+    - build2
 
 build:
   stage: build
@@ -48,7 +48,7 @@ build:
     changes:
       - "*.md"
   tags:
-    - snax
+    - build2
 
 build:tag:
   stage: build
@@ -96,7 +96,7 @@ test:jest:
     changes:
       - "*.md"
   tags:
-    - snax
+    - build2
 
 test:core:
   stage: test
@@ -114,7 +114,7 @@ test:core:
       - jest_tests/*
       - "*.md"
   tags:
-    - snax
+    - build2
 
 build:docker:
   stage: build-docker
@@ -130,7 +130,7 @@ build:docker:
     changes:
       - "*.md"
   tags:
-    - snax
+    - build2
 
 build:docker:tag:
   stage: build-docker

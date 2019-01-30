@@ -40,8 +40,8 @@ namespace snaxsystem {
 
       const int64_t system_token_max_supply = snax::token(N(snax.token)).get_max_supply(snax::symbol_type(system_token_symbol).name()).amount;
 
-      if ( _gstate.staked_by_team.amount == 0 && !_gstate.initialized && system_token_max_supply == 100'000'000'000'0000 ) {
-        const asset amount_to_issue = asset(21'000'000'000'0000);
+      if ( _gstate.staked_by_team.amount == 0 && !_gstate.initialized && system_token_max_supply == system_token_max_supply ) {
+        const asset amount_to_issue = asset(staked_by_team_initial + team_memory_initial + account_creator_initial + airdrop_initial);
 
         INLINE_ACTION_SENDER(snax::token, issue)(
             N(snax.token), {_self,N(active)},
@@ -57,7 +57,7 @@ namespace snaxsystem {
             {
                 _self,
                 N(snax.team),
-                asset(10'0000)
+                asset(team_memory_initial)
             }
         );
 
@@ -66,8 +66,8 @@ namespace snaxsystem {
             {
                 _self,
                 N(snax.team),
-                asset(staked_by_team_initial / 2),
-                asset(staked_by_team_initial / 2),
+                asset(staked_by_team_initial / 5),
+                asset(staked_by_team_initial / 5 * 4),
                 true
             }
         );
@@ -77,7 +77,7 @@ namespace snaxsystem {
             {
                 _self,
                 N(snax.airdrop),
-                asset(500'000'000'0000),
+                asset(airdrop_initial),
                 "airdrop"
             }
         );
@@ -87,7 +87,7 @@ namespace snaxsystem {
             {
                 _self,
                 N(snax.creator),
-                asset(500'000'000'0000),
+                asset(account_creator_initial),
                 "account creation"
             }
         );
