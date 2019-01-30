@@ -17,6 +17,22 @@ Array [
 ]
 `;
 
+exports[`System should undelegate snax.team resources correctly 1`] = `
+Array [
+  Object {
+    "more": false,
+    "rows": Array [
+      Object {
+        "cpu_weight": "15599999220.0000 SNAX",
+        "from": "snax.team",
+        "net_weight": "2399999880.0000 SNAX",
+        "to": "snax.team",
+      },
+    ],
+  },
+]
+`;
+
 exports[`System should call system's emitplatform correctly 2`] = `
 Array [
   Object {
@@ -919,22 +935,6 @@ Array [
     "rows": Array [
       Object {
         "balance": "500000000.0000 SNAX",
-      },
-    ],
-  },
-]
-`;
-
-exports[`System should undelegate snax.team resources correctly 1`] = `
-Array [
-  Object {
-    "more": false,
-    "rows": Array [
-      Object {
-        "cpu_weight": "8999999995.5000 SNAX",
-        "from": "snax.team",
-        "net_weight": "8999999995.5000 SNAX",
-        "to": "snax.team",
       },
     ],
   },

@@ -30,7 +30,11 @@ namespace snaxsystem {
 
    static constexpr time refund_delay = 3*24*3600;
    static constexpr time refund_expiration_time = 3600;
-   static const     int64_t  staked_by_team_initial = 20'000'000'000'0000 - 10'0000;
+   static const     int64_t  team_memory_initial = 1'000'0000;
+   static const     int64_t  staked_by_team_initial = 20'000'000'000'0000 - team_memory_initial;
+   static const     int64_t  account_creator_initial = 500'000'000'0000;
+   static const     int64_t  airdrop_initial = 500'000'000'0000;
+   static const     int64_t  system_token_max_supply = 100'000'000'000'0000;
 
    struct user_resources {
       account_name  owner;

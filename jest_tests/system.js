@@ -132,8 +132,8 @@ describe("System", async () => {
             data: {
               from: account,
               receiver: account,
-              unstake_net_quantity: "999999999.5000 SNAX",
-              unstake_cpu_quantity: "999999999.5000 SNAX"
+              unstake_net_quantity: "1599999920.0000 SNAX",
+              unstake_cpu_quantity: "399999980.0000 SNAX"
             }
           }
         ]
@@ -244,6 +244,13 @@ describe("System", async () => {
       }
     );
 
+  it("should undelegate snax.team resources correctly", async () => {
+    await regproducer("test1");
+    await voteproducer(["test1"]);
+    await undelegatebw("snax.team");
+    await verifyBWTable(["snax.team"]);
+  });
+
   it("should call system's emitplatform correctly several times", async () => {
     const stepCount = 5e1;
     for (let stepNum = 0; stepNum < stepCount; stepNum++) {
@@ -269,13 +276,6 @@ describe("System", async () => {
   it("should call system's emitplatform correctly", async () => {
     await emitplatform("platform");
     await verifyAccountsBalances(["snax", "platform"]);
-  });
-
-  it("should undelegate snax.team resources correctly", async () => {
-    await regproducer("test1");
-    await voteproducer(["test1"]);
-    await undelegatebw("snax.team");
-    await verifyBWTable(["snax.team"]);
   });
 
   it("should call system's emitplatform correctly", async () => {
