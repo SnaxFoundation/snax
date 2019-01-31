@@ -101,7 +101,7 @@ namespace snax {
                 return created.to_time_point().time_since_epoch().count();
             }
 
-            SNAXLIB_SERIALIZE(pending_rec, (account)(id)(created));
+            SNAXLIB_SERIALIZE(pending_rec, (account)(id)(created))
         };
 
         /// @abi table transfers i64

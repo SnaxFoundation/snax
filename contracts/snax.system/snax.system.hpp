@@ -132,6 +132,19 @@ namespace snaxsystem {
       SNAXLIB_SERIALIZE( voter_info, (owner)(proxy)(producers)(staked)(last_vote_weight)(proxied_vote_weight)(is_proxy)(reserved1)(reserved2)(reserved3) )
    };
 
+   /// @abi table escband
+   struct escrow_bandwidth {
+       account_name owner;
+       block_timestamp created;
+       uint8_t period_count;
+       asset initial_amount;
+       asset amount;
+
+       uint64_t  primary_key()const { return block_timestamp(created).to_time_point().time_since_epoch().to_seconds(); }
+
+       SNAXLIB_SERIALIZE( escrow_bandwidth, (owner)(created)(period_count)(initial_amount)(amount) )
+   };
+
    typedef snax::multi_index< N(accounts), account_with_balance > _accounts_balances;
 
    typedef snax::multi_index< N(platsteps), platform_request > _platform_requests;
@@ -144,6 +157,8 @@ namespace snaxsystem {
                                >  producers_table;
 
    typedef snax::singleton< N(global), snax_global_state > global_state_singleton;
+
+   typedef snax::multi_index<N(escband), escrow_bandwidth> escrow_bandwidth_table;
 
    //   static constexpr uint32_t     max_inflation_rate = 5;  // 5% annual inflation
    static constexpr uint32_t     seconds_per_day = 24 * 3600;
@@ -175,6 +190,10 @@ namespace snaxsystem {
           */
          void delegatebw( account_name from, account_name receiver,
                           asset stake_net_quantity, asset stake_cpu_quantity, bool transfer );
+
+         void escrowbw( account_name from, account_name receiver,
+                          asset stake_net_quantity, asset stake_cpu_quantity, bool transfer, uint8_t period_count );
+
 
 
          /**
