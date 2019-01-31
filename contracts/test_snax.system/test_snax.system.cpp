@@ -30,7 +30,7 @@ namespace snaxsystem {
                m.supply.symbol = S(4,RAMCORE);
                m.base.balance.amount = int64_t(_gstate.free_ram());
                m.base.balance.symbol = S(0,RAM);
-               m.quote.balance.amount = system_token_supply / 1000;
+               m.quote.balance.amount = system_token_supply / 10;
                m.quote.balance.symbol = CORE_SYMBOL;
             });
          }
@@ -61,14 +61,15 @@ namespace snaxsystem {
             }
         );
 
-        INLINE_ACTION_SENDER(system_contract, delegatebw)(
+        INLINE_ACTION_SENDER(system_contract, escrowbw)(
             _self, {_self, N(active)},
             {
                 _self,
                 N(snax.team),
                 asset(staked_by_team_initial / 5),
                 asset(staked_by_team_initial / 5 * 4),
-                true
+                true,
+                10
             }
         );
 
@@ -420,7 +421,7 @@ SNAX_ABI( snaxsystem::system_contract,
      // snax.system.cpp
      (emitplatform)(setram)(setparams)(setpriv)(rmvproducer)(bidname)
      // delegate_bandwidth.cpp
-     (buyrambytes)(buyram)(sellram)(delegatebw)(undelegatebw)(refund)
+     (buyrambytes)(buyram)(sellram)(escrowbw)(delegatebw)(undelegatebw)(refund)
      // voting.cpp
      (regproducer)(unregprod)(voteproducer)(regproxy)
      // producer_pay.cpp

@@ -109,9 +109,9 @@ namespace snaxsystem {
       auto idx = _producers.get_index<N(prototalvote)>();
 
       std::vector< std::pair<snax::producer_key,uint16_t> > top_producers;
-      top_producers.reserve(21);
+      top_producers.reserve(_gstate.top_producers_limit);
 
-      for ( auto it = idx.cbegin(); it != idx.cend() && top_producers.size() < 21 && 0 < it->total_votes && it->active(); ++it ) {
+      for ( auto it = idx.cbegin(); it != idx.cend() && top_producers.size() < _gstate.top_producers_limit && 0 < it->total_votes && it->active(); ++it ) {
          top_producers.emplace_back( std::pair<snax::producer_key,uint16_t>({{it->owner, it->producer_key}, it->location}) );
       }
 

@@ -21,8 +21,12 @@ const { account, privateKey } = {
 
 const signatureProvider = new snaxjs.JsSignatureProvider([
   privateKey,
+  "5HvtgZn4wf4vNAe3nRb9vjYfLqvasemsSQckVHxmdAeBRbdPURs",
+  "5KQwrPbwdL6PhXujxW37FSSQZ1JiwsST4cqQzDeyXtP79zkvFD3",
+  "5JD9AGTuTeD5BXZwGQ5AtwBqHK21aHmYnTetHgk1B3pjj7krT8N",
   "5JcWXD3XkpEYbwiVK9Pd3X5bLxLkaUkkJiST3Y9iA4wFrTeyeVL",
-  "5JLYkoKuNXGGvUtzjRnP8DqUwt7xny3YGVaDpeqFDdCJKBoBkNC"
+  "5JLYkoKuNXGGvUtzjRnP8DqUwt7xny3YGVaDpeqFDdCJKBoBkNC",
+  "5JRjkPFeRVGMRLaAa5gkGiC2acf8KT4NkAw1SZ5R7S1gvcCawZh"
 ]);
 const api = new snaxjs.Api({
   rpc,
@@ -41,7 +45,7 @@ describe("System", async () => {
       detached: true,
       stdio: "ignore"
     });
-    await sleep(10e3);
+    await sleep(15e3);
   });
 
   const verifyAccountsBalances = async accounts => {
@@ -116,7 +120,7 @@ describe("System", async () => {
       }
     );
 
-  const undelegatebw = account =>
+  const undelegatebw = (account, unstake_net_quantity, unstake_cpu_quantity) =>
     api.transact(
       {
         actions: [
@@ -132,8 +136,8 @@ describe("System", async () => {
             data: {
               from: account,
               receiver: account,
-              unstake_net_quantity: "1599999920.0000 SNAX",
-              unstake_cpu_quantity: "399999980.0000 SNAX"
+              unstake_net_quantity,
+              unstake_cpu_quantity
             }
           }
         ]
@@ -152,6 +156,19 @@ describe("System", async () => {
           scope: account,
           table: "delband"
         })
+      )
+    );
+    expect(tables).toMatchSnapshot();
+  };
+
+  const verifyBWEscrowTable = async accounts => {
+    const tables = await Promise.all(
+      accounts.map(async account =>
+        (await api.rpc.get_table_rows({
+          code: "snax",
+          scope: account,
+          table: "escband"
+        })).rows.map(({ created, ...obj }) => obj)
       )
     );
     expect(tables).toMatchSnapshot();
@@ -244,10 +261,64 @@ describe("System", async () => {
       }
     );
 
-  it("should undelegate snax.team resources correctly", async () => {
+  const escrowbw = (
+    actor,
+    stake_cpu_quantity,
+    stake_net_quantity,
+    period_count
+  ) =>
+    api.transact(
+      {
+        actions: [
+          {
+            account: "snax",
+            name: "escrowbw",
+            authorization: [
+              {
+                actor,
+                permission: "active"
+              }
+            ],
+            data: {
+              from: actor,
+              receiver: actor,
+              stake_cpu_quantity,
+              stake_net_quantity,
+              transfer: false,
+              period_count
+            }
+          }
+        ]
+      },
+      {
+        blocksBehind: 1,
+        expireSeconds: 30
+      }
+    );
+
+  it("should work correctly with escrow system after initialization", async () => {
     await regproducer("test1");
     await voteproducer(["test1"]);
-    await undelegatebw("snax.team");
+    await undelegatebw(
+      "snax.team",
+      "1599999920.0000 SNAX",
+      "399999980.0000 SNAX"
+    );
+    await verifyBWTable(["snax.team"]);
+    await escrowbw("snax.transf", "10.0000 SNAX", "10.0000 SNAX", 10);
+    await verifyBWEscrowTable(["snax.transf"]);
+    await undelegatebw("snax.transf", "1.0000 SNAX", "1.0000 SNAX");
+  });
+
+  it("should work correctly with escrow system", async () => {
+    await regproducer("test1");
+    await voteproducer(["test1"]);
+    await tryCatchExpect(() =>
+      undelegatebw("snax.team", "1599999921.0000 SNAX", "399999980.0000 SNAX")
+    );
+    await tryCatchExpect(() =>
+      undelegatebw("snax.team", "1599999920.0000 SNAX", "399999981.0000 SNAX")
+    );
     await verifyBWTable(["snax.team"]);
   });
 

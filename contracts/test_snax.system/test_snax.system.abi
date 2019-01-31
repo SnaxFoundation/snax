@@ -25,6 +25,15 @@
         {"name":"permission", "type":"permission_name"}
       ]
     },{
+      "name": "escrow_bandwidth",
+      "base": "",
+      "fields": [
+        {"name": "owner",        "type": "account_name"},
+        {"name": "created",      "type": "block_timestamp_type"},
+        {"name": "period_count", "type": "uint8"},
+        {"name": "amount",       "type": "asset"}
+      ]
+    },{
       "name": "key_weight",
       "base": "",
       "fields": [
@@ -172,6 +181,17 @@
          {"name":"stake_net_quantity", "type":"asset"},
          {"name":"stake_cpu_quantity", "type":"asset"},
          {"name":"transfer", "type":"bool"}
+      ]
+    },{
+      "name": "escrowbw",
+      "base": "",
+      "fields": [
+         {"name":"from", "type":"account_name"},
+         {"name":"receiver", "type":"account_name"},
+         {"name":"stake_net_quantity", "type":"asset"},
+         {"name":"stake_cpu_quantity", "type":"asset"},
+         {"name":"transfer", "type":"bool"},
+         {"name":"period_count", "type":"uint8"}
       ]
     },{
       "name": "undelegatebw",
@@ -488,6 +508,10 @@
       "type": "sellram",
       "ricardian_contract": ""
    },{
+     "name": "escrowbw",
+     "type": "escrowbw",
+     "ricardian_contract": ""
+   },{
       "name": "delegatebw",
       "type": "delegatebw",
       "ricardian_contract": ""
@@ -561,6 +585,12 @@
       "type": "producer_info",
       "index_type": "i64",
       "key_names" : ["owner"],
+      "key_types" : ["uint64"]
+    },{
+      "name": "escband",
+      "type": "escrow_bandwidth",
+      "index_type": "i64",
+      "key_names" : ["created"],
       "key_types" : ["uint64"]
     },{
       "name": "global",
