@@ -101,7 +101,7 @@ test:jest:
 test:core:
   stage: test
   script:
-  - docker run --rm -d --name mongo -p 27017:27017 mvertes/alpine-mongo
+  - docker stop mongo || true && docker run --rm -d --name mongo -p 27017:27017 mvertes/alpine-mongo
   - rm -rf $WALLET_DIR
   - export PATH=$HOME_DIR/opt/mongodb/bin:$PATH
   - if [ -f /tmp/build-$CI_COMMIT_REF_NAME.tar.gz ]; then tar -xf /tmp/build-$CI_COMMIT_REF_NAME.tar.gz; fi
