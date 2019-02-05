@@ -39,7 +39,7 @@ BOOST_FIXTURE_TEST_CASE(ram_tests, snax_system::snax_system_tester) { try {
    create_account_with_resources(N(testram11111),config::system_account_name, init_request_bytes + 40);
    create_account_with_resources(N(testram22222),config::system_account_name, init_request_bytes + 1190);
    produce_blocks(10);
-   BOOST_REQUIRE_EQUAL( success(), stake( "snax.stake", "testram11111", core_from_string("10.0000"), core_from_string("5.0000") ) );
+   BOOST_REQUIRE_EQUAL( success(), stake( "snax.stake", "testram11111", core_from_string(("100000.0000")), core_from_string(("50000.0000")) ) );
    produce_blocks(10);
 
    for (auto i = 0; i < 10; ++i) {
@@ -155,7 +155,7 @@ BOOST_FIXTURE_TEST_CASE(ram_tests, snax_system::snax_system_tester) { try {
                         ("from", 3)
                         ("to", 3));
    produce_blocks(1);
-   
+
    // verify that the new entry will exceed the allocation bytes limit
    BOOST_REQUIRE_EXCEPTION(
       tester->push_action( N(testram11111), N(setentry), N(testram11111), mvo()

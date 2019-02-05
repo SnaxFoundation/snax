@@ -1,7 +1,11 @@
-const snaxjs = require("@snaxfoundation/snaxjs");
+const { sleep, tryCatchExpect } = require("./helpers");
+
 const fetch = require("node-fetch");
+const snaxjs = require("@snaxfoundation/snaxjs");
+
 const { promisify } = require("util");
 const child_process = require("child_process");
+
 const [exec, execFile, spawn] = [child_process.exec, child_process.execFile]
   .map(promisify)
   .concat(child_process.spawn);
@@ -35,8 +39,6 @@ const api = new snaxjs.Api({
 });
 
 jest.setTimeout(1e6);
-
-const sleep = time => new Promise(resolve => setTimeout(resolve, time));
 
 describe("Platform", async () => {
   beforeEach(async () => {
@@ -101,15 +103,6 @@ describe("Platform", async () => {
       )
     );
     expect(tables).toMatchSnapshot();
-  };
-
-  const tryCatchExpect = async action => {
-    try {
-      await action();
-      expect(false).toBe(true);
-    } catch (e) {
-      expect(e.message).toMatchSnapshot();
-    }
   };
 
   const initialize = async () => {
@@ -369,42 +362,6 @@ describe("Platform", async () => {
       }
     );
 
-  it("should process social transfer correctly", async () => {
-    await initialize();
-    await socialTransfer("test.transf", 15, "20.0000 SNAX");
-    await verifyTransferTable(15);
-    await verifyAccountsBalances(["test.transf", "test1"]);
-    await addUser({
-      verification_tweet:
-        "https://twitter.com/SnaxTeam/status/1083836521751478272",
-      account: "test1",
-      id: 15,
-      attention_rate: 15.0,
-      attention_rate_rating_position: 1
-    });
-    await verifyTransferTable(15);
-    await verifyAccountsBalances(["test.transf", "test1"]);
-  });
-
-  it("should process social transfers with different assets correctly", async () => {
-    await initialize();
-    await socialTransfer("test.transf", 15, "20.0000 SNIX");
-    await socialTransfer("test.transf", 15, "20.0000 SNAX");
-    await socialTransfer("test.transf", 30, "20.0000 SNIX");
-    await verifyTransferTable(15);
-    await verifyAccountsBalances(["test.transf", "test1"]);
-    await addUser({
-      verification_tweet:
-        "https://twitter.com/SnaxTeam/status/1083836521751478272",
-      account: "test1",
-      id: 15,
-      attention_rate: 15.0,
-      attention_rate_rating_position: 1
-    });
-    await verifyTransferTable(15);
-    await verifyAccountsBalances(["test.transf", "test1"]);
-  });
-
   it("should process next round correctly", async () => {
     await initialize();
     await addUser({
@@ -442,6 +399,42 @@ describe("Platform", async () => {
     await updatePlatform();
     await verifyStatesAndAccounts();
     await verifyAccountsBalances(["test2", "test1", "snax", "platform"]);
+  });
+
+  it("should process social transfer correctly", async () => {
+    await initialize();
+    await socialTransfer("test.transf", 15, "20.0000 SNAX");
+    await verifyTransferTable(15);
+    await verifyAccountsBalances(["test.transf", "test1"]);
+    await addUser({
+      verification_tweet:
+        "https://twitter.com/SnaxTeam/status/1083836521751478272",
+      account: "test1",
+      id: 15,
+      attention_rate: 15.0,
+      attention_rate_rating_position: 1
+    });
+    await verifyTransferTable(15);
+    await verifyAccountsBalances(["test.transf", "test1"]);
+  });
+
+  it("should process social transfers with different assets correctly", async () => {
+    await initialize();
+    await socialTransfer("test.transf", 15, "20.0000 SNIX");
+    await socialTransfer("test.transf", 15, "20.0000 SNAX");
+    await socialTransfer("test.transf", 30, "20.0000 SNIX");
+    await verifyTransferTable(15);
+    await verifyAccountsBalances(["test.transf", "test1"]);
+    await addUser({
+      verification_tweet:
+        "https://twitter.com/SnaxTeam/status/1083836521751478272",
+      account: "test1",
+      id: 15,
+      attention_rate: 15.0,
+      attention_rate_rating_position: 1
+    });
+    await verifyTransferTable(15);
+    await verifyAccountsBalances(["test.transf", "test1"]);
   });
 
   it("should work with pending account correctly", async () => {

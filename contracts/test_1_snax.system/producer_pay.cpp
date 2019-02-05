@@ -1,11 +1,11 @@
-#include "snax.system.hpp"
+#include "test_1_snax.system.hpp"
 
 #include <snax.token/snax.token.hpp>
 
 namespace snaxsystem {
 
    const int64_t  min_pervote_daily_pay = 100'0000;
-   const int64_t  min_activated_stake   = 10'000'000'000'0000;
+   const int64_t  min_activated_stake   = 150'000'000'0000;
    const double   continuous_rate       = 0.04879;          // 5% annual rate
    const double   perblock_rate         = 0.0025;           // 0.25%
    const double   standby_rate          = 0.0075;           // 0.75%
@@ -15,7 +15,6 @@ namespace snaxsystem {
    const uint32_t blocks_per_hour       = 2 * 3600;
    const uint64_t useconds_per_day      = 24 * 3600 * uint64_t(1000000);
    const uint64_t useconds_per_year     = seconds_per_year*1000000ll;
-   const int64_t  system_token_max_supply = 1'000'000'000'000'0000;
 
 
    void system_contract::onblock( block_timestamp timestamp, account_name producer ) {
@@ -27,51 +26,14 @@ namespace snaxsystem {
       if( _gstate.total_activated_stake < min_activated_stake )
          return;
 
-      const auto ct = current_time();
-
       if( _gstate.last_pervote_bucket_fill == 0 )  /// start the presses
-         _gstate.last_pervote_bucket_fill = ct;
+         _gstate.last_pervote_bucket_fill = current_time();
 
-      const asset token_supply = token( N(snax.token)).get_supply(symbol_type(system_token_symbol).name() );
 
-      const asset max_supply = asset(system_token_max_supply / 10);
-
-      asset bp_reward = max_supply - token_supply;
-
-      if (bp_reward.amount >= 1'000'000'000'0000) {
-            bp_reward = asset(bp_reward.amount / 1'000'000'000);
-      } else {
-            bp_reward = asset(0);
-      }
-
-      if (bp_reward.amount < 15'8548) {
-            bp_reward = asset(15'8548);
-      }
-
-      const asset semi_bp_reward = asset(bp_reward.amount / 2);
-
-      if (bp_reward > asset(0) && semi_bp_reward > asset(0)) {
-
-            INLINE_ACTION_SENDER(snax::token, issue)( N(snax.token), {N(snax),N(active)},
-                                                                                { N(snax.bpay), semi_bp_reward, "fund per-block bucket" } );
-
-            INLINE_ACTION_SENDER(snax::token, issue)( N(snax.token), {N(snax),N(active)},
-                                                                                { N(snax.vpay), semi_bp_reward, "fund per-vote bucket" } );
-      }
-
-      auto to_producers         = bp_reward;
-      auto to_per_block_pay   = to_producers / 2;
-      auto to_per_vote_pay      = to_producers - to_per_block_pay;
-
-      _gstate.pervote_bucket  += to_per_vote_pay.amount;
-      _gstate.perblock_bucket += to_per_block_pay.amount;
-
-      _gstate.last_pervote_bucket_fill = ct;
-
-        /**
-         * At startup the initial producer may not be one that is registered / elected
-         * and therefore there may be no producer object for them.
-         */
+      /**
+       * At startup the initial producer may not be one that is registered / elected
+       * and therefore there may be no producer object for them.
+       */
       auto prod = _producers.find(producer);
       if ( prod != _producers.end() ) {
          _gstate.total_unpaid_blocks++;
@@ -100,8 +62,6 @@ namespace snaxsystem {
             }
          }
       }
-
-      _global.set(_gstate, _self);
    }
 
    using namespace snax;
@@ -112,11 +72,40 @@ namespace snaxsystem {
       snax_assert( prod.active(), "producer does not have an active key" );
 
       snax_assert( _gstate.total_activated_stake >= min_activated_stake,
-                    "cannot claim rewards until the chain is activated (at least 10% of all tokens participate in voting)" );
+                    "cannot claim rewards until the chain is activated (at least 15% of all tokens participate in voting)" );
 
-      const auto ct = current_time();
+      auto ct = current_time();
 
       snax_assert( ct - prod.last_claim_time > useconds_per_day, "already claimed rewards within past day" );
+
+      const asset token_supply   = token( N(snax.token)).get_supply(symbol_type(system_token_symbol).name() );
+      const auto usecs_since_last_fill = ct - _gstate.last_pervote_bucket_fill;
+
+      if( usecs_since_last_fill > 0 && _gstate.last_pervote_bucket_fill > 0 ) {
+         auto new_tokens = static_cast<int64_t>( (continuous_rate * double(token_supply.amount) * double(usecs_since_last_fill)) / double(useconds_per_year) );
+
+         auto to_producers       = new_tokens / 5;
+         auto to_savings         = new_tokens - to_producers;
+         auto to_per_block_pay   = to_producers / 4;
+         auto to_per_vote_pay    = to_producers - to_per_block_pay;
+
+         INLINE_ACTION_SENDER(snax::token, issue)( N(snax.token), {{N(snax),N(active)}},
+                                                    {N(snax), asset(new_tokens), std::string("issue tokens for producer pay and savings")} );
+
+         INLINE_ACTION_SENDER(snax::token, transfer)( N(snax.token), {N(snax),N(active)},
+                                                       { N(snax), N(snax.creator), asset(to_savings), "unallocated inflation" } );
+
+         INLINE_ACTION_SENDER(snax::token, transfer)( N(snax.token), {N(snax),N(active)},
+                                                       { N(snax), N(snax.bpay), asset(to_per_block_pay), "fund per-block bucket" } );
+
+         INLINE_ACTION_SENDER(snax::token, transfer)( N(snax.token), {N(snax),N(active)},
+                                                       { N(snax), N(snax.vpay), asset(to_per_vote_pay), "fund per-vote bucket" } );
+
+         _gstate.pervote_bucket  += to_per_vote_pay;
+         _gstate.perblock_bucket += to_per_block_pay;
+
+         _gstate.last_pervote_bucket_fill = ct;
+      }
 
       int64_t producer_per_block_pay = 0;
       if( _gstate.total_unpaid_blocks > 0 ) {
@@ -146,8 +135,6 @@ namespace snaxsystem {
          INLINE_ACTION_SENDER(snax::token, transfer)( N(snax.token), {N(snax.vpay),N(active)},
                                                        { N(snax.vpay), owner, asset(producer_per_vote_pay), std::string("producer vote pay") } );
       }
-
-      _global.set(_gstate, _self);
    }
 
 } //namespace snaxsystem

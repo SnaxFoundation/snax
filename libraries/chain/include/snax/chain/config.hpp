@@ -51,8 +51,8 @@ const static int      block_interval_us = block_interval_ms*1000;
 const static uint64_t block_timestamp_epoch = 946684800000ll; // epoch is year 2000.
 
 /** Percentages are fixed point with a denominator of 10,000 */
-const static int percent_100 = 1000000;
-const static int percent_1   = 10000;
+const static int percent_100 = 10000;
+const static int percent_1   = 100;
 
 static const uint32_t account_cpu_usage_average_window_ms  = 24*60*60*1000l;
 static const uint32_t account_net_usage_average_window_ms  = 24*60*60*1000l;

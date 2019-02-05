@@ -8,8 +8,8 @@
 
 #include <test_api/test_api.wast.hpp>
 
-#include <snax.system/snax.system.wast.hpp>
-#include <snax.system/snax.system.abi.hpp>
+#include <test_1_snax.system/test_1_snax.system.wast.hpp>
+#include <test_1_snax.system/test_1_snax.system.abi.hpp>
 
 #include <snax.token/snax.token.wast.hpp>
 #include <snax.token/snax.token.abi.hpp>
@@ -50,7 +50,7 @@ public:
    }
 
    transaction_trace_ptr create_account_with_resources( account_name a, account_name creator, asset ramfunds, bool multisig,
-                                                        asset net = core_from_string("10.0000"), asset cpu = core_from_string("10.0000") ) {
+                                                        asset net = core_from_string(("1000.0000")), asset cpu = core_from_string(("1000.0000")) ) {
       signed_transaction trx;
       set_transaction_headers(trx);
 
@@ -403,21 +403,21 @@ BOOST_FIXTURE_TEST_CASE( update_system_contract_all_approve, snax_msig_tester ) 
    set_code( N(snax.token), snax_token_wast );
    set_abi( N(snax.token), snax_token_abi );
 
-   create_currency( N(snax.token), config::system_account_name, core_from_string("10000000000.0000") );
-   issue(config::system_account_name, core_from_string("1000000000.0000"));
-   BOOST_REQUIRE_EQUAL( core_from_string("1000000000.0000"),
+   create_currency( N(snax.token), config::system_account_name, core_from_string(("1000000000000.0000")) );
+   issue(config::system_account_name, core_from_string(("100000000000.0000")));
+   BOOST_REQUIRE_EQUAL( core_from_string(("100000000000.0000")),
                         get_balance("snax") + get_balance("snax.ramfee") + get_balance("snax.stake") + get_balance("snax.ram") );
 
-   set_code( config::system_account_name, snax_system_wast );
-   set_abi( config::system_account_name, snax_system_abi );
+   set_code( config::system_account_name, test_1_snax_system_wast );
+   set_abi( config::system_account_name, test_1_snax_system_abi );
 
    produce_blocks();
 
-   create_account_with_resources( N(alice1111111), config::system_account_name, core_from_string("1.0000"), false );
-   create_account_with_resources( N(bob111111111), config::system_account_name, core_from_string("0.4500"), false );
-   create_account_with_resources( N(carol1111111), config::system_account_name, core_from_string("1.0000"), false );
+   create_account_with_resources( N(alice1111111), config::system_account_name, core_from_string(("100.0000")), false );
+   create_account_with_resources( N(bob111111111), config::system_account_name, core_from_string(("100.0000")), false );
+   create_account_with_resources( N(carol1111111), config::system_account_name, core_from_string(("100.0000")), false );
 
-   BOOST_REQUIRE_EQUAL( core_from_string("1000000000.0000"),
+   BOOST_REQUIRE_EQUAL( core_from_string(("100000000000.0000")),
                         get_balance("snax") + get_balance("snax.ramfee") + get_balance("snax.stake") + get_balance("snax.ram") );
 
    vector<permission_level> perm = { { N(alice), config::active_name }, { N(bob), config::active_name },
@@ -493,7 +493,7 @@ BOOST_FIXTURE_TEST_CASE( update_system_contract_all_approve, snax_msig_tester ) 
 
    // can't create account because system contract was replace by the test_api contract
 
-   BOOST_REQUIRE_EXCEPTION( create_account_with_resources( N(alice1111112), config::system_account_name, core_from_string("1.0000"), false ),
+   BOOST_REQUIRE_EXCEPTION( create_account_with_resources( N(alice1111112), config::system_account_name, core_from_string(("100.0000")), false ),
                             snax_assert_message_exception, snax_assert_message_is("Unknown Test")
 
    );
@@ -515,20 +515,20 @@ BOOST_FIXTURE_TEST_CASE( update_system_contract_major_approve, snax_msig_tester 
    set_code( N(snax.token), snax_token_wast );
    set_abi( N(snax.token), snax_token_abi );
 
-   create_currency( N(snax.token), config::system_account_name, core_from_string("10000000000.0000") );
-   issue(config::system_account_name, core_from_string("1000000000.0000"));
-   BOOST_REQUIRE_EQUAL( core_from_string("1000000000.0000"), get_balance( "snax" ) );
+   create_currency( N(snax.token), config::system_account_name, core_from_string(("1000000000000.0000")) );
+   issue(config::system_account_name, core_from_string(("100000000000.0000")));
+   BOOST_REQUIRE_EQUAL( core_from_string(("100000000000.0000")), get_balance( "snax" ) );
 
-   set_code( config::system_account_name, snax_system_wast );
-   set_abi( config::system_account_name, snax_system_abi );
+   set_code( config::system_account_name, test_1_snax_system_wast );
+   set_abi( config::system_account_name, test_1_snax_system_abi );
 
    produce_blocks();
 
-   create_account_with_resources( N(alice1111111), config::system_account_name, core_from_string("1.0000"), false );
-   create_account_with_resources( N(bob111111111), config::system_account_name, core_from_string("0.4500"), false );
-   create_account_with_resources( N(carol1111111), config::system_account_name, core_from_string("1.0000"), false );
+   create_account_with_resources( N(alice1111111), config::system_account_name, core_from_string(("100.0000")), false );
+   create_account_with_resources( N(bob111111111), config::system_account_name, core_from_string(("100.0000")), false );
+   create_account_with_resources( N(carol1111111), config::system_account_name, core_from_string(("100.0000")), false );
 
-   BOOST_REQUIRE_EQUAL( core_from_string("1000000000.0000"),
+   BOOST_REQUIRE_EQUAL( core_from_string(("100000000000.0000")),
                         get_balance("snax") + get_balance("snax.ramfee") + get_balance("snax.stake") + get_balance("snax.ram") );
 
    vector<permission_level> perm = { { N(alice), config::active_name }, { N(bob), config::active_name },
@@ -616,7 +616,7 @@ BOOST_FIXTURE_TEST_CASE( update_system_contract_major_approve, snax_msig_tester 
 
    // can't create account because system contract was replace by the test_api contract
 
-   BOOST_REQUIRE_EXCEPTION( create_account_with_resources( N(alice1111112), config::system_account_name, core_from_string("1.0000"), false ),
+   BOOST_REQUIRE_EXCEPTION( create_account_with_resources( N(alice1111112), config::system_account_name, core_from_string(("100.0000")), false ),
                             snax_assert_message_exception, snax_assert_message_is("Unknown Test")
 
    );

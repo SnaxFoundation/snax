@@ -1072,9 +1072,9 @@ BOOST_FIXTURE_TEST_CASE(noop, TESTER) try {
 
  } FC_LOG_AND_RETHROW()
 
-// abi_serializer::to_variant failed because snax_system_abi modified via set_abi.
+// abi_serializer::to_variant failed because test_1_snax_system_abi modified via set_abi.
 // This test also verifies that chain_initializer::snax_contract_abi() does not conflict
-// with snax_system_abi as they are not allowed to contain duplicates.
+// with test_1_snax_system_abi as they are not allowed to contain duplicates.
 BOOST_FIXTURE_TEST_CASE(snax_abi, TESTER) try {
    produce_blocks(2);
 
