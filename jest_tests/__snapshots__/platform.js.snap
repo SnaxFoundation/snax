@@ -229,11 +229,7 @@ Array [
   },
   Object {
     "more": false,
-    "rows": Array [
-      Object {
-        "balance": "1579999980.0000 SNAX",
-      },
-    ],
+    "rows": Array [],
   },
 ]
 `;
@@ -340,7 +336,7 @@ Object {
       "registered_user_count": 4,
       "round_supply": "0.0000 SNAX",
       "round_updated_account_count": 0,
-      "sent_amount": "1579999980.0000 SNAX",
+      "sent_amount": "0.0000 SNAX",
       "step_number": 1,
       "token_dealer": "snax",
       "total_attention_rate": "652.00000000000000000",
@@ -424,19 +420,11 @@ exports[`Platform should process next round correctly 11`] = `
 Array [
   Object {
     "more": false,
-    "rows": Array [
-      Object {
-        "balance": "1016589134.4187 SNAX",
-      },
-    ],
+    "rows": Array [],
   },
   Object {
     "more": false,
-    "rows": Array [
-      Object {
-        "balance": "563410845.5813 SNAX",
-      },
-    ],
+    "rows": Array [],
   },
   Object {
     "more": false,

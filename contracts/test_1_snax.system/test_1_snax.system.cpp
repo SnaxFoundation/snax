@@ -1,4 +1,4 @@
-#include "snax.system.hpp"
+#include "test_1_snax.system.hpp"
 #include <snaxlib/dispatcher.hpp>
 
 #include "producer_pay.cpp"
@@ -36,68 +36,6 @@ namespace snaxsystem {
          }
       } else {
          //print( "ram market already created" );
-      }
-
-      if ( !_gstate.initialized ) {
-        const asset amount_to_issue = asset(
-            staked_by_team_initial
-            + team_memory_initial
-            + account_creator_initial
-            + airdrop_initial
-        );
-
-        INLINE_ACTION_SENDER(snax::token, issue)(
-            N(snax.token), {_self,N(active)},
-            {
-                _self,
-                amount_to_issue,
-                "premine"
-            }
-        );
-
-        INLINE_ACTION_SENDER(system_contract, buyram)(
-            _self, {_self, N(active)},
-            {
-                _self,
-                N(snax.team),
-                asset(team_memory_initial)
-            }
-        );
-
-        INLINE_ACTION_SENDER(system_contract, escrowbw)(
-            _self, {_self, N(active)},
-            {
-                _self,
-                N(snax.team),
-                asset(staked_by_team_initial / 5),
-                asset(staked_by_team_initial / 5 * 4),
-                true,
-                10
-            }
-        );
-
-        INLINE_ACTION_SENDER(snax::token, transfer)(
-            N(snax.token), {_self,N(active)},
-            {
-                _self,
-                N(snax.airdrop),
-                asset(airdrop_initial),
-                "airdrop"
-            }
-        );
-
-        INLINE_ACTION_SENDER(snax::token, transfer)(
-            N(snax.token), {_self,N(active)},
-            {
-                _self,
-                N(snax.creator),
-                asset(account_creator_initial),
-                "account creation"
-            }
-        );
-
-        _gstate.initialized = true;
-        _global.set(_gstate, _self);
       }
 
    }

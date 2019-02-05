@@ -7,7 +7,7 @@
   },
   "jest": {
     "testMatch": [
-      "**/*.js?(x)"
+      "**/(?!helpers)*.js?(x)"
     ]
   },
   "scripts": {

@@ -30,7 +30,7 @@ namespace snaxsystem {
                m.supply.symbol = S(4,RAMCORE);
                m.base.balance.amount = int64_t(_gstate.free_ram());
                m.base.balance.symbol = S(0,RAM);
-               m.quote.balance.amount = system_token_supply / 10;
+               m.quote.balance.amount = system_token_supply / 1000;
                m.quote.balance.symbol = CORE_SYMBOL;
             });
          }
@@ -38,10 +38,13 @@ namespace snaxsystem {
          //print( "ram market already created" );
       }
 
-      const int64_t system_token_max_supply = snax::token(N(snax.token)).get_max_supply(snax::symbol_type(system_token_symbol).name()).amount;
-
-      if ( _gstate.staked_by_team.amount == 0 && !_gstate.initialized && system_token_max_supply == system_token_max_supply ) {
-        const asset amount_to_issue = asset(staked_by_team_initial + team_memory_initial + account_creator_initial + airdrop_initial);
+      if ( !_gstate.initialized ) {
+        const asset amount_to_issue = asset(
+            staked_by_team_initial
+            + team_memory_initial
+            + account_creator_initial
+            + airdrop_initial
+        );
 
         INLINE_ACTION_SENDER(snax::token, issue)(
             N(snax.token), {_self,N(active)},
@@ -120,18 +123,20 @@ namespace snaxsystem {
 
         uint64_t period_sum = 0;
 
+        asset platform_full_balance;
         for (auto& config: _gstate.platforms) {
            if (config.account == platform) {
                found_config = &config;
            }
            period_sum += config.period;
+           platform_full_balance += get_balance(config.account);
         };
 
         snax_assert(found_config != nullptr, "platform not found in platforms config");
 
         const auto current_time = snax::time_point_sec(now());
 
-        const auto total_supply = snax::token(N(snax.token)).get_max_supply(snax::symbol_type(system_token_symbol).name());
+        const asset system_supply_soft_limit = asset(snax::token(N(snax.token)).get_max_supply(snax::symbol_type(system_token_symbol).name()).amount / 10);
 
         if (platform_requests.cbegin() != platform_requests.cend()) {
            auto last_request = platform_requests.end();
@@ -154,45 +159,63 @@ namespace snaxsystem {
             snax::token(N(snax.token))
                 .get_supply(snax::symbol_type(system_token_symbol).name());
 
-        const double minimal_supply_round_amount = static_cast<double>(_gstate.min_supply_points);
+        snax::print("Circulation supply: \t", circulating_supply, "\n");
 
-        const double total_supply_amount = convert_asset_to_double(total_supply);
+        const asset system_balance = get_balance(_self);
 
-        double a, b;
+        int64_t circulating_supply_without_system = circulating_supply.amount - system_balance.amount - platform_full_balance.amount;
 
-        std::tie(a, b) = get_parabola(minimal_supply_round_amount, total_supply_amount);
-
-        auto circulating_supply_without_system = circulating_supply.amount - get_balance(_self).amount;
-
-        if (circulating_supply_without_system < 0)
+        if (circulating_supply_without_system < 0) {
             circulating_supply_without_system = 0;
+        }
 
-        snax_assert(circulating_supply_without_system + 10'000'0000 <= total_supply.amount, "system emission stopped");
+        snax::print("Circulation supply without system: \t", circulating_supply_without_system, "\n");
 
         double _, current_offset;
 
-        std::tie(_, current_offset) = solve_quadratic_equation(a, b, static_cast<double>(circulating_supply_without_system));
+        int64_t supply_difference = system_supply_soft_limit.amount - circulating_supply_without_system;
 
-        const asset round_supply =
-            total_supply
-            - circulating_supply
-            - (
-                current_offset > _gstate.min_supply_points
-                ? asset(0)
-                : asset(
-                        static_cast<uint64_t>(
-                            calculate_parabola(a, b, static_cast<double>(circulating_supply_without_system), current_offset)
-                        )
-                  )
+        if (supply_difference < 1'000'000'000'0000) {
+            supply_difference = 1'000'000'000'0000;
+        }
+
+        std::tie(_, current_offset) = solve_quadratic_equation(
+            static_cast<double>(_gstate.system_parabola_a),
+            static_cast<double>(_gstate.system_parabola_b),
+            static_cast<double>(circulating_supply_without_system / 1'0000)
         );
 
-        _gstate.supply_offset = current_offset;
+        snax::print("Supply difference: \t", supply_difference, "\n");
+
+        snax::print("Offset: \t", current_offset, "\n");
+
+        const int64_t round_supply = (
+            supply_difference / 1'0000
+            -
+            static_cast<uint64_t>(
+                calculate_parabola(
+                    static_cast<double>(_gstate.system_parabola_a),
+                    static_cast<double>(_gstate.system_parabola_b),
+                    convert_asset_to_double(system_supply_soft_limit / 1'0000),
+                    static_cast<double>(current_offset + found_config->period / 24)
+                )
+            )
+        ) * 1'0000;
+
+        snax::print("Round supply: \t", round_supply, "\n");
 
         const asset amount_to_transfer =
-            round_supply / 10000 * static_cast<int64_t>(found_config->weight * 10000) / period_sum * found_config->period / 50;
+            asset(
+                round_supply
+                / 1000
+                / period_sum
+                * static_cast<int64_t>(found_config->weight * 1000)
+                * found_config->period
+            );
 
-        const asset system_balance = get_balance(_self);
-        const asset amount_to_issue = amount_to_transfer - system_balance;
+        snax::print("Amount to transfer: \t", amount_to_transfer, "\n");
+
+        const asset amount_to_issue = amount_to_transfer > system_balance ? amount_to_transfer - system_balance: asset(0);
 
         if (amount_to_issue > asset(0)) {
             INLINE_ACTION_SENDER(snax::token, issue)(
@@ -384,12 +407,6 @@ namespace snaxsystem {
         const double d = b * b - 4 * a * c;
         snax_assert(d >= 0, "cant calculate parabola");
         return std::make_tuple((-b + sqrt(d)) / 2 / a, (-b - sqrt(d)) / 2 / a);
-    }
-
-    std::tuple<double, double>
-    system_contract::get_parabola(const double x0, const double y0) const {
-        const double a = y0 / x0 / x0;
-        return std::make_tuple(a, -2 * a * x0);
     }
 
     double system_contract::calculate_parabola(

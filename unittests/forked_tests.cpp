@@ -165,14 +165,14 @@ BOOST_AUTO_TEST_CASE( forking ) try {
 
    auto cr = c.push_action( N(snax.token), N(create), N(snax.token), mutable_variant_object()
               ("issuer",       "snax" )
-              ("maximum_supply", core_from_string("10000000.0000"))
+              ("maximum_supply", core_from_string(("1000000000.0000")))
       );
 
    wdump((fc::json::to_pretty_string(cr)));
 
    cr = c.push_action( N(snax.token), N(issue), config::system_account_name, mutable_variant_object()
               ("to",       "dan" )
-              ("quantity", core_from_string("100.0000"))
+              ("quantity", core_from_string(("10000.0000")))
               ("memo", "")
       );
 

@@ -7,8 +7,8 @@
 #include <snax/testing/tester.hpp>
 #include <snax/chain/abi_serializer.hpp>
 
-#include <snax.system/snax.system.wast.hpp>
-#include <snax.system/snax.system.abi.hpp>
+#include <test_1_snax.system/test_1_snax.system.wast.hpp>
+#include <test_1_snax.system/test_1_snax.system.abi.hpp>
 
 #include <snax.token/snax.token.wast.hpp>
 #include <snax.token/snax.token.abi.hpp>
@@ -62,12 +62,12 @@ public:
          token_abi_ser.set_abi(abi, abi_serializer_max_time);
       }
 
-      create_currency( N(snax.token), config::system_account_name, core_from_string("10000000000.0000") );
-      issue(config::system_account_name,      core_from_string("1000000000.0000"));
-      BOOST_REQUIRE_EQUAL( core_from_string("1000000000.0000"), get_balance( "snax" ) );
+      create_currency( N(snax.token), config::system_account_name, core_from_string(("1000000000000.0000")) );
+      issue(config::system_account_name,      core_from_string(("100000000000.0000")));
+      BOOST_REQUIRE_EQUAL( core_from_string(("100000000000.0000")), get_balance( "snax" ) );
 
-      set_code( config::system_account_name, snax_system_wast );
-      set_abi( config::system_account_name, snax_system_abi );
+      set_code( config::system_account_name, test_1_snax_system_wast );
+      set_abi( config::system_account_name, test_1_snax_system_abi );
 
       {
          const auto& accnt = control->db().get<account_object,by_name>( config::system_account_name );
@@ -78,11 +78,11 @@ public:
 
       produce_blocks();
 
-      create_account_with_resources( N(alice1111111), config::system_account_name, core_from_string("1.0000"), false );
-      create_account_with_resources( N(bob111111111), config::system_account_name, core_from_string("0.4500"), false );
-      create_account_with_resources( N(carol1111111), config::system_account_name, core_from_string("1.0000"), false );
+      create_account_with_resources( N(alice1111111), config::system_account_name, core_from_string(("100.0000")), false );
+      create_account_with_resources( N(bob111111111), config::system_account_name, core_from_string(("100.0000")), false );
+      create_account_with_resources( N(carol1111111), config::system_account_name, core_from_string(("100.0000")), false );
 
-      BOOST_REQUIRE_EQUAL( core_from_string("1000000000.0000"), get_balance("snax")  + get_balance("snax.ramfee") + get_balance("snax.stake") + get_balance("snax.ram") );
+      BOOST_REQUIRE_EQUAL( core_from_string(("100000000000.0000")), get_balance("snax")  + get_balance("snax.ramfee") + get_balance("snax.stake") + get_balance("snax.ram") );
    }
 
 
@@ -117,8 +117,8 @@ public:
                                             mvo()
                                             ("from", creator)
                                             ("receiver", a)
-                                            ("stake_net_quantity", core_from_string("10.0000") )
-                                            ("stake_cpu_quantity", core_from_string("10.0000") )
+                                            ("stake_net_quantity", core_from_string(("1000.0000")) )
+                                            ("stake_cpu_quantity", core_from_string(("1000.0000")) )
                                             ("transfer", 0 )
                                           )
                                 );
@@ -129,7 +129,7 @@ public:
    }
 
    transaction_trace_ptr create_account_with_resources( account_name a, account_name creator, asset ramfunds, bool multisig,
-                                                        asset net = core_from_string("10.0000"), asset cpu = core_from_string("10.0000") ) {
+                                                        asset net = core_from_string(("1000.0000")), asset cpu = core_from_string(("1000.0000")) ) {
       signed_transaction trx;
       set_transaction_headers(trx);
 
@@ -175,9 +175,9 @@ public:
       account_name creator(config::system_account_name);
       signed_transaction trx;
       set_transaction_headers(trx);
-      asset cpu = core_from_string("80.0000");
-      asset net = core_from_string("80.0000");
-      asset ram = core_from_string("1.0000");
+      asset cpu = core_from_string(("8000.0000"));
+      asset net = core_from_string(("8000.0000"));
+      asset ram = core_from_string(("100.0000"));
 
       for (const auto& a: accounts) {
          authority owner_auth( get_public_key( a, "owner" ) );
@@ -408,7 +408,7 @@ public:
       abi_serializer msig_abi_ser;
       {
          create_account_with_resources( N(snax.msig), config::system_account_name );
-         BOOST_REQUIRE_EQUAL( success(), buyram( "snax", "snax.msig", core_from_string("5000.0000") ) );
+         BOOST_REQUIRE_EQUAL( success(), buyram( "snax", "snax.msig", core_from_string(("500000.0000")) ) );
          produce_block();
 
          auto trace = base_tester::push_action(config::system_account_name, N(setpriv),
@@ -431,8 +431,8 @@ public:
 
    vector<name> active_and_vote_producers() {
       //stake more than 10% of total SNAX supply to activate chain
-      transfer( "snax", "alice1111111", core_from_string("650000000.0000"), "snax" );
-      BOOST_REQUIRE_EQUAL( success(), stake( "alice1111111", "alice1111111", core_from_string("300000000.0000"), core_from_string("300000000.0000") ) );
+      transfer( "snax", "alice1111111", core_from_string(("65000000000.0000")), "snax" );
+      BOOST_REQUIRE_EQUAL( success(), stake( "alice1111111", "alice1111111", core_from_string(("30000000000.0000")), core_from_string(("30000000000.0000")) ) );
 
       // create accounts {defproducera, defproducerb, ..., defproducerz} and register as producers
       std::vector<account_name> producer_names;
@@ -464,9 +464,9 @@ public:
 
       //vote for producers
       {
-         transfer( config::system_account_name, "alice1111111", core_from_string("100000000.0000"), config::system_account_name );
-         BOOST_REQUIRE_EQUAL(success(), stake( "alice1111111", core_from_string("30000000.0000"), core_from_string("30000000.0000") ) );
-         BOOST_REQUIRE_EQUAL(success(), buyram( "alice1111111", "alice1111111", core_from_string("30000000.0000") ) );
+         transfer( config::system_account_name, "alice1111111", core_from_string(("10000000000.0000")), config::system_account_name );
+         BOOST_REQUIRE_EQUAL(success(), stake( "alice1111111", core_from_string(("3000000000.0000")), core_from_string(("3000000000.0000")) ) );
+         BOOST_REQUIRE_EQUAL(success(), buyram( "alice1111111", "alice1111111", core_from_string(("3000000000.0000")) ) );
          BOOST_REQUIRE_EQUAL(success(), push_action(N(alice1111111), N(voteproducer), mvo()
                                                     ("voter",  "alice1111111")
                                                     ("proxy", name(0).to_string())
@@ -495,8 +495,8 @@ public:
                                                mvo()
                                                ("from", name{config::system_account_name})
                                                ("receiver", "producer1111")
-                                               ("stake_net_quantity", core_from_string("150000000.0000") )
-                                               ("stake_cpu_quantity", core_from_string("0.0000") )
+                                               ("stake_net_quantity", core_from_string(("15000000000.0000")) )
+                                               ("stake_cpu_quantity", core_from_string(("000.0000")) )
                                                ("transfer", 1 )
                                              )
                                  );
@@ -513,8 +513,8 @@ public:
                                                mvo()
                                                ("from", "producer1111")
                                                ("receiver", "producer1111")
-                                               ("unstake_net_quantity", core_from_string("150000000.0000") )
-                                               ("unstake_cpu_quantity", core_from_string("0.0000") )
+                                               ("unstake_net_quantity", core_from_string(("15000000000.0000")) )
+                                               ("unstake_cpu_quantity", core_from_string(("000.0000")) )
                                              )
                                  );
 

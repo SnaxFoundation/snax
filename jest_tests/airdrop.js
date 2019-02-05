@@ -1,7 +1,11 @@
-const snaxjs = require("@snaxfoundation/snaxjs");
+const { sleep, tryCatchExpect } = require("./helpers");
+
 const fetch = require("node-fetch");
+const snaxjs = require("@snaxfoundation/snaxjs");
+
 const { promisify } = require("util");
 const child_process = require("child_process");
+
 const [exec, execFile, spawn] = [child_process.exec, child_process.execFile]
   .map(promisify)
   .concat(child_process.spawn);
@@ -31,8 +35,6 @@ const api = new snaxjs.Api({
 });
 
 jest.setTimeout(1e6);
-
-const sleep = time => new Promise(resolve => setTimeout(resolve, time));
 
 describe("Airdrop", async () => {
   beforeEach(async () => {
@@ -76,15 +78,6 @@ describe("Airdrop", async () => {
       )
     );
     expect(tables).toMatchSnapshot();
-  };
-
-  const tryCatchExpect = async action => {
-    try {
-      await action();
-      expect(false).toBe(true);
-    } catch (e) {
-      expect(e.message).toMatchSnapshot();
-    }
   };
 
   const addplatform = async platform => {

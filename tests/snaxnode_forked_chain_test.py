@@ -217,7 +217,7 @@ try:
     # create accounts via snax as otherwise a bid is needed
     for account in accounts:
         Print("Create new account %s via %s" % (account.name, cluster.snaxAccount.name))
-        trans=node.createInitializeAccount(account, cluster.snaxAccount, stakedDeposit=0, waitForTransBlock=True, stakeNet=1000, stakeCPU=1000, buyRAM=1000, exitOnError=True)
+        trans=node.createInitializeAccount(account, cluster.snaxAccount, stakedDeposit=0, waitForTransBlock=True, stakeNet=1000, stakeCPU=1000, buyram=100000, exitOnError=True)
         transferAmount="100000000.0000 {0}".format(CORE_SYMBOL)
         Print("Transfer funds %s from account %s to %s" % (transferAmount, cluster.snaxAccount.name, account.name))
         node.transferFunds(cluster.snaxAccount, account, transferAmount, "test transfer", waitForTransBlock=True)

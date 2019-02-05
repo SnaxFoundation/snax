@@ -31,10 +31,9 @@ namespace snaxsystem {
    static constexpr time refund_delay = 3*24*3600;
    static constexpr time refund_expiration_time = 3600;
    static const     int64_t  team_memory_initial = 1'000'0000;
-   static const     int64_t  staked_by_team_initial = 20'000'000'000'0000 - team_memory_initial;
+   static const     int64_t  staked_by_team_initial = 15'000'000'000'0000 - team_memory_initial;
    static const     int64_t  account_creator_initial = 500'000'000'0000;
    static const     int64_t  airdrop_initial = 500'000'000'0000;
-   static const     int64_t  system_token_max_supply = 100'000'000'000'0000;
 
    struct user_resources {
       account_name  owner;
@@ -398,12 +397,13 @@ namespace snaxsystem {
        delegatebw(
            from, receiver, stake_net_quantity, stake_cpu_quantity, transfer
        );
-       escrow_bandwidth_table _escrow_bandwidth(_self, transfer ? receiver : from);
-       _escrow_bandwidth.emplace(from, [&](auto& record) {
+       const account_name owner = receiver;
+       escrow_bandwidth_table _escrow_bandwidth(_self, owner);
+       _escrow_bandwidth.emplace(owner, [&](auto& record) {
            const auto current_time = snax::time_point_sec(now());
            record.initial_amount = stake_net_quantity + stake_cpu_quantity;
            record.amount = stake_net_quantity + stake_cpu_quantity;
-           record.owner = N(snax.team);
+           record.owner = owner;
            record.created = block_timestamp(current_time);
            record.period_count = period_count;
        });
@@ -434,7 +434,7 @@ namespace snaxsystem {
 
       del_bandwidth_table del_tbl( _self, from);
 
-      auto itr = del_tbl.find( receiver );
+      auto itr = del_tbl.find( from );
 
       snax_assert(itr != del_tbl.end(), "no such account to undelegate from");
 
