@@ -365,6 +365,8 @@ describe("Platform", async () => {
   it("should process next round correctly", async () => {
     await initialize();
     await addUser({
+      verification_salt: "12345",
+      stat_diff: [5, 10, 15],
       verification_tweet:
         "https://twitter.com/SnaxTeam/status/1083836521751478272",
       account: "test1",
@@ -373,6 +375,8 @@ describe("Platform", async () => {
       attention_rate_rating_position: 3
     });
     await addUser({
+      verification_salt: "12345",
+      stat_diff: [5, 10, 15],
       verification_tweet:
         "https://twitter.com/SnaxTeam/status/1083836521751478272",
       account: "test2",
@@ -381,6 +385,8 @@ describe("Platform", async () => {
       attention_rate_rating_position: 2
     });
     await addUser({
+      verification_salt: "12345",
+      stat_diff: [5, 10, 15],
       verification_tweet:
         "https://twitter.com/SnaxTeam/status/1083836521751478272",
       account: "test2",
@@ -389,6 +395,8 @@ describe("Platform", async () => {
       attention_rate_rating_position: 1
     });
     await addUser({
+      verification_salt: "12345",
+      stat_diff: [5, 10, 15],
       verification_tweet:
         "https://twitter.com/SnaxTeam/status/1083836521751478272",
       account: "test1",
@@ -407,6 +415,8 @@ describe("Platform", async () => {
     await verifyTransferTable(15);
     await verifyAccountsBalances(["test.transf", "test1"]);
     await addUser({
+      verification_salt: "12345",
+      stat_diff: [5, 10, 15],
       verification_tweet:
         "https://twitter.com/SnaxTeam/status/1083836521751478272",
       account: "test1",
@@ -426,6 +436,8 @@ describe("Platform", async () => {
     await verifyTransferTable(15);
     await verifyAccountsBalances(["test.transf", "test1"]);
     await addUser({
+      verification_salt: "12345",
+      stat_diff: [5, 10, 15],
       verification_tweet:
         "https://twitter.com/SnaxTeam/status/1083836521751478272",
       account: "test1",
@@ -444,6 +456,8 @@ describe("Platform", async () => {
     await verifyPendingAccounts();
     await verifyStatesAndAccounts();
     await addUser({
+      verification_salt: "12345",
+      stat_diff: [5, 10, 15],
       verification_tweet:
         "https://twitter.com/SnaxTeam/status/1083836521751478272",
       account: "test1",
@@ -478,6 +492,8 @@ describe("Platform", async () => {
   it("should add account correctly", async () => {
     await initialize();
     const result = await addUser({
+      verification_salt: "12345",
+      stat_diff: [5, 10, 15],
       verification_tweet:
         "https://twitter.com/SnaxTeam/status/1083836521751478272",
       account: "test2",
@@ -491,6 +507,8 @@ describe("Platform", async () => {
   it("shouldn't be able to add user with the same id second time", async () => {
     await initialize();
     await addUser({
+      verification_salt: "12345",
+      stat_diff: [5, 10, 15],
       verification_tweet:
         "https://twitter.com/SnaxTeam/status/1083836521751478272",
       account: "test2",
@@ -500,6 +518,8 @@ describe("Platform", async () => {
     });
     await tryCatchExpect(() =>
       addUser({
+        verification_salt: "12345",
+        stat_diff: [5, 10, 15],
         verification_tweet:
           "https://twitter.com/SnaxTeam/status/1083836521751478272",
         account: "test2",
@@ -514,6 +534,8 @@ describe("Platform", async () => {
   it("should update account's attention rate correctly", async () => {
     await initialize();
     await addUser({
+      verification_salt: "12345",
+      stat_diff: [5, 10, 15],
       verification_tweet:
         "https://twitter.com/SnaxTeam/status/1083836521751478272",
       account: "test2",
@@ -534,6 +556,8 @@ describe("Platform", async () => {
   it("should update multiple account's attention rate correctly", async () => {
     await initialize();
     await addUser({
+      verification_salt: "12345",
+      stat_diff: [5, 10, 15],
       verification_tweet:
         "https://twitter.com/SnaxTeam/status/1083836521751478272",
       account: "test2",
@@ -542,6 +566,8 @@ describe("Platform", async () => {
       attention_rate_rating_position: 1
     });
     await addUser({
+      verification_salt: "12345",
+      stat_diff: [5, 10, 15],
       verification_tweet:
         "https://twitter.com/SnaxTeam/status/1083836521751478272",
       account: "test1",
@@ -571,6 +597,8 @@ describe("Platform", async () => {
   it("shouldn't be able to update non-existent account's attention rate", async () => {
     await initialize();
     await addUser({
+      verification_salt: "12345",
+      stat_diff: [5, 10, 15],
       verification_tweet:
         "https://twitter.com/SnaxTeam/status/1083836521751478272",
       account: "test2",
@@ -594,6 +622,8 @@ describe("Platform", async () => {
   it("shouldn't be able to add account or update attention rate when platform is updating", async () => {
     await initialize();
     await addUser({
+      verification_salt: "12345",
+      stat_diff: [5, 10, 15],
       verification_tweet:
         "https://twitter.com/SnaxTeam/status/1083836521751478272",
       account: "test1",
@@ -624,6 +654,8 @@ describe("Platform", async () => {
     );
     await tryCatchExpect(() =>
       addUser({
+        verification_salt: "12345",
+        stat_diff: [5, 10, 15],
         verification_tweet:
           "https://twitter.com/SnaxTeam/status/1083836521751478272",
         account: "test2",
