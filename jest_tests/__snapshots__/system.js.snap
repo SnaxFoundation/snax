@@ -10,7 +10,7 @@ Array [
     "more": false,
     "rows": Array [
       Object {
-        "balance": "2313899121.6000 SNAX",
+        "balance": "2313899131.2000 SNAX",
       },
     ],
   },
@@ -25,7 +25,11 @@ Array [
   },
   Object {
     "more": false,
-    "rows": Array [],
+    "rows": Array [
+      Object {
+        "balance": "998.8358 SNAX",
+      },
+    ],
   },
   Object {
     "more": false,
@@ -35,7 +39,7 @@ Array [
     "more": false,
     "rows": Array [
       Object {
-        "balance": "2313899121.6000 SNAX",
+        "balance": "2313899131.2000 SNAX",
       },
     ],
   },
@@ -52,7 +56,7 @@ Array [
     "more": false,
     "rows": Array [
       Object {
-        "balance": "2313899121.6000 SNAX",
+        "balance": "2313899131.2000 SNAX",
       },
     ],
   },
@@ -76,7 +80,7 @@ Array [
     "more": false,
     "rows": Array [
       Object {
-        "balance": "2313899121.6000 SNAX",
+        "balance": "2313899131.2000 SNAX",
       },
     ],
   },
@@ -100,7 +104,7 @@ Array [
     "more": false,
     "rows": Array [
       Object {
-        "balance": "2360177104.0320 SNAX",
+        "balance": "2360177113.8240 SNAX",
       },
     ],
   },
@@ -124,7 +128,7 @@ Array [
     "more": false,
     "rows": Array [
       Object {
-        "balance": "2408306205.7613 SNAX",
+        "balance": "2408306215.7530 SNAX",
       },
     ],
   },
@@ -148,7 +152,7 @@ Array [
     "more": false,
     "rows": Array [
       Object {
-        "balance": "2458397493.9457 SNAX",
+        "balance": "2458397504.1452 SNAX",
       },
     ],
   },
@@ -172,7 +176,7 @@ Array [
     "more": false,
     "rows": Array [
       Object {
-        "balance": "2510570921.1157 SNAX",
+        "balance": "2510570931.5316 SNAX",
       },
     ],
   },
@@ -196,7 +200,7 @@ Array [
     "more": false,
     "rows": Array [
       Object {
-        "balance": "2564956213.7116 SNAX",
+        "balance": "2564956224.3532 SNAX",
       },
     ],
   },
@@ -220,7 +224,7 @@ Array [
     "more": false,
     "rows": Array [
       Object {
-        "balance": "2621693867.2454 SNAX",
+        "balance": "2621693878.1224 SNAX",
       },
     ],
   },
@@ -244,7 +248,7 @@ Array [
     "more": false,
     "rows": Array [
       Object {
-        "balance": "2680936263.0144 SNAX",
+        "balance": "2680936274.1371 SNAX",
       },
     ],
   },
@@ -268,7 +272,7 @@ Array [
     "more": false,
     "rows": Array [
       Object {
-        "balance": "2742848923.6823 SNAX",
+        "balance": "2742848935.0619 SNAX",
       },
     ],
   },
@@ -292,7 +296,7 @@ Array [
     "more": false,
     "rows": Array [
       Object {
-        "balance": "2807611927.8628 SNAX",
+        "balance": "2807611939.5111 SNAX",
       },
     ],
   },
@@ -316,7 +320,7 @@ Array [
     "more": false,
     "rows": Array [
       Object {
-        "balance": "2875421507.1726 SNAX",
+        "balance": "2875421519.1022 SNAX",
       },
     ],
   },
@@ -340,7 +344,7 @@ Array [
     "more": false,
     "rows": Array [
       Object {
-        "balance": "2946491853.1780 SNAX",
+        "balance": "2946491865.4025 SNAX",
       },
     ],
   },
@@ -364,7 +368,7 @@ Array [
     "more": false,
     "rows": Array [
       Object {
-        "balance": "3021057166.3627 SNAX",
+        "balance": "3021057178.8966 SNAX",
       },
     ],
   },
@@ -388,7 +392,7 @@ Array [
     "more": false,
     "rows": Array [
       Object {
-        "balance": "3099373984.8543 SNAX",
+        "balance": "3099373997.7131 SNAX",
       },
     ],
   },
@@ -412,7 +416,7 @@ Array [
     "more": false,
     "rows": Array [
       Object {
-        "balance": "3181723837.3592 SNAX",
+        "balance": "3181723850.5597 SNAX",
       },
     ],
   },
@@ -436,7 +440,7 @@ Array [
     "more": false,
     "rows": Array [
       Object {
-        "balance": "3268416272.8078 SNAX",
+        "balance": "3268416286.3679 SNAX",
       },
     ],
   },
@@ -460,7 +464,7 @@ Array [
     "more": false,
     "rows": Array [
       Object {
-        "balance": "3359792328.8985 SNAX",
+        "balance": "3359792342.8377 SNAX",
       },
     ],
   },
@@ -484,7 +488,7 @@ Array [
     "more": false,
     "rows": Array [
       Object {
-        "balance": "3456228513.4255 SNAX",
+        "balance": "3456228527.7648 SNAX",
       },
     ],
   },
@@ -508,7 +512,7 @@ Array [
     "more": false,
     "rows": Array [
       Object {
-        "balance": "3558141386.4332 SNAX",
+        "balance": "3558141401.1953 SNAX",
       },
     ],
   },
@@ -532,7 +536,7 @@ Array [
     "more": false,
     "rows": Array [
       Object {
-        "balance": "3665992848.4446 SNAX",
+        "balance": "3665992863.6542 SNAX",
       },
     ],
   },
@@ -556,7 +560,7 @@ Array [
     "more": false,
     "rows": Array [
       Object {
-        "balance": "3780296260.9778 SNAX",
+        "balance": "3780296276.6617 SNAX",
       },
     ],
   },
@@ -580,7 +584,7 @@ Array [
     "more": false,
     "rows": Array [
       Object {
-        "balance": "3901623551.2107 SNAX",
+        "balance": "3901623567.3979 SNAX",
       },
     ],
   },
@@ -604,7 +608,7 @@ Array [
     "more": false,
     "rows": Array [
       Object {
-        "balance": "4030613484.1327 SNAX",
+        "balance": "4030613500.8551 SNAX",
       },
     ],
   },
@@ -628,7 +632,7 @@ Array [
     "more": false,
     "rows": Array [
       Object {
-        "balance": "4167981324.3010 SNAX",
+        "balance": "4167981341.5933 SNAX",
       },
     ],
   },
@@ -652,7 +656,7 @@ Array [
     "more": false,
     "rows": Array [
       Object {
-        "balance": "4314530157.2645 SNAX",
+        "balance": "4314530175.1648 SNAX",
       },
     ],
   },
@@ -676,7 +680,7 @@ Array [
     "more": false,
     "rows": Array [
       Object {
-        "balance": "4471164200.2323 SNAX",
+        "balance": "4471164218.7824 SNAX",
       },
     ],
   },
@@ -700,7 +704,7 @@ Array [
     "more": false,
     "rows": Array [
       Object {
-        "balance": "4638904505.7208 SNAX",
+        "balance": "4638904524.9668 SNAX",
       },
     ],
   },
@@ -724,7 +728,7 @@ Array [
     "more": false,
     "rows": Array [
       Object {
-        "balance": "4818907554.6892 SNAX",
+        "balance": "4818907574.6821 SNAX",
       },
     ],
   },
@@ -748,7 +752,7 @@ Array [
     "more": false,
     "rows": Array [
       Object {
-        "balance": "5012487352.2260 SNAX",
+        "balance": "5012487373.0220 SNAX",
       },
     ],
   },
@@ -772,7 +776,7 @@ Array [
     "more": false,
     "rows": Array [
       Object {
-        "balance": "5221141785.8911 SNAX",
+        "balance": "5221141807.5528 SNAX",
       },
     ],
   },
@@ -796,7 +800,7 @@ Array [
     "more": false,
     "rows": Array [
       Object {
-        "balance": "5446584193.1347 SNAX",
+        "balance": "5446584215.7317 SNAX",
       },
     ],
   },
@@ -820,7 +824,7 @@ Array [
     "more": false,
     "rows": Array [
       Object {
-        "balance": "5690781321.3435 SNAX",
+        "balance": "5690781344.9537 SNAX",
       },
     ],
   },
@@ -844,7 +848,7 @@ Array [
     "more": false,
     "rows": Array [
       Object {
-        "balance": "5955999167.2598 SNAX",
+        "balance": "5955999191.9704 SNAX",
       },
     ],
   },
@@ -868,7 +872,7 @@ Array [
     "more": false,
     "rows": Array [
       Object {
-        "balance": "6244858571.9915 SNAX",
+        "balance": "6244858597.9005 SNAX",
       },
     ],
   },
@@ -892,7 +896,7 @@ Array [
     "more": false,
     "rows": Array [
       Object {
-        "balance": "6560402950.5542 SNAX",
+        "balance": "6560402977.7723 SNAX",
       },
     ],
   },
@@ -916,7 +920,7 @@ Array [
     "more": false,
     "rows": Array [
       Object {
-        "balance": "6906181186.9879 SNAX",
+        "balance": "6906181215.6406 SNAX",
       },
     ],
   },
@@ -940,7 +944,7 @@ Array [
     "more": false,
     "rows": Array [
       Object {
-        "balance": "7286349576.2313 SNAX",
+        "balance": "7286349606.4612 SNAX",
       },
     ],
   },
@@ -964,7 +968,7 @@ Array [
     "more": false,
     "rows": Array [
       Object {
-        "balance": "7705797808.0112 SNAX",
+        "balance": "7705797839.9813 SNAX",
       },
     ],
   },
@@ -988,7 +992,7 @@ Array [
     "more": false,
     "rows": Array [
       Object {
-        "balance": "8170305455.6885 SNAX",
+        "balance": "8170305489.5858 SNAX",
       },
     ],
   },
@@ -1012,7 +1016,7 @@ Array [
     "more": false,
     "rows": Array [
       Object {
-        "balance": "8686737377.0370 SNAX",
+        "balance": "8686737413.0769 SNAX",
       },
     ],
   },
@@ -1036,7 +1040,7 @@ Array [
     "more": false,
     "rows": Array [
       Object {
-        "balance": "9263289023.2296 SNAX",
+        "balance": "9263289061.6615 SNAX",
       },
     ],
   },
@@ -1060,7 +1064,7 @@ Array [
     "more": false,
     "rows": Array [
       Object {
-        "balance": "9909796120.6483 SNAX",
+        "balance": "9909796161.7624 SNAX",
       },
     ],
   },
@@ -1084,7 +1088,7 @@ Array [
     "more": false,
     "rows": Array [
       Object {
-        "balance": "10638127862.9446 SNAX",
+        "balance": "10638127907.0804 SNAX",
       },
     ],
   },
@@ -1108,7 +1112,7 @@ Array [
     "more": false,
     "rows": Array [
       Object {
-        "balance": "11462689083.7324 SNAX",
+        "balance": "11462689131.2891 SNAX",
       },
     ],
   },
@@ -1132,7 +1136,7 @@ Array [
     "more": false,
     "rows": Array [
       Object {
-        "balance": "12401065515.2845 SNAX",
+        "balance": "12401065566.7344 SNAX",
       },
     ],
   },
@@ -1156,7 +1160,7 @@ Array [
     "more": false,
     "rows": Array [
       Object {
-        "balance": "13474858085.3560 SNAX",
+        "balance": "13474858141.2610 SNAX",
       },
     ],
   },
@@ -1180,7 +1184,7 @@ Array [
     "more": false,
     "rows": Array [
       Object {
-        "balance": "14710768560.1275 SNAX",
+        "balance": "14710768621.1601 SNAX",
       },
     ],
   },
@@ -1204,7 +1208,7 @@ Array [
     "more": false,
     "rows": Array [
       Object {
-        "balance": "16142021568.1198 SNAX",
+        "balance": "16142021635.0905 SNAX",
       },
     ],
   },
@@ -1228,7 +1232,7 @@ Array [
     "more": false,
     "rows": Array [
       Object {
-        "balance": "17810239826.9950 SNAX",
+        "balance": "17810239900.8869 SNAX",
       },
     ],
   },
@@ -1264,7 +1268,7 @@ Array [
     "more": false,
     "rows": Array [
       Object {
-        "balance": "500000998.8358 SNAX",
+        "balance": "500000000.0000 SNAX",
       },
     ],
   },
@@ -1286,6 +1290,26 @@ Array [
     "rows": Array [
       Object {
         "balance": "500000000.0000 SNAX",
+      },
+    ],
+  },
+]
+`;
+
+exports[`System should work correctly with escrow system 1`] = `"assertion failure with message: cant unstake this amount for account at the moment"`;
+
+exports[`System should work correctly with escrow system 2`] = `"assertion failure with message: cant unstake this amount for account at the moment"`;
+
+exports[`System should work correctly with escrow system 3`] = `
+Array [
+  Object {
+    "more": false,
+    "rows": Array [
+      Object {
+        "cpu_weight": "11999999200.0000 SNAX",
+        "from": "snax.team",
+        "net_weight": "2999999800.0000 SNAX",
+        "to": "snax.team",
       },
     ],
   },
