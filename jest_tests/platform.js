@@ -367,8 +367,7 @@ describe("Platform", async () => {
     await addUser({
       verification_salt: "12345",
       stat_diff: [5, 10, 15],
-      verification_tweet:
-        "https://twitter.com/SnaxTeam/status/1083836521751478272",
+      verification_tweet: "1083836521751478272",
       account: "test1",
       id: 123,
       attention_rate: 15.0,
@@ -377,8 +376,7 @@ describe("Platform", async () => {
     await addUser({
       verification_salt: "12345",
       stat_diff: [5, 10, 15],
-      verification_tweet:
-        "https://twitter.com/SnaxTeam/status/1083836521751478272",
+      verification_tweet: "1083836521751478272",
       account: "test2",
       id: 1105,
       attention_rate: 225.0,
@@ -387,8 +385,7 @@ describe("Platform", async () => {
     await addUser({
       verification_salt: "12345",
       stat_diff: [5, 10, 15],
-      verification_tweet:
-        "https://twitter.com/SnaxTeam/status/1083836521751478272",
+      verification_tweet: "1083836521751478272",
       account: "test2",
       id: 1200,
       attention_rate: 206.0,
@@ -397,8 +394,7 @@ describe("Platform", async () => {
     await addUser({
       verification_salt: "12345",
       stat_diff: [5, 10, 15],
-      verification_tweet:
-        "https://twitter.com/SnaxTeam/status/1083836521751478272",
+      verification_tweet: "1083836521751478272",
       account: "test1",
       id: 1007,
       attention_rate: 206.0,
@@ -417,8 +413,7 @@ describe("Platform", async () => {
     await addUser({
       verification_salt: "12345",
       stat_diff: [5, 10, 15],
-      verification_tweet:
-        "https://twitter.com/SnaxTeam/status/1083836521751478272",
+      verification_tweet: "1083836521751478272",
       account: "test1",
       id: 15,
       attention_rate: 15.0,
@@ -438,8 +433,7 @@ describe("Platform", async () => {
     await addUser({
       verification_salt: "12345",
       stat_diff: [5, 10, 15],
-      verification_tweet:
-        "https://twitter.com/SnaxTeam/status/1083836521751478272",
+      verification_tweet: "1083836521751478272",
       account: "test1",
       id: 15,
       attention_rate: 15.0,
@@ -458,8 +452,7 @@ describe("Platform", async () => {
     await addUser({
       verification_salt: "12345",
       stat_diff: [5, 10, 15],
-      verification_tweet:
-        "https://twitter.com/SnaxTeam/status/1083836521751478272",
+      verification_tweet: "1083836521751478272",
       account: "test1",
       id: 42,
       attention_rate: 225.0,
@@ -494,8 +487,7 @@ describe("Platform", async () => {
     const result = await addUser({
       verification_salt: "12345",
       stat_diff: [5, 10, 15],
-      verification_tweet:
-        "https://twitter.com/SnaxTeam/status/1083836521751478272",
+      verification_tweet: "1083836521751478272",
       account: "test2",
       id: 123,
       attention_rate: 15.0,
@@ -509,8 +501,7 @@ describe("Platform", async () => {
     await addUser({
       verification_salt: "12345",
       stat_diff: [5, 10, 15],
-      verification_tweet:
-        "https://twitter.com/SnaxTeam/status/1083836521751478272",
+      verification_tweet: "1083836521751478272",
       account: "test2",
       id: 123,
       attention_rate: 15.0,
@@ -520,8 +511,7 @@ describe("Platform", async () => {
       addUser({
         verification_salt: "12345",
         stat_diff: [5, 10, 15],
-        verification_tweet:
-          "https://twitter.com/SnaxTeam/status/1083836521751478272",
+        verification_tweet: "1083836521751478272",
         account: "test2",
         id: 123,
         attention_rate: 26.0,
@@ -536,8 +526,7 @@ describe("Platform", async () => {
     await addUser({
       verification_salt: "12345",
       stat_diff: [5, 10, 15],
-      verification_tweet:
-        "https://twitter.com/SnaxTeam/status/1083836521751478272",
+      verification_tweet: "1083836521751478272",
       account: "test2",
       id: 123,
       attention_rate: 15.0,
@@ -558,8 +547,7 @@ describe("Platform", async () => {
     await addUser({
       verification_salt: "12345",
       stat_diff: [5, 10, 15],
-      verification_tweet:
-        "https://twitter.com/SnaxTeam/status/1083836521751478272",
+      verification_tweet: "1083836521751478272",
       account: "test2",
       id: 123,
       attention_rate: 15.0,
@@ -568,8 +556,7 @@ describe("Platform", async () => {
     await addUser({
       verification_salt: "12345",
       stat_diff: [5, 10, 15],
-      verification_tweet:
-        "https://twitter.com/SnaxTeam/status/1083836521751478272",
+      verification_tweet: "1083836521751478272",
       account: "test1",
       id: 243,
       attention_rate: 8.0,
@@ -599,8 +586,7 @@ describe("Platform", async () => {
     await addUser({
       verification_salt: "12345",
       stat_diff: [5, 10, 15],
-      verification_tweet:
-        "https://twitter.com/SnaxTeam/status/1083836521751478272",
+      verification_tweet: "1083836521751478272",
       account: "test2",
       id: 123,
       attention_rate: 15.0,
@@ -624,8 +610,7 @@ describe("Platform", async () => {
     await addUser({
       verification_salt: "12345",
       stat_diff: [5, 10, 15],
-      verification_tweet:
-        "https://twitter.com/SnaxTeam/status/1083836521751478272",
+      verification_tweet: "1083836521751478272",
       account: "test1",
       id: 1105,
       attention_rate: 225.0,
@@ -656,8 +641,7 @@ describe("Platform", async () => {
       addUser({
         verification_salt: "12345",
         stat_diff: [5, 10, 15],
-        verification_tweet:
-          "https://twitter.com/SnaxTeam/status/1083836521751478272",
+        verification_tweet: "1083836521751478272",
         account: "test2",
         id: 123,
         attention_rate: 15.0,

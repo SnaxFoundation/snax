@@ -34,7 +34,7 @@ Array [
       15,
     ],
     "verification_salt": "12345",
-    "verification_tweet": "https://twitter.com/SnaxTeam/status/1083836521751478272",
+    "verification_tweet": "1083836521751478272",
   },
 ]
 `;
@@ -161,7 +161,7 @@ Array [
       15,
     ],
     "verification_salt": "12345",
-    "verification_tweet": "https://twitter.com/SnaxTeam/status/1083836521751478272",
+    "verification_tweet": "1083836521751478272",
   },
   Object {
     "id": 1007,
@@ -173,7 +173,7 @@ Array [
       15,
     ],
     "verification_salt": "12345",
-    "verification_tweet": "https://twitter.com/SnaxTeam/status/1083836521751478272",
+    "verification_tweet": "1083836521751478272",
   },
   Object {
     "id": 1105,
@@ -185,7 +185,7 @@ Array [
       15,
     ],
     "verification_salt": "12345",
-    "verification_tweet": "https://twitter.com/SnaxTeam/status/1083836521751478272",
+    "verification_tweet": "1083836521751478272",
   },
   Object {
     "id": 1200,
@@ -197,7 +197,7 @@ Array [
       15,
     ],
     "verification_salt": "12345",
-    "verification_tweet": "https://twitter.com/SnaxTeam/status/1083836521751478272",
+    "verification_tweet": "1083836521751478272",
   },
 ]
 `;
@@ -293,7 +293,7 @@ Array [
       15,
     ],
     "verification_salt": "12345",
-    "verification_tweet": "https://twitter.com/SnaxTeam/status/1083836521751478272",
+    "verification_tweet": "1083836521751478272",
   },
   Object {
     "id": 1007,
@@ -305,7 +305,7 @@ Array [
       15,
     ],
     "verification_salt": "12345",
-    "verification_tweet": "https://twitter.com/SnaxTeam/status/1083836521751478272",
+    "verification_tweet": "1083836521751478272",
   },
   Object {
     "id": 1105,
@@ -317,7 +317,7 @@ Array [
       15,
     ],
     "verification_salt": "12345",
-    "verification_tweet": "https://twitter.com/SnaxTeam/status/1083836521751478272",
+    "verification_tweet": "1083836521751478272",
   },
   Object {
     "id": 1200,
@@ -329,7 +329,7 @@ Array [
       15,
     ],
     "verification_salt": "12345",
-    "verification_tweet": "https://twitter.com/SnaxTeam/status/1083836521751478272",
+    "verification_tweet": "1083836521751478272",
   },
 ]
 `;
@@ -404,7 +404,7 @@ Array [
       15,
     ],
     "verification_salt": "12345",
-    "verification_tweet": "https://twitter.com/SnaxTeam/status/1083836521751478272",
+    "verification_tweet": "1083836521751478272",
   },
   Object {
     "id": 1007,
@@ -416,7 +416,7 @@ Array [
       15,
     ],
     "verification_salt": "12345",
-    "verification_tweet": "https://twitter.com/SnaxTeam/status/1083836521751478272",
+    "verification_tweet": "1083836521751478272",
   },
   Object {
     "id": 1105,
@@ -428,7 +428,7 @@ Array [
       15,
     ],
     "verification_salt": "12345",
-    "verification_tweet": "https://twitter.com/SnaxTeam/status/1083836521751478272",
+    "verification_tweet": "1083836521751478272",
   },
   Object {
     "id": 1200,
@@ -440,7 +440,7 @@ Array [
       15,
     ],
     "verification_salt": "12345",
-    "verification_tweet": "https://twitter.com/SnaxTeam/status/1083836521751478272",
+    "verification_tweet": "1083836521751478272",
   },
 ]
 `;
@@ -670,7 +670,7 @@ Array [
       30,
     ],
     "verification_salt": "12345",
-    "verification_tweet": "https://twitter.com/SnaxTeam/status/1083836521751478272",
+    "verification_tweet": "1083836521751478272",
   },
 ]
 `;
@@ -725,7 +725,7 @@ Array [
       30,
     ],
     "verification_salt": "12345",
-    "verification_tweet": "https://twitter.com/SnaxTeam/status/1083836521751478272",
+    "verification_tweet": "1083836521751478272",
   },
   Object {
     "id": 243,
@@ -738,7 +738,7 @@ Array [
       30,
     ],
     "verification_salt": "12345",
-    "verification_tweet": "https://twitter.com/SnaxTeam/status/1083836521751478272",
+    "verification_tweet": "1083836521751478272",
   },
 ]
 `;
@@ -843,7 +843,7 @@ Array [
       15,
     ],
     "verification_salt": "12345",
-    "verification_tweet": "https://twitter.com/SnaxTeam/status/1083836521751478272",
+    "verification_tweet": "1083836521751478272",
   },
 ]
 `;
@@ -903,7 +903,7 @@ Array [
       15,
     ],
     "verification_salt": "12345",
-    "verification_tweet": "https://twitter.com/SnaxTeam/status/1083836521751478272",
+    "verification_tweet": "1083836521751478272",
   },
 ]
 `;
@@ -959,7 +959,7 @@ Array [
       15,
     ],
     "verification_salt": "12345",
-    "verification_tweet": "https://twitter.com/SnaxTeam/status/1083836521751478272",
+    "verification_tweet": "1083836521751478272",
   },
 ]
 `;
@@ -1048,7 +1048,7 @@ Array [
       15,
     ],
     "verification_salt": "12345",
-    "verification_tweet": "https://twitter.com/SnaxTeam/status/1083836521751478272",
+    "verification_tweet": "1083836521751478272",
   },
 ]
 `;

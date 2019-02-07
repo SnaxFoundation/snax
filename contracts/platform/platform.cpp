@@ -209,8 +209,8 @@ void platform::updatear(const uint64_t id, const double attention_rate,
                        [&](auto &record) { record.stat_diff = stat_diff; });
     }
   } else {
-    addaccount(0, id, attention_rate, attention_rate_rating_position,
-               string(""), string(""), stat_diff);
+    addaccount(0, id, attention_rate, attention_rate_rating_position, 0,
+               string(""), stat_diff);
   }
 }
 
@@ -257,7 +257,7 @@ void platform::updatearmult(vector<account_with_attention_rate> &updates,
       total_attention_rate_diff += diff;
     } else {
       addaccount(0, update.id, update.attention_rate,
-                 update.attention_rate_rating_position, string(""), string(""),
+                 update.attention_rate_rating_position, 0, string(""),
                  update.stat_diff);
     }
   }
@@ -298,7 +298,7 @@ void platform::dropaccount(const account_name account,
 void platform::addaccount(const account_name account, const uint64_t id,
                           const double attention_rate,
                           const uint32_t attention_rate_rating_position,
-                          const string verification_tweet,
+                          const uint64_t verification_tweet,
                           const string verification_salt,
                           const vector<uint32_t> stat_diff) {
   require_auth(_self);
@@ -343,8 +343,8 @@ void platform::addaccount(const account_name account, const uint64_t id,
 
   if (account) {
     snax_assert(found_account == _accounts.end(), "account already exists");
-    snax_assert(verification_tweet.size() > 0,
-                "link to verification tweet can't be empty");
+    snax_assert(verification_tweet > 0,
+                "verification tweet status id can't be empty");
     snax_assert(verification_salt.size() > 0,
                 "verification salt can't be empty");
     snax_assert(is_account(account), "account isnt registered");

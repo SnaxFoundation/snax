@@ -36,7 +36,7 @@ public:
     uint64_t id;
     double attention_rate;
     uint32_t attention_rate_rating_position;
-    string verification_tweet;
+    uint64_t verification_tweet;
     string verification_salt;
     vector<uint32_t> stat_diff;
   };
@@ -81,7 +81,7 @@ public:
   /// @abi action addaccount
   void addaccount(account_name account, uint64_t id, double attention_rate,
                   uint32_t attention_rate_rating_position,
-                  string verification_tweet, string verification_salt,
+                  uint64_t verification_tweet, string verification_salt,
                   vector<uint32_t> stat_diff);
 
   /// @abi action addaccounts
@@ -123,7 +123,7 @@ private:
     uint64_t id;
     account_name name;
     uint16_t last_paid_step_number;
-    string verification_tweet;
+    uint64_t verification_tweet;
     string verification_salt;
     block_timestamp created;
     vector<uint32_t> stat_diff;
