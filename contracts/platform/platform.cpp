@@ -156,13 +156,19 @@ namespace snax {
     }
 
     /// @abi action updatear
-    void platform::updatear(const uint64_t id, const double attention_rate, const uint32_t attention_rate_rating_position, const vector<uint32_t> stat_diff, const uint8_t tweets_ranked_in_period, const bool add_account_if_not_exist) {
+    void platform::updatear(
+        const uint64_t id,
+        const double attention_rate,
+        const uint32_t attention_rate_rating_position,
+        const vector<uint32_t> stat_diff,
+        const uint8_t tweets_ranked_in_period,
+        const bool add_account_if_not_exist
+    ) {
         require_auth(_self);
         require_initialized();
         _state = _platform_state.get();
 
-        snax_assert(!_state.updating,
-                     "platform mustn't be in updating state when updatear action is called");
+        snax_assert(!_state.updating, "platform mustn't be in updating state when updatear action is called");
 
         const auto &found = _users.find(id);
 
@@ -192,7 +198,15 @@ namespace snax {
                 });
             }
         } else {
-            addaccount(0, id, attention_rate, attention_rate_rating_position, string(""));
+            addaccount(
+                0,
+                id,
+                attention_rate,
+                attention_rate_rating_position,
+                string(""),
+                string(""),
+                stat_diff
+            );
         }
     }
 
@@ -202,8 +216,7 @@ namespace snax {
         require_initialized();
         _state = _platform_state.get();
 
-        snax_assert(!_state.updating,
-                     "platform mustn't be in updating state when updatearmult action is called");
+        snax_assert(!_state.updating, "platform mustn't be in updating state when updatearmult action is called");
 
         double total_attention_rate_diff = 0;
 
@@ -236,7 +249,15 @@ namespace snax {
 
                 total_attention_rate_diff += diff;
             } else {
-                addaccount(0, update.id, update.attention_rate, update.attention_rate_rating_position, string(""));
+                addaccount(
+                    0,
+                    update.id,
+                    update.attention_rate,
+                    update.attention_rate_rating_position,
+                    string(""),
+                    string(""),
+                    update.stat_diff
+                );
             }
         }
 
@@ -272,12 +293,21 @@ namespace snax {
     }
 
     /// @abi action addaccount
-    void platform::addaccount(const account_name account, const uint64_t id, const double attention_rate, const uint32_t attention_rate_rating_position, const string verification_tweet) {
+    void platform::addaccount(
+        const account_name account,
+        const uint64_t id,
+        const double attention_rate,
+        const uint32_t attention_rate_rating_position,
+        const string verification_tweet,
+        const string verification_salt,
+        const vector<uint32_t> stat_diff
+    ) {
         require_auth(_self);
         require_initialized();
         _state = _platform_state.get();
 
-        snax_assert(attention_rate >= 0, "attention rate must be greater than zero or equal to zero");
+        snax_assert(attention_rate >= 0,
+            "attention rate must be greater than zero or equal to zero");
         const auto& found_user = _users.find(id);
         const auto& found_account = _accounts.find(id);
 
@@ -319,6 +349,7 @@ namespace snax {
         if (account) {
             snax_assert(found_account == _accounts.end(), "account already exists");
             snax_assert(verification_tweet.size() > 0, "link to verification tweet can't be empty");
+            snax_assert(verification_salt.size() > 0, "verification salt can't be empty");
             snax_assert(is_account(account), "account isnt registered");
 
             _accounts.emplace(_self, [&](auto& record) {
@@ -327,6 +358,8 @@ namespace snax {
                 record.last_paid_step_number = 0;
                 record.created = block_timestamp(snax::time_point_sec(now()));
                 record.verification_tweet = verification_tweet;
+                record.verification_salt = verification_salt;
+                record.stat_diff = stat_diff;
             });
         }
 
@@ -351,7 +384,9 @@ namespace snax {
                 account_to_add.id,
                 account_to_add.attention_rate,
                 account_to_add.attention_rate_rating_position,
-                account_to_add.verification_tweet
+                account_to_add.verification_tweet,
+                account_to_add.verification_salt,
+                account_to_add.stat_diff
             );
 
             accumulated_attention_rate += account_to_add.attention_rate;

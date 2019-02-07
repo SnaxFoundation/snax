@@ -38,6 +38,8 @@ namespace snax {
             double attention_rate;
             uint32_t attention_rate_rating_position;
             string verification_tweet;
+            string verification_salt;
+            vector<uint32_t> stat_diff;
         };
 
         platform( account_name s )
@@ -63,7 +65,14 @@ namespace snax {
         void droppenacc(const account_name account);
 
         /// @abi action updatear
-        void updatear(uint64_t id, double attention_rate, uint32_t attention_rate_rating_position, vector<uint32_t> stat_diff, uint8_t tweets_ranked_in_period, bool add_account_if_not_exist);
+        void updatear(
+            uint64_t id,
+            double attention_rate,
+            uint32_t attention_rate_rating_position,
+            vector<uint32_t> stat_diff,
+            uint8_t tweets_ranked_in_period,
+            bool add_account_if_not_exist
+        );
 
         /// @abi action updatearmult
         void updatearmult(vector<account_with_attention_rate>& updates, bool add_account_if_not_exist);
@@ -72,7 +81,15 @@ namespace snax {
         void dropaccount(account_name account, uint32_t max_account_count);
 
         /// @abi action addaccount
-        void addaccount(account_name account, uint64_t id, double attention_rate, uint32_t attention_rate_rating_position, string verification_tweet);
+        void addaccount(
+            account_name account,
+            uint64_t id,
+            double attention_rate,
+            uint32_t attention_rate_rating_position,
+            string verification_tweet,
+            string verification_salt,
+            vector<uint32_t> stat_diff
+        );
 
         /// @abi action addaccounts
         void addaccounts(vector<account_to_add>& accounts_to_add);
@@ -122,6 +139,7 @@ namespace snax {
             account_name name;
             uint16_t last_paid_step_number;
             string verification_tweet;
+            string verification_salt;
             block_timestamp created;
             vector<uint32_t> stat_diff;
 
@@ -137,7 +155,7 @@ namespace snax {
                 return created.to_time_point().time_since_epoch().count();
             }
 
-            SNAXLIB_SERIALIZE(account, (id)(name)(last_paid_step_number)(verification_tweet)(created)(stat_diff))
+            SNAXLIB_SERIALIZE(account, (id)(name)(last_paid_step_number)(verification_tweet)(verification_salt)(created)(stat_diff))
         };
 
         /// @abi table pusers i64
