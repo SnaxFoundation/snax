@@ -1,7 +1,11 @@
-const snaxjs = require("@snaxfoundation/snaxjs");
+const { sleep, tryCatchExpect } = require("./helpers");
+
 const fetch = require("node-fetch");
+const snaxjs = require("@snaxfoundation/snaxjs");
+
 const { promisify } = require("util");
 const child_process = require("child_process");
+
 const [exec, execFile, spawn] = [child_process.exec, child_process.execFile]
   .map(promisify)
   .concat(child_process.spawn);
@@ -37,15 +41,13 @@ const api = new snaxjs.Api({
 
 jest.setTimeout(1e6);
 
-const sleep = time => new Promise(resolve => setTimeout(resolve, time));
-
 describe("System", async () => {
   beforeEach(async () => {
     spawn("./setup_system.sh", [], {
       detached: true,
       stdio: "ignore"
     });
-    await sleep(15e3);
+    await sleep(1e4);
   });
 
   const verifyAccountsBalances = async accounts => {
@@ -61,14 +63,14 @@ describe("System", async () => {
     expect(tables).toMatchSnapshot();
   };
 
-  const tryCatchExpect = async action => {
-    try {
-      await action();
-      expect(false).toBe(true);
-    } catch (e) {
-      expect(e.message).toMatchSnapshot();
-    }
-  };
+  const verifyState = async () =>
+    expect(
+      await api.rpc.get_table_rows({
+        code: account,
+        scope: account,
+        table: "state"
+      })
+    ).toMatchSnapshot();
 
   const emitplatform = platform =>
     api.transact(
@@ -296,40 +298,46 @@ describe("System", async () => {
       }
     );
 
+  it("should work correctly with escrow system", async () => {
+    await regproducer("test1");
+    await voteproducer(["test1"]);
+    await tryCatchExpect(() =>
+      undelegatebw("snax.team", "1199999921.0000 SNAX", "299999980.0000 SNAX")
+    );
+    await tryCatchExpect(() =>
+      undelegatebw("snax.team", "1199999920.0000 SNAX", "2999999801.0000 SNAX")
+    );
+    await verifyBWTable(["snax.team"]);
+  });
+
+  it("should send correct amounts to special accounts after initialization", async () => {
+    await verifyAccountsBalances(["snax.creator", "snax.airdrop"]);
+  });
+
   it("should work correctly with escrow system after initialization", async () => {
     await regproducer("test1");
     await voteproducer(["test1"]);
     await undelegatebw(
       "snax.team",
-      "1599999920.0000 SNAX",
-      "399999980.0000 SNAX"
+      "1199200000.0000 SNAX",
+      "299800000.0000 SNAX"
     );
     await verifyBWTable(["snax.team"]);
-    await escrowbw("snax.transf", "10.0000 SNAX", "10.0000 SNAX", 10);
-    await verifyBWEscrowTable(["snax.transf"]);
-    await undelegatebw("snax.transf", "1.0000 SNAX", "1.0000 SNAX");
-  });
-
-  it("should work correctly with escrow system", async () => {
-    await regproducer("test1");
-    await voteproducer(["test1"]);
-    await tryCatchExpect(() =>
-      undelegatebw("snax.team", "1599999921.0000 SNAX", "399999980.0000 SNAX")
-    );
-    await tryCatchExpect(() =>
-      undelegatebw("snax.team", "1599999920.0000 SNAX", "399999981.0000 SNAX")
-    );
-    await verifyBWTable(["snax.team"]);
+    await escrowbw("test.transf", "10.0000 SNAX", "10.0000 SNAX", 10);
+    await verifyBWEscrowTable(["test.transf"]);
+    await undelegatebw("test.transf", "1.0000 SNAX", "1.0000 SNAX");
   });
 
   it("should call system's emitplatform correctly several times", async () => {
     const stepCount = 5e1;
+    const pointList = [];
     for (let stepNum = 0; stepNum < stepCount; stepNum++) {
       await emitplatform("platform");
       const balance = await getBalance("platform");
       const amountToTransferBack =
         (parseFloat(balance) * (stepCount - stepNum)) / stepCount;
       await verifyAccountsBalances(["snax", "platform"]);
+      await verifyState();
       if (amountToTransferBack > 0.0001)
         await transferBack(amountToTransferBack.toFixed(4) + " SNAX");
     }

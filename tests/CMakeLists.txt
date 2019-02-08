@@ -89,8 +89,8 @@ set_property(TEST snaxnode_run_check_lr_test PROPERTY LABELS long_running_tests)
 add_test(NAME snaxnode_remote_lr_test COMMAND tests/snaxnode_run_remote_test.py -v --clean-run --dump-error-detail WORKING_DIRECTORY ${CMAKE_BINARY_DIR})
 set_property(TEST snaxnode_remote_lr_test PROPERTY LABELS long_running_tests)
 
-#add_test(NAME distributed_transactions_lr_test COMMAND tests/distributed-transactions-test.py -d 2 -p 21 -n 21 -v --clean-run --dump-error-detail WORKING_DIRECTORY ${CMAKE_BINARY_DIR})
-#set_property(TEST distributed_transactions_lr_test PROPERTY LABELS long_running_tests)
+add_test(NAME distributed_transactions_lr_test COMMAND tests/distributed-transactions-test.py -d 2 -p 21 -n 21 -v --clean-run --dump-error-detail WORKING_DIRECTORY ${CMAKE_BINARY_DIR})
+set_property(TEST distributed_transactions_lr_test PROPERTY LABELS long_running_tests)
 
 add_test(NAME snaxnode_forked_chain_lr_test COMMAND tests/snaxnode_forked_chain_test.py -v --wallet-port 9901 --clean-run --dump-error-detail WORKING_DIRECTORY ${CMAKE_BINARY_DIR})
 set_property(TEST snaxnode_forked_chain_lr_test PROPERTY LABELS long_running_tests)

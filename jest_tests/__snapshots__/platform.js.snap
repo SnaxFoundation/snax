@@ -28,8 +28,13 @@ Array [
     "id": 123,
     "last_paid_step_number": 0,
     "name": "test2",
-    "stat_diff": Array [],
-    "verification_tweet": "https://twitter.com/SnaxTeam/status/1083836521751478272",
+    "stat_diff": Array [
+      5,
+      10,
+      15,
+    ],
+    "verification_salt": "12345",
+    "verification_tweet": "1083836521751478272",
   },
 ]
 `;
@@ -150,29 +155,49 @@ Array [
     "id": 123,
     "last_paid_step_number": 0,
     "name": "test1",
-    "stat_diff": Array [],
-    "verification_tweet": "https://twitter.com/SnaxTeam/status/1083836521751478272",
+    "stat_diff": Array [
+      5,
+      10,
+      15,
+    ],
+    "verification_salt": "12345",
+    "verification_tweet": "1083836521751478272",
   },
   Object {
     "id": 1007,
     "last_paid_step_number": 0,
     "name": "test1",
-    "stat_diff": Array [],
-    "verification_tweet": "https://twitter.com/SnaxTeam/status/1083836521751478272",
+    "stat_diff": Array [
+      5,
+      10,
+      15,
+    ],
+    "verification_salt": "12345",
+    "verification_tweet": "1083836521751478272",
   },
   Object {
     "id": 1105,
     "last_paid_step_number": 0,
     "name": "test2",
-    "stat_diff": Array [],
-    "verification_tweet": "https://twitter.com/SnaxTeam/status/1083836521751478272",
+    "stat_diff": Array [
+      5,
+      10,
+      15,
+    ],
+    "verification_salt": "12345",
+    "verification_tweet": "1083836521751478272",
   },
   Object {
     "id": 1200,
     "last_paid_step_number": 0,
     "name": "test2",
-    "stat_diff": Array [],
-    "verification_tweet": "https://twitter.com/SnaxTeam/status/1083836521751478272",
+    "stat_diff": Array [
+      5,
+      10,
+      15,
+    ],
+    "verification_salt": "12345",
+    "verification_tweet": "1083836521751478272",
   },
 ]
 `;
@@ -229,11 +254,7 @@ Array [
   },
   Object {
     "more": false,
-    "rows": Array [
-      Object {
-        "balance": "1579999980.0000 SNAX",
-      },
-    ],
+    "rows": Array [],
   },
 ]
 `;
@@ -266,29 +287,49 @@ Array [
     "id": 123,
     "last_paid_step_number": 0,
     "name": "test1",
-    "stat_diff": Array [],
-    "verification_tweet": "https://twitter.com/SnaxTeam/status/1083836521751478272",
+    "stat_diff": Array [
+      5,
+      10,
+      15,
+    ],
+    "verification_salt": "12345",
+    "verification_tweet": "1083836521751478272",
   },
   Object {
     "id": 1007,
     "last_paid_step_number": 0,
     "name": "test1",
-    "stat_diff": Array [],
-    "verification_tweet": "https://twitter.com/SnaxTeam/status/1083836521751478272",
+    "stat_diff": Array [
+      5,
+      10,
+      15,
+    ],
+    "verification_salt": "12345",
+    "verification_tweet": "1083836521751478272",
   },
   Object {
     "id": 1105,
     "last_paid_step_number": 0,
     "name": "test2",
-    "stat_diff": Array [],
-    "verification_tweet": "https://twitter.com/SnaxTeam/status/1083836521751478272",
+    "stat_diff": Array [
+      5,
+      10,
+      15,
+    ],
+    "verification_salt": "12345",
+    "verification_tweet": "1083836521751478272",
   },
   Object {
     "id": 1200,
     "last_paid_step_number": 0,
     "name": "test2",
-    "stat_diff": Array [],
-    "verification_tweet": "https://twitter.com/SnaxTeam/status/1083836521751478272",
+    "stat_diff": Array [
+      5,
+      10,
+      15,
+    ],
+    "verification_salt": "12345",
+    "verification_tweet": "1083836521751478272",
   },
 ]
 `;
@@ -340,7 +381,7 @@ Object {
       "registered_user_count": 4,
       "round_supply": "0.0000 SNAX",
       "round_updated_account_count": 0,
-      "sent_amount": "1579999980.0000 SNAX",
+      "sent_amount": "0.0000 SNAX",
       "step_number": 1,
       "token_dealer": "snax",
       "total_attention_rate": "652.00000000000000000",
@@ -357,29 +398,49 @@ Array [
     "id": 123,
     "last_paid_step_number": 0,
     "name": "test1",
-    "stat_diff": Array [],
-    "verification_tweet": "https://twitter.com/SnaxTeam/status/1083836521751478272",
+    "stat_diff": Array [
+      5,
+      10,
+      15,
+    ],
+    "verification_salt": "12345",
+    "verification_tweet": "1083836521751478272",
   },
   Object {
     "id": 1007,
     "last_paid_step_number": 0,
     "name": "test1",
-    "stat_diff": Array [],
-    "verification_tweet": "https://twitter.com/SnaxTeam/status/1083836521751478272",
+    "stat_diff": Array [
+      5,
+      10,
+      15,
+    ],
+    "verification_salt": "12345",
+    "verification_tweet": "1083836521751478272",
   },
   Object {
     "id": 1105,
     "last_paid_step_number": 0,
     "name": "test2",
-    "stat_diff": Array [],
-    "verification_tweet": "https://twitter.com/SnaxTeam/status/1083836521751478272",
+    "stat_diff": Array [
+      5,
+      10,
+      15,
+    ],
+    "verification_salt": "12345",
+    "verification_tweet": "1083836521751478272",
   },
   Object {
     "id": 1200,
     "last_paid_step_number": 0,
     "name": "test2",
-    "stat_diff": Array [],
-    "verification_tweet": "https://twitter.com/SnaxTeam/status/1083836521751478272",
+    "stat_diff": Array [
+      5,
+      10,
+      15,
+    ],
+    "verification_salt": "12345",
+    "verification_tweet": "1083836521751478272",
   },
 ]
 `;
@@ -424,19 +485,11 @@ exports[`Platform should process next round correctly 11`] = `
 Array [
   Object {
     "more": false,
-    "rows": Array [
-      Object {
-        "balance": "1016589134.4187 SNAX",
-      },
-    ],
+    "rows": Array [],
   },
   Object {
     "more": false,
-    "rows": Array [
-      Object {
-        "balance": "563410845.5813 SNAX",
-      },
-    ],
+    "rows": Array [],
   },
   Object {
     "more": false,
@@ -616,7 +669,8 @@ Array [
       20,
       30,
     ],
-    "verification_tweet": "https://twitter.com/SnaxTeam/status/1083836521751478272",
+    "verification_salt": "12345",
+    "verification_tweet": "1083836521751478272",
   },
 ]
 `;
@@ -670,7 +724,8 @@ Array [
       20,
       30,
     ],
-    "verification_tweet": "https://twitter.com/SnaxTeam/status/1083836521751478272",
+    "verification_salt": "12345",
+    "verification_tweet": "1083836521751478272",
   },
   Object {
     "id": 243,
@@ -682,7 +737,8 @@ Array [
       20,
       30,
     ],
-    "verification_tweet": "https://twitter.com/SnaxTeam/status/1083836521751478272",
+    "verification_salt": "12345",
+    "verification_tweet": "1083836521751478272",
   },
 ]
 `;
@@ -781,8 +837,13 @@ Array [
     "id": 42,
     "last_paid_step_number": 0,
     "name": "test1",
-    "stat_diff": Array [],
-    "verification_tweet": "https://twitter.com/SnaxTeam/status/1083836521751478272",
+    "stat_diff": Array [
+      5,
+      10,
+      15,
+    ],
+    "verification_salt": "12345",
+    "verification_tweet": "1083836521751478272",
   },
 ]
 `;
@@ -836,8 +897,13 @@ Array [
     "id": 1105,
     "last_paid_step_number": 0,
     "name": "test1",
-    "stat_diff": Array [],
-    "verification_tweet": "https://twitter.com/SnaxTeam/status/1083836521751478272",
+    "stat_diff": Array [
+      5,
+      10,
+      15,
+    ],
+    "verification_salt": "12345",
+    "verification_tweet": "1083836521751478272",
   },
 ]
 `;
@@ -887,8 +953,13 @@ Array [
     "id": 123,
     "last_paid_step_number": 0,
     "name": "test2",
-    "stat_diff": Array [],
-    "verification_tweet": "https://twitter.com/SnaxTeam/status/1083836521751478272",
+    "stat_diff": Array [
+      5,
+      10,
+      15,
+    ],
+    "verification_salt": "12345",
+    "verification_tweet": "1083836521751478272",
   },
 ]
 `;
@@ -971,8 +1042,13 @@ Array [
     "id": 123,
     "last_paid_step_number": 0,
     "name": "test2",
-    "stat_diff": Array [],
-    "verification_tweet": "https://twitter.com/SnaxTeam/status/1083836521751478272",
+    "stat_diff": Array [
+      5,
+      10,
+      15,
+    ],
+    "verification_salt": "12345",
+    "verification_tweet": "1083836521751478272",
   },
 ]
 `;

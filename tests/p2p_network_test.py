@@ -145,12 +145,12 @@ for i in range(len(hosts)):
     Print("host %s: %s" % (hosts[i], trans))
 
 
-wasmFile="snax.system.wasm"
-abiFile="snax.system.abi"
+wasmFile="test_1_snax.system.wasm"
+abiFile="test_1_snax.system.abi"
 Print("\nPush system contract %s %s" % (wasmFile, abiFile))
 trans=node0.publishContract(snax.name, wasmFile, abiFile, waitForTransBlock=True)
 if trans is None:
-    Utils.errorExit("Failed to publish snax.system.")
+    Utils.errorExit("Failed to publish test_1_snax.system.")
 else:
     Print("transaction id %s" % (node0.getTransId(trans)))
 

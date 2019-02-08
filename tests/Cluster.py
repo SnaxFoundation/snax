@@ -218,7 +218,7 @@ class Cluster(object):
             producerNodes={}
             producers=[]
             for append in range(ord('a'),ord('a')+numProducers):
-                name="defproducer" + chr(append) 
+                name="defproducer" + chr(append)
                 producers.append(name)
 
             # first group starts at 0
@@ -441,7 +441,7 @@ class Cluster(object):
         assert(len(self.nodes) > 0)
         node=self.nodes[0]
         targetBlockNum=node.getBlockNum(blockType) #retrieve node 0's head or irrevercible block number
-        targetBlockNum+=blockAdvancing 
+        targetBlockNum+=blockAdvancing
         if Utils.Debug:
             Utils.Print("%s block number on root node: %d" % (blockType.type, targetBlockNum))
         if targetBlockNum == -1:
@@ -715,11 +715,11 @@ class Cluster(object):
 
         node.validateAccounts(myAccounts)
 
-    def createAccountAndVerify(self, account, creator, stakedDeposit=1000, stakeNet=100, stakeCPU=100, buyRAM=10000):
+    def createAccountAndVerify(self, account, creator, stakedDeposit=1000, stakeNet=100, stakeCPU=100, buyram=1000000):
         """create account, verify account and return transaction id"""
         assert(len(self.nodes) > 0)
         node=self.nodes[0]
-        trans=node.createInitializeAccount(account, creator, stakedDeposit, stakeNet=stakeNet, stakeCPU=stakeCPU, buyRAM=buyRAM, exitOnError=True)
+        trans=node.createInitializeAccount(account, creator, stakedDeposit, stakeNet=stakeNet, stakeCPU=stakeCPU, buyram=buyram, exitOnError=True)
         assert(node.verifyAccount(account))
         return trans
 
@@ -736,10 +736,10 @@ class Cluster(object):
     #         return transId
     #     return None
 
-    def createInitializeAccount(self, account, creatorAccount, stakedDeposit=1000, waitForTransBlock=False, stakeNet=100, stakeCPU=100, buyRAM=10000, exitOnError=False):
+    def createInitializeAccount(self, account, creatorAccount, stakedDeposit=1000, waitForTransBlock=False, stakeNet=100, stakeCPU=100, buyram=1000000, exitOnError=False):
         assert(len(self.nodes) > 0)
         node=self.nodes[0]
-        trans=node.createInitializeAccount(account, creatorAccount, stakedDeposit, waitForTransBlock, stakeNet=stakeNet, stakeCPU=stakeCPU, buyRAM=buyRAM)
+        trans=node.createInitializeAccount(account, creatorAccount, stakedDeposit, waitForTransBlock, stakeNet=stakeNet, stakeCPU=stakeCPU, buyram=buyram)
         return trans
 
     @staticmethod
@@ -1139,7 +1139,7 @@ class Cluster(object):
                         (expectedAmount, actualAmount))
             return None
 
-        contract="snax.system"
+        contract="test_1_snax.system"
         contractDir="contracts/%s" % (contract)
         wasmFile="%s.wasm" % (contract)
         abiFile="%s.abi" % (contract)
@@ -1412,7 +1412,7 @@ class Cluster(object):
     def reportStatus(self):
         if hasattr(self, "biosNode") and self.biosNode is not None:
             self.biosNode.reportStatus()
-        if hasattr(self, "nodes"): 
+        if hasattr(self, "nodes"):
             for node in self.nodes:
                 try:
                     node.reportStatus()
@@ -1505,10 +1505,10 @@ class Cluster(object):
             commonBlockLogs=[]
             commonBlockNameExtensions=[]
             for i in range(numNodes):
-                if (len(blockLogs[i]) >= last): 
+                if (len(blockLogs[i]) >= last):
                     commonBlockLogs.append(blockLogs[i][first:last])
                     commonBlockNameExtensions.append(blockNameExtensions[i])
-            return (commonBlockLogs,commonBlockNameExtensions) 
+            return (commonBlockLogs,commonBlockNameExtensions)
 
         # compare the contents of the blockLogs for the given common block number span
         def compareCommon(blockLogs, blockNameExtensions, first, last):
@@ -1548,4 +1548,3 @@ class Cluster(object):
         while len(lowestMaxes)>0 and compareCommon(blockLogs, blockNameExtensions, first, lowestMaxes[0]):
             first=lowestMaxes[0]+1
             lowestMaxes=stripValues(lowestMaxes,lowestMaxes[0])
-

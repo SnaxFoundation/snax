@@ -15,6 +15,7 @@ namespace snaxsystem {
    const uint32_t blocks_per_hour       = 2 * 3600;
    const uint64_t useconds_per_day      = 24 * 3600 * uint64_t(1000000);
    const uint64_t useconds_per_year     = seconds_per_year*1000000ll;
+   const int64_t  system_token_max_supply = 1'000'000'000'000'0000;
 
 
    void system_contract::onblock( block_timestamp timestamp, account_name producer ) {
@@ -26,14 +27,51 @@ namespace snaxsystem {
       if( _gstate.total_activated_stake < min_activated_stake )
          return;
 
+      const auto ct = current_time();
+
       if( _gstate.last_pervote_bucket_fill == 0 )  /// start the presses
-         _gstate.last_pervote_bucket_fill = current_time();
+         _gstate.last_pervote_bucket_fill = ct;
 
+      const asset token_supply = token( N(snax.token)).get_supply(symbol_type(system_token_symbol).name() );
 
-      /**
-       * At startup the initial producer may not be one that is registered / elected
-       * and therefore there may be no producer object for them.
-       */
+      const asset max_supply = asset(system_token_max_supply / 10);
+
+      asset bp_reward = max_supply - token_supply;
+
+      if (bp_reward.amount >= 1'000'000'000'0000) {
+            bp_reward = asset(bp_reward.amount / 1'000'000'000);
+      } else {
+            bp_reward = asset(0);
+      }
+
+      if (bp_reward.amount < 15'8548) {
+            bp_reward = asset(15'8548);
+      }
+
+      const asset semi_bp_reward = asset(bp_reward.amount / 2);
+
+      if (bp_reward > asset(0) && semi_bp_reward > asset(0)) {
+
+            INLINE_ACTION_SENDER(snax::token, issue)( N(snax.token), {N(snax),N(active)},
+                                                                                { N(snax.bpay), semi_bp_reward, "fund per-block bucket" } );
+
+            INLINE_ACTION_SENDER(snax::token, issue)( N(snax.token), {N(snax),N(active)},
+                                                                                { N(snax.vpay), semi_bp_reward, "fund per-vote bucket" } );
+      }
+
+      auto to_producers         = bp_reward;
+      auto to_per_block_pay   = to_producers / 2;
+      auto to_per_vote_pay      = to_producers - to_per_block_pay;
+
+      _gstate.pervote_bucket  += to_per_vote_pay.amount;
+      _gstate.perblock_bucket += to_per_block_pay.amount;
+
+      _gstate.last_pervote_bucket_fill = ct;
+
+        /**
+         * At startup the initial producer may not be one that is registered / elected
+         * and therefore there may be no producer object for them.
+         */
       auto prod = _producers.find(producer);
       if ( prod != _producers.end() ) {
          _gstate.total_unpaid_blocks++;
@@ -62,6 +100,8 @@ namespace snaxsystem {
             }
          }
       }
+
+      _global.set(_gstate, _self);
    }
 
    using namespace snax;
@@ -74,48 +114,9 @@ namespace snaxsystem {
       snax_assert( _gstate.total_activated_stake >= min_activated_stake,
                     "cannot claim rewards until the chain is activated (at least 10% of all tokens participate in voting)" );
 
-      auto ct = current_time();
+      const auto ct = current_time();
 
       snax_assert( ct - prod.last_claim_time > useconds_per_day, "already claimed rewards within past day" );
-
-      const asset token_supply = token( N(snax.token)).get_supply(symbol_type(system_token_symbol).name() );
-      const auto usecs_since_last_fill = ct - _gstate.last_pervote_bucket_fill;
-
-      if( usecs_since_last_fill > 0 && _gstate.last_pervote_bucket_fill > 0 ) {
-         const asset max_supply = token(N(snax.token)).get_max_supply(symbol_type(system_token_symbol).name());
-
-         asset bp_reward = max_supply - token_supply;
-
-         if (bp_reward.amount >= 1'000'000'000) {
-             bp_reward = asset(bp_reward.amount / 1'000'000'000);
-         } else {
-             bp_reward = asset(0);
-         }
-
-         if (bp_reward.amount < 15'8548) {
-             bp_reward = asset(15'8548);
-         }
-
-         const asset semi_bp_reward = asset(bp_reward.amount / 2);
-
-         if (bp_reward > asset(0) && semi_bp_reward > asset(0)) {
-
-             INLINE_ACTION_SENDER(snax::token, issue)( N(snax.token), {N(snax),N(active)},
-                                                           { N(snax.bpay), semi_bp_reward, "fund per-block bucket" } );
-
-             INLINE_ACTION_SENDER(snax::token, issue)( N(snax.token), {N(snax),N(active)},
-                                                           { N(snax.vpay), semi_bp_reward, "fund per-vote bucket" } );
-         }
-
-         auto to_producers       = bp_reward;
-         auto to_per_block_pay   = to_producers / 2;
-         auto to_per_vote_pay    = to_producers - to_per_block_pay;
-
-         _gstate.pervote_bucket  += to_per_vote_pay.amount;
-         _gstate.perblock_bucket += to_per_block_pay.amount;
-
-         _gstate.last_pervote_bucket_fill = ct;
-      }
 
       int64_t producer_per_block_pay = 0;
       if( _gstate.total_unpaid_blocks > 0 ) {

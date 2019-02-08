@@ -10,6 +10,7 @@ variables:
   USERNAME: SnaxOne
   ORG: SnaxFoundation
 
+
 stages:
 - cleanup
 - build
@@ -28,7 +29,7 @@ cleanup:
     changes:
       - "*.md"
   tags:
-    - snax
+    - build3
 
 build:
   stage: build
@@ -48,7 +49,7 @@ build:
     changes:
       - "*.md"
   tags:
-    - snax
+    - build3
 
 build:tag:
   stage: build
@@ -65,7 +66,7 @@ build:tag:
   only:
   - tags
   tags:
-  - snax
+  - build3
 
 build:tag:macos:
   stage: build
@@ -96,7 +97,7 @@ test:jest:
     changes:
       - "*.md"
   tags:
-    - snax
+    - build3
 
 test:core:
   stage: test
@@ -114,7 +115,7 @@ test:core:
       - jest_tests/*
       - "*.md"
   tags:
-    - snax
+    - build3
 
 build:docker:
   stage: build-docker
@@ -130,7 +131,7 @@ build:docker:
     changes:
       - "*.md"
   tags:
-    - snax
+    - build3
 
 build:docker:tag:
   stage: build-docker
@@ -145,7 +146,7 @@ build:docker:tag:
   only:
   - tags
   tags:
-  - snax
+  - build3
 
 publish:
   stage: publish

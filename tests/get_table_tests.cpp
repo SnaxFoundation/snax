@@ -15,8 +15,8 @@
 #include <snax.token/snax.token.wast.hpp>
 #include <snax.token/snax.token.abi.hpp>
 
-#include <snax.system/snax.system.wast.hpp>
-#include <snax.system/snax.system.abi.hpp>
+#include <test_1_snax.system/test_1_snax.system.wast.hpp>
+#include <test_1_snax.system/test_1_snax.system.abi.hpp>
 
 #include <fc/io/fstream.hpp>
 
@@ -342,8 +342,8 @@ BOOST_FIXTURE_TEST_CASE( get_table_by_seckey_test, TESTER ) try {
    }
    produce_blocks(1);
 
-   set_code( config::system_account_name, snax_system_wast );
-   set_abi( config::system_account_name, snax_system_abi );
+   set_code( config::system_account_name, test_1_snax_system_wast );
+   set_abi( config::system_account_name, test_1_snax_system_abi );
 
    // bidname
    auto bidname = [this]( const account_name& bidder, const account_name& newname, const asset& bid ) {
