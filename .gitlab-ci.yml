@@ -34,9 +34,9 @@ build:
   stage: build
   script:
   - git submodule update --init --recursive
-  - if [ -f /tmp/build-$CI_COMMIT_REF_NAME.tar.gz ]; then tar -xf /tmp/build-$CI_COMMIT_REF_NAME.tar.gz; fi
+ # - if [ -f /tmp/build-$CI_COMMIT_REF_NAME.tar.gz ]; then tar -xf /tmp/build-$CI_COMMIT_REF_NAME.tar.gz; fi
   - ./snax_build.sh
-  - rm -rf /tmp/build-$CI_COMMIT_REF_NAME.tar.gz && tar -czf /tmp/build-$CI_COMMIT_REF_NAME.tar.gz build
+ # - rm -rf /tmp/build-$CI_COMMIT_REF_NAME.tar.gz && tar -czf /tmp/build-$CI_COMMIT_REF_NAME.tar.gz build
   - sudo ./snax_install.sh
   artifacts:
     name: "$CI_COMMIT_REF_NAME"
