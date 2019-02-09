@@ -28,15 +28,15 @@ cleanup:
     changes:
       - "*.md"
   tags:
-    - build1
+    - build4
 
 build:
   stage: build
   script:
   - git submodule update --init --recursive
- # - if [ -f /tmp/build-$CI_COMMIT_REF_NAME.tar.gz ]; then tar -xf /tmp/build-$CI_COMMIT_REF_NAME.tar.gz; fi
+  - if [ -f /tmp/build-$CI_COMMIT_REF_NAME.tar.gz ]; then tar -xf /tmp/build-$CI_COMMIT_REF_NAME.tar.gz; fi
   - ./snax_build.sh
- # - rm -rf /tmp/build-$CI_COMMIT_REF_NAME.tar.gz && tar -czf /tmp/build-$CI_COMMIT_REF_NAME.tar.gz build
+  - rm -rf /tmp/build-$CI_COMMIT_REF_NAME.tar.gz && tar -czf /tmp/build-$CI_COMMIT_REF_NAME.tar.gz build
   - sudo ./snax_install.sh
   artifacts:
     name: "$CI_COMMIT_REF_NAME"
@@ -48,7 +48,7 @@ build:
     changes:
       - "*.md"
   tags:
-    - build1
+    - build4
 
 build:tag:
   stage: build
@@ -65,7 +65,7 @@ build:tag:
   only:
   - tags
   tags:
-    - build1
+    - build4
 
 build:tag:macos:
   stage: build
@@ -96,7 +96,7 @@ test:jest:
     changes:
       - "*.md"
   tags:
-    - build1
+    - build4
 
 test:core:
   stage: test
@@ -114,7 +114,7 @@ test:core:
       - jest_tests/*
       - "*.md"
   tags:
-    - build1
+    - build4
 
 build:docker:
   stage: build-docker
@@ -130,7 +130,7 @@ build:docker:
     changes:
       - "*.md"
   tags:
-      - build1
+      - build4
 
 build:docker:tag:
   stage: build-docker
@@ -145,7 +145,7 @@ build:docker:tag:
   only:
   - tags
   tags:
-    - build1
+    - build4
 
 publish:
   stage: publish
