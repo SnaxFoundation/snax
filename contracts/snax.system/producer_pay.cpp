@@ -15,6 +15,8 @@ namespace snaxsystem {
    const uint32_t blocks_per_hour       = 2 * 3600;
    const uint64_t useconds_per_day      = 24 * 3600 * uint64_t(1000000);
    const uint64_t useconds_per_year     = seconds_per_year*1000000ll;
+   const asset    min_per_block_amount  = asset(15'8548);
+   const asset    min_per_block_amount_multiplied_by_1e9 = min_per_block_amount * 1'000'000'000;
 
    void system_contract::onblock( block_timestamp timestamp, account_name producer ) {
       using namespace snax;
@@ -43,13 +45,11 @@ namespace snaxsystem {
 
          const asset system_token_supply_soft_limit = asset(token( N(snax.token)).get_supply(symbol_type(system_token_symbol).name() ).amount / 10);
 
-         asset bp_reward = system_token_supply_soft_limit - token_supply;
+         const asset supply_difference = system_token_supply_soft_limit - token_supply;
 
-         if (bp_reward.amount >= 1'000'000'000'0000) {
-               bp_reward = asset(bp_reward.amount / 1'000'000'000);
-         } else {
-               bp_reward = asset(15'8548);
-         }
+         const asset bp_reward = supply_difference > asset(0) && supply_difference >= min_per_block_amount_multiplied_by_1e9
+                     ? asset(supply_difference.amount / 1'000'000'000)
+                     : min_per_block_amount;
 
          const asset semi_bp_reward = asset(bp_reward.amount / 2);
 
