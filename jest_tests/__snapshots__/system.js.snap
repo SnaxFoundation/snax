@@ -1,5 +1,27 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`System should claim rewards 1`] = `
+Array [
+  Object {
+    "more": false,
+    "rows": Array [],
+  },
+]
+`;
+
+exports[`System should claim rewards 2`] = `
+Array [
+  Object {
+    "more": false,
+    "rows": Array [
+      Object {
+        "balance": "251.9998 SNAX",
+      },
+    ],
+  },
+]
+`;
+
 exports[`System should call system's emitplatform correctly 1`] = `
 Array [
   Object {
@@ -1244,28 +1266,6 @@ Object {
   "more": false,
   "rows": Array [],
 }
-`;
-
-exports[`System should claim rewards 1`] = `
-Array [
-  Object {
-    "more": false,
-    "rows": Array [],
-  },
-]
-`;
-
-exports[`System should claim rewards 2`] = `
-Array [
-  Object {
-    "more": false,
-    "rows": Array [
-      Object {
-        "balance": "23.7822 SNAX",
-      },
-    ],
-  },
-]
 `;
 
 exports[`System should initialize system correctly 1`] = `
