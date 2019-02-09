@@ -1,4 +1,4 @@
-const { sleep, tryCatchExpect } = require("./helpers");
+const { sleep, tryCatchExpect, pick } = require("./helpers");
 
 const fetch = require("node-fetch");
 const snaxjs = require("@snaxfoundation/snaxjs");
@@ -26,11 +26,11 @@ const { account, privateKey } = {
 const signatureProvider = new snaxjs.JsSignatureProvider([
   privateKey,
   "5HvtgZn4wf4vNAe3nRb9vjYfLqvasemsSQckVHxmdAeBRbdPURs",
-  "5KQwrPbwdL6PhXujxW37FSSQZ1JiwsST4cqQzDeyXtP79zkvFD3",
   "5JD9AGTuTeD5BXZwGQ5AtwBqHK21aHmYnTetHgk1B3pjj7krT8N",
   "5JcWXD3XkpEYbwiVK9Pd3X5bLxLkaUkkJiST3Y9iA4wFrTeyeVL",
   "5JLYkoKuNXGGvUtzjRnP8DqUwt7xny3YGVaDpeqFDdCJKBoBkNC",
-  "5JRjkPFeRVGMRLaAa5gkGiC2acf8KT4NkAw1SZ5R7S1gvcCawZh"
+  "5JRjkPFeRVGMRLaAa5gkGiC2acf8KT4NkAw1SZ5R7S1gvcCawZh",
+  "5KQwrPbwdL6PhXujxW37FSSQZ1JiwsST4cqQzDeyXtP79zkvFD3"
 ]);
 const api = new snaxjs.Api({
   rpc,
@@ -70,6 +70,14 @@ describe("System", async () => {
         scope: account,
         table: "state"
       })
+    ).toMatchSnapshot();
+
+  const verifyAccountQuotas = async account =>
+    expect(
+      pick(
+        ["ram_quota", "cpu_weight", "net_weight"],
+        await rpc.get_account(account)
+      )
     ).toMatchSnapshot();
 
   const emitplatform = platform =>
@@ -205,6 +213,31 @@ describe("System", async () => {
       }
     );
 
+  const setplatforms = platforms =>
+    api.transact(
+      {
+        actions: [
+          {
+            account: "snax",
+            name: "setplatforms",
+            authorization: [
+              {
+                actor: "snax",
+                permission: "active"
+              }
+            ],
+            data: {
+              platforms
+            }
+          }
+        ]
+      },
+      {
+        blocksBehind: 1,
+        expireSeconds: 30
+      }
+    );
+
   const voteproducer = producers =>
     api.transact(
       {
@@ -298,9 +331,41 @@ describe("System", async () => {
       }
     );
 
+  const setPlatformLimits = () =>
+    setplatforms([
+      {
+        account: "platform",
+        weight: 1,
+        period: 1,
+        quotas: { ram_bytes: 100000, net_weight: 1000000, cpu_weight: 1000000 }
+      },
+      {
+        account: "testacc1",
+        weight: 0,
+        period: 1,
+        quotas: { ram_bytes: 200000, net_weight: 1000000, cpu_weight: 10000 }
+      },
+      {
+        account: "testacc2",
+        weight: 0,
+        period: 1,
+        quotas: { ram_bytes: 200000, net_weight: 1000000, cpu_weight: 70000 }
+      }
+    ]);
+
+  it("should set platforms", async () => {
+    await Promise.all(
+      ["platform", "testacc1", "testacc2"].map(verifyAccountQuotas)
+    );
+    await setPlatformLimits();
+    await Promise.all(
+      ["platform", "testacc1", "testacc2"].map(verifyAccountQuotas)
+    );
+  });
+
   it("should work correctly with escrow system", async () => {
-    await regproducer("test1");
-    await voteproducer(["test1"]);
+    await regproducer("testacc1");
+    await voteproducer(["testacc1"]);
     await tryCatchExpect(() =>
       undelegatebw("snax.team", "1199999921.0000 SNAX", "299999980.0000 SNAX")
     );
@@ -315,8 +380,8 @@ describe("System", async () => {
   });
 
   it("should work correctly with escrow system after initialization", async () => {
-    await regproducer("test1");
-    await voteproducer(["test1"]);
+    await regproducer("testacc1");
+    await voteproducer(["testacc1"]);
     await undelegatebw(
       "snax.team",
       "1199200000.0000 SNAX",
@@ -359,7 +424,7 @@ describe("System", async () => {
 
   it("should call system's emitplatform correctly", async () => {
     await emitplatform("platform");
-    await emitplatform("test1");
-    await verifyAccountsBalances(["test2", "test1", "snax", "platform"]);
+    await emitplatform("testacc1");
+    await verifyAccountsBalances(["testacc2", "testacc1", "snax", "platform"]);
   });
 });

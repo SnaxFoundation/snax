@@ -245,12 +245,29 @@
          {"name":"cpu_amount", "type":"asset"}
       ]
     },{
+      "name": "quotas",
+      "base": "",
+      "fields": [
+         {"name":"ram_bytes", "type":"uint64"},
+         {"name":"cpu_weight", "type":"uint64"},
+         {"name":"net_weight", "type":"uint64"}
+      ]
+    },{
       "name": "platform_config",
       "base": "",
       "fields": [
          {"name": "account", "type": "account_name"},
          {"name": "weight", "type": "float64"},
          {"name": "period", "type": "uint32"}
+      ]
+    },{
+      "name": "platform_config_extended",
+      "base": "",
+      "fields": [
+         {"name": "account", "type": "account_name"},
+         {"name": "weight", "type": "float64"},
+         {"name": "period", "type": "uint32"},
+         {"name": "quotas", "type": "quotas"}
       ]
     },{
       "name": "blockchain_parameters",
@@ -423,6 +440,12 @@
         {"name":"from", "type":"account_name"}
       ]
     },{
+      "name": "setplatforms",
+      "base": "",
+      "fields": [
+        {"name":"platforms", "type":"platform_config_extended[]"}
+      ]
+    },{
       "name": "setparams",
       "base": "",
       "fields": [
@@ -573,6 +596,10 @@
     },{
       "name": "reqauth",
       "type": "require_auth",
+      "ricardian_contract": ""
+    },{
+      "name": "setplatforms",
+      "type": "setplatforms",
       "ricardian_contract": ""
     },{
       "name": "setparams",

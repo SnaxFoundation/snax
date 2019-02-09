@@ -5,12 +5,29 @@
 
 namespace snax {
 
+    struct quotas {
+        uint64_t net_weight;
+        uint64_t cpu_weight;
+        uint64_t ram_bytes;
+
+        SNAXLIB_SERIALIZE(quotas, (net_weight)(cpu_weight)(ram_bytes))
+    };
+
     struct platform_config {
         account_name account;
         double weight;
         uint32_t period;
 
         SNAXLIB_SERIALIZE(platform_config, (account)(weight)(period))
+    };
+
+    struct platform_config_extended {
+        account_name account;
+        double weight;
+        uint32_t period;
+        quotas quotas;
+
+        SNAXLIB_SERIALIZE(platform_config_extended, (account)(weight)(period)(quotas))
     };
 
    /**
@@ -141,7 +158,7 @@ namespace snax {
     * Retrieve the blolckchain parameters
     * @param params - It will be replaced with the retrieved blockchain params
     */
-   void get_blockchain_parameters(snax::blockchain_parameters& params);
+   void get_blockchain_parameters(snax::blockchain_parameters& params, const uint8_t platform_count);
 
    ///@} privilegedcppapi
 

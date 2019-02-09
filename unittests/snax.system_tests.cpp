@@ -1523,9 +1523,10 @@ BOOST_FIXTURE_TEST_CASE(multiple_producer_pay, snax_system_tester, * boost::unit
    {
       const uint32_t prod_index = 23;
       const auto prod_name = producer_names[prod_index];
+      const uint32_t unpaid_blocks     = get_producer_info(prod_name)["unpaid_blocks"].as<uint32_t>();
       BOOST_REQUIRE_EQUAL(success(),
                           push_action(prod_name, N(claimrewards), mvo()("owner", prod_name)));
-      BOOST_REQUIRE_EQUAL(0, get_balance(prod_name).get_amount());
+      BOOST_REQUIRE_EQUAL((100'000'000'000'0000 - 16'000'000'000'0000) / 1'000'000'000 * unpaid_blocks, get_balance(prod_name).get_amount());
       BOOST_REQUIRE_EQUAL(wasm_assert_msg("already claimed rewards within past day"),
                           push_action(prod_name, N(claimrewards), mvo()("owner", prod_name)));
    }

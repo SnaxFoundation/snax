@@ -248,6 +248,8 @@ namespace snaxsystem {
 
          void regproxy( const account_name proxy, bool isproxy );
 
+         void setplatforms( const std::vector<snax::platform_config_extended>& platforms );
+
          void setparams( const snax::blockchain_parameters& params );
 
          // functions defined in producer_pay.cpp
