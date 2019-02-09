@@ -15,8 +15,6 @@ namespace snaxsystem {
    const uint32_t blocks_per_hour       = 2 * 3600;
    const uint64_t useconds_per_day      = 24 * 3600 * uint64_t(1000000);
    const uint64_t useconds_per_year     = seconds_per_year*1000000ll;
-   const int64_t  system_token_max_supply = 1'000'000'000'000'0000;
-
 
    void system_contract::onblock( block_timestamp timestamp, account_name producer ) {
       using namespace snax;
@@ -32,49 +30,47 @@ namespace snaxsystem {
       if( _gstate.last_pervote_bucket_fill == 0 )  /// start the presses
          _gstate.last_pervote_bucket_fill = ct;
 
-      const asset token_supply = token( N(snax.token)).get_supply(symbol_type(system_token_symbol).name() );
-
-      const asset max_supply = asset(system_token_max_supply / 10);
-
-      asset bp_reward = max_supply - token_supply;
-
-      if (bp_reward.amount >= 1'000'000'000'0000) {
-            bp_reward = asset(bp_reward.amount / 1'000'000'000);
-      } else {
-            bp_reward = asset(0);
-      }
-
-      if (bp_reward.amount < 15'8548) {
-            bp_reward = asset(15'8548);
-      }
-
-      const asset semi_bp_reward = asset(bp_reward.amount / 2);
-
-      if (bp_reward > asset(0) && semi_bp_reward > asset(0)) {
-
-            INLINE_ACTION_SENDER(snax::token, issue)( N(snax.token), {N(snax),N(active)},
-                                                                                { N(snax.bpay), semi_bp_reward, "fund per-block bucket" } );
-
-            INLINE_ACTION_SENDER(snax::token, issue)( N(snax.token), {N(snax),N(active)},
-                                                                                { N(snax.vpay), semi_bp_reward, "fund per-vote bucket" } );
-      }
-
-      auto to_producers         = bp_reward;
-      auto to_per_block_pay   = to_producers / 2;
-      auto to_per_vote_pay      = to_producers - to_per_block_pay;
-
-      _gstate.pervote_bucket  += to_per_vote_pay.amount;
-      _gstate.perblock_bucket += to_per_block_pay.amount;
-
-      _gstate.last_pervote_bucket_fill = ct;
-
         /**
          * At startup the initial producer may not be one that is registered / elected
          * and therefore there may be no producer object for them.
          */
       auto prod = _producers.find(producer);
       if ( prod != _producers.end() ) {
+
          _gstate.total_unpaid_blocks++;
+
+         const asset token_supply = token( N(snax.token)).get_supply(symbol_type(system_token_symbol).name() );
+
+         const asset system_token_supply_soft_limit = asset(token( N(snax.token)).get_supply(symbol_type(system_token_symbol).name() ).amount / 10);
+
+         asset bp_reward = system_token_supply_soft_limit - token_supply;
+
+         if (bp_reward.amount >= 1'000'000'000'0000) {
+               bp_reward = asset(bp_reward.amount / 1'000'000'000);
+         } else {
+               bp_reward = asset(15'8548);
+         }
+
+         const asset semi_bp_reward = asset(bp_reward.amount / 2);
+
+         if (bp_reward > asset(0) && semi_bp_reward > asset(0)) {
+
+               INLINE_ACTION_SENDER(snax::token, issue)( N(snax.token), {N(snax),N(active)},
+                                                                                   { N(snax.bpay), semi_bp_reward, "fund per-block bucket" } );
+
+               INLINE_ACTION_SENDER(snax::token, issue)( N(snax.token), {N(snax),N(active)},
+                                                                                   { N(snax.vpay), semi_bp_reward, "fund per-vote bucket" } );
+         }
+
+         auto to_producers         = bp_reward;
+         auto to_per_block_pay   = to_producers / 2;
+         auto to_per_vote_pay      = to_producers - to_per_block_pay;
+
+         _gstate.pervote_bucket  += to_per_vote_pay.amount;
+         _gstate.perblock_bucket += to_per_block_pay.amount;
+
+         _gstate.last_pervote_bucket_fill = ct;
+         _gstate.last_bp_semi_reward = semi_bp_reward;
          _producers.modify( prod, 0, [&](auto& p ) {
                p.unpaid_blocks++;
          });
@@ -120,11 +116,11 @@ namespace snaxsystem {
 
       int64_t producer_per_block_pay = 0;
       if( _gstate.total_unpaid_blocks > 0 ) {
-         producer_per_block_pay = (_gstate.perblock_bucket * prod.unpaid_blocks) / _gstate.total_unpaid_blocks;
+         producer_per_block_pay = ((_gstate.perblock_bucket - _gstate.last_bp_semi_reward.amount) * prod.unpaid_blocks) / _gstate.total_unpaid_blocks;
       }
       int64_t producer_per_vote_pay = 0;
       if( _gstate.total_producer_vote_weight > 0 ) {
-         producer_per_vote_pay  = int64_t((_gstate.pervote_bucket * prod.total_votes ) / _gstate.total_producer_vote_weight);
+         producer_per_vote_pay  = int64_t(((_gstate.pervote_bucket - _gstate.last_bp_semi_reward.amount) * prod.total_votes ) / _gstate.total_producer_vote_weight);
       }
       if( producer_per_vote_pay < min_pervote_daily_pay ) {
          producer_per_vote_pay = 0;

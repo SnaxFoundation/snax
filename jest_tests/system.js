@@ -353,6 +353,15 @@ describe("System", async () => {
       }
     ]);
 
+  it("should claim rewards", async () => {
+    await regproducer("snax");
+    await voteproducer(["snax"]);
+    await sleep(1e4);
+    await verifyAccountsBalances(["snax"]);
+    await claimrewards("snax");
+    await verifyAccountsBalances(["snax"]);
+  });
+
   it("should set platforms", async () => {
     await Promise.all(
       ["platform", "testacc1", "testacc2"].map(verifyAccountQuotas)

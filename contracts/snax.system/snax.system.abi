@@ -316,7 +316,8 @@
          {"name":"start_time",                    "type":"block_timestamp_type"},
          {"name":"initialized",                   "type":"bool"},
          {"name":"system_parabola_a",             "type":"int64"},
-         {"name":"system_parabola_b",              "type":"int64"}
+         {"name":"system_parabola_b",              "type":"int64"},
+         {"name":"last_bp_semi_reward",              "type":"asset"}
       ]
     },{
       "name": "producer_info",
