@@ -104,7 +104,7 @@ namespace snaxsystem {
 
    snax_global_state system_contract::get_default_parameters() {
       snax_global_state dp;
-      get_blockchain_parameters(dp);
+      get_blockchain_parameters(dp, 0);
       return dp;
    }
 
@@ -271,11 +271,33 @@ namespace snaxsystem {
       (snax::blockchain_parameters&)(_gstate) = params;
       snax_assert( 3 <= _gstate.max_authority_depth, "max_authority_depth should be at least 3" );
       double total_weight = 0;
-      for (auto& platform: params.platforms) {
-          snax_assert(platform.weight >= 0, "platform weight must be greater than 0 or equal to 0");
-          total_weight += platform.weight;
-          snax_assert(platform.period > 0, "platform period must be greater than 0");
-      }
+      for (auto platform = params.platforms.begin(); platform < params.platforms.end(); platform++) {
+         // Check that platforms are sorted
+         if ( platform > params.platforms.begin() )
+           snax_assert((--platform)->account < (++platform)->account, "platforms must be sorted");
+
+         const auto platform_config = *platform;
+
+         snax_assert(platform_config.weight >= 0, "platform weight must be greater than 0 or equal to 0");
+         total_weight += platform_config.weight;
+         snax_assert(platform_config.period > 0, "platform period must be greater than 0");
+     }
+     for (auto& snax_platform: _gstate.platforms) {
+         bool found_platform = false;
+         for (auto& platform: params.platforms) {
+             if (platform.account == snax_platform.account) {
+                 found_platform = true;
+             }
+         }
+         // Set default resourse limits to excluded platforms
+         if (!found_platform) {
+             user_resources_table  userres( _self, snax_platform.account );
+             auto res_itr = userres.find( snax_platform.account );
+             if (res_itr != userres.end())
+               set_resource_limits( res_itr->owner, S(4000,RAM), 0, 0 );
+         }
+     }
+
       snax_assert(total_weight == 1 || total_weight == 0, "Summary weight of all platforms must be equal to 1 or 0");
       set_blockchain_parameters( params );
    }
@@ -292,6 +314,47 @@ namespace snaxsystem {
       _producers.modify( prod, 0, [&](auto& p) {
             p.deactivate();
          });
+   }
+
+   void system_contract::setplatforms( const std::vector<snax::platform_config_extended>& platforms ) {
+       require_auth( _self );
+
+       snax::blockchain_parameters _new_state;
+
+       get_blockchain_parameters(_new_state, _gstate.platforms.size());
+
+       _new_state.platforms = {};
+
+       for (const auto& platform: platforms) {
+           platform_config param_platform = {};
+           param_platform.period = platform.period;
+           param_platform.weight = platform.weight;
+           param_platform.account = platform.account;
+           _new_state.platforms.push_back(
+               param_platform
+           );
+
+           // Set platform memory limits to quota specified in configuration
+           user_resources_table  userres( _self, platform.account );
+           auto res_itr = userres.find( platform.account );
+           if (res_itr != userres.end()) {
+                set_resource_limits(
+                    res_itr->owner,
+                    platform.quotas.ram_bytes,
+                    static_cast<int64_t>(platform.quotas.net_weight),
+                    static_cast<int64_t>(platform.quotas.cpu_weight)
+                );
+            } else {
+                userres.emplace( _self, [&]( auto& res ) {
+                  res.owner = platform.account;
+                  res.ram_bytes = platform.quotas.ram_bytes;
+                  res.net_weight = asset(platform.quotas.net_weight);
+                  res.cpu_weight = asset(platform.quotas.cpu_weight);
+                });
+            }
+       }
+
+       setparams(_new_state);
    }
 
    void system_contract::bidname( account_name bidder, account_name newname, asset bid ) {
@@ -436,7 +499,7 @@ SNAX_ABI( snaxsystem::system_contract,
      // native.hpp (newaccount definition is actually in snax.system.cpp)
      (newaccount)(updateauth)(deleteauth)(linkauth)(unlinkauth)(canceldelay)(onerror)
      // snax.system.cpp
-     (emitplatform)(setram)(setparams)(setpriv)(rmvproducer)(bidname)
+     (emitplatform)(setram)(setplatforms)(setparams)(setpriv)(rmvproducer)(bidname)
      // delegate_bandwidth.cpp
      (buyrambytes)(buyram)(sellram)(escrowbw)(delegatebw)(undelegatebw)(refund)
      // voting.cpp

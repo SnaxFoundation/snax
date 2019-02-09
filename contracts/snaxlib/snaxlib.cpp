@@ -48,8 +48,8 @@ namespace snax {
       set_blockchain_parameters_packed( buf, ds.tellp() );
    }
 
-   void get_blockchain_parameters(snax::blockchain_parameters& params) {
-      char buf[sizeof(snax::blockchain_parameters)];
+   void get_blockchain_parameters(snax::blockchain_parameters& params, const uint8_t platform_count) {
+      char buf[sizeof(snax::blockchain_parameters) + (platform_count > 0 ? sizeof(snax::platform_config) * (platform_count - 1): 0)];
       size_t size = get_blockchain_parameters_packed( buf, sizeof(buf) );
       snax_assert( size <= sizeof(buf), "buffer is too small" );
       snax::datastream<const char*> ds( buf, size_t(size) );

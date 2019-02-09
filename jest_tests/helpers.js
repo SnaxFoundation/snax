@@ -11,5 +11,7 @@ module.exports = {
       expect(e.message).toMatchSnapshot();
     }
   },
-  sleep: time => new Promise(resolve => setTimeout(resolve, time))
+  sleep: time => new Promise(resolve => setTimeout(resolve, time)),
+  pick: (keys, obj) =>
+    keys.reduce((acc, key) => ({ ...acc, [key]: obj[key] }), {})
 };
