@@ -56,6 +56,7 @@ namespace snaxsystem {
       bool                 initialized = false;
       int64_t              system_parabola_a = 4'385'772;
       int64_t              system_parabola_b = -1'324'503'311;
+      asset                last_bp_semi_reward = asset(0);
 
       // explicit serialization macro is not necessary, used here only to improve compilation time
       SNAXLIB_SERIALIZE_DERIVED( snax_global_state, snax::blockchain_parameters,
@@ -63,7 +64,7 @@ namespace snaxsystem {
                                 (last_producer_schedule_update)(last_pervote_bucket_fill)
                                 (pervote_bucket)(perblock_bucket)(total_unpaid_blocks)(total_activated_stake)(thresh_activated_stake_time)
                                 (last_producer_schedule_size)(total_producer_vote_weight)(last_name_close)(start_time)(initialized)
-                                (system_parabola_a)(system_parabola_b)
+                                (system_parabola_a)(system_parabola_b)(last_bp_semi_reward)
                             )
    };
 

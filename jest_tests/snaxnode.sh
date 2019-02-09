@@ -5,6 +5,7 @@ snaxnode --verbose-http-errors --delete-all-blocks -e -p snax \
  --http-validate-host=false \
  --max-transaction-time=1000 \
  --contracts-console \
+ --signature-provider 5JXpXedBoLQbktK5CP6rv2J5HeeLrnpi4aU5dUgb34vjNSefftb=KEY:SNAX82vokU8bz112PQueGtpG6qkW2tXXrAGPjsVjsNEkZRXaGH4xTe \
  --plugin snax::producer_plugin \
  --plugin snax::history_plugin \
  --plugin snax::chain_api_plugin \
