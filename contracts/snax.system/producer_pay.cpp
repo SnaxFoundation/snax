@@ -6,17 +6,10 @@ namespace snaxsystem {
 
    const int64_t  min_pervote_daily_pay = 100'0000;
    const int64_t  min_activated_stake   = 10'000'000'000'0000;
-   const double   continuous_rate       = 0.04879;          // 5% annual rate
-   const double   perblock_rate         = 0.0025;           // 0.25%
-   const double   standby_rate          = 0.0075;           // 0.75%
-   const uint32_t blocks_per_year       = 52*7*24*2*3600;   // half seconds per year
-   const uint32_t seconds_per_year      = 52*7*24*3600;
    const uint32_t blocks_per_day        = 2 * 24 * 3600;
-   const uint32_t blocks_per_hour       = 2 * 3600;
    const uint64_t useconds_per_day      = 24 * 3600 * uint64_t(1000000);
-   const uint64_t useconds_per_year     = seconds_per_year*1000000ll;
-   const asset    min_per_block_amount  = asset(15'8548);
-   const asset    min_per_block_amount_multiplied_by_1e9 = min_per_block_amount * 1'000'000'000;
+   const int64_t  min_per_block_amount  = 15'8548;
+   const int64_t  min_per_block_amount_multiplied_by_1e9 = min_per_block_amount * 1'000'000'000;
 
    void system_contract::onblock( block_timestamp timestamp, account_name producer ) {
       using namespace snax;
@@ -40,24 +33,23 @@ namespace snaxsystem {
       if ( prod != _producers.end() ) {
 
          _gstate.total_unpaid_blocks++;
+         
+         const asset system_supply_soft_limit = snax::token(N(snax.token)).get_max_supply(snax::symbol_type(system_token_symbol).name()) / 10;
 
-         const asset token_supply = token( N(snax.token)).get_supply(symbol_type(system_token_symbol).name() );
+         const asset token_supply = snax::token(N(snax.token)).get_supply(snax::symbol_type(system_token_symbol).name());
 
-         const asset system_token_supply_soft_limit = asset(token( N(snax.token)).get_supply(symbol_type(system_token_symbol).name() ).amount / 10);
+         const asset supply_difference = system_supply_soft_limit - token_supply;
 
-         const asset supply_difference = system_token_supply_soft_limit - token_supply;
+         const asset bp_reward = supply_difference > asset(0) && supply_difference >= asset(min_per_block_amount_multiplied_by_1e9)
+                     ? supply_difference / 1'000'000'000
+                     : asset(min_per_block_amount);
 
-         const asset bp_reward = supply_difference > asset(0) && supply_difference >= min_per_block_amount_multiplied_by_1e9
-                     ? asset(supply_difference.amount / 1'000'000'000)
-                     : min_per_block_amount;
 
-         const asset semi_bp_reward = asset(bp_reward.amount / 2);
+         asset semi_bp_reward = asset(bp_reward.amount / 2);
 
          if (bp_reward > asset(0) && semi_bp_reward > asset(0)) {
-
                INLINE_ACTION_SENDER(snax::token, issue)( N(snax.token), {N(snax),N(active)},
                                                                                    { N(snax.bpay), semi_bp_reward, "fund per-block bucket" } );
-
                INLINE_ACTION_SENDER(snax::token, issue)( N(snax.token), {N(snax),N(active)},
                                                                                    { N(snax.vpay), semi_bp_reward, "fund per-vote bucket" } );
          }
@@ -71,6 +63,7 @@ namespace snaxsystem {
 
          _gstate.last_pervote_bucket_fill = ct;
          _gstate.last_bp_semi_reward = semi_bp_reward;
+
          _producers.modify( prod, 0, [&](auto& p ) {
                p.unpaid_blocks++;
          });
@@ -113,6 +106,8 @@ namespace snaxsystem {
       const auto ct = current_time();
 
       snax_assert( ct - prod.last_claim_time > useconds_per_day, "already claimed rewards within past day" );
+
+      const auto usecs_since_last_fill = ct - _gstate.last_pervote_bucket_fill;
 
       int64_t producer_per_block_pay = 0;
       if( _gstate.total_unpaid_blocks > 0 ) {

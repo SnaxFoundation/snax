@@ -232,7 +232,7 @@ namespace snaxsystem {
              user_resources_table  userres( _self, snax_platform.account );
              auto res_itr = userres.find( snax_platform.account );
              if (res_itr != userres.end())
-               set_resource_limits( res_itr->owner, S(4000,RAM), 0, 0 );
+               set_resource_limits( res_itr->owner, 4000, 0, 0 );
          }
      }
 
