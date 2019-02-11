@@ -1,27 +1,5 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`System should claim rewards 1`] = `
-Array [
-  Object {
-    "more": false,
-    "rows": Array [],
-  },
-]
-`;
-
-exports[`System should claim rewards 2`] = `
-Array [
-  Object {
-    "more": false,
-    "rows": Array [
-      Object {
-        "balance": "251.9998 SNAX",
-      },
-    ],
-  },
-]
-`;
-
 exports[`System should call system's emitplatform correctly 1`] = `
 Array [
   Object {
@@ -49,7 +27,7 @@ Array [
     "more": false,
     "rows": Array [
       Object {
-        "balance": "998.8358 SNAX",
+        "balance": "998.1371 SNAX",
       },
     ],
   },
@@ -1268,6 +1246,28 @@ Object {
 }
 `;
 
+exports[`System should claim rewards 1`] = `
+Array [
+  Object {
+    "more": false,
+    "rows": Array [],
+  },
+]
+`;
+
+exports[`System should claim rewards 2`] = `
+Array [
+  Object {
+    "more": false,
+    "rows": Array [
+      Object {
+        "balance": "251.9998 SNAX",
+      },
+    ],
+  },
+]
+`;
+
 exports[`System should initialize system correctly 1`] = `
 Array [
   Object {
@@ -1290,7 +1290,7 @@ Array [
     "more": false,
     "rows": Array [
       Object {
-        "balance": "499991784.6456 SNAX",
+        "balance": "499991355.4223 SNAX",
       },
     ],
   },
@@ -1303,7 +1303,7 @@ Array [
     "more": false,
     "rows": Array [
       Object {
-        "balance": "499991784.6456 SNAX",
+        "balance": "499991355.4223 SNAX",
       },
     ],
   },
@@ -1322,7 +1322,7 @@ exports[`System should set platforms 1`] = `
 Object {
   "cpu_weight": 15000000,
   "net_weight": 10000000,
-  "ram_quota": 1018847,
+  "ram_quota": 1018829,
 }
 `;
 
@@ -1330,7 +1330,7 @@ exports[`System should set platforms 2`] = `
 Object {
   "cpu_weight": 15000000,
   "net_weight": 10000000,
-  "ram_quota": 1018847,
+  "ram_quota": 1018830,
 }
 `;
 
@@ -1338,7 +1338,7 @@ exports[`System should set platforms 3`] = `
 Object {
   "cpu_weight": 15000000,
   "net_weight": 10000000,
-  "ram_quota": 1018847,
+  "ram_quota": 1018829,
 }
 `;
 
