@@ -4,7 +4,7 @@
 
 namespace snaxsystem {
 
-   const int64_t  min_pervote_daily_pay = 100'0000;
+   const int64_t  min_pervote_pay = 100'0000;
    const int64_t  min_activated_stake   = 10'000'000'000'0000;
    const uint32_t blocks_per_day        = 2 * 24 * 3600;
    const uint64_t useconds_per_day      = 24 * 3600 * uint64_t(1000000);
@@ -33,7 +33,7 @@ namespace snaxsystem {
       if ( prod != _producers.end() ) {
 
          _gstate.total_unpaid_blocks++;
-         
+
          const asset system_supply_soft_limit = snax::token(N(snax.token)).get_max_supply(snax::symbol_type(system_token_symbol).name()) / 10;
 
          const asset token_supply = snax::token(N(snax.token)).get_supply(snax::symbol_type(system_token_symbol).name());
@@ -117,7 +117,7 @@ namespace snaxsystem {
       if( _gstate.total_producer_vote_weight > 0 ) {
          producer_per_vote_pay  = int64_t(((_gstate.pervote_bucket - _gstate.last_bp_semi_reward.amount) * prod.total_votes ) / _gstate.total_producer_vote_weight);
       }
-      if( producer_per_vote_pay < min_pervote_daily_pay ) {
+      if( producer_per_vote_pay < min_pervote_pay ) {
          producer_per_vote_pay = 0;
       }
       _gstate.pervote_bucket      -= producer_per_vote_pay;

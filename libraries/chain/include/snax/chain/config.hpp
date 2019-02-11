@@ -28,9 +28,9 @@ const static uint64_t system_account_name    = N(snax);
 const static uint64_t null_account_name      = N(snax.null);
 const static uint64_t producers_account_name = N(snax.prods);
 
-// Active permission of producers account requires greater than 2/3 of the producers to authorize
+// Active permission of producers account requires less than 2/3 of the producers to authorise
 const static uint64_t majority_producers_permission_name = N(prod.major); // greater than 1/2 of producers needed to authorize
-const static uint64_t minority_producers_permission_name = N(prod.minor); // greater than 1/3 of producers needed to authorize0
+const static uint64_t minority_producers_permission_name = N(prod.minor); // greater than 1/3 of producers needed to authorize
 
 const static uint64_t snax_auth_scope       = N(snax.auth);
 const static uint64_t snax_all_scope        = N(snax.all);
@@ -51,8 +51,8 @@ const static int      block_interval_us = block_interval_ms*1000;
 const static uint64_t block_timestamp_epoch = 946684800000ll; // epoch is year 2000.
 
 /** Percentages are fixed point with a denominator of 10,000 */
-const static int percent_100 = 10000;
-const static int percent_1   = 100;
+const static int percent_100 = 1000000;
+const static int percent_1   = 10000;
 
 static const uint32_t account_cpu_usage_average_window_ms  = 24*60*60*1000l;
 static const uint32_t account_net_usage_average_window_ms  = 24*60*60*1000l;
