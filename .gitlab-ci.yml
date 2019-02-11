@@ -28,7 +28,7 @@ cleanup:
     changes:
       - "*.md"
   tags:
-    - build3
+    - build4
 
 build:
   stage: build
@@ -48,7 +48,7 @@ build:
     changes:
       - "*.md"
   tags:
-    - build3
+    - build4
 
 build:tag:
   stage: build
@@ -65,7 +65,7 @@ build:tag:
   only:
   - tags
   tags:
-    - build3
+    - build4
 
 build:tag:macos:
   stage: build
@@ -96,7 +96,8 @@ test:jest:
     changes:
       - "*.md"
   tags:
-    - build3
+    - build4
+
 
 test:core:
   stage: test
@@ -114,7 +115,7 @@ test:core:
       - jest_tests/*
       - "*.md"
   tags:
-    - build3
+    - build4
 
 build:docker:
   stage: build-docker
@@ -130,7 +131,7 @@ build:docker:
     changes:
       - "*.md"
   tags:
-      - build3
+      - build4
 
 build:docker:tag:
   stage: build-docker
@@ -145,7 +146,7 @@ build:docker:tag:
   only:
   - tags
   tags:
-    - build3
+    - build4
 
 publish:
   stage: publish
