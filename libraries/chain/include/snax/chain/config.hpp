@@ -28,9 +28,9 @@ const static uint64_t system_account_name    = N(snax);
 const static uint64_t null_account_name      = N(snax.null);
 const static uint64_t producers_account_name = N(snax.prods);
 
-// Active permission of producers account requires greater than 2/3 of the producers to authorize
+// Active permission of producers account requires less than 2/3 of the producers to authorise
 const static uint64_t majority_producers_permission_name = N(prod.major); // greater than 1/2 of producers needed to authorize
-const static uint64_t minority_producers_permission_name = N(prod.minor); // greater than 1/3 of producers needed to authorize0
+const static uint64_t minority_producers_permission_name = N(prod.minor); // greater than 1/3 of producers needed to authorize
 
 const static uint64_t snax_auth_scope       = N(snax.auth);
 const static uint64_t snax_all_scope        = N(snax.all);
