@@ -231,8 +231,15 @@ namespace snaxsystem {
          if (!found_platform) {
              user_resources_table  userres( _self, snax_platform.account );
              auto res_itr = userres.find( snax_platform.account );
-             if (res_itr != userres.end())
-               set_resource_limits( res_itr->owner, 4000, 0, 0 );
+             if (res_itr != userres.end()) {
+                set_resource_limits( res_itr->owner, 4000, 0, 0 );
+                userres.modify( res_itr, _self, [&]( auto& res ) {
+                  res.owner = snax_platform.account;
+                  res.ram_bytes = 4000;
+                  res.net_weight = asset(0);
+                  res.cpu_weight = asset(0);
+                });
+             }
          }
      }
 
@@ -272,6 +279,15 @@ namespace snaxsystem {
                param_platform
            );
 
+           snax::print("Platform: \t", platform.account, "\n");
+
+           snax::print("Quotas: \n");
+
+           snax::print("RAM: \t", platform.quotas.ram_bytes, "\n");
+           snax::print("NET: \t", platform.quotas.net_weight, "\n");
+           snax::print("CPU: \t", platform.quotas.cpu_weight, "\n");
+
+
            // Set platform memory limits to quota specified in configuration
            user_resources_table  userres( _self, platform.account );
            auto res_itr = userres.find( platform.account );
@@ -282,6 +298,12 @@ namespace snaxsystem {
                     static_cast<int64_t>(platform.quotas.net_weight),
                     static_cast<int64_t>(platform.quotas.cpu_weight)
                 );
+                userres.modify( res_itr, _self, [&]( auto& res ) {
+                  res.owner = platform.account;
+                  res.ram_bytes = platform.quotas.ram_bytes;
+                  res.net_weight = asset(platform.quotas.net_weight);
+                  res.cpu_weight = asset(platform.quotas.cpu_weight);
+                });
             } else {
                 userres.emplace( _self, [&]( auto& res ) {
                   res.owner = platform.account;

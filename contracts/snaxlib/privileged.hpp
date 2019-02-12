@@ -6,11 +6,11 @@
 namespace snax {
 
     struct quotas {
-        uint64_t net_weight;
-        uint64_t cpu_weight;
         uint64_t ram_bytes;
+        uint64_t cpu_weight;
+        uint64_t net_weight;
 
-        SNAXLIB_SERIALIZE(quotas, (net_weight)(cpu_weight)(ram_bytes))
+        SNAXLIB_SERIALIZE(quotas, (ram_bytes)(cpu_weight)(net_weight))
     };
 
     struct platform_config {

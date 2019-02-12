@@ -44,4 +44,3 @@ clisnax push action snax.token issue '["test.transf", "1000.0000 SNAX", ""]' -p 
 
 clisnax set contract platform ../build/contracts/platform -p platform@owner
 clisnax set contract testacc1 ../build/contracts/platform -p testacc1@owner
-clisnax set contract testacc2 ../build/contracts/platform -p testacc1@owner

@@ -249,8 +249,8 @@
       "base": "",
       "fields": [
          {"name":"ram_bytes", "type":"uint64"},
-         {"name":"cpu_weight", "type":"uint64"},
-         {"name":"net_weight", "type":"uint64"}
+         {"name":"net_weight", "type":"uint64"},
+         {"name":"cpu_weight", "type":"uint64"}
       ]
     },{
       "name": "platform_config",
