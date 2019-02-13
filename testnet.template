@@ -110,7 +110,7 @@ programs/clisnax/clisnax --wallet-url $wdurl --url http://$bioshost:$biosport pu
 echo ==== End: $step ============== >> $logfile
 step=$(($step + 1))
 
-ecmd set contract snax contracts/snax.system snax.system.wasm snax.system.abi
+ecmd set contract snax contracts/test_1_snax.system test_1_snax.system.wasm test_1_snax.system.abi
 
 # Manual deployers, add a series of lines below this block that looks like:
 #    cacmd $PRODNAME[0] $OWNERKEY[0] $ACTIVEKEY[0]
