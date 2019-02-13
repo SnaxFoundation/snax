@@ -33,13 +33,14 @@ read -d '' genesis << EOF
     "resources_market_open": 1,
     "top_producers_limit": 21,
     "enabled_contracts_by_non_privileged_users": 1,
-    "contract_owner": 1,
+    "contract_owner": 0,
     "max_transaction_lifetime": 3600,
     "deferred_trx_expiration_window": 600,
     "max_transaction_delay": 3888000,
     "max_inline_action_size": 4096,
     "max_inline_action_depth": 4,
-    "max_authority_depth": 6
+    "max_authority_depth": 6,
+    "platforms": []
 }
 EOF
 

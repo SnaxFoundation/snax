@@ -236,7 +236,7 @@ BOOST_FIXTURE_TEST_CASE( stake_unstake_with_transfer, snax_system_tester ) try {
 BOOST_FIXTURE_TEST_CASE( stake_to_self_with_transfer, snax_system_tester ) try {
    cross_15_percent_threshold();
 
-   BOOST_REQUIRE_EQUAL( core_from_string(("000.0000")), get_balance( "alice1111111" ) );
+   BOOST_REQUIRE_EQUAL( core_from_string(("0.0000")), get_balance( "alice1111111" ) );
    transfer( "snax", "alice1111111", core_from_string(("100000.0000")), "snax" );
 
    BOOST_REQUIRE_EQUAL( wasm_assert_msg("cannot use transfer flag if delegating to self"),
@@ -2202,7 +2202,7 @@ BOOST_FIXTURE_TEST_CASE( multiple_namebids, snax_system_tester ) try {
 
    // start bids
    bidname( "bob",  "prefa", core_from_string(("100.0003")) );
-   BOOST_REQUIRE_EQUAL( core_from_string( "9998.9997" ), get_balance("bob") );
+   BOOST_REQUIRE_EQUAL( core_from_string( "10000.0000" ), get_balance("bob") );
    bidname( "bob",  "prefb", core_from_string(("100.0000")) );
    bidname( "bob",  "prefc", core_from_string(("100.0000")) );
    BOOST_REQUIRE_EQUAL( core_from_string( "9996.9997" ), get_balance("bob") );
