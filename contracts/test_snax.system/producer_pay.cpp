@@ -33,6 +33,7 @@ namespace snaxsystem {
       if ( prod != _producers.end() ) {
 
          _gstate.total_unpaid_blocks++;
+
          const asset system_supply_soft_limit = snax::token(N(snax.token)).get_max_supply(snax::symbol_type(system_token_symbol).name()) / 10;
 
          const asset token_supply = snax::token(N(snax.token)).get_supply(snax::symbol_type(system_token_symbol).name());
@@ -44,7 +45,7 @@ namespace snaxsystem {
                      : asset(min_per_block_amount);
 
 
-         asset semi_bp_reward = asset(bp_reward.amount / 2);
+         const asset semi_bp_reward = asset(bp_reward.amount / 2);
 
          if (bp_reward > asset(0) && semi_bp_reward > asset(0)) {
                INLINE_ACTION_SENDER(snax::token, issue)( N(snax.token), {N(snax),N(active)},
@@ -53,9 +54,8 @@ namespace snaxsystem {
                                                                                    { N(snax.vpay), semi_bp_reward, "fund per-vote bucket" } );
          }
 
-         auto to_producers         = bp_reward;
-         auto to_per_block_pay   = to_producers / 2;
-         auto to_per_vote_pay      = to_producers - to_per_block_pay;
+         const asset to_per_block_pay   = semi_bp_reward;
+         const asset to_per_vote_pay    = semi_bp_reward;
 
          _gstate.pervote_bucket  += to_per_vote_pay.amount;
          _gstate.perblock_bucket += to_per_block_pay.amount;
