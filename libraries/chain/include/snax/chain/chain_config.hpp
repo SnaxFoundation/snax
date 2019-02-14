@@ -31,9 +31,9 @@ struct chain_config {
    uint32_t   min_transaction_cpu_usage;           ///< the minimum billable cpu usage (in microseconds) that the chain requires
    uint32_t   resources_market_open;               ///< allows non privileged users to buy ram
    uint32_t   top_producers_limit;                 ///< max allowed quantity of producers in system top list
-   uint32_t   privileged_contracts; ///< allows non privileged users to add contracts to system
+   uint32_t   privileged_contracts;                ///< allows non privileged users to add contracts to system
    uint32_t   contract_owner;                      ///< require owner permission to set contract
-
+   uint32_t   platform_lock_duration;              ///< platform lock duration in seconds
    uint32_t   max_transaction_lifetime;            ///< the maximum number of seconds that an input transaction's expiration can be ahead of the time of the block in which it is first included
    uint32_t   deferred_trx_expiration_window;      ///< the number of seconds after the time a deferred transaction can first execute until it expires
    uint32_t   max_transaction_delay;               ///< the maximum number of seconds that can be imposed as a delay requirement by authorization checks
@@ -59,6 +59,7 @@ struct chain_config {
                  << "Ram market open: " << c.resources_market_open << ", "
                  << "Top producers count: " << c.top_producers_limit << ", "
                  << "Enabled contracts by non privileged users: " << c.privileged_contracts << ", "
+                 << "Platform lock duration in seconds: " << c.platform_lock_duration << ", "
                  << "Require owner permission to set contract: " << c.contract_owner << ", "
 
                  << "Max Transaction Lifetime: " << c.max_transaction_lifetime << ", "
@@ -86,6 +87,7 @@ struct chain_config {
                            lhs.top_producers_limit,
                            lhs.privileged_contracts,
                            lhs.contract_owner,
+                           lhs.platform_lock_duration,
                            lhs.max_transaction_lifetime,
                            lhs.deferred_trx_expiration_window,
                            lhs.max_transaction_delay,
@@ -109,6 +111,7 @@ struct chain_config {
                            rhs.top_producers_limit,
                            rhs.privileged_contracts,
                            rhs.contract_owner,
+                           lhs.platform_lock_duration,
                            rhs.max_transaction_lifetime,
                            rhs.deferred_trx_expiration_window,
                            rhs.max_transaction_delay,
@@ -141,7 +144,7 @@ FC_REFLECT(snax::chain::chain_config,
            (max_block_cpu_usage)(target_block_cpu_usage_pct)
            (max_transaction_cpu_usage)(min_transaction_cpu_usage)
 
-           (resources_market_open)(top_producers_limit)(privileged_contracts)(contract_owner)
+           (resources_market_open)(top_producers_limit)(privileged_contracts)(contract_owner)(platform_lock_duration)
 
            (max_transaction_lifetime)(deferred_trx_expiration_window)(max_transaction_delay)
            (max_inline_action_size)(max_inline_action_depth)(max_authority_depth)

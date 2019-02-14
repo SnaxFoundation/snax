@@ -34,6 +34,7 @@ read -d '' genesis << EOF
     "top_producers_limit": 21,
     "privileged_contracts": 1,
     "contract_owner": 0,
+    "platform_lock_duration": 14400,
     "max_transaction_lifetime": 3600,
     "deferred_trx_expiration_window": 600,
     "max_transaction_delay": 3888000,

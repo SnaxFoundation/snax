@@ -45,6 +45,7 @@ const static uint32_t resources_market_open = 1;
 const static uint32_t top_producers_limit = 21;
 const static uint32_t privileged_contracts = 0;
 const static uint32_t contract_owner = 0;
+const static uint32_t platform_lock_duration = 14400;
 
 const static int      block_interval_ms = 500;
 const static int      block_interval_us = block_interval_ms*1000;

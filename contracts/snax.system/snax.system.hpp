@@ -101,6 +101,13 @@ namespace snaxsystem {
        uint64_t primary_key() const { return request.to_time_point().time_since_epoch().count(); }
    };
 
+   // @abi table platlocks i64
+   struct platform_lock {
+       block_timestamp time;
+
+       uint64_t primary_key() const { return time.to_time_point().time_since_epoch().count(); }
+   };
+
    struct voter_info {
       account_name                owner = 0; /// the voter
       account_name                proxy = 0; /// the proxy set by the voter, if any
@@ -148,6 +155,8 @@ namespace snaxsystem {
    typedef snax::multi_index< N(accounts), account_with_balance > _accounts_balances;
 
    typedef snax::multi_index< N(platsteps), platform_request > _platform_requests;
+
+   typedef snax::multi_index< N(platlocks), platform_lock > _platform_locks;
 
    typedef snax::multi_index< N(voters), voter_info >  voters_table;
 
@@ -214,6 +223,8 @@ namespace snaxsystem {
           */
          void undelegatebw( account_name from, account_name receiver,
                             asset unstake_net_quantity, asset unstake_cpu_quantity );
+
+         void lockplatform( account_name& platform );
 
          void emitplatform( account_name& platform );
 

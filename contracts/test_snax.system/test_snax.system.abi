@@ -286,8 +286,9 @@
          {"name":"min_transaction_cpu_usage",                 "type":"uint32"},
          {"name":"resources_market_open",                     "type":"uint32"},
          {"name":"top_producers_limit",                       "type":"uint32"},
-         {"name":"privileged_contracts", "type":"uint32"},
+         {"name":"privileged_contracts",                      "type":"uint32"},
          {"name":"contract_owner",                            "type":"uint32"},
+         {"name":"platform_lock_duration",                    "type":"uint32"},
          {"name":"max_transaction_lifetime",                  "type":"uint32"},
          {"name":"deferred_trx_expiration_window",            "type":"uint32"},
          {"name":"max_transaction_delay",                     "type":"uint32"},
@@ -316,8 +317,8 @@
          {"name":"start_time",                    "type":"block_timestamp_type"},
          {"name":"initialized",                   "type":"bool"},
          {"name":"system_parabola_a",             "type":"int64"},
-         {"name":"system_parabola_b",              "type":"int64"},
-         {"name":"last_bp_semi_reward",              "type":"asset"}
+         {"name":"system_parabola_b",             "type":"int64"},
+         {"name":"last_bp_semi_reward",           "type":"asset"}
       ]
     },{
       "name": "producer_info",
@@ -375,6 +376,12 @@
         {"name":"request",          "type":"block_timestamp_type"},
         {"name":"token_amount",     "type":"asset"}
       ]
+    },{
+      "name": "platform_lock",
+      "base": "",
+      "fields": [
+        {"name":"time",             "type":"block_timestamp_type"}
+    ]
     },{
       "name": "voter_info",
       "base": "",
@@ -664,6 +671,12 @@
     },{
        "name": "platsteps",
        "type": "platform_request",
+       "index_type": "i64",
+       "key_names" : ["request"],
+       "key_types" : ["uint64"]
+    },{
+       "name": "platlocks",
+       "type": "platform_lock",
        "index_type": "i64",
        "key_names" : ["request"],
        "key_types" : ["uint64"]
