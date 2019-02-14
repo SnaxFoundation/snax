@@ -115,7 +115,7 @@ namespace snaxsystem {
    }
 
    void system_contract::emitplatform( account_name& platform ) {
-        require_auth2(platform, N(owner));
+        require_auth(platform);
 
         _platform_requests platform_requests(_self, platform);
 

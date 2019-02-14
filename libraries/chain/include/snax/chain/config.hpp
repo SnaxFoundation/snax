@@ -43,7 +43,7 @@ const static uint64_t snax_code_name = N(snax.code);
 const static std::vector<platform_config> platforms = {};
 const static uint32_t resources_market_open = 1;
 const static uint32_t top_producers_limit = 21;
-const static uint32_t enabled_contracts_by_non_privileged_users = 1;
+const static uint32_t privileged_contracts = 0;
 const static uint32_t contract_owner = 0;
 
 const static int      block_interval_ms = 500;

@@ -37,7 +37,7 @@ struct genesis_state {
 
       .resources_market_open                      = config::resources_market_open,
       .top_producers_limit                        = config::top_producers_limit,
-      .enabled_contracts_by_non_privileged_users = config::enabled_contracts_by_non_privileged_users,
+      .privileged_contracts = config::privileged_contracts,
       .contract_owner                       = config::contract_owner,
       .max_transaction_lifetime             = config::default_max_trx_lifetime,
       .deferred_trx_expiration_window       = config::default_deferred_trx_expiration_window,

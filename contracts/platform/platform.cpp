@@ -8,7 +8,7 @@ namespace snax {
 void platform::initialize(const string name, const account_name token_dealer,
                           const string token_symbol_str,
                           const uint8_t precision, const account_name airdrop) {
-  require_auth2(_self, N(owner));
+  require_auth(_self);
   require_uninitialized();
 
   snax_assert(name.size() > 0, "platform name can't be empty");
@@ -46,9 +46,11 @@ void platform::lockupdate() {
 
 /// @abi action nextround
 void platform::nextround() {
-  require_auth2(_self, N(owner));
+  require_auth(_self);
   require_initialized();
+
   _state = _platform_state.get();
+  
   snax_assert(
       _state.updating == 1,
       "platform must be in updating state when nextround action is called");

@@ -13,7 +13,7 @@
     "target_block_cpu_usage_pct": 50000,
     "max_transaction_cpu_usage": 50000,
     "min_transaction_cpu_usage": 100,
-    "enabled_contracts_by_non_privileged_users": 0,
+    "privileged_contracts": 0,
     "max_transaction_lifetime": 3600,
     "deferred_trx_expiration_window": 600,
     "max_transaction_delay": 3888000,

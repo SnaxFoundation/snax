@@ -32,7 +32,7 @@ read -d '' genesis << EOF
     "min_transaction_cpu_usage": 100,
     "resources_market_open": 1,
     "top_producers_limit": 21,
-    "enabled_contracts_by_non_privileged_users": 1,
+    "privileged_contracts": 1,
     "contract_owner": 0,
     "max_transaction_lifetime": 3600,
     "deferred_trx_expiration_window": 600,
