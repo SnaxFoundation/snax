@@ -27,7 +27,7 @@ Array [
     "more": false,
     "rows": Array [
       Object {
-        "balance": "998.1371 SNAX",
+        "balance": "813.7143 SNAX",
       },
     ],
   },
@@ -1290,7 +1290,7 @@ Array [
     "more": false,
     "rows": Array [
       Object {
-        "balance": "499991355.4223 SNAX",
+        "balance": "499878056.2674 SNAX",
       },
     ],
   },
@@ -1303,7 +1303,7 @@ Array [
     "more": false,
     "rows": Array [
       Object {
-        "balance": "499991355.4223 SNAX",
+        "balance": "499878056.2674 SNAX",
       },
     ],
   },
@@ -1322,7 +1322,7 @@ exports[`System should set platforms 1`] = `
 Object {
   "cpu_weight": 15000000,
   "net_weight": 10000000,
-  "ram_quota": 1018829,
+  "ram_quota": 1018830,
 }
 `;
 
@@ -1338,7 +1338,7 @@ exports[`System should set platforms 3`] = `
 Object {
   "cpu_weight": 15000000,
   "net_weight": 10000000,
-  "ram_quota": 1018829,
+  "ram_quota": 1018830,
 }
 `;
 
@@ -1365,7 +1365,6 @@ Object {
   "ram_quota": 900000,
 }
 `;
-
 
 exports[`System should work correctly with escrow system 1`] = `"assertion failure with message: cant unstake this amount for account at the moment"`;
 

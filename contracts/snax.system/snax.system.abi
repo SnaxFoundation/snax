@@ -144,6 +144,12 @@
         {"name":"sent_trx",  "type":"bytes"}
       ]
     },{
+      "name": "lockplatform",
+      "base": "",
+      "fields": [
+        {"name":"platform", "type":"account_name"}
+      ]
+    },{
       "name": "emitplatform",
       "base": "",
       "fields": [
@@ -520,6 +526,10 @@
    },{
      "name": "onerror",
      "type": "onerror",
+     "ricardian_contract": ""
+   },{
+     "name": "lockplatform",
+     "type": "lockplatform",
      "ricardian_contract": ""
    },{
      "name": "emitplatform",
