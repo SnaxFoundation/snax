@@ -154,14 +154,14 @@ void apply_context::require_authorization( const account_name& account ) {
 void apply_context::require_set_contract_ability( const account_object& account ) {
    const auto& configuration = control.get_global_properties().configuration;
 
-   SNAX_ASSERT( configuration.enabled_contracts_by_non_privileged_users || account.privileged, action_validate_exception,
+   SNAX_ASSERT( !configuration.privileged_contracts || account.privileged, action_validate_exception,
                "only privileged accounts have permission to add contracts to system" );
 }
 
 void apply_context::require_set_abi_ability( const account_object& account ) {
     const auto& configuration = control.get_global_properties().configuration;
 
-    SNAX_ASSERT( configuration.enabled_contracts_by_non_privileged_users || account.privileged, action_validate_exception,
+    SNAX_ASSERT( !configuration.privileged_contracts || account.privileged, action_validate_exception,
                    "only privileged accounts have permission to set contract's abi" );
 }
 

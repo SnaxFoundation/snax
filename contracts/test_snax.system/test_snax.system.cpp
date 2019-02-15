@@ -114,10 +114,23 @@ namespace snaxsystem {
       //snax_exit(0);
    }
 
+   void system_contract::lockplatform( account_name& platform ) {
+        require_auth(platform);
+
+        const auto current_time = snax::time_point_sec(now());
+
+        _platform_locks platform_locks(_self, platform);
+
+        platform_locks.emplace(platform, [&](auto& record) {
+            record.time = block_timestamp(current_time);
+        });
+   }
+
    void system_contract::emitplatform( account_name& platform ) {
-        require_auth2(platform, N(owner));
+        require_auth(platform);
 
         _platform_requests platform_requests(_self, platform);
+        _platform_locks platform_locks(_self, platform);
 
         platform_config* found_config = nullptr;
 
@@ -152,6 +165,23 @@ namespace snaxsystem {
                     .time_since_epoch()
                     .to_seconds(),
                "platform can't request new amount of tokens because of period"
+           );
+        }
+
+        if (platform_locks.cbegin() != platform_locks.cend()) {
+           auto last_request = platform_locks.end();
+           snax_assert(
+               (--last_request)->time
+                    .to_time_point()
+                    .time_since_epoch()
+                    .to_seconds()
+                    + _gstate.platform_lock_duration
+               <=
+               block_timestamp(current_time)
+                    .to_time_point()
+                    .time_since_epoch()
+                    .to_seconds(),
+               "platform can't request new amount of tokens because of lock"
            );
         }
 
@@ -294,13 +324,13 @@ namespace snaxsystem {
              user_resources_table  userres( _self, snax_platform.account );
              auto res_itr = userres.find( snax_platform.account );
              if (res_itr != userres.end()) {
-                 userres.modify( res_itr, _self, [&]( auto& res ) {
-                   res.owner = snax_platform.account;
-                   res.ram_bytes = 4000;
-                   res.net_weight = asset(0);
-                   res.cpu_weight = asset(0);
-                 });
                 set_resource_limits( res_itr->owner, 4000, 0, 0 );
+                userres.modify( res_itr, _self, [&]( auto& res ) {
+                  res.owner = snax_platform.account;
+                  res.ram_bytes = 4000;
+                  res.net_weight = asset(0);
+                  res.cpu_weight = asset(0);
+                });
              }
          }
      }

@@ -35,9 +35,10 @@ struct genesis_state {
       .max_transaction_cpu_usage            = config::default_max_transaction_cpu_usage,
       .min_transaction_cpu_usage            = config::default_min_transaction_cpu_usage,
 
-      .resources_market_open                      = config::resources_market_open,
-      .top_producers_limit                        = config::top_producers_limit,
-      .enabled_contracts_by_non_privileged_users = config::enabled_contracts_by_non_privileged_users,
+      .resources_market_open                = config::resources_market_open,
+      .top_producers_limit                  = config::top_producers_limit,
+      .privileged_contracts                 = config::privileged_contracts,
+      .platform_lock_duration               = config::platform_lock_duration,
       .contract_owner                       = config::contract_owner,
       .max_transaction_lifetime             = config::default_max_trx_lifetime,
       .deferred_trx_expiration_window       = config::default_deferred_trx_expiration_window,
