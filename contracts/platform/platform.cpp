@@ -40,6 +40,10 @@ void platform::lockupdate() {
 
   snax_assert(!_state.updating, "platform is already updating");
 
+  action(permission_level{_self, N(owner)}, _state.token_dealer,
+         N(lockplatform), make_tuple(_self))
+      .send();
+
   _state.updating = 1;
   _platform_state.set(_state, _self);
 }
@@ -50,7 +54,7 @@ void platform::nextround() {
   require_initialized();
 
   _state = _platform_state.get();
-  
+
   snax_assert(
       _state.updating == 1,
       "platform must be in updating state when nextround action is called");
