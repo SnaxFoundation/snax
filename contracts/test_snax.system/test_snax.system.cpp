@@ -31,6 +31,7 @@ namespace snaxsystem {
                m.base.balance.amount = int64_t(_gstate.free_ram());
                m.base.balance.symbol = S(0,RAM);
                m.quote.balance.amount = system_token_supply / 1000;
+               m.quote.balance.amount = system_token_supply / 10;
                m.quote.balance.symbol = CORE_SYMBOL;
             });
          }
@@ -121,9 +122,9 @@ namespace snaxsystem {
 
         _platform_locks platform_locks(_self, platform);
 
-        platform_locks.emplace(platform, [&](auto& record) {
+        /*platform_locks.emplace(platform, [&](auto& record) {
             record.time = block_timestamp(current_time);
-        });
+        });*/
    }
 
    void system_contract::emitplatform( account_name& platform ) {
@@ -169,9 +170,9 @@ namespace snaxsystem {
         }
 
         if (platform_locks.cbegin() != platform_locks.cend()) {
-           auto last_request = platform_locks.end();
+           auto last_lock = platform_locks.end();
            snax_assert(
-               (--last_request)->time
+               (--last_lock)->time
                     .to_time_point()
                     .time_since_epoch()
                     .to_seconds()
@@ -551,7 +552,7 @@ SNAX_ABI( snaxsystem::system_contract,
      // native.hpp (newaccount definition is actually in snax.system.cpp)
      (newaccount)(updateauth)(deleteauth)(linkauth)(unlinkauth)(canceldelay)(onerror)
      // snax.system.cpp
-     (emitplatform)(setram)(setplatforms)(setparams)(setpriv)(rmvproducer)(bidname)
+     (lockplatform)(emitplatform)(setram)(setplatforms)(setparams)(setpriv)(rmvproducer)(bidname)
      // delegate_bandwidth.cpp
      (buyrambytes)(buyram)(sellram)(escrowbw)(delegatebw)(undelegatebw)(refund)
      // voting.cpp

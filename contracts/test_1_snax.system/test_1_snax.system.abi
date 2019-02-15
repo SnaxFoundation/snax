@@ -144,6 +144,12 @@
         {"name":"sent_trx",  "type":"bytes"}
       ]
     },{
+      "name": "lockplatform",
+      "base": "",
+      "fields": [
+        {"name":"platform", "type":"account_name"}
+      ]
+    },{
       "name": "emitplatform",
       "base": "",
       "fields": [
@@ -377,11 +383,11 @@
         {"name":"token_amount",     "type":"asset"}
       ]
     },{
-      "name": "platform_lock",
-      "base": "",
-      "fields": [
-        {"name":"time",             "type":"block_timestamp_type"}
-      ]
+       "name": "platform_lock",
+       "base": "",
+       "fields": [
+         {"name":"time",            "type":"block_timestamp_type"}
+       ]
     },{
       "name": "voter_info",
       "base": "",
@@ -520,6 +526,10 @@
    },{
      "name": "onerror",
      "type": "onerror",
+     "ricardian_contract": ""
+   },{
+     "name": "lockplatform",
+     "type": "lockplatform",
      "ricardian_contract": ""
    },{
      "name": "emitplatform",
