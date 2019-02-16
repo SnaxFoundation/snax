@@ -9,6 +9,7 @@ variables:
   DOCKER_DRIVER: overlay2
   USERNAME: SnaxOne
   ORG: SnaxFoundation
+  REGISTRY_PUB: snaxfoundation
 
 
 stages:
