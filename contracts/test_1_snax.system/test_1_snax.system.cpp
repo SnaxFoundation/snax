@@ -30,7 +30,6 @@ namespace snaxsystem {
                m.supply.symbol = S(4,RAMCORE);
                m.base.balance.amount = int64_t(_gstate.free_ram());
                m.base.balance.symbol = S(0,RAM);
-               m.quote.balance.amount = system_token_supply / 1000;
                m.quote.balance.amount = system_token_supply / 10;
                m.quote.balance.symbol = CORE_SYMBOL;
             });

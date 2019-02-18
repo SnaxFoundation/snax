@@ -9,7 +9,7 @@ variables:
   DOCKER_DRIVER: overlay2
   USERNAME: SnaxOne
   ORG: SnaxFoundation
-
+  REGISTRY_PUB: snaxfoundation
 
 stages:
 - cleanup
@@ -141,9 +141,10 @@ build:docker:tag:
   - cp -r /usr/local/lib .
   - cp -r /usr/local/snax/bin .
   - echo "$CI_COMMIT_REF_NAME:$CI_COMMIT_SHA" > snax-version
-  - docker build --rm -t $REGISTRY/$CI_PROJECT_NAME:$CI_COMMIT_TAG .
-  - docker push $REGISTRY/$CI_PROJECT_NAME:$CI_COMMIT_TAG
-  - docker rmi $REGISTRY/$CI_PROJECT_NAME:$CI_COMMIT_TAG
+  - docker build --rm -t $REGISTRY_PUB/$CI_PROJECT_NAME:$CI_COMMIT_TAG .
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+  - docker push $REGISTRY_PUB/$CI_PROJECT_NAME:$CI_COMMIT_TAG
+  - docker rmi $REGISTRY_PUB/$CI_PROJECT_NAME:$CI_COMMIT_TAG
   only:
   - tags
   tags:
