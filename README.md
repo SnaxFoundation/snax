@@ -25,10 +25,38 @@ GLIBCXX >= 3.4.20
 
 ## Installation
 
-Download latest release from [https://github.com/SnaxFoundation/snax/releases](https://github.com/SnaxFoundation/snax/releases)
+### With binaries
+
+Download the latest release from [https://github.com/SnaxFoundation/snax/releases](https://github.com/SnaxFoundation/snax/releases)
 
 ```sh
 tar xvf bin.tar.gz
+```
+
+### With Docker
+
+1. Install [Docker](https://docs.docker.com/install)
+2. Create Snax account (or ask Snax team for testnet account in [Discord](https://discord.gg/qygxJAZ))
+3. Create directory for node data 
+```sh
+mkdir $HOME/producer
+```
+4.
+```sh
+docker run -d --restart=always --network=host --name producer \
+           -v $HOME/producer:/opt/snax/data snaxfoundation/snax:0.2.0-beta-4 \
+           snaxnoded.sh --signature-provider your_public_key=KEY:your_private_key \
+           --enable-stale-production \
+           --plugin=snax::producer_plugin \
+           --producer-name=SNAX_ACCOUNT_NAME \
+           --max-clients=0 \
+           --http-validate-host=false \
+           --plugin=snax::history_api_plugin \
+           --p2p-peer-address=18.136.191.21:9876 \
+           --p2p-peer-address=54.71.79.75:9876 \
+           --p2p-peer-address=80.66.90.29:9876 \
+           --p2p-peer-address=92.53.79.186:9876 \
+           --p2p-peer-address=92.53.79.190:9876
 ```
 
 ## Supported OS
