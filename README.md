@@ -48,7 +48,11 @@ tar xvf bin.tar.gz
 ```sh
 mkdir $HOME/producer
 ```
-4. To run Snax node as a block-producer
+4. Open p2p port on your firewall
+```sh
+iptables -I INPUT -p tcp --dport 9876 -j ACCEPT
+```
+5. To run Snax node as a block-producer
 ```sh
 docker run -d --restart=always --network=host --name producer \
            -v $HOME/producer:/opt/snax/data snaxfoundation/snax:0.2.0-beta-4 \
