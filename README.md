@@ -25,6 +25,13 @@ GLIBCXX >= 3.4.20
 
 ## Installation
 
+### Minimal hardware configuration
+
+*  4 cores
+*  32 GB RAM for testnet and 64 GB for mainnet. We're trying to reduce mainnet requirements to 32 GB.
+*  128 GB SSD for testnet, 512 GB SSD for mainnet
+*  100 mbit\s Internet speed
+
 ### With binaries
 
 Download the latest release from [https://github.com/SnaxFoundation/snax/releases](https://github.com/SnaxFoundation/snax/releases)
