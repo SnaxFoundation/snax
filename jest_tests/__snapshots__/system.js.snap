@@ -27,7 +27,7 @@ Array [
     "more": false,
     "rows": Array [
       Object {
-        "balance": "813.7143 SNAX",
+        "balance": "987.5744 SNAX",
       },
     ],
   },
@@ -1290,7 +1290,7 @@ Array [
     "more": false,
     "rows": Array [
       Object {
-        "balance": "499878056.2674 SNAX",
+        "balance": "499984870.0442 SNAX",
       },
     ],
   },
@@ -1303,7 +1303,7 @@ Array [
     "more": false,
     "rows": Array [
       Object {
-        "balance": "499878056.2674 SNAX",
+        "balance": "499984870.0442 SNAX",
       },
     ],
   },
@@ -1322,7 +1322,7 @@ exports[`System should set platforms 1`] = `
 Object {
   "cpu_weight": 15000000,
   "net_weight": 10000000,
-  "ram_quota": 1018830,
+  "ram_quota": 1018492,
 }
 `;
 
@@ -1330,7 +1330,7 @@ exports[`System should set platforms 2`] = `
 Object {
   "cpu_weight": 15000000,
   "net_weight": 10000000,
-  "ram_quota": 1018830,
+  "ram_quota": 1018492,
 }
 `;
 
@@ -1338,7 +1338,7 @@ exports[`System should set platforms 3`] = `
 Object {
   "cpu_weight": 15000000,
   "net_weight": 10000000,
-  "ram_quota": 1018830,
+  "ram_quota": 1018492,
 }
 `;
 
