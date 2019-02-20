@@ -138,7 +138,7 @@ namespace snaxsystem {
    double stake2vote( int64_t staked ) {
       /// TODO subtract 2080 brings the large numbers closer to this decade
       double weight = int64_t( (now() - (block_timestamp::block_timestamp_epoch / 1000)) / (seconds_per_day * 7) )  / double( 52 );
-      return double(staked) * std::pow( 2, weight );
+      return double(staked) / 100 * std::pow( 2, weight );
    }
    /**
     *  @pre producers must be sorted from lowest to highest and must be registered and active

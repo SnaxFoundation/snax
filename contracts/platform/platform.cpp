@@ -13,7 +13,7 @@ void platform::initialize(const string name, const account_name token_dealer,
 
   snax_assert(name.size() > 0, "platform name can't be empty");
 
-  const auto token_symbol =
+  const symbol_type token_symbol =
       string_to_symbol(precision, token_symbol_str.c_str());
 
   _state.round_supply = asset(0, token_symbol);
@@ -28,6 +28,7 @@ void platform::initialize(const string name, const account_name token_dealer,
   _state.airdrop = airdrop;
   _state.platform_name = name;
   _state.sent_amount = asset(0, token_symbol);
+  _state.token_symbols = {token_symbol};
 
   _platform_state.set(_state, _self);
 }
@@ -142,6 +143,18 @@ void platform::sendpayments(const account_name lower_account_name,
     _state.sent_amount += sent_amount;
     _platform_state.set(_state, _self);
   }
+}
+
+/// @abi action addsymbol
+void platform::addsymbol(const string token_symbol_str, const uint8_t precision) {
+  require_auth(_self);
+  require_initialized();
+
+  const symbol_type symbol =
+      string_to_symbol(precision, token_symbol_str.c_str());
+
+  _state.token_symbols.push_back(symbol);
+  _platform_state.set(_state, _self);
 }
 
 /// @abi action addpenacc
@@ -419,13 +432,13 @@ void platform::transfertou(const account_name from, const uint64_t to,
                       string("social transaction")))
         .send();
   } else {
-    transfers_table _transfers(_self, to);
+    transfers_table _transfers(_self, amount.symbol.name());
 
     action(
         permission_level{from, N(active)}, N(snax.token), N(transfer),
         make_tuple(from, N(snax.transf), amount, string("social transaction")))
         .send();
-    const auto &found_transfer = _transfers.find(amount.symbol.name());
+    const auto &found_transfer = _transfers.find(to);
 
     if (found_transfer != _transfers.end()) {
       _transfers.modify(found_transfer, from,
@@ -468,17 +481,21 @@ void platform::claim_transfered(const uint64_t id, const account_name account) {
   if (!account)
     return;
 
-  transfers_table _transfers(_self, id);
+  for (symbol_type symbol : _state.token_symbols) {
+    transfers_table _transfers(_self, symbol.name());
 
-  auto found = _transfers.lower_bound(1);
+    auto found = _transfers.find(id);
 
-  while (found != _transfers.end()) {
-    const asset amount = found->amount;
-    action(permission_level{N(snax.transf), N(active)}, N(snax.token),
-           N(transfer), make_tuple(N(snax.transf), account, amount,
-                                   string("social transaction")))
-        .send();
-    _transfers.erase(found++);
+    if (found != _transfers.end()) {
+      const asset amount = found->amount;
+
+      action(permission_level{N(snax.transf), N(active)}, N(snax.token),
+             N(transfer), make_tuple(N(snax.transf), account, amount,
+                                     string("social transaction")))
+          .send();
+
+      _transfers.erase(found++);
+    }
   }
 }
 

@@ -1247,6 +1247,52 @@ Object {
 `;
 
 exports[`System should claim rewards 1`] = `
+Object {
+  "more": false,
+  "rows": Array [
+    Object {
+      "is_active": 1,
+      "last_claim_time": 0,
+      "location": 0,
+      "owner": "snax",
+      "producer_key": "SNAX8mo3cUJW1Yy1GGxQfexWGN7QPUB2rXccQP7brrpgJXGjiw6gKR",
+      "total_votes": "898569206570764928.00000000000000000",
+      "unpaid_blocks": 0,
+      "url": "https://snax.one",
+    },
+  ],
+}
+`;
+
+exports[`System should claim rewards 2`] = `
+Object {
+  "more": false,
+  "rows": Array [
+    Object {
+      "is_proxy": 0,
+      "last_vote_weight": "0.00000000000000000",
+      "owner": "snax.creator",
+      "producers": Array [],
+      "proxied_vote_weight": "0.00000000000000000",
+      "proxy": "",
+      "staked": 75000000,
+    },
+    Object {
+      "is_proxy": 0,
+      "last_vote_weight": "898569206570764928.00000000000000000",
+      "owner": "snax.team",
+      "producers": Array [
+        "snax",
+      ],
+      "proxied_vote_weight": "0.00000000000000000",
+      "proxy": "",
+      "staked": "149999990000000",
+    },
+  ],
+}
+`;
+
+exports[`System should claim rewards 3`] = `
 Array [
   Object {
     "more": false,
@@ -1255,7 +1301,7 @@ Array [
 ]
 `;
 
-exports[`System should claim rewards 2`] = `
+exports[`System should claim rewards 4`] = `
 Array [
   Object {
     "more": false,
@@ -1269,6 +1315,70 @@ Array [
 `;
 
 exports[`System should fail to vote for non-unique producers 1`] = `"assertion failure with message: producers must be unique"`;
+
+exports[`System should fail to vote for non-unique producers 2`] = `
+Object {
+  "more": false,
+  "rows": Array [
+    Object {
+      "is_active": 1,
+      "last_claim_time": 0,
+      "location": 0,
+      "owner": "snax",
+      "producer_key": "SNAX8mo3cUJW1Yy1GGxQfexWGN7QPUB2rXccQP7brrpgJXGjiw6gKR",
+      "total_votes": "0.00000000000000000",
+      "unpaid_blocks": 0,
+      "url": "https://snax.one",
+    },
+    Object {
+      "is_active": 1,
+      "last_claim_time": 0,
+      "location": 0,
+      "owner": "testacc1",
+      "producer_key": "SNAX8mo3cUJW1Yy1GGxQfexWGN7QPUB2rXccQP7brrpgJXGjiw6gKR",
+      "total_votes": "0.00000000000000000",
+      "unpaid_blocks": 0,
+      "url": "https://snax.one",
+    },
+    Object {
+      "is_active": 1,
+      "last_claim_time": 0,
+      "location": 0,
+      "owner": "testacc2",
+      "producer_key": "SNAX8mo3cUJW1Yy1GGxQfexWGN7QPUB2rXccQP7brrpgJXGjiw6gKR",
+      "total_votes": "0.00000000000000000",
+      "unpaid_blocks": 0,
+      "url": "https://snax.one",
+    },
+  ],
+}
+`;
+
+exports[`System should fail to vote for non-unique producers 3`] = `
+Object {
+  "more": false,
+  "rows": Array [
+    Object {
+      "is_proxy": 0,
+      "last_vote_weight": "0.00000000000000000",
+      "owner": "snax.creator",
+      "producers": Array [],
+      "proxied_vote_weight": "0.00000000000000000",
+      "proxy": "",
+      "staked": 75000000,
+    },
+    Object {
+      "is_proxy": 0,
+      "last_vote_weight": "0.00000000000000000",
+      "owner": "snax.team",
+      "producers": Array [],
+      "proxied_vote_weight": "0.00000000000000000",
+      "proxy": "",
+      "staked": "149999990000000",
+    },
+  ],
+}
+`;
 
 exports[`System should initialize system correctly 1`] = `
 Array [
@@ -1369,6 +1479,78 @@ Object {
 `;
 
 exports[`System should vote for producers and claim rewards 1`] = `
+Object {
+  "more": false,
+  "rows": Array [
+    Object {
+      "is_active": 1,
+      "last_claim_time": 0,
+      "location": 0,
+      "owner": "snax",
+      "producer_key": "SNAX8mo3cUJW1Yy1GGxQfexWGN7QPUB2rXccQP7brrpgJXGjiw6gKR",
+      "total_votes": "494213063613920768.00000000000000000",
+      "unpaid_blocks": 0,
+      "url": "https://snax.one",
+    },
+    Object {
+      "is_active": 1,
+      "last_claim_time": 0,
+      "location": 0,
+      "owner": "testacc1",
+      "producer_key": "SNAX8mo3cUJW1Yy1GGxQfexWGN7QPUB2rXccQP7brrpgJXGjiw6gKR",
+      "total_votes": "359427682628305984.00000000000000000",
+      "unpaid_blocks": 0,
+      "url": "https://snax.one",
+    },
+    Object {
+      "is_active": 1,
+      "last_claim_time": 0,
+      "location": 0,
+      "owner": "testacc2",
+      "producer_key": "SNAX8mo3cUJW1Yy1GGxQfexWGN7QPUB2rXccQP7brrpgJXGjiw6gKR",
+      "total_votes": "224642301642691232.00000000000000000",
+      "unpaid_blocks": 0,
+      "url": "https://snax.one",
+    },
+  ],
+}
+`;
+
+exports[`System should vote for producers and claim rewards 2`] = `
+Object {
+  "more": false,
+  "rows": Array [
+    Object {
+      "is_proxy": 0,
+      "last_vote_weight": "0.00000000000000000",
+      "owner": "snax.creator",
+      "producers": Array [],
+      "proxied_vote_weight": "0.00000000000000000",
+      "proxy": "",
+      "staked": 75000000,
+    },
+    Object {
+      "is_proxy": 0,
+      "last_vote_weight": "898569206570764928.00000000000000000",
+      "owner": "snax.team",
+      "producers": Array [
+        "",
+        "",
+        "",
+        "",
+        "snax",
+        "testacc1",
+        "testacc2",
+      ],
+      "proxied_vote_weight": "0.00000000000000000",
+      "proxy": "",
+      "staked": "149999990000000",
+    },
+  ],
+}
+`;
+
+exports[`System should vote for producers and claim rewards 3`] = `
 Array [
   Object {
     "more": false,
@@ -1377,7 +1559,7 @@ Array [
 ]
 `;
 
-exports[`System should vote for producers and claim rewards 2`] = `
+exports[`System should vote for producers and claim rewards 4`] = `
 Array [
   Object {
     "more": false,

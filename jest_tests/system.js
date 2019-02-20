@@ -72,6 +72,24 @@ describe("System", async () => {
       })
     ).toMatchSnapshot();
 
+  const verifyProds = async () =>
+    expect(
+      await api.rpc.get_table_rows({
+        code: "snax",
+        scope: "snax",
+        table: "producers"
+      })
+    ).toMatchSnapshot();
+
+  const verifyVoters = async () =>
+    expect(
+      await api.rpc.get_table_rows({
+        code: "snax",
+        scope: "snax",
+        table: "voters"
+      })
+    ).toMatchSnapshot();
+
   const verifyAccountQuotas = async account =>
     expect(
       pick(
@@ -358,6 +376,8 @@ describe("System", async () => {
       "SNAX8mo3cUJW1Yy1GGxQfexWGN7QPUB2rXccQP7brrpgJXGjiw6gKR"
     );
     await voteproducer(["snax"]);
+    await verifyProds();
+    await verifyVoters();
     await sleep(1e4);
     await verifyAccountsBalances(["snax"]);
     await claimrewards("snax");
@@ -372,6 +392,8 @@ describe("System", async () => {
     ];
     await Promise.all(prods.map(args => regproducer(...args)));
     await voteproducer(["", "", "", "", ...prods.map(v => v[0])]);
+    await verifyProds();
+    await verifyVoters();
     await sleep(1e4);
     await verifyAccountsBalances(["snax"]);
     await claimrewards("snax");
@@ -388,6 +410,8 @@ describe("System", async () => {
     await tryCatchExpect(() =>
       voteproducer(["", "", "snax", "", ...prods.map(v => v[0])])
     );
+    await verifyProds();
+    await verifyVoters();
   });
 
   it("should set platforms", async () => {

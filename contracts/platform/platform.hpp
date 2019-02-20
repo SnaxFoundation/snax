@@ -56,6 +56,9 @@ public:
   /// @abi action nextround
   void nextround();
 
+  /// @abi action addsymbol
+  void addsymbol(const string token_symbol_str, const uint8_t precision);
+
   /// @abi action sendpayments
   void sendpayments(account_name lower_account_name, uint64_t account_count);
 
@@ -113,7 +116,7 @@ private:
     uint64_t id;
     asset amount;
 
-    uint64_t primary_key() const { return amount.symbol.name(); }
+    uint64_t primary_key() const { return id; }
 
     SNAXLIB_SERIALIZE(transfer_rec, (id)(amount))
   };
@@ -175,14 +178,15 @@ private:
     asset round_supply;
     asset sent_amount;
     uint64_t round_updated_account_count;
+    vector<uint64_t> token_symbols;
 
     uint64_t primary_key() const { return account; }
 
     SNAXLIB_SERIALIZE(
-        state,
-        (platform_name)(updating)(step_number)(registered_user_count)(
-            total_user_count)(total_attention_rate)(token_dealer)(account)(
-            airdrop)(round_supply)(sent_amount)(round_updated_account_count))
+        state, (platform_name)(updating)(step_number)(registered_user_count)(
+                   total_user_count)(total_attention_rate)(token_dealer)(
+                   account)(airdrop)(round_supply)(sent_amount)(
+                   round_updated_account_count)(token_symbols))
   };
 
   struct account_with_balance {

@@ -14,6 +14,9 @@ Object {
       "sent_amount": "0.0000 SNAX",
       "step_number": 0,
       "token_dealer": "snax",
+      "token_symbols": Array [
+        "379052774148",
+      ],
       "total_attention_rate": "15.00000000000000000",
       "total_user_count": 1,
       "updating": 0,
@@ -79,6 +82,9 @@ Object {
       "sent_amount": "0.0000 SNAX",
       "step_number": 0,
       "token_dealer": "snax",
+      "token_symbols": Array [
+        "379052774148",
+      ],
       "total_attention_rate": "0.00000000000000000",
       "total_user_count": 0,
       "updating": 0,
@@ -110,6 +116,9 @@ Object {
       "sent_amount": "0.0000 SNAX",
       "step_number": 0,
       "token_dealer": "snax",
+      "token_symbols": Array [
+        "379052774148",
+      ],
       "total_attention_rate": "0.00000000000000000",
       "total_user_count": 0,
       "updating": 0,
@@ -141,6 +150,9 @@ Object {
       "sent_amount": "0.0000 SNAX",
       "step_number": 0,
       "token_dealer": "snax",
+      "token_symbols": Array [
+        "379052774148",
+      ],
       "total_attention_rate": "652.00000000000000000",
       "total_user_count": 4,
       "updating": 1,
@@ -273,6 +285,9 @@ Object {
       "sent_amount": "0.0000 SNAX",
       "step_number": 0,
       "token_dealer": "snax",
+      "token_symbols": Array [
+        "379052774148",
+      ],
       "total_attention_rate": "652.00000000000000000",
       "total_user_count": 4,
       "updating": 2,
@@ -384,6 +399,9 @@ Object {
       "sent_amount": "0.0000 SNAX",
       "step_number": 1,
       "token_dealer": "snax",
+      "token_symbols": Array [
+        "379052774148",
+      ],
       "total_attention_rate": "652.00000000000000000",
       "total_user_count": 4,
       "updating": 0,
@@ -571,23 +589,39 @@ Object {
   "rows": Array [
     Object {
       "amount": "20.0000 SNAX",
-      "id": 15,
+      "id": 16,
     },
     Object {
-      "amount": "20.0000 SNIX",
-      "id": 15,
+      "amount": "20.0000 SNAX",
+      "id": 17,
     },
   ],
 }
 `;
 
 exports[`Platform should process social transfers with different assets correctly 2`] = `
+Object {
+  "more": false,
+  "rows": Array [
+    Object {
+      "amount": "20.0000 SNIX",
+      "id": 15,
+    },
+    Object {
+      "amount": "20.0000 SNIX",
+      "id": 30,
+    },
+  ],
+}
+`;
+
+exports[`Platform should process social transfers with different assets correctly 3`] = `
 Array [
   Object {
     "more": false,
     "rows": Array [
       Object {
-        "balance": "980.0000 SNAX",
+        "balance": "960.0000 SNAX",
       },
       Object {
         "balance": "960.0000 SNIX",
@@ -601,20 +635,45 @@ Array [
 ]
 `;
 
-exports[`Platform should process social transfers with different assets correctly 3`] = `
+exports[`Platform should process social transfers with different assets correctly 4`] = `
 Object {
   "more": false,
-  "rows": Array [],
+  "rows": Array [
+    Object {
+      "amount": "20.0000 SNAX",
+      "id": 16,
+    },
+    Object {
+      "amount": "20.0000 SNAX",
+      "id": 17,
+    },
+  ],
 }
 `;
 
-exports[`Platform should process social transfers with different assets correctly 4`] = `
+exports[`Platform should process social transfers with different assets correctly 5`] = `
+Object {
+  "more": false,
+  "rows": Array [
+    Object {
+      "amount": "20.0000 SNIX",
+      "id": 15,
+    },
+    Object {
+      "amount": "20.0000 SNIX",
+      "id": 30,
+    },
+  ],
+}
+`;
+
+exports[`Platform should process social transfers with different assets correctly 6`] = `
 Array [
   Object {
     "more": false,
     "rows": Array [
       Object {
-        "balance": "980.0000 SNAX",
+        "balance": "960.0000 SNAX",
       },
       Object {
         "balance": "960.0000 SNIX",
@@ -623,14 +682,7 @@ Array [
   },
   Object {
     "more": false,
-    "rows": Array [
-      Object {
-        "balance": "20.0000 SNAX",
-      },
-      Object {
-        "balance": "20.0000 SNIX",
-      },
-    ],
+    "rows": Array [],
   },
 ]
 `;
@@ -649,6 +701,9 @@ Object {
       "sent_amount": "0.0000 SNAX",
       "step_number": 0,
       "token_dealer": "snax",
+      "token_symbols": Array [
+        "379052774148",
+      ],
       "total_attention_rate": "20.00000000000000000",
       "total_user_count": 1,
       "updating": 0,
@@ -704,6 +759,9 @@ Object {
       "sent_amount": "0.0000 SNAX",
       "step_number": 0,
       "token_dealer": "snax",
+      "token_symbols": Array [
+        "379052774148",
+      ],
       "total_attention_rate": "45.00000000000000000",
       "total_user_count": 2,
       "updating": 0,
@@ -790,6 +848,9 @@ Object {
       "sent_amount": "0.0000 SNAX",
       "step_number": 0,
       "token_dealer": "snax",
+      "token_symbols": Array [
+        "379052774148",
+      ],
       "total_attention_rate": "0.00000000000000000",
       "total_user_count": 0,
       "updating": 0,
@@ -823,6 +884,9 @@ Object {
       "sent_amount": "0.0000 SNAX",
       "step_number": 0,
       "token_dealer": "snax",
+      "token_symbols": Array [
+        "379052774148",
+      ],
       "total_attention_rate": "225.00000000000000000",
       "total_user_count": 1,
       "updating": 0,
@@ -883,6 +947,9 @@ Object {
       "sent_amount": "0.0000 SNAX",
       "step_number": 0,
       "token_dealer": "snax",
+      "token_symbols": Array [
+        "379052774148",
+      ],
       "total_attention_rate": "225.00000000000000000",
       "total_user_count": 1,
       "updating": 1,
@@ -939,6 +1006,9 @@ Object {
       "sent_amount": "0.0000 SNAX",
       "step_number": 0,
       "token_dealer": "snax",
+      "token_symbols": Array [
+        "379052774148",
+      ],
       "total_attention_rate": "15.00000000000000000",
       "total_user_count": 1,
       "updating": 0,
@@ -995,6 +1065,9 @@ Object {
       "sent_amount": "0.0000 SNAX",
       "step_number": 0,
       "token_dealer": "snax",
+      "token_symbols": Array [
+        "379052774148",
+      ],
       "total_attention_rate": "0.00000000000000000",
       "total_user_count": 0,
       "updating": 0,
@@ -1028,6 +1101,9 @@ Object {
       "sent_amount": "0.0000 SNAX",
       "step_number": 0,
       "token_dealer": "snax",
+      "token_symbols": Array [
+        "379052774148",
+      ],
       "total_attention_rate": "15.00000000000000000",
       "total_user_count": 1,
       "updating": 0,
