@@ -184,7 +184,7 @@ describe("System", async () => {
     expect(tables).toMatchSnapshot();
   };
 
-  const regproducer = producer =>
+  const regproducer = (producer, producer_key) =>
     api.transact(
       {
         actions: [
@@ -199,8 +199,7 @@ describe("System", async () => {
             ],
             data: {
               producer,
-              producer_key:
-                "SNAX8mo3cUJW1Yy1GGxQfexWGN7QPUB2rXccQP7brrpgJXGjiw6gKR",
+              producer_key,
               url: "https://snax.one",
               location: 0
             }
@@ -354,12 +353,41 @@ describe("System", async () => {
     ]);
 
   it("should claim rewards", async () => {
-    await regproducer("snax");
+    await regproducer(
+      "snax",
+      "SNAX8mo3cUJW1Yy1GGxQfexWGN7QPUB2rXccQP7brrpgJXGjiw6gKR"
+    );
     await voteproducer(["snax"]);
     await sleep(1e4);
     await verifyAccountsBalances(["snax"]);
     await claimrewards("snax");
     await verifyAccountsBalances(["snax"]);
+  });
+
+  it("should vote for producers and claim rewards", async () => {
+    const prods = [
+      ["snax", "SNAX8mo3cUJW1Yy1GGxQfexWGN7QPUB2rXccQP7brrpgJXGjiw6gKR"],
+      ["testacc1", "SNAX8mo3cUJW1Yy1GGxQfexWGN7QPUB2rXccQP7brrpgJXGjiw6gKR"],
+      ["testacc2", "SNAX8mo3cUJW1Yy1GGxQfexWGN7QPUB2rXccQP7brrpgJXGjiw6gKR"]
+    ];
+    await Promise.all(prods.map(args => regproducer(...args)));
+    await voteproducer(["", "", "", "", ...prods.map(v => v[0])]);
+    await sleep(1e4);
+    await verifyAccountsBalances(["snax"]);
+    await claimrewards("snax");
+    await verifyAccountsBalances(["snax"]);
+  });
+
+  it("should fail to vote for non-unique producers", async () => {
+    const prods = [
+      ["snax", "SNAX8mo3cUJW1Yy1GGxQfexWGN7QPUB2rXccQP7brrpgJXGjiw6gKR"],
+      ["testacc1", "SNAX8mo3cUJW1Yy1GGxQfexWGN7QPUB2rXccQP7brrpgJXGjiw6gKR"],
+      ["testacc2", "SNAX8mo3cUJW1Yy1GGxQfexWGN7QPUB2rXccQP7brrpgJXGjiw6gKR"]
+    ];
+    await Promise.all(prods.map(args => regproducer(...args)));
+    await tryCatchExpect(() =>
+      voteproducer(["", "", "snax", "", ...prods.map(v => v[0])])
+    );
   });
 
   it("should set platforms", async () => {
@@ -373,7 +401,10 @@ describe("System", async () => {
   });
 
   it("should work correctly with escrow system", async () => {
-    await regproducer("testacc1");
+    await regproducer(
+      "testacc1",
+      "SNAX8mo3cUJW1Yy1GGxQfexWGN7QPUB2rXccQP7brrpgJXGjiw6gKR"
+    );
     await voteproducer(["testacc1"]);
     await tryCatchExpect(() =>
       undelegatebw("snax.team", "1199999921.0000 SNAX", "299999980.0000 SNAX")
@@ -389,7 +420,10 @@ describe("System", async () => {
   });
 
   it("should work correctly with escrow system after initialization", async () => {
-    await regproducer("testacc1");
+    await regproducer(
+      "testacc1",
+      "SNAX8mo3cUJW1Yy1GGxQfexWGN7QPUB2rXccQP7brrpgJXGjiw6gKR"
+    );
     await voteproducer(["testacc1"]);
     await undelegatebw(
       "snax.team",
@@ -431,7 +465,7 @@ describe("System", async () => {
     await verifyAccountsBalances(["snax", "platform"]);
   });
 
-  it("should call system's emitplatform correctly", async () => {
+  it("should call system's emitplatform correctly for several platforms", async () => {
     await emitplatform("platform");
     await emitplatform("testacc1");
     await verifyAccountsBalances(["testacc2", "testacc1", "snax", "platform"]);

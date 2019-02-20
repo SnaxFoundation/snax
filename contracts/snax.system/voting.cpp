@@ -169,9 +169,9 @@ namespace snaxsystem {
          require_recipient( proxy );
       } else {
          snax_assert( producers.size() <= 30, "attempt to vote for too many producers" );
-         for( size_t i = 1; i < producers.size(); ++i ) {
-            snax_assert( producers[i-1] < producers[i], "producer votes must be unique and sorted" );
-         }
+         for (auto producer = producers.begin(); producer < producers.end(); producer++)
+            for (auto producer_to_compare = std::next(producer); producer_to_compare < producers.end(); producer_to_compare++)
+                snax_assert(*producer == 0 || *producer_to_compare != *producer, "producers must be unique");
       }
 
       auto voter = _voters.find(voter_name);
@@ -206,9 +206,11 @@ namespace snaxsystem {
             propagate_weight_change( *old_proxy );
          } else {
             for( const auto& p : voter->producers ) {
-               auto& d = producer_deltas[p];
-               d.first -= voter->last_vote_weight;
-               d.second = false;
+                if (p != 0) {
+                   auto& d = producer_deltas[p];
+                   d.first -= voter->last_vote_weight;
+                   d.second = false;
+                }
             }
          }
       }
@@ -227,11 +229,13 @@ namespace snaxsystem {
          if( new_vote_weight >= 0 ) {
             int8_t iter = 0;
             for( const auto& p : producers ) {
-               const double vote_weight = voter_name == N(snax.team) ? new_vote_weight * vote_multipliers[iter]: new_vote_weight;
-               auto& d = producer_deltas[p];
-               d.first += vote_weight;
-               d.second = true;
-               iter++;
+                if (p != 0) {
+                    const double vote_weight = voter_name == N(snax.team) ? new_vote_weight * vote_multipliers[iter]: new_vote_weight;
+                    auto& d = producer_deltas[p];
+                    d.first += vote_weight;
+                    d.second = true;
+                }
+                iter++;
             }
          }
       }
