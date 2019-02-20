@@ -17,7 +17,7 @@ Array [
 ]
 `;
 
-exports[`System should call system's emitplatform correctly 2`] = `
+exports[`System should call system's emitplatform correctly for several platforms 1`] = `
 Array [
   Object {
     "more": false,
@@ -1268,6 +1268,8 @@ Array [
 ]
 `;
 
+exports[`System should fail to vote for non-unique producers 1`] = `"assertion failure with message: producers must be unique"`;
+
 exports[`System should initialize system correctly 1`] = `
 Array [
   Object {
@@ -1364,6 +1366,28 @@ Object {
   "net_weight": 1000000,
   "ram_quota": 900000,
 }
+`;
+
+exports[`System should vote for producers and claim rewards 1`] = `
+Array [
+  Object {
+    "more": false,
+    "rows": Array [],
+  },
+]
+`;
+
+exports[`System should vote for producers and claim rewards 2`] = `
+Array [
+  Object {
+    "more": false,
+    "rows": Array [
+      Object {
+        "balance": "125.9997 SNAX",
+      },
+    ],
+  },
+]
 `;
 
 exports[`System should work correctly with escrow system 1`] = `"assertion failure with message: cant unstake this amount for account at the moment"`;
