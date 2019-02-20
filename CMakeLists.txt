@@ -257,19 +257,19 @@ install(FILES ${CMAKE_BINARY_DIR}/modules/snax-config.cmake DESTINATION ${CMAKE_
 configure_file(${CMAKE_SOURCE_DIR}/CMakeModules/SnaxTester.cmake.in ${CMAKE_BINARY_DIR}/modules/SnaxTester.cmake @ONLY)
 install(FILES ${CMAKE_BINARY_DIR}/modules/SnaxTester.cmake DESTINATION ${CMAKE_INSTALL_FULL_LIBDIR}/cmake/snax)
 
-configure_file(${CMAKE_SOURCE_DIR}/LICENSE 
+configure_file(${CMAKE_SOURCE_DIR}/LICENSE
                ${CMAKE_BINARY_DIR}/licenses/snax/LICENSE COPYONLY)
-configure_file(${CMAKE_SOURCE_DIR}/libraries/wabt/LICENSE 
+configure_file(${CMAKE_SOURCE_DIR}/libraries/wabt/LICENSE
                ${CMAKE_BINARY_DIR}/licenses/snax/LICENSE.wabt COPYONLY)
-configure_file(${CMAKE_SOURCE_DIR}/libraries/softfloat/COPYING.txt 
+configure_file(${CMAKE_SOURCE_DIR}/libraries/softfloat/COPYING.txt
                ${CMAKE_BINARY_DIR}/licenses/snax/LICENSE.softfloat COPYONLY)
-configure_file(${CMAKE_SOURCE_DIR}/libraries/wasm-jit/LICENSE 
+configure_file(${CMAKE_SOURCE_DIR}/libraries/wasm-jit/LICENSE
                ${CMAKE_BINARY_DIR}/licenses/snax/LICENSE.wavm COPYONLY)
-configure_file(${CMAKE_SOURCE_DIR}/libraries/fc/secp256k1/upstream/COPYING 
+configure_file(${CMAKE_SOURCE_DIR}/libraries/fc/secp256k1/upstream/COPYING
                ${CMAKE_BINARY_DIR}/licenses/snax/LICENSE.secp256k1 COPYONLY)
-configure_file(${CMAKE_SOURCE_DIR}/libraries/fc/src/network/LICENSE.go 
+configure_file(${CMAKE_SOURCE_DIR}/libraries/fc/src/network/LICENSE.go
                ${CMAKE_BINARY_DIR}/licenses/snax/LICENSE.go COPYONLY)
-configure_file(${CMAKE_SOURCE_DIR}/externals/binaryen/LICENSE 
+configure_file(${CMAKE_SOURCE_DIR}/externals/binaryen/LICENSE
                ${CMAKE_BINARY_DIR}/licenses/snax/LICENSE.binaryen COPYONLY)
 
 install(FILES LICENSE DESTINATION ${CMAKE_INSTALL_FULL_DATAROOTDIR}/licenses/snax/)

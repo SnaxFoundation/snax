@@ -38,7 +38,7 @@ namespace snaxsystem {
    struct snax_global_state : snax::blockchain_parameters {
       uint64_t free_ram()const { return max_ram_size - total_ram_bytes_reserved; }
 
-      uint64_t             max_ram_size = 40ll*1024 * 1024 * 1024;
+      uint64_t             max_ram_size = 5ll*1024 * 1024 * 1024;
       uint64_t             total_ram_bytes_reserved = 0;
       int64_t              total_ram_stake = 0;
 
