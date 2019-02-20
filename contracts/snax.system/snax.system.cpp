@@ -35,15 +35,6 @@ namespace snaxsystem {
             });
          }
       } else {
-          const int64_t system_token_soft_supply_limit = snax::token(N(snax.token)).get_max_supply(snax::symbol_type(system_token_symbol).name()).amount / 10;
-          _rammarket.modify(itr, _self, [&](auto& m) {
-               m.supply.amount = 100000000000000ll;
-               m.supply.symbol = S(4,RAMCORE);
-               m.base.balance.amount = int64_t(_gstate.free_ram());
-               m.base.balance.symbol = S(0,RAM);
-               m.quote.balance.amount = system_token_soft_supply_limit / 7500;
-               m.quote.balance.symbol = CORE_SYMBOL;
-          });
          //print( "ram market already created" );
       }
 

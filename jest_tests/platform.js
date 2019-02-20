@@ -82,11 +82,11 @@ describe("Platform", async () => {
     expect(users).toMatchSnapshot();
   };
 
-  const verifyTransferTable = async id => {
+  const verifyTransferTable = async currency => {
     expect(
       await api.rpc.get_table_rows({
         code: account,
-        scope: id,
+        scope: currency,
         table: "transfers"
       })
     ).toMatchSnapshot();
@@ -362,6 +362,55 @@ describe("Platform", async () => {
       }
     );
 
+  const addSymbol = symbol =>
+    api.transact(
+      {
+        actions: [
+          {
+            account: "platform",
+            name: "addsymbol",
+            authorization: [
+              {
+                actor: account,
+                permission: "active"
+              }
+            ],
+            data: { token_symbol_str: symbol, precision: 4 }
+          }
+        ]
+      },
+      {
+        blocksBehind: 1,
+        expireSeconds: 30
+      }
+    );
+
+  it("should process social transfers with different assets correctly", async () => {
+    await initialize();
+    await addSymbol("SNIX", 4);
+    await Promise.all([
+      socialTransfer("test.transf", 15, "20.0000 SNIX"),
+      socialTransfer("test.transf", 16, "20.0000 SNAX"),
+      socialTransfer("test.transf", 17, "20.0000 SNAX"),
+      socialTransfer("test.transf", 30, "20.0000 SNIX")
+    ]);
+    await verifyTransferTable("SNAX");
+    await verifyTransferTable("SNIX");
+    await verifyAccountsBalances(["test.transf", "test1"]);
+    await addUser({
+      verification_salt: "12345",
+      stat_diff: [5, 10, 15],
+      verification_tweet: "1083836521751478272",
+      account: "test1",
+      id: 15,
+      attention_rate: 15.0,
+      attention_rate_rating_position: 1
+    });
+    await verifyTransferTable("SNAX");
+    await verifyTransferTable("SNIX");
+    await verifyAccountsBalances(["test.transf", "test1"]);
+  });
+
   it("should process next round correctly", async () => {
     await initialize();
     await addUser({
@@ -408,7 +457,7 @@ describe("Platform", async () => {
   it("should process social transfer correctly", async () => {
     await initialize();
     await socialTransfer("test.transf", 15, "20.0000 SNAX");
-    await verifyTransferTable(15);
+    await verifyTransferTable("SNAX");
     await verifyAccountsBalances(["test.transf", "test1"]);
     await addUser({
       verification_salt: "12345",
@@ -419,27 +468,7 @@ describe("Platform", async () => {
       attention_rate: 15.0,
       attention_rate_rating_position: 1
     });
-    await verifyTransferTable(15);
-    await verifyAccountsBalances(["test.transf", "test1"]);
-  });
-
-  it("should process social transfers with different assets correctly", async () => {
-    await initialize();
-    await socialTransfer("test.transf", 15, "20.0000 SNIX");
-    await socialTransfer("test.transf", 15, "20.0000 SNAX");
-    await socialTransfer("test.transf", 30, "20.0000 SNIX");
-    await verifyTransferTable(15);
-    await verifyAccountsBalances(["test.transf", "test1"]);
-    await addUser({
-      verification_salt: "12345",
-      stat_diff: [5, 10, 15],
-      verification_tweet: "1083836521751478272",
-      account: "test1",
-      id: 15,
-      attention_rate: 15.0,
-      attention_rate_rating_position: 1
-    });
-    await verifyTransferTable(15);
+    await verifyTransferTable("SNAX");
     await verifyAccountsBalances(["test.transf", "test1"]);
   });
 

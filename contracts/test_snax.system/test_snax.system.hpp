@@ -228,6 +228,8 @@ namespace snaxsystem {
 
          void emitplatform( account_name& platform );
 
+         void resetvotes();
+
          /**
           * Increases receiver's ram quota based upon current price and quantity of
           * tokens provided. An inline transfer from receiver to system contract of
