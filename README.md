@@ -79,12 +79,12 @@ mkdir $HOME/snax-wallet
 ```
 2. Run kxd keystore with Docker
 ```sh
-docker run  --name=snax-wallet -d -v $HOME/snax-wallet:/root/snax-wallet
-            --restart=always -p 127.0.0.1:8900:8900 snaxfoundation/snax:0.2.0-beta-4 kxd.sh
-            --http-server-address=0.0.0.0:8900
-            --access-control-allow-origin=*
-            --access-control-allow-headers=*
-            --http-validate-host=0
+docker run  --name=snax-wallet -d -v $HOME/snax-wallet:/root/snax-wallet \
+            --restart=always -p 127.0.0.1:8900:8900 snaxfoundation/snax:0.2.0-beta-4 kxd.sh \
+            --http-server-address=0.0.0.0:8900 \
+            --access-control-allow-origin=* \
+            --access-control-allow-headers=* \
+            --http-validate-host=0 \
             --http-alias=snax_kxd:8900
 ```
 
