@@ -95,20 +95,24 @@ docker run  --name=snax-wallet -d -v $HOME/snax-wallet:/root/snax-wallet \
 ```sh
 tar xvf bin.tar.gz
 ```
-3. Import your wallet
+3. Create your wallet
+```sh
+clisnax --wallet-url http://127.0.0.1:8900 wallet create --to-console
+```
+4. Import your private key
 ```sh
 clisnax --wallet-url http://127.0.0.1:8900 wallet import --private-key put_your_private_key_here
 ```
-4. Unlock your wallet
+5. Unlock your wallet
 ```sh
 clisnax --wallet-url http://127.0.0.1:8900 wallet unlock
 ```
-5. Register yourself as a BP candidate
+6. Register yourself as a BP candidate
 ```sh
 clisnax --url https://testnetcdn.snax.one
         --wallet-url http://127.0.0.1:8900 system regproducer put_your_snax_account_name_here put_your_public_key_here
 ```
-**6. LOCK YOUR WALLET!**
+**7. LOCK YOUR WALLET!**
 ```sh
 clisnax --wallet-url http://127.0.0.1:8900 wallet lock
 ```
