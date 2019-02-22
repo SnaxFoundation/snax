@@ -109,8 +109,8 @@ clisnax --wallet-url http://127.0.0.1:8900 wallet unlock
 ```
 6. Register yourself as a BP candidate
 ```sh
-clisnax --url https://testnetcdn.snax.one
-        --wallet-url http://127.0.0.1:8900 system regproducer put_your_snax_account_name_here put_your_public_key_here \
+clisnax --url https://testnetcdn.snax.one \
+        --wallet-url http://127.0.0.1:8900 system regproducer put_your_snax_account_name_here put_your_public_key_here
 ```
 **7. LOCK YOUR WALLET!**
 ```sh
