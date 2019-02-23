@@ -1256,7 +1256,7 @@ Object {
       "location": 0,
       "owner": "snax",
       "producer_key": "SNAX8mo3cUJW1Yy1GGxQfexWGN7QPUB2rXccQP7brrpgJXGjiw6gKR",
-      "total_votes": "898569206570764928.00000000000000000",
+      "total_votes": "910627098395874816.00000000000000000",
       "unpaid_blocks": 0,
       "url": "https://snax.one",
     },
@@ -1279,7 +1279,7 @@ Object {
     },
     Object {
       "is_proxy": 0,
-      "last_vote_weight": "898569206570764928.00000000000000000",
+      "last_vote_weight": "910627098395874816.00000000000000000",
       "owner": "snax.team",
       "producers": Array [
         "snax",
@@ -1488,7 +1488,7 @@ Object {
       "location": 0,
       "owner": "snax",
       "producer_key": "SNAX8mo3cUJW1Yy1GGxQfexWGN7QPUB2rXccQP7brrpgJXGjiw6gKR",
-      "total_votes": "494213063613920768.00000000000000000",
+      "total_votes": "500844904117731200.00000000000000000",
       "unpaid_blocks": 0,
       "url": "https://snax.one",
     },
@@ -1498,7 +1498,7 @@ Object {
       "location": 0,
       "owner": "testacc1",
       "producer_key": "SNAX8mo3cUJW1Yy1GGxQfexWGN7QPUB2rXccQP7brrpgJXGjiw6gKR",
-      "total_votes": "359427682628305984.00000000000000000",
+      "total_votes": "364250839358349952.00000000000000000",
       "unpaid_blocks": 0,
       "url": "https://snax.one",
     },
@@ -1508,7 +1508,7 @@ Object {
       "location": 0,
       "owner": "testacc2",
       "producer_key": "SNAX8mo3cUJW1Yy1GGxQfexWGN7QPUB2rXccQP7brrpgJXGjiw6gKR",
-      "total_votes": "224642301642691232.00000000000000000",
+      "total_votes": "227656774598968704.00000000000000000",
       "unpaid_blocks": 0,
       "url": "https://snax.one",
     },
@@ -1531,7 +1531,7 @@ Object {
     },
     Object {
       "is_proxy": 0,
-      "last_vote_weight": "898569206570764928.00000000000000000",
+      "last_vote_weight": "910627098395874816.00000000000000000",
       "owner": "snax.team",
       "producers": Array [
         "",
@@ -1592,6 +1592,19 @@ Array [
 ]
 `;
 
+exports[`System should work correctly with escrow system 4`] = `
+Array [
+  Array [
+    Object {
+      "amount": "14999999000.0000 SNAX",
+      "initial_amount": "14999999000.0000 SNAX",
+      "owner": "snax.team",
+      "period_count": 10,
+    },
+  ],
+]
+`;
+
 exports[`System should work correctly with escrow system after initialization 1`] = `
 Array [
   Object {
@@ -1612,7 +1625,21 @@ exports[`System should work correctly with escrow system after initialization 2`
 Array [
   Array [
     Object {
+      "amount": "13500999000.0000 SNAX",
+      "initial_amount": "14999999000.0000 SNAX",
+      "owner": "snax.team",
+      "period_count": 10,
+    },
+  ],
+]
+`;
+
+exports[`System should work correctly with escrow system after initialization 3`] = `
+Array [
+  Array [
+    Object {
       "amount": "20.0000 SNAX",
+      "initial_amount": "20.0000 SNAX",
       "owner": "test.transf",
       "period_count": 10,
     },

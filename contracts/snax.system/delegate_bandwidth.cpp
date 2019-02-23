@@ -441,7 +441,9 @@ namespace snaxsystem {
 
       asset available_to_unstake = asset(itr->net_weight + itr->cpu_weight);
 
-      while (escrow_iter != _escrow_bandwidth.end()) {
+      bool enough = false;
+
+      while (escrow_iter != _escrow_bandwidth.end() && !enough) {
           const auto escrow_record = *escrow_iter;
           const auto current_time = snax::time_point_sec(now());
           const auto period_count = (
@@ -452,7 +454,7 @@ namespace snaxsystem {
 
           const asset unstaked = escrow_record.initial_amount - escrow_record.amount;
 
-          const asset available_to_unstake_from_bucket = asset(
+          asset available_to_unstake_from_bucket = asset(
               escrow_record.initial_amount.amount
               / escrow_record.period_count
               * (period_count + 1)
@@ -462,11 +464,17 @@ namespace snaxsystem {
 
           available_to_unstake += available_to_unstake_from_bucket;
 
-          escrow_iter++;
-      }
+          if (available_to_unstake > unstake_net_quantity + unstake_cpu_quantity) {
+              available_to_unstake_from_bucket = available_to_unstake_from_bucket - (available_to_unstake - unstake_net_quantity - unstake_cpu_quantity);
+              available_to_unstake = unstake_net_quantity + unstake_cpu_quantity;
+              enough = true;
+          }
 
-      if (available_to_unstake > unstake_net_quantity + unstake_cpu_quantity) {
-          available_to_unstake = unstake_net_quantity + unstake_cpu_quantity;
+          _escrow_bandwidth.modify(escrow_iter, _self, [&](auto& record) {
+              record.amount -= available_to_unstake_from_bucket;
+          });
+
+          escrow_iter++;
       }
 
       snax::print("Available to unstake: \t", available_to_unstake);

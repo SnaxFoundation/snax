@@ -370,6 +370,24 @@ describe("System", async () => {
       }
     ]);
 
+  it("should work correctly with escrow system after initialization", async () => {
+    await regproducer(
+      "testacc1",
+      "SNAX8mo3cUJW1Yy1GGxQfexWGN7QPUB2rXccQP7brrpgJXGjiw6gKR"
+    );
+    await voteproducer(["testacc1"]);
+    await undelegatebw(
+      "snax.team",
+      "1199200000.0000 SNAX",
+      "299800000.0000 SNAX"
+    );
+    await verifyBWTable(["snax.team"]);
+    await verifyBWEscrowTable(["snax.team"]);
+    await escrowbw("test.transf", "10.0000 SNAX", "10.0000 SNAX", 10);
+    await verifyBWEscrowTable(["test.transf"]);
+    await undelegatebw("test.transf", "1.0000 SNAX", "1.0000 SNAX");
+  });
+
   it("should claim rewards", async () => {
     await regproducer(
       "snax",
@@ -437,27 +455,11 @@ describe("System", async () => {
       undelegatebw("snax.team", "1199999920.0000 SNAX", "2999999801.0000 SNAX")
     );
     await verifyBWTable(["snax.team"]);
+    await verifyBWEscrowTable(["snax.team"]);
   });
 
   it("should send correct amounts to special accounts after initialization", async () => {
     await verifyAccountsBalances(["snax.creator", "snax.airdrop"]);
-  });
-
-  it("should work correctly with escrow system after initialization", async () => {
-    await regproducer(
-      "testacc1",
-      "SNAX8mo3cUJW1Yy1GGxQfexWGN7QPUB2rXccQP7brrpgJXGjiw6gKR"
-    );
-    await voteproducer(["testacc1"]);
-    await undelegatebw(
-      "snax.team",
-      "1199200000.0000 SNAX",
-      "299800000.0000 SNAX"
-    );
-    await verifyBWTable(["snax.team"]);
-    await escrowbw("test.transf", "10.0000 SNAX", "10.0000 SNAX", 10);
-    await verifyBWEscrowTable(["test.transf"]);
-    await undelegatebw("test.transf", "1.0000 SNAX", "1.0000 SNAX");
   });
 
   it("should call system's emitplatform correctly several times", async () => {
