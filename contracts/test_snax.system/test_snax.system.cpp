@@ -283,25 +283,6 @@ namespace snaxsystem {
 
    }
 
-   void system_contract::resetvotes() {
-     require_auth(N(snax));
-
-     for (auto producer = _producers.lower_bound(1); producer != _producers.end();
-          producer++) {
-       _producers.modify(producer, 0, [&](auto &p) { p.total_votes = 0; });
-     }
-
-     for (auto voter = _voters.lower_bound(1); voter != _voters.end();
-          voter++) {
-       _voters.modify(voter, 0, [&](auto &v) { v.last_vote_weight = 0; v.proxied_vote_weight = 0; });
-     }
-
-     _gstate = _global.get();
-     _gstate.total_producer_vote_weight = 0;
-
-     _global.set(_gstate, _self);
-   }
-
    void system_contract::setram( uint64_t max_ram_size ) {
       require_auth( _self );
 
@@ -579,7 +560,7 @@ SNAX_ABI( snaxsystem::system_contract,
      // native.hpp (newaccount definition is actually in snax.system.cpp)
      (newaccount)(updateauth)(deleteauth)(linkauth)(unlinkauth)(canceldelay)(onerror)
      // snax.system.cpp
-     (lockplatform)(emitplatform)(resetvotes)(setram)(setplatforms)(setparams)(setpriv)(rmvproducer)(bidname)
+     (lockplatform)(emitplatform)(setram)(setplatforms)(setparams)(setpriv)(rmvproducer)(bidname)
      // delegate_bandwidth.cpp
      (buyrambytes)(buyram)(sellram)(escrowbw)(delegatebw)(undelegatebw)(refund)
      // voting.cpp

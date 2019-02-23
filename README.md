@@ -23,43 +23,44 @@ libssl >= 1.0.0
 GLIBCXX >= 3.4.20
 ```
 
-## Installation
+## Supported OS
 
-### Minimal hardware configuration
+Snax currently supports only Linux x64
+
+## Run as Block Producer
+
+### 1. Minimal hardware configuration
 
 *  4 cores
 *  32 GB RAM for testnet and 64 GB for mainnet. We're trying to reduce mainnet requirements to 32 GB.
 *  128 GB SSD for testnet, 512 GB SSD for mainnet
 *  100 mbit\s Internet speed
 
-### With binaries
+### 2. Create wallet and account in Snax
 
-Download the latest release from [https://github.com/SnaxFoundation/snax/releases](https://github.com/SnaxFoundation/snax/releases)
+1. Download [Snax extension](https://chrome.google.com/webstore/detail/snax/dolcmddbbplempeembpecnpllnbgjlal) for Chrome browser (or use cli if you want)
+2. Create Snax wallet with it
+3. Create Snax account (or ask Snax team for testnet account in [Discord](https://discord.gg/qygxJAZ))
 
-```sh
-tar xvf bin.tar.gz
-```
-
-### With Docker
+### 3. Run Snax node with Docker
 
 1. Install [Docker](https://docs.docker.com/install)
-2. Create Snax account (or ask Snax team for testnet account in [Discord](https://discord.gg/qygxJAZ))
-3. Create directory for node data 
+2. Create directory for node data 
 ```sh
 mkdir $HOME/producer
 ```
-4. Open p2p port on your firewall
+3. Open p2p port on your firewall
 ```sh
 iptables -I INPUT -p tcp --dport 9876 -j ACCEPT
 ```
-5. To run Snax node as a block-producer
+4. Run your node with Docker
 ```sh
 docker run -d --restart=always --network=host --name producer \
            -v $HOME/producer:/opt/snax/data snaxfoundation/snax:0.2.0-beta-4 \
-           snaxnoded.sh --signature-provider your_public_key=KEY:your_private_key \
+           snaxnoded.sh --signature-provider put_your_public_key_here=KEY:put_your_private_key_here \
            --enable-stale-production \
            --plugin=snax::producer_plugin \
-           --producer-name=SNAX_ACCOUNT_NAME \
+           --producer-name=put_your_snax_account_name_here \
            --max-clients=0 \
            --http-validate-host=false \
            --plugin=snax::history_api_plugin \
@@ -70,14 +71,56 @@ docker run -d --restart=always --network=host --name producer \
            --p2p-peer-address=92.53.79.190:9876
 ```
 
-## Supported OS
+### 4. Run kxd keystore with Docker
 
-Snax currently supports only Linux x64
+1. Create directory for keystore
+```sh
+mkdir $HOME/snax-wallet
+```
+2. Run kxd keystore with Docker
+```sh
+docker run  --name=snax-wallet -d -v $HOME/snax-wallet:/root/snax-wallet \
+            --restart=always -p 127.0.0.1:8900:8900 snaxfoundation/snax:0.2.0-beta-4 kxd.sh \
+            --http-server-address=0.0.0.0:8900 \
+            --access-control-allow-origin=* \
+            --access-control-allow-headers=* \
+            --http-validate-host=0 \
+            --http-alias=snax_kxd:8900
+```
+
+### 5. Register yourself as a BP candidate
+
+1. Download the latest release from [https://github.com/SnaxFoundation/snax/releases](https://github.com/SnaxFoundation/snax/releases)
+2. Unpack binaries
+```sh
+tar xvf bin.tar.gz
+```
+3. Create your wallet
+```sh
+clisnax --wallet-url http://127.0.0.1:8900 wallet create --to-console
+```
+4. Import your private key
+```sh
+clisnax --wallet-url http://127.0.0.1:8900 wallet import --private-key put_your_private_key_here
+```
+5. Unlock your wallet
+```sh
+clisnax --wallet-url http://127.0.0.1:8900 wallet unlock
+```
+6. Register yourself as a BP candidate
+```sh
+clisnax --url https://testnetcdn.snax.one \
+        --wallet-url http://127.0.0.1:8900 system regproducer put_your_snax_account_name_here put_your_public_key_here
+```
+**7. LOCK YOUR WALLET!**
+```sh
+clisnax --wallet-url http://127.0.0.1:8900 wallet lock
+```
 
 ## Resources
 1. [Website](https://snax.one)
 2. [Blog](https://medium.com/@snax)
 3. [Discord](https://discord.gg/qygxJAZ)
-4. [White Paper](https://snax.one/whitepaper.pdf)
-5. [Roadmap](https://snax.one/roadmap)
-6. [Telegram](https://t.me/snaxone)
+4. [Twitter](https://twitter.com/SnaxTeam) 
+5. [White Paper](https://snax.one/whitepaper.pdf)
+6. [Roadmap](https://snax.one/roadmap)

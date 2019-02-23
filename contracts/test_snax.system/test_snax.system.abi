@@ -28,10 +28,11 @@
       "name": "escrow_bandwidth",
       "base": "",
       "fields": [
-        {"name": "owner",        "type": "account_name"},
-        {"name": "created",      "type": "block_timestamp_type"},
-        {"name": "period_count", "type": "uint8"},
-        {"name": "amount",       "type": "asset"}
+        {"name": "owner",           "type": "account_name"},
+        {"name": "created",         "type": "block_timestamp_type"},
+        {"name": "period_count",    "type": "uint8"},
+        {"name": "initial_amount",  "type": "asset"},
+        {"name": "amount",          "type": "asset"}
       ]
     },{
       "name": "key_weight",
@@ -155,10 +156,6 @@
       "fields": [
         {"name":"platform", "type":"account_name"}
       ]
-    },{
-      "name": "resetvotes",
-      "base": "",
-      "fields": []
     },{
       "name": "buyrambytes",
       "base": "",
@@ -538,10 +535,6 @@
    },{
      "name": "emitplatform",
      "type": "emitplatform",
-     "ricardian_contract": ""
-   },{
-     "name": "resetvotes",
-     "type": "resetvotes",
      "ricardian_contract": ""
    },{
       "name": "buyrambytes",
