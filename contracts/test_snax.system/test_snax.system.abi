@@ -157,6 +157,10 @@
         {"name":"platform", "type":"account_name"}
       ]
     },{
+      "name": "resetvotes",
+      "base": "",
+      "fields": []
+    },{
       "name": "buyrambytes",
       "base": "",
       "fields": [
@@ -535,6 +539,10 @@
    },{
      "name": "emitplatform",
      "type": "emitplatform",
+     "ricardian_contract": ""
+   },{
+     "name": "resetvotes",
+     "type": "resetvotes",
      "ricardian_contract": ""
    },{
       "name": "buyrambytes",

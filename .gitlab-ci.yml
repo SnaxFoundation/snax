@@ -31,7 +31,6 @@ cleanup:
   tags:
     - build4
 
-
 build:
   stage: build
   script:

@@ -283,6 +283,25 @@ namespace snaxsystem {
 
    }
 
+   void system_contract::resetvotes() {
+     require_auth(N(snax));
+
+     for (auto producer = _producers.lower_bound(1); producer != _producers.end();
+          producer++) {
+       _producers.modify(producer, 0, [&](auto &p) { p.total_votes = 0; });
+     }
+
+     for (auto voter = _voters.lower_bound(1); voter != _voters.end();
+          voter++) {
+       _voters.modify(voter, 0, [&](auto &v) { v.last_vote_weight = 0; v.proxied_vote_weight = 0; });
+     }
+
+     _gstate = _global.get();
+     _gstate.total_producer_vote_weight = 0;
+
+     _global.set(_gstate, _self);
+   }
+
    void system_contract::setram( uint64_t max_ram_size ) {
       require_auth( _self );
 
@@ -342,8 +361,18 @@ namespace snaxsystem {
                 });
              }
          }
-     }
+      }
 
+      const auto top_producers_limit = params.top_producers_limit;
+      snax_assert(
+         top_producers_limit == 4 ||
+         top_producers_limit == 9 ||
+         top_producers_limit == 12 ||
+         top_producers_limit == 15 ||
+         top_producers_limit == 18 ||
+         top_producers_limit == 21,
+         "top_producers_limit must be one of following: 4, 9, 12, 15, 18, 21"
+      );
       snax_assert(total_weight == 1 || total_weight == 0, "Summary weight of all platforms must be equal to 1 or 0");
       set_blockchain_parameters( params );
    }
@@ -560,7 +589,7 @@ SNAX_ABI( snaxsystem::system_contract,
      // native.hpp (newaccount definition is actually in snax.system.cpp)
      (newaccount)(updateauth)(deleteauth)(linkauth)(unlinkauth)(canceldelay)(onerror)
      // snax.system.cpp
-     (lockplatform)(emitplatform)(setram)(setplatforms)(setparams)(setpriv)(rmvproducer)(bidname)
+     (lockplatform)(emitplatform)(resetvotes)(setram)(setplatforms)(setparams)(setpriv)(rmvproducer)(bidname)
      // delegate_bandwidth.cpp
      (buyrambytes)(buyram)(sellram)(escrowbw)(delegatebw)(undelegatebw)(refund)
      // voting.cpp

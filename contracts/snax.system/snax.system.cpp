@@ -338,8 +338,18 @@ namespace snaxsystem {
                 });
              }
          }
-     }
+      }
 
+      const auto top_producers_limit = params.top_producers_limit;
+      snax_assert(
+          top_producers_limit == 4 ||
+          top_producers_limit == 9 ||
+          top_producers_limit == 12 ||
+          top_producers_limit == 15 ||
+          top_producers_limit == 18 ||
+          top_producers_limit == 21,
+          "top_producers_limit must be one of following: 4, 9, 12, 15, 18, 21"
+      );
       snax_assert(total_weight == 1 || total_weight == 0, "Summary weight of all platforms must be equal to 1 or 0");
       set_blockchain_parameters( params );
    }
