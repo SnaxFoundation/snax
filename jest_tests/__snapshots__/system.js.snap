@@ -1256,7 +1256,7 @@ Object {
       "location": 0,
       "owner": "snax",
       "producer_key": "SNAX8mo3cUJW1Yy1GGxQfexWGN7QPUB2rXccQP7brrpgJXGjiw6gKR",
-      "total_votes": "910627098395874816.00000000000000000",
+      "total_votes": "9106270983958748.00000000000000000",
       "unpaid_blocks": 0,
       "url": "https://snax.one",
     },
@@ -1279,7 +1279,7 @@ Object {
     },
     Object {
       "is_proxy": 0,
-      "last_vote_weight": "910627098395874816.00000000000000000",
+      "last_vote_weight": "9106270983958748.00000000000000000",
       "owner": "snax.team",
       "producers": Array [
         "snax",
@@ -1488,7 +1488,7 @@ Object {
       "location": 0,
       "owner": "snax",
       "producer_key": "SNAX8mo3cUJW1Yy1GGxQfexWGN7QPUB2rXccQP7brrpgJXGjiw6gKR",
-      "total_votes": "500844904117731200.00000000000000000",
+      "total_votes": "5008449041177312.00000000000000000",
       "unpaid_blocks": 0,
       "url": "https://snax.one",
     },
@@ -1498,7 +1498,7 @@ Object {
       "location": 0,
       "owner": "testacc1",
       "producer_key": "SNAX8mo3cUJW1Yy1GGxQfexWGN7QPUB2rXccQP7brrpgJXGjiw6gKR",
-      "total_votes": "364250839358349952.00000000000000000",
+      "total_votes": "3642508393583499.50000000000000000",
       "unpaid_blocks": 0,
       "url": "https://snax.one",
     },
@@ -1508,7 +1508,7 @@ Object {
       "location": 0,
       "owner": "testacc2",
       "producer_key": "SNAX8mo3cUJW1Yy1GGxQfexWGN7QPUB2rXccQP7brrpgJXGjiw6gKR",
-      "total_votes": "227656774598968704.00000000000000000",
+      "total_votes": "2276567745989687.00000000000000000",
       "unpaid_blocks": 0,
       "url": "https://snax.one",
     },
@@ -1531,7 +1531,7 @@ Object {
     },
     Object {
       "is_proxy": 0,
-      "last_vote_weight": "910627098395874816.00000000000000000",
+      "last_vote_weight": "9106270983958748.00000000000000000",
       "owner": "snax.team",
       "producers": Array [
         "",

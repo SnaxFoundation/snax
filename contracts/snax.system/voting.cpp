@@ -111,12 +111,8 @@ namespace snaxsystem {
       std::vector< std::pair<snax::producer_key,uint16_t> > top_producers;
       top_producers.reserve(_gstate.top_producers_limit);
 
-      for ( auto it = idx.cbegin(); it != idx.cend() && top_producers.size() < _gstate.top_producers_limit && 0 < it->total_votes && it->active(); ++it ) {
-         top_producers.emplace_back( std::pair<snax::producer_key,uint16_t>({{it->owner, it->producer_key}, it->location}) );
-      }
-
-      if ( top_producers.size() < _gstate.last_producer_schedule_size ) {
-         return;
+      for ( auto it = idx.cbegin(); it != idx.cend() && top_producers.size() < _gstate.top_producers_limit && 0 < it->total_votes; ++it ) {
+         if (it->active()) top_producers.emplace_back( std::pair<snax::producer_key,uint16_t>({{it->owner, it->producer_key}, it->location}) );
       }
 
       /// sort by producer name
@@ -138,7 +134,7 @@ namespace snaxsystem {
    double stake2vote( int64_t staked ) {
       /// TODO subtract 2080 brings the large numbers closer to this decade
       double weight = int64_t( (now() - (block_timestamp::block_timestamp_epoch / 1000)) / (seconds_per_day * 7) )  / double( 52 );
-      return double(staked) / 100 * std::pow( 2, weight );
+      return double(staked) / 10000 * std::pow( 2, weight );
    }
    /**
     *  @pre producers must be sorted from lowest to highest and must be registered and active
