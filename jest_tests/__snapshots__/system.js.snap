@@ -1247,21 +1247,17 @@ Object {
 `;
 
 exports[`System should claim rewards 1`] = `
-Object {
-  "more": false,
-  "rows": Array [
-    Object {
-      "is_active": 1,
-      "last_claim_time": 0,
-      "location": 0,
-      "owner": "snax",
-      "producer_key": "SNAX8mo3cUJW1Yy1GGxQfexWGN7QPUB2rXccQP7brrpgJXGjiw6gKR",
-      "total_votes": "9106270983958748.00000000000000000",
-      "unpaid_blocks": 0,
-      "url": "https://snax.one",
-    },
-  ],
-}
+Array [
+  Object {
+    "is_active": 1,
+    "location": 0,
+    "owner": "snax",
+    "producer_key": "SNAX8mo3cUJW1Yy1GGxQfexWGN7QPUB2rXccQP7brrpgJXGjiw6gKR",
+    "total_votes": "910627098395874816.00000000000000000",
+    "unpaid_blocks": 0,
+    "url": "https://snax.one",
+  },
+]
 `;
 
 exports[`System should claim rewards 2`] = `
@@ -1279,7 +1275,7 @@ Object {
     },
     Object {
       "is_proxy": 0,
-      "last_vote_weight": "9106270983958748.00000000000000000",
+      "last_vote_weight": "910627098395874816.00000000000000000",
       "owner": "snax.team",
       "producers": Array [
         "snax",
@@ -1317,41 +1313,35 @@ Array [
 exports[`System should fail to vote for non-unique producers 1`] = `"assertion failure with message: producers must be unique"`;
 
 exports[`System should fail to vote for non-unique producers 2`] = `
-Object {
-  "more": false,
-  "rows": Array [
-    Object {
-      "is_active": 1,
-      "last_claim_time": 0,
-      "location": 0,
-      "owner": "snax",
-      "producer_key": "SNAX8mo3cUJW1Yy1GGxQfexWGN7QPUB2rXccQP7brrpgJXGjiw6gKR",
-      "total_votes": "0.00000000000000000",
-      "unpaid_blocks": 0,
-      "url": "https://snax.one",
-    },
-    Object {
-      "is_active": 1,
-      "last_claim_time": 0,
-      "location": 0,
-      "owner": "testacc1",
-      "producer_key": "SNAX8mo3cUJW1Yy1GGxQfexWGN7QPUB2rXccQP7brrpgJXGjiw6gKR",
-      "total_votes": "0.00000000000000000",
-      "unpaid_blocks": 0,
-      "url": "https://snax.one",
-    },
-    Object {
-      "is_active": 1,
-      "last_claim_time": 0,
-      "location": 0,
-      "owner": "testacc2",
-      "producer_key": "SNAX8mo3cUJW1Yy1GGxQfexWGN7QPUB2rXccQP7brrpgJXGjiw6gKR",
-      "total_votes": "0.00000000000000000",
-      "unpaid_blocks": 0,
-      "url": "https://snax.one",
-    },
-  ],
-}
+Array [
+  Object {
+    "is_active": 1,
+    "location": 0,
+    "owner": "snax",
+    "producer_key": "SNAX8mo3cUJW1Yy1GGxQfexWGN7QPUB2rXccQP7brrpgJXGjiw6gKR",
+    "total_votes": "0.00000000000000000",
+    "unpaid_blocks": 0,
+    "url": "https://snax.one",
+  },
+  Object {
+    "is_active": 1,
+    "location": 0,
+    "owner": "testacc1",
+    "producer_key": "SNAX8mo3cUJW1Yy1GGxQfexWGN7QPUB2rXccQP7brrpgJXGjiw6gKR",
+    "total_votes": "0.00000000000000000",
+    "unpaid_blocks": 0,
+    "url": "https://snax.one",
+  },
+  Object {
+    "is_active": 1,
+    "location": 0,
+    "owner": "testacc2",
+    "producer_key": "SNAX8mo3cUJW1Yy1GGxQfexWGN7QPUB2rXccQP7brrpgJXGjiw6gKR",
+    "total_votes": "0.00000000000000000",
+    "unpaid_blocks": 0,
+    "url": "https://snax.one",
+  },
+]
 `;
 
 exports[`System should fail to vote for non-unique producers 3`] = `
@@ -1479,41 +1469,35 @@ Object {
 `;
 
 exports[`System should vote for producers and claim rewards 1`] = `
-Object {
-  "more": false,
-  "rows": Array [
-    Object {
-      "is_active": 1,
-      "last_claim_time": 0,
-      "location": 0,
-      "owner": "snax",
-      "producer_key": "SNAX8mo3cUJW1Yy1GGxQfexWGN7QPUB2rXccQP7brrpgJXGjiw6gKR",
-      "total_votes": "5008449041177312.00000000000000000",
-      "unpaid_blocks": 0,
-      "url": "https://snax.one",
-    },
-    Object {
-      "is_active": 1,
-      "last_claim_time": 0,
-      "location": 0,
-      "owner": "testacc1",
-      "producer_key": "SNAX8mo3cUJW1Yy1GGxQfexWGN7QPUB2rXccQP7brrpgJXGjiw6gKR",
-      "total_votes": "3642508393583499.50000000000000000",
-      "unpaid_blocks": 0,
-      "url": "https://snax.one",
-    },
-    Object {
-      "is_active": 1,
-      "last_claim_time": 0,
-      "location": 0,
-      "owner": "testacc2",
-      "producer_key": "SNAX8mo3cUJW1Yy1GGxQfexWGN7QPUB2rXccQP7brrpgJXGjiw6gKR",
-      "total_votes": "2276567745989687.00000000000000000",
-      "unpaid_blocks": 0,
-      "url": "https://snax.one",
-    },
-  ],
-}
+Array [
+  Object {
+    "is_active": 1,
+    "location": 0,
+    "owner": "snax",
+    "producer_key": "SNAX8mo3cUJW1Yy1GGxQfexWGN7QPUB2rXccQP7brrpgJXGjiw6gKR",
+    "total_votes": "500844904117731200.00000000000000000",
+    "unpaid_blocks": 0,
+    "url": "https://snax.one",
+  },
+  Object {
+    "is_active": 1,
+    "location": 0,
+    "owner": "testacc1",
+    "producer_key": "SNAX8mo3cUJW1Yy1GGxQfexWGN7QPUB2rXccQP7brrpgJXGjiw6gKR",
+    "total_votes": "364250839358349952.00000000000000000",
+    "unpaid_blocks": 0,
+    "url": "https://snax.one",
+  },
+  Object {
+    "is_active": 1,
+    "location": 0,
+    "owner": "testacc2",
+    "producer_key": "SNAX8mo3cUJW1Yy1GGxQfexWGN7QPUB2rXccQP7brrpgJXGjiw6gKR",
+    "total_votes": "227656774598968704.00000000000000000",
+    "unpaid_blocks": 0,
+    "url": "https://snax.one",
+  },
+]
 `;
 
 exports[`System should vote for producers and claim rewards 2`] = `
@@ -1531,7 +1515,7 @@ Object {
     },
     Object {
       "is_proxy": 0,
-      "last_vote_weight": "9106270983958748.00000000000000000",
+      "last_vote_weight": "910627098395874816.00000000000000000",
       "owner": "snax.team",
       "producers": Array [
         "",
@@ -1570,6 +1554,70 @@ Array [
     ],
   },
 ]
+`;
+
+exports[`System should vote for producers and claim rewards 5`] = `
+Array [
+  Object {
+    "is_active": 1,
+    "location": 0,
+    "owner": "snax",
+    "producer_key": "SNAX8mo3cUJW1Yy1GGxQfexWGN7QPUB2rXccQP7brrpgJXGjiw6gKR",
+    "total_votes": "728501678716699904.00000000000000000",
+    "unpaid_blocks": 0,
+    "url": "https://snax.one",
+  },
+  Object {
+    "is_active": 1,
+    "location": 0,
+    "owner": "testacc1",
+    "producer_key": "SNAX8mo3cUJW1Yy1GGxQfexWGN7QPUB2rXccQP7brrpgJXGjiw6gKR",
+    "total_votes": "637438968877112320.00000000000000000",
+    "unpaid_blocks": 0,
+    "url": "https://snax.one",
+  },
+  Object {
+    "is_active": 1,
+    "location": 0,
+    "owner": "testacc2",
+    "producer_key": "SNAX8mo3cUJW1Yy1GGxQfexWGN7QPUB2rXccQP7brrpgJXGjiw6gKR",
+    "total_votes": "500844904117731200.00000000000000000",
+    "unpaid_blocks": 0,
+    "url": "https://snax.one",
+  },
+]
+`;
+
+exports[`System should vote for producers and claim rewards 6`] = `
+Object {
+  "more": false,
+  "rows": Array [
+    Object {
+      "is_proxy": 0,
+      "last_vote_weight": "0.00000000000000000",
+      "owner": "snax.creator",
+      "producers": Array [],
+      "proxied_vote_weight": "0.00000000000000000",
+      "proxy": "",
+      "staked": 75000000,
+    },
+    Object {
+      "is_proxy": 0,
+      "last_vote_weight": "910627098395874816.00000000000000000",
+      "owner": "snax.team",
+      "producers": Array [
+        "",
+        "",
+        "snax",
+        "testacc1",
+        "testacc2",
+      ],
+      "proxied_vote_weight": "0.00000000000000000",
+      "proxy": "",
+      "staked": "149999990000000",
+    },
+  ],
+}
 `;
 
 exports[`System should work correctly with escrow system 1`] = `"assertion failure with message: cant unstake this amount for account at the moment"`;

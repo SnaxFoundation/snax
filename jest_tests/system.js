@@ -74,11 +74,11 @@ describe("System", async () => {
 
   const verifyProds = async () =>
     expect(
-      await api.rpc.get_table_rows({
+      (await api.rpc.get_table_rows({
         code: "snax",
         scope: "snax",
         table: "producers"
-      })
+      })).rows.map(({ last_claim_time, ...obj }) => obj)
     ).toMatchSnapshot();
 
   const verifyVoters = async () =>
@@ -416,6 +416,9 @@ describe("System", async () => {
     await verifyAccountsBalances(["snax"]);
     await claimrewards("snax");
     await verifyAccountsBalances(["snax"]);
+    await voteproducer(["", "", ...prods.map(v => v[0])]);
+    await verifyProds();
+    await verifyVoters();
   });
 
   it("should fail to vote for non-unique producers", async () => {
