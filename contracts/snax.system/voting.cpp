@@ -26,39 +26,6 @@ namespace snaxsystem {
    using snax::singleton;
    using snax::transaction;
 
-   static double vote_multipliers[] = {
-        1.00000000000000,
-        0.90000000000000,
-        0.80000000000000,
-        0.70000000000000,
-        0.55000000000000,
-        0.40000000000000,
-        0.25000000000000,
-        0.10000000000000,
-        0.05000000000000,
-        0.02500000000000,
-        0.01250000000000,
-        0.00625000000000,
-        0.00312500000000,
-        0.00156250000000,
-        0.00078125000000,
-        0.00039062500000,
-        0.00019531250000,
-        0.00009765625000,
-        0.00004882812500,
-        0.00002441406250,
-        0.00001220703125,
-        0.00000610351563,
-        0.00000244140625,
-        0.00000244140625,
-        0.00000244140625,
-        0.00000244140625,
-        0.00000244140625,
-        0.00000244140625,
-        0.00000244140625,
-        0.00000244140625,
-   };
-
    /**
     *  This method will create a producer_config and producer_info object for 'producer'
     *
@@ -115,6 +82,9 @@ namespace snaxsystem {
          if (it->active()) top_producers.emplace_back( std::pair<snax::producer_key,uint16_t>({{it->owner, it->producer_key}, it->location}) );
       }
 
+      if (top_producers.size() == 0)
+         return;
+
       /// sort by producer name
       std::sort( top_producers.begin(), top_producers.end() );
 
@@ -134,8 +104,9 @@ namespace snaxsystem {
    double stake2vote( int64_t staked ) {
       /// TODO subtract 2080 brings the large numbers closer to this decade
       double weight = int64_t( (now() - (block_timestamp::block_timestamp_epoch / 1000)) / (seconds_per_day * 7) )  / double( 52 );
-      return double(staked) / 10000 * std::pow( 2, weight );
+      return double(staked) / 100 * std::pow( 2, weight );
    }
+
    /**
     *  @pre producers must be sorted from lowest to highest and must be registered and active
     *  @pre if proxy is set then no producers can be voted for
@@ -201,12 +172,14 @@ namespace snaxsystem {
                });
             propagate_weight_change( *old_proxy );
          } else {
+            uint8_t iter = 0;
             for( const auto& p : voter->producers ) {
                 if (p != 0) {
                    auto& d = producer_deltas[p];
-                   d.first -= voter->last_vote_weight;
+                   d.first -= system_contract::apply_vote_weight(voter_name, voter->last_vote_weight, iter);
                    d.second = false;
                 }
+                iter++;
             }
          }
       }
@@ -223,10 +196,10 @@ namespace snaxsystem {
          }
       } else {
          if( new_vote_weight >= 0 ) {
-            int8_t iter = 0;
+            uint8_t iter = 0;
             for( const auto& p : producers ) {
                 if (p != 0) {
-                    const double vote_weight = voter_name == N(snax.team) ? new_vote_weight * vote_multipliers[iter]: new_vote_weight;
+                    auto vote_weight = system_contract::apply_vote_weight(voter_name, new_vote_weight, iter);
                     auto& d = producer_deltas[p];
                     d.first += vote_weight;
                     d.second = true;
@@ -306,12 +279,17 @@ namespace snaxsystem {
             propagate_weight_change( proxy );
          } else {
             auto delta = new_weight - voter.last_vote_weight;
+            uint8_t iter = 0;
             for ( auto acnt : voter.producers ) {
-               auto& pitr = _producers.get( acnt, "producer not found" ); //data corruption
-               _producers.modify( pitr, 0, [&]( auto& p ) {
-                     p.total_votes += delta;
-                     _gstate.total_producer_vote_weight += delta;
-               });
+               if (acnt) {
+                   auto& pitr = _producers.get( acnt, "producer not found" ); //data corruption
+                   _producers.modify( pitr, 0, [&]( auto& p ) {
+                         auto votes = system_contract::apply_vote_weight(voter.owner, delta, iter);
+                         p.total_votes += votes;
+                         _gstate.total_producer_vote_weight += votes;
+                   });
+               }
+               iter++;
             }
          }
       }

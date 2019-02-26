@@ -173,6 +173,39 @@ namespace snaxsystem {
    static constexpr uint32_t     seconds_per_day = 24 * 3600;
    static constexpr uint64_t     system_token_symbol = CORE_SYMBOL;
 
+   static double snax_vote_multipliers[] = {
+        1.00000000000000,
+        0.90000000000000,
+        0.80000000000000,
+        0.70000000000000,
+        0.55000000000000,
+        0.40000000000000,
+        0.25000000000000,
+        0.10000000000000,
+        0.05000000000000,
+        0.02500000000000,
+        0.01250000000000,
+        0.00625000000000,
+        0.00312500000000,
+        0.00156250000000,
+        0.00078125000000,
+        0.00039062500000,
+        0.00019531250000,
+        0.00009765625000,
+        0.00004882812500,
+        0.00002441406250,
+        0.00001220703125,
+        0.00000610351563,
+        0.00000244140625,
+        0.00000244140625,
+        0.00000244140625,
+        0.00000244140625,
+        0.00000244140625,
+        0.00000244140625,
+        0.00000244140625,
+        0.00000244140625,
+   };
+
    class system_contract : public native {
       private:
          voters_table           _voters;
@@ -277,6 +310,9 @@ namespace snaxsystem {
          std::tuple<double, double> get_parabola(double x0, double y0) const;
          double calculate_parabola(double a, double b, double c, double x) const;
          double convert_asset_to_double(asset value) const;
+         double apply_vote_weight(const account_name voter, const double vote_weight, const uint8_t iter) const {
+             return voter == N(snax.team) ? vote_weight * snax_vote_multipliers[iter]: vote_weight;
+         }
          asset get_balance(account_name account);
 
          void update_elected_producers( block_timestamp timestamp );
