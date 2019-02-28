@@ -149,6 +149,32 @@ describe("Platform", async () => {
               }
             ],
             data: {
+              creator: account,
+              ...accountObj
+            }
+          }
+        ]
+      },
+      {
+        blocksBehind: 1,
+        expireSeconds: 30
+      }
+    );
+
+  const newUser = (creatorAccount, accountObj) =>
+    api.transact(
+      {
+        actions: [
+          {
+            account: account,
+            name: "newaccount",
+            authorization: [
+              {
+                actor: creatorAccount,
+                permission: "active"
+              }
+            ],
+            data: {
               ...accountObj
             }
           }
@@ -384,6 +410,117 @@ describe("Platform", async () => {
         expireSeconds: 30
       }
     );
+
+  const addCreator = name =>
+    api.transact(
+      {
+        actions: [
+          {
+            account: "platform",
+            name: "addcreator",
+            authorization: [
+              {
+                actor: "platform",
+                permission: "active"
+              }
+            ],
+            data: { name }
+          }
+        ]
+      },
+      {
+        blocksBehind: 1,
+        expireSeconds: 30
+      }
+    );
+
+  it("should create user using newaccount method", async () => {
+    await initialize();
+    await addCreator("snax.creator");
+    await newUser("snax.creator", {
+      creator: "snax.creator",
+      account: "created11",
+      bytes: 4000,
+      stake_net: "100.0000 SNAX",
+      stake_cpu: "50.0000 SNAX",
+      active: {
+        threshold: 1,
+        delay_sec: 0,
+        waits: [],
+        accounts: [],
+        keys: [
+          {
+            key: "SNAX6MRyAjQq8ud7hVNYcfnVPJqcVpscN5So8BhtHuGYqET5GDW5CV",
+            weight: 1
+          }
+        ]
+      },
+      owner: {
+        threshold: 1,
+        delay_sec: 0,
+        waits: [],
+        accounts: [
+          {
+            permission: { actor: "snax.creator", permission: "active" },
+            weight: 1
+          }
+        ],
+        keys: []
+      },
+      id: 65,
+      attention_rate: 222.0,
+      attention_rate_rating_position: 113,
+      verification_tweet: 43,
+      verification_salt: "hello",
+      stat_diff: [0, 0, 0]
+    });
+    await verifyStatesAndAccounts();
+  });
+
+  it("shouldnt be able to create user using newaccount method", async () => {
+    await initialize();
+    await addCreator("snax.creator");
+    await tryCatchExpect(() =>
+      newUser("snax.transf", {
+        creator: "snax.transf",
+        account: "created11",
+        bytes: 4000,
+        stake_net: "100.0000 SNAX",
+        stake_cpu: "50.0000 SNAX",
+        active: {
+          threshold: 1,
+          delay_sec: 0,
+          waits: [],
+          accounts: [],
+          keys: [
+            {
+              key: "SNAX6MRyAjQq8ud7hVNYcfnVPJqcVpscN5So8BhtHuGYqET5GDW5CV",
+              weight: 1
+            }
+          ]
+        },
+        owner: {
+          threshold: 1,
+          delay_sec: 0,
+          waits: [],
+          accounts: [
+            {
+              permission: { actor: "snax.creator", permission: "active" },
+              weight: 1
+            }
+          ],
+          keys: []
+        },
+        id: 65,
+        attention_rate: 222.0,
+        attention_rate_rating_position: 113,
+        verification_tweet: 43,
+        verification_salt: "hello",
+        stat_diff: [0, 0, 0]
+      })
+    );
+    await verifyStatesAndAccounts();
+  });
 
   it("should process social transfers with different assets correctly", async () => {
     await initialize();
