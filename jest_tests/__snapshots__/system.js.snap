@@ -1448,7 +1448,7 @@ exports[`System should set platforms 4`] = `
 Object {
   "cpu_weight": 1000000,
   "net_weight": 1000000,
-  "ram_quota": 700000,
+  "ram_quota": 900000,
 }
 `;
 
@@ -1456,7 +1456,7 @@ exports[`System should set platforms 5`] = `
 Object {
   "cpu_weight": 10000,
   "net_weight": 1000000,
-  "ram_quota": 800000,
+  "ram_quota": 1000000,
 }
 `;
 
@@ -1464,7 +1464,7 @@ exports[`System should set platforms 6`] = `
 Object {
   "cpu_weight": 70000,
   "net_weight": 1000000,
-  "ram_quota": 900000,
+  "ram_quota": 1100000,
 }
 `;
 

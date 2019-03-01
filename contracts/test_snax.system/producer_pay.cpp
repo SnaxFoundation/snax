@@ -34,7 +34,9 @@ namespace snaxsystem {
 
          _gstate.total_unpaid_blocks++;
 
-         const asset system_supply_soft_limit = snax::token(N(snax.token)).get_max_supply(snax::symbol_type(system_token_symbol).name()) / 10;
+         const asset system_supply_limit = snax::token(N(snax.token)).get_max_supply(snax::symbol_type(system_token_symbol).name());
+
+         const asset system_supply_soft_limit = system_supply_limit / 10;
 
          const asset token_supply = snax::token(N(snax.token)).get_supply(snax::symbol_type(system_token_symbol).name());
 
@@ -47,21 +49,21 @@ namespace snaxsystem {
 
          const asset semi_bp_reward = asset(bp_reward.amount / 2);
 
-         if (bp_reward > asset(0) && semi_bp_reward > asset(0)) {
+         if (bp_reward > asset(0) && semi_bp_reward > asset(0) && bp_reward + token_supply < system_supply_limit) {
                INLINE_ACTION_SENDER(snax::token, issue)( N(snax.token), {N(snax),N(active)},
                                                                                    { N(snax.bpay), semi_bp_reward, "fund per-block bucket" } );
                INLINE_ACTION_SENDER(snax::token, issue)( N(snax.token), {N(snax),N(active)},
                                                                                    { N(snax.vpay), semi_bp_reward, "fund per-vote bucket" } );
+
+               const asset to_per_block_pay   = semi_bp_reward;
+               const asset to_per_vote_pay    = semi_bp_reward;
+
+               _gstate.pervote_bucket  += to_per_vote_pay.amount;
+               _gstate.perblock_bucket += to_per_block_pay.amount;
+
+               _gstate.last_pervote_bucket_fill = ct;
+               _gstate.last_bp_semi_reward = semi_bp_reward;
          }
-
-         const asset to_per_block_pay   = semi_bp_reward;
-         const asset to_per_vote_pay    = semi_bp_reward;
-
-         _gstate.pervote_bucket  += to_per_vote_pay.amount;
-         _gstate.perblock_bucket += to_per_block_pay.amount;
-
-         _gstate.last_pervote_bucket_fill = ct;
-         _gstate.last_bp_semi_reward = semi_bp_reward;
 
          _producers.modify( prod, 0, [&](auto& p ) {
                p.unpaid_blocks++;

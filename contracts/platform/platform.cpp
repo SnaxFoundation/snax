@@ -49,6 +49,32 @@ void platform::lockupdate() {
   _platform_state.set(_state, _self);
 }
 
+/// @abi action addcreator
+void platform::addcreator(const account_name name) {
+  require_auth(_self);
+  require_initialized();
+  snax_assert(is_account(name), "account isnt registered");
+
+  const auto found = _creators.find(name);
+
+  snax_assert(found == _creators.end(), "creator already registered");
+
+  _creators.emplace(_self, [&](auto &record) { record.account = name; });
+}
+
+/// @abi action rmcreator
+void platform::rmcreator(const account_name name) {
+  require_auth(_self);
+  require_initialized();
+  snax_assert(is_account(name), "account isnt registered");
+
+  const auto found = _creators.find(name);
+
+  snax_assert(found != _creators.end(), "creator isnt registered");
+
+  _creators.erase(found);
+}
+
 /// @abi action nextround
 void platform::nextround() {
   require_auth(_self);
@@ -146,7 +172,8 @@ void platform::sendpayments(const account_name lower_account_name,
 }
 
 /// @abi action addsymbol
-void platform::addsymbol(const string token_symbol_str, const uint8_t precision) {
+void platform::addsymbol(const string token_symbol_str,
+                         const uint8_t precision) {
   require_auth(_self);
   require_initialized();
 
@@ -228,7 +255,7 @@ void platform::updatear(const uint64_t id, const double attention_rate,
                        [&](auto &record) { record.stat_diff = stat_diff; });
     }
   } else {
-    addaccount(0, id, attention_rate, attention_rate_rating_position, 0,
+    addaccount(_self, 0, id, attention_rate, attention_rate_rating_position, 0,
                string(""), stat_diff);
   }
 }
@@ -275,7 +302,7 @@ void platform::updatearmult(vector<account_with_attention_rate> &updates,
 
       total_attention_rate_diff += diff;
     } else {
-      addaccount(0, update.id, update.attention_rate,
+      addaccount(_self, 0, update.id, update.attention_rate,
                  update.attention_rate_rating_position, 0, string(""),
                  update.stat_diff);
     }
@@ -313,14 +340,40 @@ void platform::dropaccount(const account_name account,
   _platform_state.set(_state, _self);
 }
 
-/// @abi action addaccount
-void platform::addaccount(const account_name account, const uint64_t id,
+/// @abi action newaccount
+void platform::newaccount(const account_name creator,
+                          const account_name account, const uint32_t bytes,
+                          const asset stake_net, const asset stake_cpu,
+                          const bool transfer, const authority &owner,
+                          const authority &active, const uint64_t id,
                           const double attention_rate,
                           const uint32_t attention_rate_rating_position,
                           const uint64_t verification_tweet,
                           const string verification_salt,
                           const vector<uint32_t> stat_diff) {
-  require_auth(_self);
+  action(permission_level{creator, N(active)}, N(snax), N(newaccount),
+         make_tuple(creator, account, owner, active))
+      .send();
+  action(permission_level{creator, N(active)}, N(snax), N(buyrambytes),
+         make_tuple(creator, account, bytes))
+      .send();
+  action(permission_level{creator, N(active)}, N(snax), N(delegatebw),
+         make_tuple(creator, account, stake_net, stake_cpu, transfer))
+      .send();
+  addaccount(creator, account, id, attention_rate,
+             attention_rate_rating_position, verification_tweet,
+             verification_salt, stat_diff);
+}
+
+/// @abi action addaccount
+void platform::addaccount(const account_name creator,
+                          const account_name account, const uint64_t id,
+                          const double attention_rate,
+                          const uint32_t attention_rate_rating_position,
+                          const uint64_t verification_tweet,
+                          const string verification_salt,
+                          const vector<uint32_t> stat_diff) {
+  require_creator_or_platform(creator);
   require_initialized();
   _state = _platform_state.get();
 
@@ -366,7 +419,6 @@ void platform::addaccount(const account_name account, const uint64_t id,
                 "verification tweet status id can't be empty");
     snax_assert(verification_salt.size() > 0,
                 "verification salt can't be empty");
-    snax_assert(is_account(account), "account isnt registered");
 
     _accounts.emplace(_self, [&](auto &record) {
       record.name = account;
@@ -390,15 +442,16 @@ void platform::addaccount(const account_name account, const uint64_t id,
 };
 
 /// @abi action addaccounts
-void platform::addaccounts(vector<account_to_add> &accounts_to_add) {
-  require_auth(_self);
+void platform::addaccounts(const account_name creator,
+                           vector<account_to_add> &accounts_to_add) {
+  require_creator_or_platform(creator);
   require_initialized();
 
   double accumulated_attention_rate = 0;
   uint32_t registered_accounts = 0;
 
   for (auto &account_to_add : accounts_to_add) {
-    addaccount(account_to_add.name, account_to_add.id,
+    addaccount(creator, account_to_add.name, account_to_add.id,
                account_to_add.attention_rate,
                account_to_add.attention_rate_rating_position,
                account_to_add.verification_tweet,
@@ -414,7 +467,7 @@ void platform::addaccounts(vector<account_to_add> &accounts_to_add) {
       accumulated_attention_rate, accounts_to_add.size(), registered_accounts);
 }
 
-/// @abi action trasnfertou
+/// @abi action transfertou
 void platform::transfertou(const account_name from, const uint64_t to,
                            const asset amount) {
   require_auth(from);
@@ -428,15 +481,13 @@ void platform::transfertou(const account_name from, const uint64_t to,
 
   if (to_account != _accounts.end() && to_account->name) {
     action(permission_level{from, N(active)}, N(snax.token), N(transfer),
-           make_tuple(from, to_account->name, amount,
-                      string("social transaction")))
+           make_tuple(from, to_account->name, amount, string("social")))
         .send();
   } else {
     transfers_table _transfers(_self, amount.symbol.name());
 
-    action(
-        permission_level{from, N(active)}, N(snax.token), N(transfer),
-        make_tuple(from, N(snax.transf), amount, string("social transaction")))
+    action(permission_level{from, N(active)}, N(snax.token), N(transfer),
+           make_tuple(from, N(snax.transf), amount, string("social")))
         .send();
     const auto &found_transfer = _transfers.find(to);
 
@@ -528,8 +579,15 @@ void platform::require_initialized() {
 void platform::require_uninitialized() {
   snax_assert(!_platform_state.exists(), "platform is already initialized");
 }
+
+void platform::require_creator_or_platform(const account_name account) {
+  require_auth(account);
+  snax_assert(account == _self || _creators.find(account) != _creators.end(),
+              "platform or creator authority needed");
+}
 }
 
-SNAX_ABI(snax::platform, (initialize)(lockupdate)(nextround)(addpenacc)(
-                             droppenacc)(sendpayments)(addaccount)(addaccounts)(
-                             updatear)(transfertou)(updatearmult))
+SNAX_ABI(snax::platform,
+         (initialize)(lockupdate)(addcreator)(rmcreator)(nextround)(addpenacc)(
+             droppenacc)(sendpayments)(newaccount)(addaccount)(addaccounts)(
+             updatear)(transfertou)(updatearmult))

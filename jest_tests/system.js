@@ -354,19 +354,19 @@ describe("System", async () => {
         account: "platform",
         weight: 1,
         period: 1,
-        quotas: { ram_bytes: 700000, net_weight: 1000000, cpu_weight: 1000000 }
+        quotas: { ram_bytes: 900000, net_weight: 1000000, cpu_weight: 1000000 }
       },
       {
         account: "testacc1",
         weight: 0,
         period: 1,
-        quotas: { ram_bytes: 800000, net_weight: 1000000, cpu_weight: 10000 }
+        quotas: { ram_bytes: 1000000, net_weight: 1000000, cpu_weight: 10000 }
       },
       {
         account: "testacc2",
         weight: 0,
         period: 1,
-        quotas: { ram_bytes: 900000, net_weight: 1000000, cpu_weight: 70000 }
+        quotas: { ram_bytes: 1100000, net_weight: 1000000, cpu_weight: 70000 }
       }
     ]);
 
