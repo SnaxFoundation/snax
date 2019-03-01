@@ -443,6 +443,7 @@ describe("Platform", async () => {
       bytes: 4000,
       stake_net: "100.0000 SNAX",
       stake_cpu: "50.0000 SNAX",
+      transfer: false,
       active: {
         threshold: 1,
         delay_sec: 0,
@@ -487,6 +488,7 @@ describe("Platform", async () => {
         bytes: 4000,
         stake_net: "100.0000 SNAX",
         stake_cpu: "50.0000 SNAX",
+        transfer: false,
         active: {
           threshold: 1,
           delay_sec: 0,

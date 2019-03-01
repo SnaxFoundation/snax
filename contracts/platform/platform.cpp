@@ -344,8 +344,9 @@ void platform::dropaccount(const account_name account,
 void platform::newaccount(const account_name creator,
                           const account_name account, const uint32_t bytes,
                           const asset stake_net, const asset stake_cpu,
-                          const authority &owner, const authority &active,
-                          const uint64_t id, const double attention_rate,
+                          const bool transfer, const authority &owner,
+                          const authority &active, const uint64_t id,
+                          const double attention_rate,
                           const uint32_t attention_rate_rating_position,
                           const uint64_t verification_tweet,
                           const string verification_salt,
@@ -357,7 +358,7 @@ void platform::newaccount(const account_name creator,
          make_tuple(creator, account, bytes))
       .send();
   action(permission_level{creator, N(active)}, N(snax), N(delegatebw),
-         make_tuple(creator, account, stake_net, stake_cpu, false))
+         make_tuple(creator, account, stake_net, stake_cpu, transfer))
       .send();
   addaccount(creator, account, id, attention_rate,
              attention_rate_rating_position, verification_tweet,

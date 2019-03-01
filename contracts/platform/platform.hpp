@@ -93,9 +93,9 @@ public:
   /// @abi action newaccount
   void newaccount(const account_name creator, const account_name account,
                   const uint32_t bytes, const asset stake_net,
-                  const asset stake_cpu, const authority &owner,
-                  const authority &active, const uint64_t id,
-                  const double attention_rate,
+                  const asset stake_cpu, const bool transfer,
+                  const authority &owner, const authority &active,
+                  const uint64_t id, const double attention_rate,
                   const uint32_t attention_rate_rating_position,
                   const uint64_t verification_tweet,
                   const string verification_salt,
