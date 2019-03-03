@@ -394,9 +394,6 @@ void platform::addaccount(const account_name creator,
   claim_transfered(id, account);
 
   if (found_user == _users.end()) {
-    snax_assert(!_state.updating, "platform must not be in updating state when "
-                                  "addaccount action is called and account "
-                                  "doesnt exist");
     _users.emplace(_self, [&](auto &record) {
       record.attention_rate = attention_rate;
       record.id = id;

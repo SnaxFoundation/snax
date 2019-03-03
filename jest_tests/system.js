@@ -78,16 +78,16 @@ describe("System", async () => {
         code: "snax",
         scope: "snax",
         table: "producers"
-      })).rows.map(({ last_claim_time, ...obj }) => obj)
+      })).rows.map(({ last_claim_time, total_votes, ...obj }) => obj)
     ).toMatchSnapshot();
 
   const verifyVoters = async () =>
     expect(
-      await api.rpc.get_table_rows({
+      (await api.rpc.get_table_rows({
         code: "snax",
         scope: "snax",
         table: "voters"
-      })
+      })).rows.map(({ last_vote_weight, ...obj }) => obj)
     ).toMatchSnapshot();
 
   const verifyAccountQuotas = async account =>

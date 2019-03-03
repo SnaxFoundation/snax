@@ -773,7 +773,7 @@ describe("Platform", async () => {
     await verifyStatesAndAccounts();
   });
 
-  it("shouldn't be able to add account or update attention rate when platform is updating", async () => {
+  it("shouldn't be able to update attention rate when platform is updating", async () => {
     await initialize();
     await addUser({
       verification_salt: "12345",
@@ -804,17 +804,6 @@ describe("Platform", async () => {
           tweets_ranked_in_period: 117
         }
       ])
-    );
-    await tryCatchExpect(() =>
-      addUser({
-        verification_salt: "12345",
-        stat_diff: [5, 10, 15],
-        verification_tweet: "1083836521751478272",
-        account: "test2",
-        id: 123,
-        attention_rate: 15.0,
-        attention_rate_rating_position: 2
-      })
     );
     await verifyStatesAndAccounts();
   });
