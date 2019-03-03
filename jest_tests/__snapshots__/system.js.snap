@@ -1253,7 +1253,6 @@ Array [
     "location": 0,
     "owner": "snax",
     "producer_key": "SNAX8mo3cUJW1Yy1GGxQfexWGN7QPUB2rXccQP7brrpgJXGjiw6gKR",
-    "total_votes": "910627098395874816.00000000000000000",
     "unpaid_blocks": 0,
     "url": "https://snax.one",
   },
@@ -1261,31 +1260,26 @@ Array [
 `;
 
 exports[`System should claim rewards 2`] = `
-Object {
-  "more": false,
-  "rows": Array [
-    Object {
-      "is_proxy": 0,
-      "last_vote_weight": "0.00000000000000000",
-      "owner": "snax.creator",
-      "producers": Array [],
-      "proxied_vote_weight": "0.00000000000000000",
-      "proxy": "",
-      "staked": 75000000,
-    },
-    Object {
-      "is_proxy": 0,
-      "last_vote_weight": "910627098395874816.00000000000000000",
-      "owner": "snax.team",
-      "producers": Array [
-        "snax",
-      ],
-      "proxied_vote_weight": "0.00000000000000000",
-      "proxy": "",
-      "staked": "149999990000000",
-    },
-  ],
-}
+Array [
+  Object {
+    "is_proxy": 0,
+    "owner": "snax.creator",
+    "producers": Array [],
+    "proxied_vote_weight": "0.00000000000000000",
+    "proxy": "",
+    "staked": 75000000,
+  },
+  Object {
+    "is_proxy": 0,
+    "owner": "snax.team",
+    "producers": Array [
+      "snax",
+    ],
+    "proxied_vote_weight": "0.00000000000000000",
+    "proxy": "",
+    "staked": "149999990000000",
+  },
+]
 `;
 
 exports[`System should claim rewards 3`] = `
@@ -1319,7 +1313,6 @@ Array [
     "location": 0,
     "owner": "snax",
     "producer_key": "SNAX8mo3cUJW1Yy1GGxQfexWGN7QPUB2rXccQP7brrpgJXGjiw6gKR",
-    "total_votes": "0.00000000000000000",
     "unpaid_blocks": 0,
     "url": "https://snax.one",
   },
@@ -1328,7 +1321,6 @@ Array [
     "location": 0,
     "owner": "testacc1",
     "producer_key": "SNAX8mo3cUJW1Yy1GGxQfexWGN7QPUB2rXccQP7brrpgJXGjiw6gKR",
-    "total_votes": "0.00000000000000000",
     "unpaid_blocks": 0,
     "url": "https://snax.one",
   },
@@ -1337,7 +1329,6 @@ Array [
     "location": 0,
     "owner": "testacc2",
     "producer_key": "SNAX8mo3cUJW1Yy1GGxQfexWGN7QPUB2rXccQP7brrpgJXGjiw6gKR",
-    "total_votes": "0.00000000000000000",
     "unpaid_blocks": 0,
     "url": "https://snax.one",
   },
@@ -1345,29 +1336,24 @@ Array [
 `;
 
 exports[`System should fail to vote for non-unique producers 3`] = `
-Object {
-  "more": false,
-  "rows": Array [
-    Object {
-      "is_proxy": 0,
-      "last_vote_weight": "0.00000000000000000",
-      "owner": "snax.creator",
-      "producers": Array [],
-      "proxied_vote_weight": "0.00000000000000000",
-      "proxy": "",
-      "staked": 75000000,
-    },
-    Object {
-      "is_proxy": 0,
-      "last_vote_weight": "0.00000000000000000",
-      "owner": "snax.team",
-      "producers": Array [],
-      "proxied_vote_weight": "0.00000000000000000",
-      "proxy": "",
-      "staked": "149999990000000",
-    },
-  ],
-}
+Array [
+  Object {
+    "is_proxy": 0,
+    "owner": "snax.creator",
+    "producers": Array [],
+    "proxied_vote_weight": "0.00000000000000000",
+    "proxy": "",
+    "staked": 75000000,
+  },
+  Object {
+    "is_proxy": 0,
+    "owner": "snax.team",
+    "producers": Array [],
+    "proxied_vote_weight": "0.00000000000000000",
+    "proxy": "",
+    "staked": "149999990000000",
+  },
+]
 `;
 
 exports[`System should initialize system correctly 1`] = `
@@ -1475,7 +1461,6 @@ Array [
     "location": 0,
     "owner": "snax",
     "producer_key": "SNAX8mo3cUJW1Yy1GGxQfexWGN7QPUB2rXccQP7brrpgJXGjiw6gKR",
-    "total_votes": "500844904117731200.00000000000000000",
     "unpaid_blocks": 0,
     "url": "https://snax.one",
   },
@@ -1484,7 +1469,6 @@ Array [
     "location": 0,
     "owner": "testacc1",
     "producer_key": "SNAX8mo3cUJW1Yy1GGxQfexWGN7QPUB2rXccQP7brrpgJXGjiw6gKR",
-    "total_votes": "364250839358349952.00000000000000000",
     "unpaid_blocks": 0,
     "url": "https://snax.one",
   },
@@ -1493,7 +1477,6 @@ Array [
     "location": 0,
     "owner": "testacc2",
     "producer_key": "SNAX8mo3cUJW1Yy1GGxQfexWGN7QPUB2rXccQP7brrpgJXGjiw6gKR",
-    "total_votes": "227656774598968704.00000000000000000",
     "unpaid_blocks": 0,
     "url": "https://snax.one",
   },
@@ -1501,37 +1484,32 @@ Array [
 `;
 
 exports[`System should vote for producers and claim rewards 2`] = `
-Object {
-  "more": false,
-  "rows": Array [
-    Object {
-      "is_proxy": 0,
-      "last_vote_weight": "0.00000000000000000",
-      "owner": "snax.creator",
-      "producers": Array [],
-      "proxied_vote_weight": "0.00000000000000000",
-      "proxy": "",
-      "staked": 75000000,
-    },
-    Object {
-      "is_proxy": 0,
-      "last_vote_weight": "910627098395874816.00000000000000000",
-      "owner": "snax.team",
-      "producers": Array [
-        "",
-        "",
-        "",
-        "",
-        "snax",
-        "testacc1",
-        "testacc2",
-      ],
-      "proxied_vote_weight": "0.00000000000000000",
-      "proxy": "",
-      "staked": "149999990000000",
-    },
-  ],
-}
+Array [
+  Object {
+    "is_proxy": 0,
+    "owner": "snax.creator",
+    "producers": Array [],
+    "proxied_vote_weight": "0.00000000000000000",
+    "proxy": "",
+    "staked": 75000000,
+  },
+  Object {
+    "is_proxy": 0,
+    "owner": "snax.team",
+    "producers": Array [
+      "",
+      "",
+      "",
+      "",
+      "snax",
+      "testacc1",
+      "testacc2",
+    ],
+    "proxied_vote_weight": "0.00000000000000000",
+    "proxy": "",
+    "staked": "149999990000000",
+  },
+]
 `;
 
 exports[`System should vote for producers and claim rewards 3`] = `
@@ -1563,7 +1541,6 @@ Array [
     "location": 0,
     "owner": "snax",
     "producer_key": "SNAX8mo3cUJW1Yy1GGxQfexWGN7QPUB2rXccQP7brrpgJXGjiw6gKR",
-    "total_votes": "728501678716699904.00000000000000000",
     "unpaid_blocks": 0,
     "url": "https://snax.one",
   },
@@ -1572,7 +1549,6 @@ Array [
     "location": 0,
     "owner": "testacc1",
     "producer_key": "SNAX8mo3cUJW1Yy1GGxQfexWGN7QPUB2rXccQP7brrpgJXGjiw6gKR",
-    "total_votes": "637438968877112320.00000000000000000",
     "unpaid_blocks": 0,
     "url": "https://snax.one",
   },
@@ -1581,7 +1557,6 @@ Array [
     "location": 0,
     "owner": "testacc2",
     "producer_key": "SNAX8mo3cUJW1Yy1GGxQfexWGN7QPUB2rXccQP7brrpgJXGjiw6gKR",
-    "total_votes": "500844904117731200.00000000000000000",
     "unpaid_blocks": 0,
     "url": "https://snax.one",
   },
@@ -1589,35 +1564,30 @@ Array [
 `;
 
 exports[`System should vote for producers and claim rewards 6`] = `
-Object {
-  "more": false,
-  "rows": Array [
-    Object {
-      "is_proxy": 0,
-      "last_vote_weight": "0.00000000000000000",
-      "owner": "snax.creator",
-      "producers": Array [],
-      "proxied_vote_weight": "0.00000000000000000",
-      "proxy": "",
-      "staked": 75000000,
-    },
-    Object {
-      "is_proxy": 0,
-      "last_vote_weight": "910627098395874816.00000000000000000",
-      "owner": "snax.team",
-      "producers": Array [
-        "",
-        "",
-        "snax",
-        "testacc1",
-        "testacc2",
-      ],
-      "proxied_vote_weight": "0.00000000000000000",
-      "proxy": "",
-      "staked": "149999990000000",
-    },
-  ],
-}
+Array [
+  Object {
+    "is_proxy": 0,
+    "owner": "snax.creator",
+    "producers": Array [],
+    "proxied_vote_weight": "0.00000000000000000",
+    "proxy": "",
+    "staked": 75000000,
+  },
+  Object {
+    "is_proxy": 0,
+    "owner": "snax.team",
+    "producers": Array [
+      "",
+      "",
+      "snax",
+      "testacc1",
+      "testacc2",
+    ],
+    "proxied_vote_weight": "0.00000000000000000",
+    "proxy": "",
+    "staked": "149999990000000",
+  },
+]
 `;
 
 exports[`System should work correctly with escrow system 1`] = `"assertion failure with message: cant unstake this amount for account at the moment"`;

@@ -984,13 +984,11 @@ Object {
 }
 `;
 
-exports[`Platform shouldn't be able to add account or update attention rate when platform is updating 1`] = `"assertion failure with message: platform mustn't be in updating state when updatear action is called"`;
+exports[`Platform shouldn't be able to update attention rate when platform is updating 1`] = `"assertion failure with message: platform mustn't be in updating state when updatear action is called"`;
 
-exports[`Platform shouldn't be able to add account or update attention rate when platform is updating 2`] = `"assertion failure with message: platform mustn't be in updating state when updatearmult action is called"`;
+exports[`Platform shouldn't be able to update attention rate when platform is updating 2`] = `"assertion failure with message: platform mustn't be in updating state when updatearmult action is called"`;
 
-exports[`Platform shouldn't be able to add account or update attention rate when platform is updating 3`] = `"assertion failure with message: platform must not be in updating state when addaccount action is called and account doesnt exist"`;
-
-exports[`Platform shouldn't be able to add account or update attention rate when platform is updating 4`] = `
+exports[`Platform shouldn't be able to update attention rate when platform is updating 3`] = `
 Object {
   "more": false,
   "rows": Array [
@@ -1015,7 +1013,7 @@ Object {
 }
 `;
 
-exports[`Platform shouldn't be able to add account or update attention rate when platform is updating 5`] = `
+exports[`Platform shouldn't be able to update attention rate when platform is updating 4`] = `
 Array [
   Object {
     "id": 1105,
@@ -1032,7 +1030,7 @@ Array [
 ]
 `;
 
-exports[`Platform shouldn't be able to add account or update attention rate when platform is updating 6`] = `
+exports[`Platform shouldn't be able to update attention rate when platform is updating 5`] = `
 Object {
   "more": false,
   "rows": Array [
