@@ -86,6 +86,30 @@ build:tag:macos:
   tags:
   - macos
 
+build:tag:elastic:
+  stage: build
+  script:
+    - git submodule update --init --recursive
+    - if [ -f /tmp/build-$CI_COMMIT_REF_NAME.tar.gz ]; then tar -xf /tmp/build-$CI_COMMIT_REF_NAME.tar.gz; fi
+    - git clone https://github.com/SnaxFoundation/elasticsearch_plugin.git plugins/elasticsearch_plugin
+    - cd plugins/elasticsearch_plugin/
+    - git checkout release/1.5.x
+    - git submodule update --init --recursive
+    - cd ../../
+    - sed -i '/add_subdirectory(login_plugin)/a add_subdirectory(elasticsearch_plugin)' plugins/CMakeLists.txt
+    - sed -i '/PRIVATE -Wl,${whole_archive_flag} history_plugin/a PRIVATE -Wl,${whole_archive_flag} elasticsearch_plugin       -Wl,${no_whole_archive_flag}' programs/snaxnode/CMakeLists.txt
+    - ./snax_build.sh
+    - rm -rf /tmp/build-$CI_COMMIT_REF_NAME.tar.gz && tar -czf /tmp/build-$CI_COMMIT_REF_NAME.tar.gz build
+    - sudo ./snax_install.sh
+  artifacts:
+    name: "elastic-$CI_COMMIT_REF_NAME"
+    paths:
+    - build/bin-elastic
+  only:
+  - tags
+  tags:
+  - build3
+ 
 test:jest:
   stage: test
   script:
@@ -150,6 +174,22 @@ build:docker:tag:
   - tags
   tags:
     - build4
+
+build:docker:tag:elastic:
+  stage: build-docker
+  script:
+  - if [ -f /tmp/build-$CI_COMMIT_REF_NAME.tar.gz ]; then tar -xf /tmp/build-$CI_COMMIT_REF_NAME.tar.gz; fi
+  - cp -r /usr/local/lib .
+  - cp -r /usr/local/snax/bin .
+  - echo "$CI_COMMIT_REF_NAME:$CI_COMMIT_SHA" > snax-version
+  - docker build --rm -t $REGISTRY_PUB/$CI_PROJECT_NAME:$CI_COMMIT_TAG-elastic .
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+  - docker push $REGISTRY_PUB/$CI_PROJECT_NAME:$CI_COMMIT_TAG-elastic
+  - docker rmi $REGISTRY_PUB/$CI_PROJECT_NAME:$CI_COMMIT_TAG-elastic
+  only:
+  - tags
+  tags:
+    - build3
 
 publish:
   stage: publish
