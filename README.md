@@ -117,6 +117,15 @@ clisnax --url https://testnetcdn.snax.one \
 clisnax --wallet-url http://127.0.0.1:8900 wallet lock
 ```
 
+### Manually build:
+
+```sh
+git clone https://github.com/SnaxFoundation/snax.git
+cd snax
+bash ./snax_build.sh
+sudo bash ./snax_install.sh
+```
+
 ## Resources
 1. [Website](https://snax.one)
 2. [Blog](https://medium.com/@snax)
