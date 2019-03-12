@@ -407,12 +407,6 @@ void platform::addaccount(const account_name creator,
 
   _platform_state.set(_state, _self);
 
-  if (_state.airdrop && account) {
-    action(permission_level{_self, N(active)}, _state.airdrop, N(request),
-           make_tuple(_self, account))
-        .send();
-  }
-
   update_state_total_attention_rate_and_user_count(0, 0, 1, account != 0);
 };
 
