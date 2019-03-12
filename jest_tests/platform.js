@@ -630,7 +630,7 @@ describe("Platform", async () => {
     ]);
     await updatePlatform();
     await verifyStatesAndAccounts();
-    await verifyAccountsBalances(["test2", "test1", "snax", "platform"]);
+    await verifyAccountsBalances(["testacc2", "testacc1", "snax", "platform"]);
   });
 
   it("shouldnt be able to create user using newaccount method", async () => {
