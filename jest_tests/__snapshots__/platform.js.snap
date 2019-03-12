@@ -651,11 +651,19 @@ exports[`Platform should process next round correctly 14`] = `
 Array [
   Object {
     "more": false,
-    "rows": Array [],
+    "rows": Array [
+      Object {
+        "balance": "1156949565.6000 SNAX",
+      },
+    ],
   },
   Object {
     "more": false,
-    "rows": Array [],
+    "rows": Array [
+      Object {
+        "balance": "1156950553.1744 SNAX",
+      },
+    ],
   },
   Object {
     "more": false,
