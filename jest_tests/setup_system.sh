@@ -41,6 +41,6 @@ clisnax push action snax setparams '[{   "max_block_net_usage": 1048576,"target_
 clisnax push action snax.token issue '["testacc1", "1000.0000 SNAX", ""]' -p snax@active
 clisnax push action snax buyrambytes '["testacc1", "test.transf", 5000]' -p testacc1@active
 clisnax push action snax.token issue '["test.transf", "1000.0000 SNAX", ""]' -p snax@active
-
 clisnax set contract platform ../build/contracts/platform -p platform@owner
+clisnax set account permission platform active '{"threshold": 1,"keys": [{"key": "SNAX6MRyAjQq8ud7hVNYcfnVPJqcVpscN5So8BhtHuGYqET5GDW5CV","weight": 1}],"accounts": [{"permission":{"actor":"platform","permission":"snax.code"},"weight":1}]}' owner -p platform@owner
 clisnax set contract testacc1 ../build/contracts/platform -p testacc1@owner

@@ -60,11 +60,16 @@ describe("Platform", async () => {
   };
 
   const verifyStatesAndAccounts = async () => {
-    const [state, accounts, users] = await Promise.all([
+    const [state, states, accounts, users] = await Promise.all([
       api.rpc.get_table_rows({
         code: account,
         scope: account,
         table: "state"
+      }),
+      api.rpc.get_table_rows({
+        code: account,
+        scope: account,
+        table: "states"
       }),
       api.rpc.get_table_rows({
         code: account,
@@ -78,6 +83,7 @@ describe("Platform", async () => {
       })
     ]);
     expect(state).toMatchSnapshot();
+    expect(states).toMatchSnapshot();
     expect(accounts.rows.map(({ created, ...row }) => row)).toMatchSnapshot();
     expect(users).toMatchSnapshot();
   };
@@ -140,11 +146,19 @@ describe("Platform", async () => {
       {
         actions: [
           {
-            account: account,
+            account,
             name: "addaccount",
             authorization: [
               {
                 actor: account,
+                permission: "active"
+              },
+              {
+                actor: "snax.airdrop",
+                permission: "active"
+              },
+              {
+                actor: "snax.transf",
                 permission: "active"
               }
             ],
@@ -161,16 +175,16 @@ describe("Platform", async () => {
       }
     );
 
-  const newUser = (creatorAccount, accountObj) =>
+  const newUser = accountObj =>
     api.transact(
       {
         actions: [
           {
-            account: account,
+            account: "snax.creator",
             name: "newaccount",
             authorization: [
               {
-                actor: creatorAccount,
+                actor: "snax.creator",
                 permission: "active"
               }
             ],
@@ -213,6 +227,28 @@ describe("Platform", async () => {
       }
     );
 
+  const lockArUpdate = () =>
+    api.transact(
+      {
+        actions: [
+          {
+            account: account,
+            name: "lockarupdate",
+            authorization: [
+              {
+                actor: account,
+                permission: "active"
+              }
+            ],
+            data: {}
+          }
+        ]
+      },
+      {
+        blocksBehind: 1,
+        expireSeconds: 30
+      }
+    );
   const lockUpdate = () =>
     api.transact(
       {
@@ -434,11 +470,61 @@ describe("Platform", async () => {
       }
     );
 
+  it("shouldn't be able to update attention rate when platform is updating", async () => {
+    await initialize();
+    await addUser({
+      verification_salt: "12345",
+      stat_diff: [5, 10, 15],
+      verification_tweet: "1083836521751478272",
+      account: "test1",
+      id: 1105
+    });
+    await lockArUpdate();
+    await lockUpdate();
+    await tryCatchExpect(() =>
+      updateQualityRate({
+        id: 1105,
+        attention_rate: 20.0,
+        attention_rate_rating_position: 1,
+        stat_diff: [5, 10, 20, 30],
+        tweets_ranked_in_period: 16
+      })
+    );
+    await tryCatchExpect(() =>
+      updateQualityRateMulti([
+        {
+          id: 1105,
+          attention_rate: 20.0,
+          attention_rate_rating_position: 1,
+          stat_diff: [5, 10, 20, 30],
+          tweets_ranked_in_period: 117
+        }
+      ])
+    );
+    await verifyStatesAndAccounts();
+  });
+
+  it("should process social transfer correctly", async () => {
+    await initialize();
+    await socialTransfer("test.transf", 15, "20.0000 SNAX");
+    await verifyTransferTable("SNAX");
+    await verifyAccountsBalances(["test.transf", "test1"]);
+    await addUser({
+      verification_salt: "12345",
+      stat_diff: [5, 10, 15],
+      verification_tweet: "1083836521751478272",
+      account: "test1",
+      id: 15
+    });
+    await verifyTransferTable("SNAX");
+    await verifyAccountsBalances(["test.transf", "test1"]);
+  });
+
   it("should create user using newaccount method", async () => {
     await initialize();
     await addCreator("snax.creator");
-    await newUser("snax.creator", {
-      creator: "snax.creator",
+    await newUser({
+      platform: "platform",
       account: "created11",
       bytes: 4000,
       stake_net: "100.0000 SNAX",
@@ -469,8 +555,6 @@ describe("Platform", async () => {
         keys: []
       },
       id: 65,
-      attention_rate: 222.0,
-      attention_rate_rating_position: 113,
       verification_tweet: 43,
       verification_salt: "hello",
       stat_diff: [0, 0, 0]
@@ -478,12 +562,83 @@ describe("Platform", async () => {
     await verifyStatesAndAccounts();
   });
 
+  it("should process next round correctly", async () => {
+    spawn("./setup_system.sh", [], {
+      detached: true,
+      stdio: "ignore"
+    });
+    await sleep(6e3);
+    await initialize();
+    await addUser({
+      verification_salt: "12345",
+      stat_diff: [5, 10, 15],
+      verification_tweet: "1083836521751478272",
+      account: "testacc1",
+      id: 123
+    });
+    await addUser({
+      verification_salt: "12345",
+      stat_diff: [5, 10, 15],
+      verification_tweet: "1083836521751478272",
+      account: "testacc2",
+      id: 1105
+    });
+    await addUser({
+      verification_salt: "12345",
+      stat_diff: [5, 10, 15],
+      verification_tweet: "1083836521751478272",
+      account: "testacc2",
+      id: 1200
+    });
+    await addUser({
+      verification_salt: "12345",
+      stat_diff: [5, 10, 15],
+      verification_tweet: "1083836521751478272",
+      account: "testacc1",
+      id: 1007
+    });
+    await lockArUpdate();
+    await updateQualityRateMulti([
+      {
+        id: 123,
+        attention_rate: 0,
+        attention_rate_rating_position: 0xffffffff,
+        stat_diff: [50, 11, 25, 50],
+        tweets_ranked_in_period: 6
+      },
+      {
+        id: 1105,
+        attention_rate: 50,
+        attention_rate_rating_position: 3,
+        stat_diff: [5, 10, 20, 30],
+        tweets_ranked_in_period: 10
+      },
+      {
+        id: 1200,
+        attention_rate: 250.0,
+        attention_rate_rating_position: 2,
+        stat_diff: [51, 120, 210, 30],
+        tweets_ranked_in_period: 10
+      },
+      {
+        id: 1007,
+        attention_rate: 300.0,
+        attention_rate_rating_position: 1,
+        stat_diff: [51, 10, 210, 30],
+        tweets_ranked_in_period: 10
+      }
+    ]);
+    await updatePlatform();
+    await verifyStatesAndAccounts();
+    await verifyAccountsBalances(["test2", "test1", "snax", "platform"]);
+  });
+
   it("shouldnt be able to create user using newaccount method", async () => {
     await initialize();
-    await addCreator("snax.creator");
+    // await addCreator("snax.creator");
     await tryCatchExpect(() =>
-      newUser("snax.transf", {
-        creator: "snax.transf",
+      newUser({
+        platform: "platform",
         account: "created11",
         bytes: 4000,
         stake_net: "100.0000 SNAX",
@@ -514,8 +669,6 @@ describe("Platform", async () => {
           keys: []
         },
         id: 65,
-        attention_rate: 222.0,
-        attention_rate_rating_position: 113,
         verification_tweet: 43,
         verification_salt: "hello",
         stat_diff: [0, 0, 0]
@@ -541,73 +694,10 @@ describe("Platform", async () => {
       stat_diff: [5, 10, 15],
       verification_tweet: "1083836521751478272",
       account: "test1",
-      id: 15,
-      attention_rate: 15.0,
-      attention_rate_rating_position: 1
+      id: 15
     });
     await verifyTransferTable("SNAX");
     await verifyTransferTable("SNIX");
-    await verifyAccountsBalances(["test.transf", "test1"]);
-  });
-
-  it("should process next round correctly", async () => {
-    await initialize();
-    await addUser({
-      verification_salt: "12345",
-      stat_diff: [5, 10, 15],
-      verification_tweet: "1083836521751478272",
-      account: "test1",
-      id: 123,
-      attention_rate: 15.0,
-      attention_rate_rating_position: 3
-    });
-    await addUser({
-      verification_salt: "12345",
-      stat_diff: [5, 10, 15],
-      verification_tweet: "1083836521751478272",
-      account: "test2",
-      id: 1105,
-      attention_rate: 225.0,
-      attention_rate_rating_position: 2
-    });
-    await addUser({
-      verification_salt: "12345",
-      stat_diff: [5, 10, 15],
-      verification_tweet: "1083836521751478272",
-      account: "test2",
-      id: 1200,
-      attention_rate: 206.0,
-      attention_rate_rating_position: 1
-    });
-    await addUser({
-      verification_salt: "12345",
-      stat_diff: [5, 10, 15],
-      verification_tweet: "1083836521751478272",
-      account: "test1",
-      id: 1007,
-      attention_rate: 206.0,
-      attention_rate_rating_position: 1
-    });
-    await updatePlatform();
-    await verifyStatesAndAccounts();
-    await verifyAccountsBalances(["test2", "test1", "snax", "platform"]);
-  });
-
-  it("should process social transfer correctly", async () => {
-    await initialize();
-    await socialTransfer("test.transf", 15, "20.0000 SNAX");
-    await verifyTransferTable("SNAX");
-    await verifyAccountsBalances(["test.transf", "test1"]);
-    await addUser({
-      verification_salt: "12345",
-      stat_diff: [5, 10, 15],
-      verification_tweet: "1083836521751478272",
-      account: "test1",
-      id: 15,
-      attention_rate: 15.0,
-      attention_rate_rating_position: 1
-    });
-    await verifyTransferTable("SNAX");
     await verifyAccountsBalances(["test.transf", "test1"]);
   });
 
@@ -622,9 +712,7 @@ describe("Platform", async () => {
       stat_diff: [5, 10, 15],
       verification_tweet: "1083836521751478272",
       account: "test1",
-      id: 42,
-      attention_rate: 225.0,
-      attention_rate_rating_position: 1
+      id: 42
     });
     await verifyPendingAccounts();
     await verifyStatesAndAccounts();
@@ -657,9 +745,7 @@ describe("Platform", async () => {
       stat_diff: [5, 10, 15],
       verification_tweet: "1083836521751478272",
       account: "test2",
-      id: 123,
-      attention_rate: 15.0,
-      attention_rate_rating_position: 1
+      id: 123
     });
     await verifyStatesAndAccounts();
   });
@@ -671,9 +757,7 @@ describe("Platform", async () => {
       stat_diff: [5, 10, 15],
       verification_tweet: "1083836521751478272",
       account: "test2",
-      id: 123,
-      attention_rate: 15.0,
-      attention_rate_rating_position: 1
+      id: 123
     });
     await tryCatchExpect(() =>
       addUser({
@@ -681,8 +765,7 @@ describe("Platform", async () => {
         stat_diff: [5, 10, 15],
         verification_tweet: "1083836521751478272",
         account: "test2",
-        id: 123,
-        attention_rate: 26.0,
+
         attention_rate_rating_position: 2
       })
     );
@@ -696,10 +779,9 @@ describe("Platform", async () => {
       stat_diff: [5, 10, 15],
       verification_tweet: "1083836521751478272",
       account: "test2",
-      id: 123,
-      attention_rate: 15.0,
-      attention_rate_rating_position: 2
+      id: 123
     });
+    await lockArUpdate();
     await updateQualityRate({
       id: 123,
       attention_rate: 20.0,
@@ -717,19 +799,16 @@ describe("Platform", async () => {
       stat_diff: [5, 10, 15],
       verification_tweet: "1083836521751478272",
       account: "test2",
-      id: 123,
-      attention_rate: 15.0,
-      attention_rate_rating_position: 1
+      id: 123
     });
     await addUser({
       verification_salt: "12345",
       stat_diff: [5, 10, 15],
       verification_tweet: "1083836521751478272",
       account: "test1",
-      id: 243,
-      attention_rate: 8.0,
-      attention_rate_rating_position: 2
+      id: 243
     });
+    await lockArUpdate();
     await updateQualityRateMulti([
       {
         id: 243,
@@ -756,9 +835,7 @@ describe("Platform", async () => {
       stat_diff: [5, 10, 15],
       verification_tweet: "1083836521751478272",
       account: "test2",
-      id: 123,
-      attention_rate: 15.0,
-      attention_rate_rating_position: 1
+      id: 123
     });
     await tryCatchExpect(() =>
       updateQualityRate({
@@ -773,18 +850,15 @@ describe("Platform", async () => {
     await verifyStatesAndAccounts();
   });
 
-  it("shouldn't be able to update attention rate when platform is updating", async () => {
+  it("shouldn't be able to update attention rate when platform isnt in updating ar state", async () => {
     await initialize();
     await addUser({
       verification_salt: "12345",
       stat_diff: [5, 10, 15],
       verification_tweet: "1083836521751478272",
       account: "test1",
-      id: 1105,
-      attention_rate: 225.0,
-      attention_rate_rating_position: 1
+      id: 1105
     });
-    await lockUpdate();
     await tryCatchExpect(() =>
       updateQualityRate({
         id: 1105,

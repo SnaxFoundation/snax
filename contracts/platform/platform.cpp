@@ -20,6 +20,8 @@ void platform::initialize(const string name, const account_name token_dealer,
   _state.step_number = 0;
   _state.token_dealer = token_dealer;
   _state.total_attention_rate = 0.0;
+  _state.registered_attention_rate = 0.0;
+  _state.round_sent_account_count = 0;
   _state.round_updated_account_count = 0;
   _state.total_user_count = 0;
   _state.registered_user_count = 0;
@@ -33,19 +35,34 @@ void platform::initialize(const string name, const account_name token_dealer,
   _platform_state.set(_state, _self);
 }
 
-/// @abi action lockupdate
-void platform::lockupdate() {
+/// @abi action lockarupdate
+void platform::lockarupdate() {
   require_auth(_self);
   require_initialized();
   _state = _platform_state.get();
 
   snax_assert(!_state.updating, "platform is already updating");
 
-  action(permission_level{_self, N(owner)}, _state.token_dealer,
+  _state.updating = 1;
+  _state.total_attention_rate = 0.0;
+  _state.registered_attention_rate = 0.0;
+
+  _platform_state.set(_state, _self);
+}
+
+/// @abi action lockupdate
+void platform::lockupdate() {
+  require_auth(_self);
+  require_initialized();
+  _state = _platform_state.get();
+
+  snax_assert(_state.updating == 1, "platform must be in ar updating state");
+
+  action(permission_level{_self, N(active)}, _state.token_dealer,
          N(lockplatform), make_tuple(_self))
       .send();
 
-  _state.updating = 1;
+  _state.updating = 2;
   _platform_state.set(_state, _self);
 }
 
@@ -83,15 +100,15 @@ void platform::nextround() {
   _state = _platform_state.get();
 
   snax_assert(
-      _state.updating == 1,
+      _state.updating == 2,
       "platform must be in updating state when nextround action is called");
 
-  action(permission_level{_self, N(owner)}, _state.token_dealer,
+  action(permission_level{_self, N(active)}, _state.token_dealer,
          N(emitplatform), make_tuple(_self))
       .send();
 
-  _state.round_updated_account_count = 0;
-  _state.updating = 2;
+  _state.round_sent_account_count = 0;
+  _state.updating = 3;
 
   _platform_state.set(_state, _self);
 }
@@ -103,7 +120,7 @@ void platform::sendpayments(const account_name lower_account_name,
   require_initialized();
   _state = _platform_state.get();
 
-  snax_assert(_state.updating == 2, "platform must be in updating state and "
+  snax_assert(_state.updating == 3, "platform must be in updating state and "
                                     "nextround must be called before sending "
                                     "payments");
 
@@ -161,11 +178,11 @@ void platform::sendpayments(const account_name lower_account_name,
     iter++;
   }
 
-  if (_state.round_updated_account_count + updated_account_count ==
+  if (_state.round_sent_account_count + updated_account_count ==
       _state.registered_user_count) {
-    unlock_update(current_balance, sent_amount);
+    unlock_update(current_balance, sent_amount, updated_account_count);
   } else {
-    _state.round_updated_account_count += updated_account_count;
+    _state.round_sent_account_count += updated_account_count;
     _state.sent_amount += sent_amount;
     _platform_state.set(_state, _self);
   }
@@ -225,8 +242,8 @@ void platform::updatear(const uint64_t id, const double attention_rate,
   _state = _platform_state.get();
 
   snax_assert(
-      !_state.updating,
-      "platform mustn't be in updating state when updatear action is called");
+      _state.updating == 1,
+      "platform must be in updating state 1 when updatear action is called");
 
   const auto &found = _users.find(id);
 
@@ -236,10 +253,9 @@ void platform::updatear(const uint64_t id, const double attention_rate,
   if (found != _users.end()) {
     const double diff = attention_rate - found->attention_rate;
 
-    snax_assert(diff >= 0 || abs(diff) <= abs(found->attention_rate),
-                "incorrect attention rate");
+    snax_assert(attention_rate >= 0, "incorrect attention rate");
 
-    update_state_total_attention_rate_and_user_count(diff, 0, 0);
+    update_state_total_attention_rate_and_user_count(attention_rate, 1, 0, 0);
 
     _users.modify(found, _self, [&](auto &record) {
       record.attention_rate = attention_rate;
@@ -253,11 +269,12 @@ void platform::updatear(const uint64_t id, const double attention_rate,
     if (found_account != _accounts.end()) {
       _accounts.modify(found_account, _self,
                        [&](auto &record) { record.stat_diff = stat_diff; });
+      _state.registered_attention_rate += attention_rate;
     }
   } else {
-    addaccount(_self, 0, id, attention_rate, attention_rate_rating_position, 0,
-               string(""), stat_diff);
+    addaccount(_self, 0, id, 0, string(""), stat_diff);
   }
+  _platform_state.set(_state, _self);
 }
 
 /// @abi action updatearmult
@@ -267,10 +284,11 @@ void platform::updatearmult(vector<account_with_attention_rate> &updates,
   require_initialized();
   _state = _platform_state.get();
 
-  snax_assert(!_state.updating, "platform mustn't be in updating state when "
-                                "updatearmult action is called");
+  snax_assert(_state.updating == 1, "platform mus be in updating state 1 when "
+                                    "updatearmult action is called");
 
   double total_attention_rate_diff = 0;
+  uint32_t updated_account_count = 0;
 
   for (auto &update : updates) {
     const auto &user = _users.find(update.id);
@@ -282,8 +300,7 @@ void platform::updatearmult(vector<account_with_attention_rate> &updates,
       const uint32_t attention_rate_rating_position =
           update.attention_rate_rating_position;
 
-      snax_assert(diff >= 0 || abs(diff) <= abs(user->attention_rate),
-                  "incorrect attention rate");
+      snax_assert(attention_rate >= 0, "incorrect attention rate");
 
       _users.modify(user, _self, [&](auto &record) {
         record.attention_rate = attention_rate;
@@ -298,18 +315,20 @@ void platform::updatearmult(vector<account_with_attention_rate> &updates,
         _accounts.modify(found_account, _self, [&](auto &record) {
           record.stat_diff = update.stat_diff;
         });
+        _state.registered_attention_rate += attention_rate;
       }
 
-      total_attention_rate_diff += diff;
+      total_attention_rate_diff += attention_rate;
+      updated_account_count++;
     } else {
-      addaccount(_self, 0, update.id, update.attention_rate,
-                 update.attention_rate_rating_position, 0, string(""),
-                 update.stat_diff);
+      updated_account_count++;
+      addaccount(_self, 0, update.id, 0, string(""), update.stat_diff);
     }
   }
 
-  update_state_total_attention_rate_and_user_count(total_attention_rate_diff, 0,
-                                                   0);
+  _platform_state.set(_state, _self);
+  update_state_total_attention_rate_and_user_count(total_attention_rate_diff,
+                                                   updated_account_count, 0, 0);
 }
 
 /// @abi action dropaccount
@@ -340,36 +359,9 @@ void platform::dropaccount(const account_name account,
   _platform_state.set(_state, _self);
 }
 
-/// @abi action newaccount
-void platform::newaccount(const account_name creator,
-                          const account_name account, const uint32_t bytes,
-                          const asset stake_net, const asset stake_cpu,
-                          const bool transfer, const authority &owner,
-                          const authority &active, const uint64_t id,
-                          const double attention_rate,
-                          const uint32_t attention_rate_rating_position,
-                          const uint64_t verification_tweet,
-                          const string verification_salt,
-                          const vector<uint32_t> stat_diff) {
-  action(permission_level{creator, N(active)}, N(snax), N(newaccount),
-         make_tuple(creator, account, owner, active))
-      .send();
-  action(permission_level{creator, N(active)}, N(snax), N(buyrambytes),
-         make_tuple(creator, account, bytes))
-      .send();
-  action(permission_level{creator, N(active)}, N(snax), N(delegatebw),
-         make_tuple(creator, account, stake_net, stake_cpu, transfer))
-      .send();
-  addaccount(creator, account, id, attention_rate,
-             attention_rate_rating_position, verification_tweet,
-             verification_salt, stat_diff);
-}
-
 /// @abi action addaccount
 void platform::addaccount(const account_name creator,
                           const account_name account, const uint64_t id,
-                          const double attention_rate,
-                          const uint32_t attention_rate_rating_position,
                           const uint64_t verification_tweet,
                           const string verification_salt,
                           const vector<uint32_t> stat_diff) {
@@ -377,8 +369,6 @@ void platform::addaccount(const account_name creator,
   require_initialized();
   _state = _platform_state.get();
 
-  snax_assert(attention_rate >= 0,
-              "attention rate must be greater than zero or equal to zero");
   const auto &found_user = _users.find(id);
   const auto &found_account = _accounts.find(id);
 
@@ -394,20 +384,7 @@ void platform::addaccount(const account_name creator,
   claim_transfered(id, account);
 
   if (found_user == _users.end()) {
-    _users.emplace(_self, [&](auto &record) {
-      record.attention_rate = attention_rate;
-      record.id = id;
-      record.last_attention_rate_updated_step_number = _state.step_number;
-      record.attention_rate_rating_position = attention_rate_rating_position;
-    });
-  } else {
-    _users.modify(found_user, _self, [&](auto &record) {
-      if (attention_rate > record.attention_rate) {
-        record.attention_rate = attention_rate;
-        record.last_attention_rate_updated_step_number = _state.step_number;
-        record.attention_rate_rating_position = attention_rate_rating_position;
-      }
-    });
+    _users.emplace(_self, [&](auto &record) { record.id = id; });
   }
 
   if (account) {
@@ -428,14 +405,15 @@ void platform::addaccount(const account_name creator,
     });
   }
 
+  _platform_state.set(_state, _self);
+
   if (_state.airdrop && account) {
     action(permission_level{_self, N(active)}, _state.airdrop, N(request),
            make_tuple(_self, account))
         .send();
   }
 
-  update_state_total_attention_rate_and_user_count(attention_rate, 1,
-                                                   account != 0);
+  update_state_total_attention_rate_and_user_count(0, 0, 1, account != 0);
 };
 
 /// @abi action addaccounts
@@ -444,24 +422,19 @@ void platform::addaccounts(const account_name creator,
   require_creator_or_platform(creator);
   require_initialized();
 
-  double accumulated_attention_rate = 0;
   uint32_t registered_accounts = 0;
 
   for (auto &account_to_add : accounts_to_add) {
     addaccount(creator, account_to_add.name, account_to_add.id,
-               account_to_add.attention_rate,
-               account_to_add.attention_rate_rating_position,
                account_to_add.verification_tweet,
                account_to_add.verification_salt, account_to_add.stat_diff);
-
-    accumulated_attention_rate += account_to_add.attention_rate;
 
     if (account_to_add.name)
       registered_accounts++;
   }
 
   update_state_total_attention_rate_and_user_count(
-      accumulated_attention_rate, accounts_to_add.size(), registered_accounts);
+      0, 0, accounts_to_add.size(), registered_accounts);
 }
 
 /// @abi action transfertou
@@ -512,7 +485,8 @@ asset platform::get_balance(const account_name account,
 }
 
 void platform::update_state_total_attention_rate_and_user_count(
-    const double additional_attention_rate, const uint64_t new_accounts,
+    const double additional_attention_rate,
+    const uint32_t updated_account_count, const uint64_t new_accounts,
     const uint64_t new_registered_accounts) {
   require_initialized();
   _state = _platform_state.get();
@@ -549,14 +523,29 @@ void platform::claim_transfered(const uint64_t id, const account_name account) {
 
 // Only contract itself is allowed to unlock update
 void platform::unlock_update(const asset current_amount,
-                             const asset last_sent_amount) {
+                             const asset last_sent_amount,
+                             const uint32_t last_updated_account_count) {
   require_initialized();
   _state = _platform_state.get();
 
+  _state.sent_amount += last_sent_amount;
+
+  _states_history.emplace(_self, [&](auto &record) {
+    record.step_number = _state.step_number;
+    record.registered_user_count = _state.registered_user_count;
+    record.total_user_count = _state.total_user_count;
+    record.total_attention_rate = _state.total_attention_rate;
+    record.registered_attention_rate = _state.registered_attention_rate;
+    record.round_supply = _state.round_supply;
+    record.sent_amount = _state.sent_amount;
+    record.round_sent_account_count = _state.round_sent_account_count + last_updated_account_count;
+    record.round_updated_account_count = _state.round_updated_account_count;
+  });
+
   _state.updating = 0;
+  _state.round_sent_account_count = 0;
   _state.round_updated_account_count = 0;
   _state.round_supply -= _state.round_supply;
-  _state.sent_amount += last_sent_amount;
   _state.step_number += 1;
 
   _platform_state.set(_state, _self);
@@ -585,6 +574,6 @@ void platform::require_creator_or_platform(const account_name account) {
 }
 
 SNAX_ABI(snax::platform,
-         (initialize)(lockupdate)(addcreator)(rmcreator)(nextround)(addpenacc)(
-             droppenacc)(sendpayments)(newaccount)(addaccount)(addaccounts)(
-             updatear)(transfertou)(updatearmult))
+         (initialize)(lockarupdate)(lockupdate)(addcreator)(rmcreator)(
+             nextround)(addpenacc)(droppenacc)(sendpayments)(
+             addaccount)(addaccounts)(updatear)(transfertou)(updatearmult))
