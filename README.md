@@ -133,3 +133,4 @@ sudo bash ./snax_install.sh
 4. [Twitter](https://twitter.com/SnaxTeam) 
 5. [White Paper](https://snax.one/whitepaper.pdf)
 6. [Roadmap](https://snax.one/roadmap)
+
