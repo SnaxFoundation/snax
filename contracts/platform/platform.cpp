@@ -284,7 +284,7 @@ void platform::updatearmult(vector<account_with_attention_rate> &updates,
   require_initialized();
   _state = _platform_state.get();
 
-  snax_assert(_state.updating == 1, "platform mus be in updating state 1 when "
+  snax_assert(_state.updating == 1, "platform must be in updating state 1 when "
                                     "updatearmult action is called");
 
   double total_attention_rate_diff = 0;

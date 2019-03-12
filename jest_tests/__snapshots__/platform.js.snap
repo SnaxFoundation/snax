@@ -1234,7 +1234,7 @@ Object {
 
 exports[`Platform shouldn't be able to update attention rate when platform is updating 1`] = `"assertion failure with message: platform must be in updating state 1 when updatear action is called"`;
 
-exports[`Platform shouldn't be able to update attention rate when platform is updating 2`] = `"assertion failure with message: platform mus be in updating state 1 when updatearmult action is called"`;
+exports[`Platform shouldn't be able to update attention rate when platform is updating 2`] = `"assertion failure with message: platform must be in updating state 1 when updatearmult action is called"`;
 
 exports[`Platform shouldn't be able to update attention rate when platform is updating 3`] = `
 Object {
@@ -1304,7 +1304,7 @@ Object {
 
 exports[`Platform shouldn't be able to update attention rate when platform isnt in updating ar state 1`] = `"assertion failure with message: platform must be in updating state 1 when updatear action is called"`;
 
-exports[`Platform shouldn't be able to update attention rate when platform isnt in updating ar state 2`] = `"assertion failure with message: platform mus be in updating state 1 when updatearmult action is called"`;
+exports[`Platform shouldn't be able to update attention rate when platform isnt in updating ar state 2`] = `"assertion failure with message: platform must be in updating state 1 when updatearmult action is called"`;
 
 exports[`Platform shouldn't be able to update attention rate when platform isnt in updating ar state 3`] = `
 Object {
