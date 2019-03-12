@@ -8,7 +8,9 @@ Object {
       "account": "platform",
       "airdrop": "",
       "platform_name": "test_platform",
+      "registered_attention_rate": "0.00000000000000000",
       "registered_user_count": 1,
+      "round_sent_account_count": 0,
       "round_supply": "0.0000 SNAX",
       "round_updated_account_count": 0,
       "sent_amount": "0.0000 SNAX",
@@ -17,7 +19,7 @@ Object {
       "token_symbols": Array [
         "379052774148",
       ],
-      "total_attention_rate": "15.00000000000000000",
+      "total_attention_rate": "0.00000000000000000",
       "total_user_count": 1,
       "updating": 0,
     },
@@ -26,6 +28,13 @@ Object {
 `;
 
 exports[`Platform should add account correctly 2`] = `
+Object {
+  "more": false,
+  "rows": Array [],
+}
+`;
+
+exports[`Platform should add account correctly 3`] = `
 Array [
   Object {
     "id": 123,
@@ -42,13 +51,13 @@ Array [
 ]
 `;
 
-exports[`Platform should add account correctly 3`] = `
+exports[`Platform should add account correctly 4`] = `
 Object {
   "more": false,
   "rows": Array [
     Object {
-      "attention_rate": "15.00000000000000000",
-      "attention_rate_rating_position": 1,
+      "attention_rate": "0.00000000000000000",
+      "attention_rate_rating_position": 0,
       "id": 123,
       "last_attention_rate_updated_step_number": 0,
       "tweets_ranked_in_last_period": 0,
@@ -65,7 +74,9 @@ Object {
       "account": "platform",
       "airdrop": "",
       "platform_name": "test_platform",
+      "registered_attention_rate": "0.00000000000000000",
       "registered_user_count": 1,
+      "round_sent_account_count": 0,
       "round_supply": "0.0000 SNAX",
       "round_updated_account_count": 0,
       "sent_amount": "0.0000 SNAX",
@@ -74,7 +85,7 @@ Object {
       "token_symbols": Array [
         "379052774148",
       ],
-      "total_attention_rate": "222.00000000000000000",
+      "total_attention_rate": "0.00000000000000000",
       "total_user_count": 1,
       "updating": 0,
     },
@@ -83,6 +94,13 @@ Object {
 `;
 
 exports[`Platform should create user using newaccount method 2`] = `
+Object {
+  "more": false,
+  "rows": Array [],
+}
+`;
+
+exports[`Platform should create user using newaccount method 3`] = `
 Array [
   Object {
     "id": 65,
@@ -99,13 +117,13 @@ Array [
 ]
 `;
 
-exports[`Platform should create user using newaccount method 3`] = `
+exports[`Platform should create user using newaccount method 4`] = `
 Object {
   "more": false,
   "rows": Array [
     Object {
-      "attention_rate": "222.00000000000000000",
-      "attention_rate_rating_position": 113,
+      "attention_rate": "0.00000000000000000",
+      "attention_rate_rating_position": 0,
       "id": 65,
       "last_attention_rate_updated_step_number": 0,
       "tweets_ranked_in_last_period": 0,
@@ -133,7 +151,9 @@ Object {
       "account": "platform",
       "airdrop": "",
       "platform_name": "test_platform",
+      "registered_attention_rate": "0.00000000000000000",
       "registered_user_count": 0,
+      "round_sent_account_count": 0,
       "round_supply": "0.0000 SNAX",
       "round_updated_account_count": 0,
       "sent_amount": "0.0000 SNAX",
@@ -150,9 +170,16 @@ Object {
 }
 `;
 
-exports[`Platform should drop pending account correctly 4`] = `Array []`;
+exports[`Platform should drop pending account correctly 4`] = `
+Object {
+  "more": false,
+  "rows": Array [],
+}
+`;
 
-exports[`Platform should drop pending account correctly 5`] = `
+exports[`Platform should drop pending account correctly 5`] = `Array []`;
+
+exports[`Platform should drop pending account correctly 6`] = `
 Object {
   "more": false,
   "rows": Array [],
@@ -167,7 +194,9 @@ Object {
       "account": "platform",
       "airdrop": "",
       "platform_name": "test_platform",
+      "registered_attention_rate": "0.00000000000000000",
       "registered_user_count": 0,
+      "round_sent_account_count": 0,
       "round_supply": "0.0000 SNAX",
       "round_updated_account_count": 0,
       "sent_amount": "0.0000 SNAX",
@@ -184,9 +213,16 @@ Object {
 }
 `;
 
-exports[`Platform should initialize correctly 2`] = `Array []`;
+exports[`Platform should initialize correctly 2`] = `
+Object {
+  "more": false,
+  "rows": Array [],
+}
+`;
 
-exports[`Platform should initialize correctly 3`] = `
+exports[`Platform should initialize correctly 3`] = `Array []`;
+
+exports[`Platform should initialize correctly 4`] = `
 Object {
   "more": false,
   "rows": Array [],
@@ -201,7 +237,9 @@ Object {
       "account": "platform",
       "airdrop": "",
       "platform_name": "test_platform",
+      "registered_attention_rate": "600.00000000000000000",
       "registered_user_count": 4,
+      "round_sent_account_count": 0,
       "round_supply": "0.0000 SNAX",
       "round_updated_account_count": 0,
       "sent_amount": "0.0000 SNAX",
@@ -210,142 +248,7 @@ Object {
       "token_symbols": Array [
         "379052774148",
       ],
-      "total_attention_rate": "652.00000000000000000",
-      "total_user_count": 4,
-      "updating": 1,
-    },
-  ],
-}
-`;
-
-exports[`Platform should process next round correctly 2`] = `
-Array [
-  Object {
-    "id": 123,
-    "last_paid_step_number": 0,
-    "name": "test1",
-    "stat_diff": Array [
-      5,
-      10,
-      15,
-    ],
-    "verification_salt": "12345",
-    "verification_tweet": "1083836521751478272",
-  },
-  Object {
-    "id": 1007,
-    "last_paid_step_number": 0,
-    "name": "test1",
-    "stat_diff": Array [
-      5,
-      10,
-      15,
-    ],
-    "verification_salt": "12345",
-    "verification_tweet": "1083836521751478272",
-  },
-  Object {
-    "id": 1105,
-    "last_paid_step_number": 0,
-    "name": "test2",
-    "stat_diff": Array [
-      5,
-      10,
-      15,
-    ],
-    "verification_salt": "12345",
-    "verification_tweet": "1083836521751478272",
-  },
-  Object {
-    "id": 1200,
-    "last_paid_step_number": 0,
-    "name": "test2",
-    "stat_diff": Array [
-      5,
-      10,
-      15,
-    ],
-    "verification_salt": "12345",
-    "verification_tweet": "1083836521751478272",
-  },
-]
-`;
-
-exports[`Platform should process next round correctly 3`] = `
-Object {
-  "more": false,
-  "rows": Array [
-    Object {
-      "attention_rate": "15.00000000000000000",
-      "attention_rate_rating_position": 3,
-      "id": 123,
-      "last_attention_rate_updated_step_number": 0,
-      "tweets_ranked_in_last_period": 0,
-    },
-    Object {
-      "attention_rate": "206.00000000000000000",
-      "attention_rate_rating_position": 1,
-      "id": 1007,
-      "last_attention_rate_updated_step_number": 0,
-      "tweets_ranked_in_last_period": 0,
-    },
-    Object {
-      "attention_rate": "225.00000000000000000",
-      "attention_rate_rating_position": 2,
-      "id": 1105,
-      "last_attention_rate_updated_step_number": 0,
-      "tweets_ranked_in_last_period": 0,
-    },
-    Object {
-      "attention_rate": "206.00000000000000000",
-      "attention_rate_rating_position": 1,
-      "id": 1200,
-      "last_attention_rate_updated_step_number": 0,
-      "tweets_ranked_in_last_period": 0,
-    },
-  ],
-}
-`;
-
-exports[`Platform should process next round correctly 4`] = `
-Array [
-  Object {
-    "more": false,
-    "rows": Array [],
-  },
-  Object {
-    "more": false,
-    "rows": Array [],
-  },
-  Object {
-    "more": false,
-    "rows": Array [],
-  },
-  Object {
-    "more": false,
-    "rows": Array [],
-  },
-]
-`;
-
-exports[`Platform should process next round correctly 5`] = `
-Object {
-  "more": false,
-  "rows": Array [
-    Object {
-      "account": "platform",
-      "airdrop": "",
-      "platform_name": "test_platform",
-      "registered_user_count": 4,
-      "round_supply": "0.0000 SNAX",
-      "round_updated_account_count": 0,
-      "sent_amount": "0.0000 SNAX",
-      "step_number": 0,
-      "token_dealer": "snax",
-      "token_symbols": Array [
-        "379052774148",
-      ],
-      "total_attention_rate": "652.00000000000000000",
+      "total_attention_rate": "600.00000000000000000",
       "total_user_count": 4,
       "updating": 2,
     },
@@ -353,16 +256,24 @@ Object {
 }
 `;
 
-exports[`Platform should process next round correctly 6`] = `
+exports[`Platform should process next round correctly 2`] = `
+Object {
+  "more": false,
+  "rows": Array [],
+}
+`;
+
+exports[`Platform should process next round correctly 3`] = `
 Array [
   Object {
     "id": 123,
     "last_paid_step_number": 0,
-    "name": "test1",
+    "name": "testacc1",
     "stat_diff": Array [
-      5,
-      10,
-      15,
+      50,
+      11,
+      25,
+      50,
     ],
     "verification_salt": "12345",
     "verification_tweet": "1083836521751478272",
@@ -370,11 +281,12 @@ Array [
   Object {
     "id": 1007,
     "last_paid_step_number": 0,
-    "name": "test1",
+    "name": "testacc1",
     "stat_diff": Array [
-      5,
+      51,
       10,
-      15,
+      210,
+      30,
     ],
     "verification_salt": "12345",
     "verification_tweet": "1083836521751478272",
@@ -382,11 +294,12 @@ Array [
   Object {
     "id": 1105,
     "last_paid_step_number": 0,
-    "name": "test2",
+    "name": "testacc2",
     "stat_diff": Array [
       5,
       10,
-      15,
+      20,
+      30,
     ],
     "verification_salt": "12345",
     "verification_tweet": "1083836521751478272",
@@ -394,11 +307,12 @@ Array [
   Object {
     "id": 1200,
     "last_paid_step_number": 0,
-    "name": "test2",
+    "name": "testacc2",
     "stat_diff": Array [
-      5,
-      10,
-      15,
+      51,
+      120,
+      210,
+      30,
     ],
     "verification_salt": "12345",
     "verification_tweet": "1083836521751478272",
@@ -406,43 +320,68 @@ Array [
 ]
 `;
 
-exports[`Platform should process next round correctly 7`] = `
+exports[`Platform should process next round correctly 4`] = `
 Object {
   "more": false,
   "rows": Array [
     Object {
-      "attention_rate": "15.00000000000000000",
-      "attention_rate_rating_position": 3,
+      "attention_rate": "0.00000000000000000",
+      "attention_rate_rating_position": 4294967295,
       "id": 123,
       "last_attention_rate_updated_step_number": 0,
-      "tweets_ranked_in_last_period": 0,
+      "tweets_ranked_in_last_period": 6,
     },
     Object {
-      "attention_rate": "206.00000000000000000",
+      "attention_rate": "300.00000000000000000",
       "attention_rate_rating_position": 1,
       "id": 1007,
       "last_attention_rate_updated_step_number": 0,
-      "tweets_ranked_in_last_period": 0,
+      "tweets_ranked_in_last_period": 10,
     },
     Object {
-      "attention_rate": "225.00000000000000000",
-      "attention_rate_rating_position": 2,
+      "attention_rate": "50.00000000000000000",
+      "attention_rate_rating_position": 3,
       "id": 1105,
       "last_attention_rate_updated_step_number": 0,
-      "tweets_ranked_in_last_period": 0,
+      "tweets_ranked_in_last_period": 10,
     },
     Object {
-      "attention_rate": "206.00000000000000000",
-      "attention_rate_rating_position": 1,
+      "attention_rate": "250.00000000000000000",
+      "attention_rate_rating_position": 2,
       "id": 1200,
       "last_attention_rate_updated_step_number": 0,
-      "tweets_ranked_in_last_period": 0,
+      "tweets_ranked_in_last_period": 10,
     },
   ],
 }
 `;
 
-exports[`Platform should process next round correctly 8`] = `
+exports[`Platform should process next round correctly 5`] = `
+Array [
+  Object {
+    "more": false,
+    "rows": Array [],
+  },
+  Object {
+    "more": false,
+    "rows": Array [],
+  },
+  Object {
+    "more": false,
+    "rows": Array [],
+  },
+  Object {
+    "more": false,
+    "rows": Array [
+      Object {
+        "balance": "2313899131.2000 SNAX",
+      },
+    ],
+  },
+]
+`;
+
+exports[`Platform should process next round correctly 6`] = `
 Object {
   "more": false,
   "rows": Array [
@@ -450,33 +389,43 @@ Object {
       "account": "platform",
       "airdrop": "",
       "platform_name": "test_platform",
+      "registered_attention_rate": "600.00000000000000000",
       "registered_user_count": 4,
+      "round_sent_account_count": 0,
       "round_supply": "0.0000 SNAX",
       "round_updated_account_count": 0,
       "sent_amount": "0.0000 SNAX",
-      "step_number": 1,
+      "step_number": 0,
       "token_dealer": "snax",
       "token_symbols": Array [
         "379052774148",
       ],
-      "total_attention_rate": "652.00000000000000000",
+      "total_attention_rate": "600.00000000000000000",
       "total_user_count": 4,
-      "updating": 0,
+      "updating": 3,
     },
   ],
 }
 `;
 
-exports[`Platform should process next round correctly 9`] = `
+exports[`Platform should process next round correctly 7`] = `
+Object {
+  "more": false,
+  "rows": Array [],
+}
+`;
+
+exports[`Platform should process next round correctly 8`] = `
 Array [
   Object {
     "id": 123,
     "last_paid_step_number": 0,
-    "name": "test1",
+    "name": "testacc1",
     "stat_diff": Array [
-      5,
-      10,
-      15,
+      50,
+      11,
+      25,
+      50,
     ],
     "verification_salt": "12345",
     "verification_tweet": "1083836521751478272",
@@ -484,11 +433,12 @@ Array [
   Object {
     "id": 1007,
     "last_paid_step_number": 0,
-    "name": "test1",
+    "name": "testacc1",
     "stat_diff": Array [
-      5,
+      51,
       10,
-      15,
+      210,
+      30,
     ],
     "verification_salt": "12345",
     "verification_tweet": "1083836521751478272",
@@ -496,11 +446,12 @@ Array [
   Object {
     "id": 1105,
     "last_paid_step_number": 0,
-    "name": "test2",
+    "name": "testacc2",
     "stat_diff": Array [
       5,
       10,
-      15,
+      20,
+      30,
     ],
     "verification_salt": "12345",
     "verification_tweet": "1083836521751478272",
@@ -508,11 +459,12 @@ Array [
   Object {
     "id": 1200,
     "last_paid_step_number": 0,
-    "name": "test2",
+    "name": "testacc2",
     "stat_diff": Array [
-      5,
-      10,
-      15,
+      51,
+      120,
+      210,
+      30,
     ],
     "verification_salt": "12345",
     "verification_tweet": "1083836521751478272",
@@ -520,43 +472,182 @@ Array [
 ]
 `;
 
+exports[`Platform should process next round correctly 9`] = `
+Object {
+  "more": false,
+  "rows": Array [
+    Object {
+      "attention_rate": "0.00000000000000000",
+      "attention_rate_rating_position": 4294967295,
+      "id": 123,
+      "last_attention_rate_updated_step_number": 0,
+      "tweets_ranked_in_last_period": 6,
+    },
+    Object {
+      "attention_rate": "300.00000000000000000",
+      "attention_rate_rating_position": 1,
+      "id": 1007,
+      "last_attention_rate_updated_step_number": 0,
+      "tweets_ranked_in_last_period": 10,
+    },
+    Object {
+      "attention_rate": "50.00000000000000000",
+      "attention_rate_rating_position": 3,
+      "id": 1105,
+      "last_attention_rate_updated_step_number": 0,
+      "tweets_ranked_in_last_period": 10,
+    },
+    Object {
+      "attention_rate": "250.00000000000000000",
+      "attention_rate_rating_position": 2,
+      "id": 1200,
+      "last_attention_rate_updated_step_number": 0,
+      "tweets_ranked_in_last_period": 10,
+    },
+  ],
+}
+`;
+
 exports[`Platform should process next round correctly 10`] = `
 Object {
   "more": false,
   "rows": Array [
     Object {
-      "attention_rate": "15.00000000000000000",
-      "attention_rate_rating_position": 3,
-      "id": 123,
-      "last_attention_rate_updated_step_number": 0,
-      "tweets_ranked_in_last_period": 0,
-    },
-    Object {
-      "attention_rate": "206.00000000000000000",
-      "attention_rate_rating_position": 1,
-      "id": 1007,
-      "last_attention_rate_updated_step_number": 0,
-      "tweets_ranked_in_last_period": 0,
-    },
-    Object {
-      "attention_rate": "225.00000000000000000",
-      "attention_rate_rating_position": 2,
-      "id": 1105,
-      "last_attention_rate_updated_step_number": 0,
-      "tweets_ranked_in_last_period": 0,
-    },
-    Object {
-      "attention_rate": "206.00000000000000000",
-      "attention_rate_rating_position": 1,
-      "id": 1200,
-      "last_attention_rate_updated_step_number": 0,
-      "tweets_ranked_in_last_period": 0,
+      "account": "platform",
+      "airdrop": "",
+      "platform_name": "test_platform",
+      "registered_attention_rate": "600.00000000000000000",
+      "registered_user_count": 4,
+      "round_sent_account_count": 0,
+      "round_supply": "0.0000 SNAX",
+      "round_updated_account_count": 0,
+      "sent_amount": "2313899131.2000 SNAX",
+      "step_number": 1,
+      "token_dealer": "snax",
+      "token_symbols": Array [
+        "379052774148",
+      ],
+      "total_attention_rate": "600.00000000000000000",
+      "total_user_count": 4,
+      "updating": 0,
     },
   ],
 }
 `;
 
 exports[`Platform should process next round correctly 11`] = `
+Object {
+  "more": false,
+  "rows": Array [
+    Object {
+      "registered_attention_rate": "600.00000000000000000",
+      "registered_user_count": 4,
+      "round_sent_account_count": 4,
+      "round_supply": "2313899131.2000 SNAX",
+      "round_updated_account_count": 0,
+      "sent_amount": "2313899131.2000 SNAX",
+      "step_number": 0,
+      "total_attention_rate": "600.00000000000000000",
+      "total_user_count": 4,
+    },
+  ],
+}
+`;
+
+exports[`Platform should process next round correctly 12`] = `
+Array [
+  Object {
+    "id": 123,
+    "last_paid_step_number": 0,
+    "name": "testacc1",
+    "stat_diff": Array [
+      50,
+      11,
+      25,
+      50,
+    ],
+    "verification_salt": "12345",
+    "verification_tweet": "1083836521751478272",
+  },
+  Object {
+    "id": 1007,
+    "last_paid_step_number": 0,
+    "name": "testacc1",
+    "stat_diff": Array [
+      51,
+      10,
+      210,
+      30,
+    ],
+    "verification_salt": "12345",
+    "verification_tweet": "1083836521751478272",
+  },
+  Object {
+    "id": 1105,
+    "last_paid_step_number": 0,
+    "name": "testacc2",
+    "stat_diff": Array [
+      5,
+      10,
+      20,
+      30,
+    ],
+    "verification_salt": "12345",
+    "verification_tweet": "1083836521751478272",
+  },
+  Object {
+    "id": 1200,
+    "last_paid_step_number": 0,
+    "name": "testacc2",
+    "stat_diff": Array [
+      51,
+      120,
+      210,
+      30,
+    ],
+    "verification_salt": "12345",
+    "verification_tweet": "1083836521751478272",
+  },
+]
+`;
+
+exports[`Platform should process next round correctly 13`] = `
+Object {
+  "more": false,
+  "rows": Array [
+    Object {
+      "attention_rate": "0.00000000000000000",
+      "attention_rate_rating_position": 4294967295,
+      "id": 123,
+      "last_attention_rate_updated_step_number": 0,
+      "tweets_ranked_in_last_period": 6,
+    },
+    Object {
+      "attention_rate": "300.00000000000000000",
+      "attention_rate_rating_position": 1,
+      "id": 1007,
+      "last_attention_rate_updated_step_number": 0,
+      "tweets_ranked_in_last_period": 10,
+    },
+    Object {
+      "attention_rate": "50.00000000000000000",
+      "attention_rate_rating_position": 3,
+      "id": 1105,
+      "last_attention_rate_updated_step_number": 0,
+      "tweets_ranked_in_last_period": 10,
+    },
+    Object {
+      "attention_rate": "250.00000000000000000",
+      "attention_rate_rating_position": 2,
+      "id": 1200,
+      "last_attention_rate_updated_step_number": 0,
+      "tweets_ranked_in_last_period": 10,
+    },
+  ],
+}
+`;
+
+exports[`Platform should process next round correctly 14`] = `
 Array [
   Object {
     "more": false,
@@ -752,7 +843,9 @@ Object {
       "account": "platform",
       "airdrop": "",
       "platform_name": "test_platform",
+      "registered_attention_rate": "20.00000000000000000",
       "registered_user_count": 1,
+      "round_sent_account_count": 0,
       "round_supply": "0.0000 SNAX",
       "round_updated_account_count": 0,
       "sent_amount": "0.0000 SNAX",
@@ -763,13 +856,20 @@ Object {
       ],
       "total_attention_rate": "20.00000000000000000",
       "total_user_count": 1,
-      "updating": 0,
+      "updating": 1,
     },
   ],
 }
 `;
 
 exports[`Platform should update account's attention rate correctly 2`] = `
+Object {
+  "more": false,
+  "rows": Array [],
+}
+`;
+
+exports[`Platform should update account's attention rate correctly 3`] = `
 Array [
   Object {
     "id": 123,
@@ -787,7 +887,7 @@ Array [
 ]
 `;
 
-exports[`Platform should update account's attention rate correctly 3`] = `
+exports[`Platform should update account's attention rate correctly 4`] = `
 Object {
   "more": false,
   "rows": Array [
@@ -810,7 +910,9 @@ Object {
       "account": "platform",
       "airdrop": "",
       "platform_name": "test_platform",
+      "registered_attention_rate": "45.00000000000000000",
       "registered_user_count": 2,
+      "round_sent_account_count": 0,
       "round_supply": "0.0000 SNAX",
       "round_updated_account_count": 0,
       "sent_amount": "0.0000 SNAX",
@@ -821,13 +923,20 @@ Object {
       ],
       "total_attention_rate": "45.00000000000000000",
       "total_user_count": 2,
-      "updating": 0,
+      "updating": 1,
     },
   ],
 }
 `;
 
 exports[`Platform should update multiple account's attention rate correctly 2`] = `
+Object {
+  "more": false,
+  "rows": Array [],
+}
+`;
+
+exports[`Platform should update multiple account's attention rate correctly 3`] = `
 Array [
   Object {
     "id": 123,
@@ -858,7 +967,7 @@ Array [
 ]
 `;
 
-exports[`Platform should update multiple account's attention rate correctly 3`] = `
+exports[`Platform should update multiple account's attention rate correctly 4`] = `
 Object {
   "more": false,
   "rows": Array [
@@ -899,7 +1008,9 @@ Object {
       "account": "platform",
       "airdrop": "",
       "platform_name": "test_platform",
+      "registered_attention_rate": "0.00000000000000000",
       "registered_user_count": 0,
+      "round_sent_account_count": 0,
       "round_supply": "0.0000 SNAX",
       "round_updated_account_count": 0,
       "sent_amount": "0.0000 SNAX",
@@ -916,18 +1027,25 @@ Object {
 }
 `;
 
-exports[`Platform should work with pending account correctly 4`] = `Array []`;
-
-exports[`Platform should work with pending account correctly 5`] = `
+exports[`Platform should work with pending account correctly 4`] = `
 Object {
   "more": false,
   "rows": Array [],
 }
 `;
 
-exports[`Platform should work with pending account correctly 6`] = `Array []`;
+exports[`Platform should work with pending account correctly 5`] = `Array []`;
 
-exports[`Platform should work with pending account correctly 7`] = `
+exports[`Platform should work with pending account correctly 6`] = `
+Object {
+  "more": false,
+  "rows": Array [],
+}
+`;
+
+exports[`Platform should work with pending account correctly 7`] = `Array []`;
+
+exports[`Platform should work with pending account correctly 8`] = `
 Object {
   "more": false,
   "rows": Array [
@@ -935,7 +1053,9 @@ Object {
       "account": "platform",
       "airdrop": "",
       "platform_name": "test_platform",
+      "registered_attention_rate": "0.00000000000000000",
       "registered_user_count": 1,
+      "round_sent_account_count": 0,
       "round_supply": "0.0000 SNAX",
       "round_updated_account_count": 0,
       "sent_amount": "0.0000 SNAX",
@@ -944,7 +1064,7 @@ Object {
       "token_symbols": Array [
         "379052774148",
       ],
-      "total_attention_rate": "225.00000000000000000",
+      "total_attention_rate": "0.00000000000000000",
       "total_user_count": 1,
       "updating": 0,
     },
@@ -952,7 +1072,14 @@ Object {
 }
 `;
 
-exports[`Platform should work with pending account correctly 8`] = `
+exports[`Platform should work with pending account correctly 9`] = `
+Object {
+  "more": false,
+  "rows": Array [],
+}
+`;
+
+exports[`Platform should work with pending account correctly 10`] = `
 Array [
   Object {
     "id": 42,
@@ -969,13 +1096,13 @@ Array [
 ]
 `;
 
-exports[`Platform should work with pending account correctly 9`] = `
+exports[`Platform should work with pending account correctly 11`] = `
 Object {
   "more": false,
   "rows": Array [
     Object {
-      "attention_rate": "225.00000000000000000",
-      "attention_rate_rating_position": 1,
+      "attention_rate": "0.00000000000000000",
+      "attention_rate_rating_position": 0,
       "id": 42,
       "last_attention_rate_updated_step_number": 0,
       "tweets_ranked_in_last_period": 0,
@@ -984,68 +1111,7 @@ Object {
 }
 `;
 
-exports[`Platform shouldn't be able to update attention rate when platform is updating 1`] = `"assertion failure with message: platform mustn't be in updating state when updatear action is called"`;
-
-exports[`Platform shouldn't be able to update attention rate when platform is updating 2`] = `"assertion failure with message: platform mustn't be in updating state when updatearmult action is called"`;
-
-exports[`Platform shouldn't be able to update attention rate when platform is updating 3`] = `
-Object {
-  "more": false,
-  "rows": Array [
-    Object {
-      "account": "platform",
-      "airdrop": "",
-      "platform_name": "test_platform",
-      "registered_user_count": 1,
-      "round_supply": "0.0000 SNAX",
-      "round_updated_account_count": 0,
-      "sent_amount": "0.0000 SNAX",
-      "step_number": 0,
-      "token_dealer": "snax",
-      "token_symbols": Array [
-        "379052774148",
-      ],
-      "total_attention_rate": "225.00000000000000000",
-      "total_user_count": 1,
-      "updating": 1,
-    },
-  ],
-}
-`;
-
-exports[`Platform shouldn't be able to update attention rate when platform is updating 4`] = `
-Array [
-  Object {
-    "id": 1105,
-    "last_paid_step_number": 0,
-    "name": "test1",
-    "stat_diff": Array [
-      5,
-      10,
-      15,
-    ],
-    "verification_salt": "12345",
-    "verification_tweet": "1083836521751478272",
-  },
-]
-`;
-
-exports[`Platform shouldn't be able to update attention rate when platform is updating 5`] = `
-Object {
-  "more": false,
-  "rows": Array [
-    Object {
-      "attention_rate": "225.00000000000000000",
-      "attention_rate_rating_position": 1,
-      "id": 1105,
-      "last_attention_rate_updated_step_number": 0,
-      "tweets_ranked_in_last_period": 0,
-    },
-  ],
-}
-`;
-
-exports[`Platform shouldn't be able to add user with the same id second time 1`] = `"assertion failure with message: user already exists"`;
+exports[`Platform shouldn't be able to add user with the same id second time 1`] = `"missing addaccount.id (type=uint64)"`;
 
 exports[`Platform shouldn't be able to add user with the same id second time 2`] = `
 Object {
@@ -1055,7 +1121,9 @@ Object {
       "account": "platform",
       "airdrop": "",
       "platform_name": "test_platform",
+      "registered_attention_rate": "0.00000000000000000",
       "registered_user_count": 1,
+      "round_sent_account_count": 0,
       "round_supply": "0.0000 SNAX",
       "round_updated_account_count": 0,
       "sent_amount": "0.0000 SNAX",
@@ -1064,7 +1132,7 @@ Object {
       "token_symbols": Array [
         "379052774148",
       ],
-      "total_attention_rate": "15.00000000000000000",
+      "total_attention_rate": "0.00000000000000000",
       "total_user_count": 1,
       "updating": 0,
     },
@@ -1073,6 +1141,13 @@ Object {
 `;
 
 exports[`Platform shouldn't be able to add user with the same id second time 3`] = `
+Object {
+  "more": false,
+  "rows": Array [],
+}
+`;
+
+exports[`Platform shouldn't be able to add user with the same id second time 4`] = `
 Array [
   Object {
     "id": 123,
@@ -1089,13 +1164,13 @@ Array [
 ]
 `;
 
-exports[`Platform shouldn't be able to add user with the same id second time 4`] = `
+exports[`Platform shouldn't be able to add user with the same id second time 5`] = `
 Object {
   "more": false,
   "rows": Array [
     Object {
-      "attention_rate": "15.00000000000000000",
-      "attention_rate_rating_position": 1,
+      "attention_rate": "0.00000000000000000",
+      "attention_rate_rating_position": 0,
       "id": 123,
       "last_attention_rate_updated_step_number": 0,
       "tweets_ranked_in_last_period": 0,
@@ -1114,7 +1189,9 @@ Object {
       "account": "platform",
       "airdrop": "",
       "platform_name": "test_platform",
+      "registered_attention_rate": "0.00000000000000000",
       "registered_user_count": 0,
+      "round_sent_account_count": 0,
       "round_supply": "0.0000 SNAX",
       "round_updated_account_count": 0,
       "sent_amount": "0.0000 SNAX",
@@ -1131,16 +1208,163 @@ Object {
 }
 `;
 
-exports[`Platform shouldn't be able to initialize second time 3`] = `Array []`;
-
-exports[`Platform shouldn't be able to initialize second time 4`] = `
+exports[`Platform shouldn't be able to initialize second time 3`] = `
 Object {
   "more": false,
   "rows": Array [],
 }
 `;
 
-exports[`Platform shouldn't be able to update non-existent account's attention rate 1`] = `"assertion failure with message: user doesnt exist"`;
+exports[`Platform shouldn't be able to initialize second time 4`] = `Array []`;
+
+exports[`Platform shouldn't be able to initialize second time 5`] = `
+Object {
+  "more": false,
+  "rows": Array [],
+}
+`;
+
+exports[`Platform shouldn't be able to update attention rate when platform is updating 1`] = `"assertion failure with message: platform must be in updating state 1 when updatear action is called"`;
+
+exports[`Platform shouldn't be able to update attention rate when platform is updating 2`] = `"assertion failure with message: platform mus be in updating state 1 when updatearmult action is called"`;
+
+exports[`Platform shouldn't be able to update attention rate when platform is updating 3`] = `
+Object {
+  "more": false,
+  "rows": Array [
+    Object {
+      "account": "platform",
+      "airdrop": "",
+      "platform_name": "test_platform",
+      "registered_attention_rate": "0.00000000000000000",
+      "registered_user_count": 1,
+      "round_sent_account_count": 0,
+      "round_supply": "0.0000 SNAX",
+      "round_updated_account_count": 0,
+      "sent_amount": "0.0000 SNAX",
+      "step_number": 0,
+      "token_dealer": "snax",
+      "token_symbols": Array [
+        "379052774148",
+      ],
+      "total_attention_rate": "0.00000000000000000",
+      "total_user_count": 1,
+      "updating": 2,
+    },
+  ],
+}
+`;
+
+exports[`Platform shouldn't be able to update attention rate when platform is updating 4`] = `
+Object {
+  "more": false,
+  "rows": Array [],
+}
+`;
+
+exports[`Platform shouldn't be able to update attention rate when platform is updating 5`] = `
+Array [
+  Object {
+    "id": 1105,
+    "last_paid_step_number": 0,
+    "name": "test1",
+    "stat_diff": Array [
+      5,
+      10,
+      15,
+    ],
+    "verification_salt": "12345",
+    "verification_tweet": "1083836521751478272",
+  },
+]
+`;
+
+exports[`Platform shouldn't be able to update attention rate when platform is updating 6`] = `
+Object {
+  "more": false,
+  "rows": Array [
+    Object {
+      "attention_rate": "0.00000000000000000",
+      "attention_rate_rating_position": 0,
+      "id": 1105,
+      "last_attention_rate_updated_step_number": 0,
+      "tweets_ranked_in_last_period": 0,
+    },
+  ],
+}
+`;
+
+exports[`Platform shouldn't be able to update attention rate when platform isnt in updating ar state 1`] = `"assertion failure with message: platform must be in updating state 1 when updatear action is called"`;
+
+exports[`Platform shouldn't be able to update attention rate when platform isnt in updating ar state 2`] = `"assertion failure with message: platform mus be in updating state 1 when updatearmult action is called"`;
+
+exports[`Platform shouldn't be able to update attention rate when platform isnt in updating ar state 3`] = `
+Object {
+  "more": false,
+  "rows": Array [
+    Object {
+      "account": "platform",
+      "airdrop": "",
+      "platform_name": "test_platform",
+      "registered_attention_rate": "0.00000000000000000",
+      "registered_user_count": 1,
+      "round_sent_account_count": 0,
+      "round_supply": "0.0000 SNAX",
+      "round_updated_account_count": 0,
+      "sent_amount": "0.0000 SNAX",
+      "step_number": 0,
+      "token_dealer": "snax",
+      "token_symbols": Array [
+        "379052774148",
+      ],
+      "total_attention_rate": "0.00000000000000000",
+      "total_user_count": 1,
+      "updating": 0,
+    },
+  ],
+}
+`;
+
+exports[`Platform shouldn't be able to update attention rate when platform isnt in updating ar state 4`] = `
+Object {
+  "more": false,
+  "rows": Array [],
+}
+`;
+
+exports[`Platform shouldn't be able to update attention rate when platform isnt in updating ar state 5`] = `
+Array [
+  Object {
+    "id": 1105,
+    "last_paid_step_number": 0,
+    "name": "test1",
+    "stat_diff": Array [
+      5,
+      10,
+      15,
+    ],
+    "verification_salt": "12345",
+    "verification_tweet": "1083836521751478272",
+  },
+]
+`;
+
+exports[`Platform shouldn't be able to update attention rate when platform isnt in updating ar state 6`] = `
+Object {
+  "more": false,
+  "rows": Array [
+    Object {
+      "attention_rate": "0.00000000000000000",
+      "attention_rate_rating_position": 0,
+      "id": 1105,
+      "last_attention_rate_updated_step_number": 0,
+      "tweets_ranked_in_last_period": 0,
+    },
+  ],
+}
+`;
+
+exports[`Platform shouldn't be able to update non-existent account's attention rate 1`] = `"assertion failure with message: platform must be in updating state 1 when updatear action is called"`;
 
 exports[`Platform shouldn't be able to update non-existent account's attention rate 2`] = `
 Object {
@@ -1150,7 +1374,9 @@ Object {
       "account": "platform",
       "airdrop": "",
       "platform_name": "test_platform",
+      "registered_attention_rate": "0.00000000000000000",
       "registered_user_count": 1,
+      "round_sent_account_count": 0,
       "round_supply": "0.0000 SNAX",
       "round_updated_account_count": 0,
       "sent_amount": "0.0000 SNAX",
@@ -1159,7 +1385,7 @@ Object {
       "token_symbols": Array [
         "379052774148",
       ],
-      "total_attention_rate": "15.00000000000000000",
+      "total_attention_rate": "0.00000000000000000",
       "total_user_count": 1,
       "updating": 0,
     },
@@ -1168,6 +1394,13 @@ Object {
 `;
 
 exports[`Platform shouldn't be able to update non-existent account's attention rate 3`] = `
+Object {
+  "more": false,
+  "rows": Array [],
+}
+`;
+
+exports[`Platform shouldn't be able to update non-existent account's attention rate 4`] = `
 Array [
   Object {
     "id": 123,
@@ -1184,13 +1417,13 @@ Array [
 ]
 `;
 
-exports[`Platform shouldn't be able to update non-existent account's attention rate 4`] = `
+exports[`Platform shouldn't be able to update non-existent account's attention rate 5`] = `
 Object {
   "more": false,
   "rows": Array [
     Object {
-      "attention_rate": "15.00000000000000000",
-      "attention_rate_rating_position": 1,
+      "attention_rate": "0.00000000000000000",
+      "attention_rate_rating_position": 0,
       "id": 123,
       "last_attention_rate_updated_step_number": 0,
       "tweets_ranked_in_last_period": 0,
@@ -1209,7 +1442,9 @@ Object {
       "account": "platform",
       "airdrop": "",
       "platform_name": "test_platform",
+      "registered_attention_rate": "0.00000000000000000",
       "registered_user_count": 0,
+      "round_sent_account_count": 0,
       "round_supply": "0.0000 SNAX",
       "round_updated_account_count": 0,
       "sent_amount": "0.0000 SNAX",
@@ -1226,9 +1461,16 @@ Object {
 }
 `;
 
-exports[`Platform shouldnt be able to create user using newaccount method 3`] = `Array []`;
+exports[`Platform shouldnt be able to create user using newaccount method 3`] = `
+Object {
+  "more": false,
+  "rows": Array [],
+}
+`;
 
-exports[`Platform shouldnt be able to create user using newaccount method 4`] = `
+exports[`Platform shouldnt be able to create user using newaccount method 4`] = `Array []`;
+
+exports[`Platform shouldnt be able to create user using newaccount method 5`] = `
 Object {
   "more": false,
   "rows": Array [],

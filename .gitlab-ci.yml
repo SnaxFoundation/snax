@@ -24,7 +24,7 @@ cleanup:
   stage: cleanup
   script:
   - sudo rm -rf /tmp/*-*-*-*
-  - rm -rf $WALLET_DIR
+  - sudo rm -rf $WALLET_DIR
   - docker stop mongo || true
   except:
     changes:
@@ -109,7 +109,7 @@ build:tag:elastic:
   - tags
   tags:
   - build1
- 
+
 test:jest:
   stage: test
   script:

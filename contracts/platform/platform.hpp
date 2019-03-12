@@ -34,50 +34,14 @@ public:
   struct account_to_add {
     account_name name;
     uint64_t id;
-    double attention_rate;
-    uint32_t attention_rate_rating_position;
     uint64_t verification_tweet;
     string verification_salt;
     vector<uint32_t> stat_diff;
   };
 
-  struct permission_level_weight {
-    permission_level permission;
-    weight_type weight;
-
-    // explicit serialization macro is not necessary, used here only to improve
-    // compilation time
-    SNAXLIB_SERIALIZE(permission_level_weight, (permission)(weight))
-  };
-
-  struct key_weight {
-    public_key key;
-    weight_type weight;
-
-    // explicit serialization macro is not necessary, used here only to improve
-    // compilation time
-    SNAXLIB_SERIALIZE(key_weight, (key)(weight))
-  };
-
-  struct wait_weight {
-    uint32_t wait_sec;
-    weight_type weight;
-
-    SNAXLIB_SERIALIZE(wait_weight, (wait_sec)(weight))
-  };
-
-  struct authority {
-    uint32_t threshold;
-    vector<key_weight> keys;
-    vector<permission_level_weight> accounts;
-    vector<wait_weight> waits;
-
-    SNAXLIB_SERIALIZE(authority, (threshold)(keys)(accounts)(waits))
-  };
-
   platform(account_name s)
       : contract(s), _users(s, s), _accounts(s, s), _platform_state(s, s),
-        _pending_accounts(s, s), _creators(s, s) {}
+        _pending_accounts(s, s), _creators(s, s), _states_history(s, s) {}
 
   /// @abi action addcreator
   void addcreator(const account_name name);
@@ -90,16 +54,8 @@ public:
                   string token_symbol_str, uint8_t precision,
                   account_name airdrop);
 
-  /// @abi action newaccount
-  void newaccount(const account_name creator, const account_name account,
-                  const uint32_t bytes, const asset stake_net,
-                  const asset stake_cpu, const bool transfer,
-                  const authority &owner, const authority &active,
-                  const uint64_t id, const double attention_rate,
-                  const uint32_t attention_rate_rating_position,
-                  const uint64_t verification_tweet,
-                  const string verification_salt,
-                  const vector<uint32_t> stat_diff);
+  /// @abi action lockarupdate
+  void lockarupdate();
 
   /// @abi action lockupdate
   void lockupdate();
@@ -134,8 +90,6 @@ public:
 
   /// @abi action addaccount
   void addaccount(const account_name creator, account_name account, uint64_t id,
-                  double attention_rate,
-                  uint32_t attention_rate_rating_position,
                   uint64_t verification_tweet, string verification_salt,
                   vector<uint32_t> stat_diff);
 
@@ -217,7 +171,10 @@ private:
     uint64_t primary_key() const { return id; }
 
     uint64_t by_attention_rate_rating_position() const {
-      return attention_rate_rating_position;
+      return (static_cast<uint64_t>(0xFFFFFFFF) + 1) *
+                 static_cast<uint64_t>(
+                     last_attention_rate_updated_step_number) +
+             static_cast<uint64_t>(attention_rate_rating_position);
     }
 
     SNAXLIB_SERIALIZE(user,
@@ -234,11 +191,13 @@ private:
     uint64_t registered_user_count;
     uint64_t total_user_count;
     double total_attention_rate;
+    double registered_attention_rate;
     account_name token_dealer;
     account_name account;
     account_name airdrop;
     asset round_supply;
     asset sent_amount;
+    uint64_t round_sent_account_count;
     uint64_t round_updated_account_count;
     vector<uint64_t> token_symbols;
 
@@ -246,9 +205,31 @@ private:
 
     SNAXLIB_SERIALIZE(
         state, (platform_name)(updating)(step_number)(registered_user_count)(
-                   total_user_count)(total_attention_rate)(token_dealer)(
-                   account)(airdrop)(round_supply)(sent_amount)(
+                   total_user_count)(total_attention_rate)(
+                   registered_attention_rate)(token_dealer)(account)(airdrop)(
+                   round_supply)(sent_amount)(round_sent_account_count)(
                    round_updated_account_count)(token_symbols))
+  };
+
+  // @abi table states i64
+  struct state_step {
+    uint16_t step_number;
+    uint64_t registered_user_count;
+    uint64_t total_user_count;
+    double total_attention_rate;
+    double registered_attention_rate;
+    asset round_supply;
+    asset sent_amount;
+    uint64_t round_sent_account_count;
+    uint64_t round_updated_account_count;
+
+    uint64_t primary_key() const { return step_number; }
+
+    SNAXLIB_SERIALIZE(
+        state_step,
+        (step_number)(registered_user_count)(total_user_count)(
+            total_attention_rate)(registered_attention_rate)(round_supply)(
+            sent_amount)(round_sent_account_count)(round_updated_account_count))
   };
 
   struct account_with_balance {
@@ -276,6 +257,7 @@ private:
                                            &pending_rec::by_created>>>
       peacctable;
   typedef multi_index<N(usercreators), creator_rec> creators_table;
+  typedef multi_index<N(states), state_step> platform_states_history;
   typedef singleton<N(state), state> platform_state;
 
   usertable _users;
@@ -284,9 +266,10 @@ private:
   state _state;
   registered_account_table _accounts;
   creators_table _creators;
+  platform_states_history _states_history;
 
   // Only contract itself is allowed to unlock update
-  void unlock_update(asset current_amount, asset sent_amount);
+  void unlock_update(asset current_amount, asset sent_amount, uint32_t last_updated_account_count);
 
   account find_account(account_name account);
 
@@ -297,8 +280,8 @@ private:
   void update_state_next_round();
 
   void update_state_total_attention_rate_and_user_count(
-      double additional_attention_rate, uint64_t new_accounts,
-      uint64_t new_registered_accounts);
+      double additional_attention_rate, uint32_t updated_account_count,
+      uint64_t new_accounts, uint64_t new_registered_accounts);
 
   asset get_balance(account_name account, symbol_type symbol_name);
 
