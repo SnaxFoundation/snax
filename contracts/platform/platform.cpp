@@ -255,7 +255,15 @@ void platform::updatear(const uint64_t id, const double attention_rate,
 
     snax_assert(attention_rate >= 0, "incorrect attention rate");
 
-    update_state_total_attention_rate_and_user_count(attention_rate, 1, 0, 0);
+    const double attention_rate_inc =
+        found->last_attention_rate_updated_step_number == _state.step_number
+            ? attention_rate - found->attention_rate
+            : attention_rate;
+
+    update_state_total_attention_rate_and_user_count(
+        attention_rate_inc,
+        found->last_attention_rate_updated_step_number != _state.step_number, 0,
+        0);
 
     _users.modify(found, _self, [&](auto &record) {
       record.attention_rate = attention_rate;
@@ -269,10 +277,20 @@ void platform::updatear(const uint64_t id, const double attention_rate,
     if (found_account != _accounts.end()) {
       _accounts.modify(found_account, _self,
                        [&](auto &record) { record.stat_diff = stat_diff; });
-      _state.registered_attention_rate += attention_rate;
+      _state.registered_attention_rate += attention_rate_inc;
     }
   } else {
+    _users.emplace(_self, [&](auto &record) {
+      record.attention_rate = attention_rate;
+      record.attention_rate_rating_position = attention_rate_rating_position;
+      record.last_attention_rate_updated_step_number = _state.step_number;
+      record.tweets_ranked_in_last_period = tweets_ranked_in_period;
+      record.id = id;
+    });
     addaccount(_self, 0, id, 0, string(""), stat_diff);
+    _state = _platform_state.get();
+    _state.total_attention_rate += attention_rate;
+    _state.round_updated_account_count++;
   }
   _platform_state.set(_state, _self);
 }
@@ -302,6 +320,13 @@ void platform::updatearmult(vector<account_with_attention_rate> &updates,
 
       snax_assert(attention_rate >= 0, "incorrect attention rate");
 
+      const auto updated_step = user->last_attention_rate_updated_step_number;
+
+      const auto attention_rate_inc =
+          updated_step == _state.step_number
+              ? attention_rate - user->attention_rate
+              : attention_rate;
+
       _users.modify(user, _self, [&](auto &record) {
         record.attention_rate = attention_rate;
         record.attention_rate_rating_position = attention_rate_rating_position;
@@ -318,11 +343,23 @@ void platform::updatearmult(vector<account_with_attention_rate> &updates,
         _state.registered_attention_rate += attention_rate;
       }
 
-      total_attention_rate_diff += attention_rate;
+      total_attention_rate_diff += attention_rate_inc;
       updated_account_count++;
+
     } else {
-      updated_account_count++;
+      _users.emplace(_self, [&](auto &record) {
+        record.attention_rate = update.attention_rate;
+        record.attention_rate_rating_position =
+            update.attention_rate_rating_position;
+        record.last_attention_rate_updated_step_number = _state.step_number;
+        record.tweets_ranked_in_last_period = update.tweets_ranked_in_period;
+        record.id = update.id;
+      });
+
       addaccount(_self, 0, update.id, 0, string(""), update.stat_diff);
+
+      total_attention_rate_diff += update.attention_rate;
+      updated_account_count++;
     }
   }
 
@@ -427,8 +464,8 @@ void platform::addaccounts(const account_name creator,
       registered_accounts++;
   }
 
-  update_state_total_attention_rate_and_user_count(
-      0, 0, accounts_to_add.size(), registered_accounts);
+  update_state_total_attention_rate_and_user_count(0, 0, accounts_to_add.size(),
+                                                   registered_accounts);
 }
 
 /// @abi action transfertou
@@ -488,6 +525,7 @@ void platform::update_state_total_attention_rate_and_user_count(
   _state.total_attention_rate += additional_attention_rate;
   _state.total_user_count += new_accounts;
   _state.registered_user_count += new_registered_accounts;
+  _state.round_updated_account_count += updated_account_count;
   _platform_state.set(_state, _self);
 }
 
@@ -532,7 +570,8 @@ void platform::unlock_update(const asset current_amount,
     record.registered_attention_rate = _state.registered_attention_rate;
     record.round_supply = _state.round_supply;
     record.sent_amount = _state.sent_amount;
-    record.round_sent_account_count = _state.round_sent_account_count + last_updated_account_count;
+    record.round_sent_account_count =
+        _state.round_sent_account_count + last_updated_account_count;
     record.round_updated_account_count = _state.round_updated_account_count;
   });
 
@@ -569,5 +608,5 @@ void platform::require_creator_or_platform(const account_name account) {
 
 SNAX_ABI(snax::platform,
          (initialize)(lockarupdate)(lockupdate)(addcreator)(rmcreator)(
-             nextround)(addpenacc)(droppenacc)(sendpayments)(
-             addaccount)(addaccounts)(updatear)(transfertou)(updatearmult))
+             nextround)(addpenacc)(droppenacc)(sendpayments)(addaccount)(
+             addaccounts)(updatear)(transfertou)(updatearmult))

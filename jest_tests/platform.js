@@ -350,6 +350,32 @@ describe("Platform", async () => {
       }
     );
 
+  const updateQualityRateOrCreate = accountObj =>
+    api.transact(
+      {
+        actions: [
+          {
+            account: account,
+            name: "updatear",
+            authorization: [
+              {
+                actor: account,
+                permission: "active"
+              }
+            ],
+            data: {
+              ...accountObj,
+              add_account_if_not_exist: true
+            }
+          }
+        ]
+      },
+      {
+        blocksBehind: 1,
+        expireSeconds: 30
+      }
+    );
+
   const addPendingAccount = (name, id) =>
     api.transact(
       {
@@ -424,6 +450,29 @@ describe("Platform", async () => {
       }
     );
 
+  const updateQualityRateMultiOrCreate = updates =>
+    api.transact(
+      {
+        actions: [
+          {
+            account: account,
+            name: "updatearmult",
+            authorization: [
+              {
+                actor: account,
+                permission: "active"
+              }
+            ],
+            data: { updates, add_account_if_not_exist: true }
+          }
+        ]
+      },
+      {
+        blocksBehind: 1,
+        expireSeconds: 30
+      }
+    );
+
   const addSymbol = symbol =>
     api.transact(
       {
@@ -469,6 +518,42 @@ describe("Platform", async () => {
         expireSeconds: 30
       }
     );
+
+  it("creates accounts using updatearmult method", async () => {
+    await initialize();
+    await lockArUpdate();
+    await updateQualityRateMultiOrCreate([
+      {
+        id: 123,
+        attention_rate: 0,
+        attention_rate_rating_position: 0xffffffff,
+        stat_diff: [50, 11, 25, 50],
+        tweets_ranked_in_period: 6
+      },
+      {
+        id: 1105,
+        attention_rate: 50,
+        attention_rate_rating_position: 3,
+        stat_diff: [5, 10, 20, 30],
+        tweets_ranked_in_period: 10
+      },
+      {
+        id: 1200,
+        attention_rate: 250.0,
+        attention_rate_rating_position: 2,
+        stat_diff: [51, 120, 210, 30],
+        tweets_ranked_in_period: 10
+      },
+      {
+        id: 1007,
+        attention_rate: 300.0,
+        attention_rate_rating_position: 1,
+        stat_diff: [51, 10, 210, 30],
+        tweets_ranked_in_period: 10
+      }
+    ]);
+    await verifyStatesAndAccounts();
+  });
 
   it("shouldn't be able to update attention rate when platform is updating", async () => {
     await initialize();
@@ -631,6 +716,19 @@ describe("Platform", async () => {
     await updatePlatform();
     await verifyStatesAndAccounts();
     await verifyAccountsBalances(["testacc2", "testacc1", "snax", "platform"]);
+  });
+
+  it("creates account using updatear method", async () => {
+    await initialize();
+    await lockArUpdate();
+    await updateQualityRateOrCreate({
+      id: 1007,
+      attention_rate: 300.0,
+      attention_rate_rating_position: 1,
+      stat_diff: [51, 10, 210, 30],
+      tweets_ranked_in_period: 10
+    });
+    await verifyStatesAndAccounts();
   });
 
   it("shouldnt be able to create user using newaccount method", async () => {
