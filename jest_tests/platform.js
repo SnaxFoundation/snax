@@ -519,6 +519,112 @@ describe("Platform", async () => {
       }
     );
 
+  it("updates account using updatear method second time", async () => {
+    await initialize();
+    await lockArUpdate();
+    await updateQualityRateOrCreate({
+      id: 1007,
+      attention_rate: 300.0,
+      attention_rate_rating_position: 1,
+      stat_diff: [51, 10, 210, 30],
+      tweets_ranked_in_period: 10
+    });
+    await updateQualityRateOrCreate({
+      id: 1007,
+      attention_rate: 300.0,
+      attention_rate_rating_position: 1,
+      stat_diff: [51, 10, 210, 30],
+      tweets_ranked_in_period: 10
+    });
+    await verifyStatesAndAccounts();
+  });
+
+  it("adds account after updatear", async () => {
+    await initialize();
+    await lockArUpdate();
+    await updateQualityRateOrCreate({
+      id: 1007,
+      attention_rate: 300.0,
+      attention_rate_rating_position: 1,
+      stat_diff: [51, 10, 210, 30],
+      tweets_ranked_in_period: 10
+    });
+    await addUser({
+      verification_salt: "12345",
+      stat_diff: [5, 10, 15],
+      verification_tweet: "1083836521751478272",
+      account: "test1",
+      id: 1007
+    });
+    await verifyStatesAndAccounts();
+  });
+
+  it("updates the same accounts again during one step", async () => {
+    await initialize();
+    await lockArUpdate();
+    await updateQualityRateMultiOrCreate([
+      {
+        id: 123,
+        attention_rate: 0,
+        attention_rate_rating_position: 0xffffffff,
+        stat_diff: [50, 11, 25, 50],
+        tweets_ranked_in_period: 6
+      },
+      {
+        id: 1105,
+        attention_rate: 50,
+        attention_rate_rating_position: 3,
+        stat_diff: [5, 10, 20, 30],
+        tweets_ranked_in_period: 10
+      },
+      {
+        id: 1200,
+        attention_rate: 250.0,
+        attention_rate_rating_position: 2,
+        stat_diff: [51, 120, 210, 30],
+        tweets_ranked_in_period: 10
+      },
+      {
+        id: 1007,
+        attention_rate: 300.0,
+        attention_rate_rating_position: 1,
+        stat_diff: [51, 10, 210, 30],
+        tweets_ranked_in_period: 10
+      }
+    ]);
+    await updateQualityRateMultiOrCreate([
+      {
+        id: 123,
+        attention_rate: 0,
+        attention_rate_rating_position: 0xffffffff,
+        stat_diff: [50, 11, 25, 50],
+        tweets_ranked_in_period: 6
+      },
+      {
+        id: 1105,
+        attention_rate: 50,
+        attention_rate_rating_position: 3,
+        stat_diff: [5, 10, 20, 30],
+        tweets_ranked_in_period: 10
+      },
+      {
+        id: 1200,
+        attention_rate: 250.0,
+        attention_rate_rating_position: 2,
+        stat_diff: [51, 120, 210, 30],
+        tweets_ranked_in_period: 10
+      },
+      {
+        id: 1007,
+        attention_rate: 300.0,
+        attention_rate_rating_position: 1,
+        stat_diff: [51, 10, 210, 30],
+        tweets_ranked_in_period: 10
+      }
+    ]);
+    await verifyStatesAndAccounts();
+  });
+
   it("creates accounts using updatearmult method", async () => {
     await initialize();
     await lockArUpdate();
@@ -733,7 +839,6 @@ describe("Platform", async () => {
 
   it("shouldnt be able to create user using newaccount method", async () => {
     await initialize();
-    // await addCreator("snax.creator");
     await tryCatchExpect(() =>
       newUser({
         platform: "platform",

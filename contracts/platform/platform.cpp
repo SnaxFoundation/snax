@@ -255,15 +255,15 @@ void platform::updatear(const uint64_t id, const double attention_rate,
 
     snax_assert(attention_rate >= 0, "incorrect attention rate");
 
-    const double attention_rate_inc =
-        found->last_attention_rate_updated_step_number == _state.step_number
-            ? attention_rate - found->attention_rate
-            : attention_rate;
+    const auto already_updated =
+        found->last_attention_rate_updated_step_number == _state.step_number;
 
-    update_state_total_attention_rate_and_user_count(
-        attention_rate_inc,
-        found->last_attention_rate_updated_step_number != _state.step_number, 0,
-        0);
+    const double attention_rate_inc =
+        already_updated ? attention_rate - found->attention_rate
+                        : attention_rate;
+
+    update_state_total_attention_rate_and_user_count(attention_rate_inc,
+                                                     !already_updated, 0, 0);
 
     _users.modify(found, _self, [&](auto &record) {
       record.attention_rate = attention_rate;
@@ -320,12 +320,12 @@ void platform::updatearmult(vector<account_with_attention_rate> &updates,
 
       snax_assert(attention_rate >= 0, "incorrect attention rate");
 
-      const auto updated_step = user->last_attention_rate_updated_step_number;
+      const auto already_updated =
+          user->last_attention_rate_updated_step_number == _state.step_number;
 
       const auto attention_rate_inc =
-          updated_step == _state.step_number
-              ? attention_rate - user->attention_rate
-              : attention_rate;
+          already_updated ? attention_rate - user->attention_rate
+                          : attention_rate;
 
       _users.modify(user, _self, [&](auto &record) {
         record.attention_rate = attention_rate;
@@ -344,7 +344,7 @@ void platform::updatearmult(vector<account_with_attention_rate> &updates,
       }
 
       total_attention_rate_diff += attention_rate_inc;
-      updated_account_count++;
+      updated_account_count += !already_updated;
 
     } else {
       _users.emplace(_self, [&](auto &record) {
@@ -421,7 +421,10 @@ void platform::addaccount(const account_name creator,
   claim_transfered(id, account);
 
   if (found_user == _users.end()) {
-    _users.emplace(_self, [&](auto &record) { record.id = id; });
+    _users.emplace(_self, [&](auto &record) {
+      record.id = id;
+      record.last_attention_rate_updated_step_number = 0;
+    });
   }
 
   if (account) {
@@ -440,6 +443,10 @@ void platform::addaccount(const account_name creator,
       record.verification_salt = verification_salt;
       record.stat_diff = stat_diff;
     });
+
+    if (found_user != _users.end()) {
+      _state.registered_attention_rate += found_user->attention_rate;
+    }
   }
 
   _platform_state.set(_state, _self);
@@ -544,8 +551,8 @@ void platform::claim_transfered(const uint64_t id, const account_name account) {
       const asset amount = found->amount;
 
       action(permission_level{N(snax.transf), N(active)}, N(snax.token),
-             N(transfer), make_tuple(N(snax.transf), account, amount,
-                                     string("social transaction")))
+             N(transfer),
+             make_tuple(N(snax.transf), account, amount, string("social")))
           .send();
 
       _transfers.erase(found++);
