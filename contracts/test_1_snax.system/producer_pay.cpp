@@ -67,6 +67,7 @@ namespace snaxsystem {
 
          _producers.modify( prod, 0, [&](auto& p ) {
                p.unpaid_blocks++;
+               p.last_block_time = timestamp;
          });
       }
 

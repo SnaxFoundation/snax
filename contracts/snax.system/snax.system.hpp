@@ -76,6 +76,7 @@ namespace snaxsystem {
       std::string           url;
       uint32_t              unpaid_blocks = 0;
       uint64_t              last_claim_time = 0;
+      block_timestamp       last_block_time;
       uint16_t              location = 0;
 
       uint64_t primary_key()const { return owner;                                   }
@@ -85,7 +86,7 @@ namespace snaxsystem {
 
       // explicit serialization macro is not necessary, used here only to improve compilation time
       SNAXLIB_SERIALIZE( producer_info, (owner)(total_votes)(producer_key)(is_active)(url)
-                        (unpaid_blocks)(last_claim_time)(location) )
+                        (unpaid_blocks)(last_claim_time)(last_block_time)(location) )
    };
 
    struct account_with_balance {

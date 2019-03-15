@@ -28,10 +28,11 @@
       "name": "escrow_bandwidth",
       "base": "",
       "fields": [
-        {"name": "owner",        "type": "account_name"},
-        {"name": "created",      "type": "block_timestamp_type"},
-        {"name": "period_count", "type": "uint8"},
-        {"name": "amount",       "type": "asset"}
+        {"name": "owner",           "type": "account_name"},
+        {"name": "created",         "type": "block_timestamp_type"},
+        {"name": "period_count",    "type": "uint8"},
+        {"name": "initial_amount",  "type": "asset"},
+        {"name": "amount",          "type": "asset"}
       ]
     },{
       "name": "key_weight",
@@ -337,6 +338,7 @@
          {"name":"url",             "type":"string"},
          {"name":"unpaid_blocks",   "type":"uint32"},
          {"name":"last_claim_time", "type":"uint64"},
+         {"name":"last_block_time", "type":"block_timestamp_type"},
          {"name":"location",        "type":"uint16"}
       ]
     },{
