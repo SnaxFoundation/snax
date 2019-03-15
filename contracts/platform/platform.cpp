@@ -17,7 +17,7 @@ void platform::initialize(const string name, const account_name token_dealer,
       string_to_symbol(precision, token_symbol_str.c_str());
 
   _state.round_supply = asset(0, token_symbol);
-  _state.step_number = 0;
+  _state.step_number = 1;
   _state.token_dealer = token_dealer;
   _state.total_attention_rate = 0.0;
   _state.registered_attention_rate = 0.0;

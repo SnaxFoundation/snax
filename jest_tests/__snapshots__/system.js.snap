@@ -1590,6 +1590,331 @@ Array [
 ]
 `;
 
+exports[`System should work correctly with delegatebw system after initialization 1`] = `
+Array [
+  Object {
+    "more": false,
+    "rows": Array [],
+  },
+  Object {
+    "more": false,
+    "rows": Array [
+      Object {
+        "cpu_weight": "1500.0000 SNAX",
+        "from": "snax.creator",
+        "net_weight": "1000.0000 SNAX",
+        "to": "platform",
+      },
+      Object {
+        "cpu_weight": "1500.0000 SNAX",
+        "from": "snax.creator",
+        "net_weight": "1000.0000 SNAX",
+        "to": "testacc1",
+      },
+      Object {
+        "cpu_weight": "1500.0000 SNAX",
+        "from": "snax.creator",
+        "net_weight": "1000.0000 SNAX",
+        "to": "testacc2",
+      },
+    ],
+  },
+]
+`;
+
+exports[`System should work correctly with delegatebw system after initialization 2`] = `
+Array [
+  Object {
+    "more": false,
+    "rows": Array [
+      Object {
+        "cpu_weight": "1500.0000 SNAX",
+        "net_weight": "1000.0000 SNAX",
+        "owner": "testacc1",
+        "ram_bytes": 1018492,
+      },
+    ],
+  },
+  Object {
+    "more": false,
+    "rows": Array [],
+  },
+]
+`;
+
+exports[`System should work correctly with delegatebw system after initialization 3`] = `
+Array [
+  Object {
+    "more": false,
+    "rows": Array [],
+  },
+  Object {
+    "more": false,
+    "rows": Array [
+      Object {
+        "cpu_weight": "1500.0000 SNAX",
+        "from": "snax.creator",
+        "net_weight": "1000.0000 SNAX",
+        "to": "platform",
+      },
+      Object {
+        "cpu_weight": "1490.0000 SNAX",
+        "from": "snax.creator",
+        "net_weight": "990.0000 SNAX",
+        "to": "testacc1",
+      },
+      Object {
+        "cpu_weight": "1500.0000 SNAX",
+        "from": "snax.creator",
+        "net_weight": "1000.0000 SNAX",
+        "to": "testacc2",
+      },
+    ],
+  },
+]
+`;
+
+exports[`System should work correctly with delegatebw system after initialization 4`] = `
+Array [
+  Object {
+    "more": false,
+    "rows": Array [
+      Object {
+        "cpu_weight": "1490.0000 SNAX",
+        "net_weight": "990.0000 SNAX",
+        "owner": "testacc1",
+        "ram_bytes": 1018492,
+      },
+    ],
+  },
+  Object {
+    "more": false,
+    "rows": Array [],
+  },
+]
+`;
+
+exports[`System should work correctly with delegatebw system after initialization 5`] = `
+Array [
+  Object {
+    "more": false,
+    "rows": Array [],
+  },
+  Object {
+    "more": false,
+    "rows": Array [
+      Object {
+        "cpu_weight": "1500.0000 SNAX",
+        "from": "snax.creator",
+        "net_weight": "1000.0000 SNAX",
+        "to": "platform",
+      },
+      Object {
+        "cpu_weight": "1500.0000 SNAX",
+        "from": "snax.creator",
+        "net_weight": "1000.0000 SNAX",
+        "to": "testacc1",
+      },
+      Object {
+        "cpu_weight": "1500.0000 SNAX",
+        "from": "snax.creator",
+        "net_weight": "1000.0000 SNAX",
+        "to": "testacc2",
+      },
+    ],
+  },
+  Object {
+    "more": false,
+    "rows": Array [],
+  },
+]
+`;
+
+exports[`System should work correctly with delegatebw system after initialization 6`] = `
+Array [
+  Object {
+    "more": false,
+    "rows": Array [
+      Object {
+        "cpu_weight": "1500.0000 SNAX",
+        "net_weight": "1000.0000 SNAX",
+        "owner": "testacc1",
+        "ram_bytes": 1018492,
+      },
+    ],
+  },
+  Object {
+    "more": false,
+    "rows": Array [],
+  },
+  Object {
+    "more": false,
+    "rows": Array [
+      Object {
+        "cpu_weight": "1500.0000 SNAX",
+        "net_weight": "1000.0000 SNAX",
+        "owner": "testacc2",
+        "ram_bytes": 1018492,
+      },
+    ],
+  },
+]
+`;
+
+exports[`System should work correctly with delegatebw system after initialization 7`] = `"assertion failure with message: insufficient staked net bandwidth"`;
+
+exports[`System should work correctly with delegatebw system after initialization 8`] = `"assertion failure with message: insufficient staked cpu bandwidth"`;
+
+exports[`System should work correctly with delegatebw system after initialization 9`] = `"assertion failure with message: insufficient staked cpu bandwidth"`;
+
+exports[`System should work correctly with delegatebw system after initialization 10`] = `
+Array [
+  Object {
+    "more": false,
+    "rows": Array [
+      Object {
+        "cpu_weight": "10.0000 SNAX",
+        "from": "testacc1",
+        "net_weight": "10.0000 SNAX",
+        "to": "testacc1",
+      },
+    ],
+  },
+  Object {
+    "more": false,
+    "rows": Array [
+      Object {
+        "cpu_weight": "1500.0000 SNAX",
+        "from": "snax.creator",
+        "net_weight": "1000.0000 SNAX",
+        "to": "platform",
+      },
+      Object {
+        "cpu_weight": "1390.0000 SNAX",
+        "from": "snax.creator",
+        "net_weight": "880.0000 SNAX",
+        "to": "testacc1",
+      },
+      Object {
+        "cpu_weight": "1490.0000 SNAX",
+        "from": "snax.creator",
+        "net_weight": "990.0000 SNAX",
+        "to": "testacc2",
+      },
+    ],
+  },
+  Object {
+    "more": false,
+    "rows": Array [],
+  },
+]
+`;
+
+exports[`System should work correctly with delegatebw system after initialization 11`] = `
+Array [
+  Object {
+    "more": false,
+    "rows": Array [
+      Object {
+        "cpu_weight": "1400.0000 SNAX",
+        "net_weight": "890.0000 SNAX",
+        "owner": "testacc1",
+        "ram_bytes": 1018492,
+      },
+    ],
+  },
+  Object {
+    "more": false,
+    "rows": Array [],
+  },
+  Object {
+    "more": false,
+    "rows": Array [
+      Object {
+        "cpu_weight": "1400.0000 SNAX",
+        "net_weight": "890.0000 SNAX",
+        "owner": "testacc1",
+        "ram_bytes": 1018492,
+      },
+    ],
+  },
+]
+`;
+
+exports[`System should work correctly with delegatebw system after initialization 12`] = `
+Array [
+  Object {
+    "more": false,
+    "rows": Array [
+      Object {
+        "cpu_weight": "10.0000 SNAX",
+        "from": "testacc1",
+        "net_weight": "10.0000 SNAX",
+        "to": "testacc1",
+      },
+    ],
+  },
+  Object {
+    "more": false,
+    "rows": Array [
+      Object {
+        "cpu_weight": "1500.0000 SNAX",
+        "from": "snax.creator",
+        "net_weight": "1000.0000 SNAX",
+        "to": "platform",
+      },
+      Object {
+        "cpu_weight": "1280.0000 SNAX",
+        "from": "snax.creator",
+        "net_weight": "640.0000 SNAX",
+        "to": "testacc1",
+      },
+      Object {
+        "cpu_weight": "1490.0000 SNAX",
+        "from": "snax.creator",
+        "net_weight": "990.0000 SNAX",
+        "to": "testacc2",
+      },
+    ],
+  },
+  Object {
+    "more": false,
+    "rows": Array [],
+  },
+]
+`;
+
+exports[`System should work correctly with delegatebw system after initialization 13`] = `
+Array [
+  Object {
+    "more": false,
+    "rows": Array [
+      Object {
+        "cpu_weight": "1290.0000 SNAX",
+        "net_weight": "650.0000 SNAX",
+        "owner": "testacc1",
+        "ram_bytes": 1018492,
+      },
+    ],
+  },
+  Object {
+    "more": false,
+    "rows": Array [],
+  },
+  Object {
+    "more": false,
+    "rows": Array [
+      Object {
+        "cpu_weight": "1290.0000 SNAX",
+        "net_weight": "650.0000 SNAX",
+        "owner": "testacc1",
+        "ram_bytes": 1018492,
+      },
+    ],
+  },
+]
+`;
+
 exports[`System should work correctly with escrow system 1`] = `"assertion failure with message: cant unstake this amount for account at the moment"`;
 
 exports[`System should work correctly with escrow system 2`] = `"assertion failure with message: cant unstake this amount for account at the moment"`;
