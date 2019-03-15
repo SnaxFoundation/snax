@@ -338,6 +338,7 @@
          {"name":"url",             "type":"string"},
          {"name":"unpaid_blocks",   "type":"uint32"},
          {"name":"last_claim_time", "type":"uint64"},
+         {"name":"last_block_time", "type":"block_timestamp_type"},
          {"name":"location",        "type":"uint16"}
       ]
     },{

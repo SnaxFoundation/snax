@@ -79,7 +79,29 @@ namespace snaxsystem {
       top_producers.reserve(_gstate.top_producers_limit);
 
       for ( auto it = idx.cbegin(); it != idx.cend() && top_producers.size() < _gstate.top_producers_limit && 0 < it->total_votes; ++it ) {
-         if (it->active()) top_producers.emplace_back( std::pair<snax::producer_key,uint16_t>({{it->owner, it->producer_key}, it->location}) );
+         if (it->active()) {
+             if (
+                 block_time
+                    .to_time_point()
+                    .time_since_epoch()
+                    .to_seconds() -
+                 it->last_block_time
+                    .to_time_point()
+                    .time_since_epoch()
+                    .to_seconds()
+                  > 3600
+             ) {
+                 const auto prod = _producers.find(it->owner);
+                 if (prod != _producers.end()) {
+                     _producers.modify( prod, 0, [&]( producer_info& info ){
+                           info.deactivate();
+                     });
+                 }
+             }
+             else {
+                 top_producers.emplace_back( std::pair<snax::producer_key,uint16_t>({{it->owner, it->producer_key}, it->location}) );
+             }
+         }
       }
 
       if (top_producers.size() == 0)
@@ -174,12 +196,12 @@ namespace snaxsystem {
          } else {
             uint8_t iter = 0;
             for( const auto& p : voter->producers ) {
-                 if (p != 0) {
-                    auto& d = producer_deltas[p];
-                    d.first -= system_contract::apply_vote_weight(voter_name, voter->last_vote_weight, iter);
-                    d.second = false;
-                 }
-                 iter++;
+                if (p != 0) {
+                   auto& d = producer_deltas[p];
+                   d.first -= system_contract::apply_vote_weight(voter_name, voter->last_vote_weight, iter);
+                   d.second = false;
+                }
+                iter++;
             }
          }
       }
