@@ -78,7 +78,9 @@ describe("System", async () => {
         code: "snax",
         scope: "snax",
         table: "producers"
-      })).rows.map(({ last_claim_time, total_votes, ...obj }) => obj)
+      })).rows.map(
+        ({ last_claim_time, total_votes, last_block_time, ...obj }) => obj
+      )
     ).toMatchSnapshot();
 
   const verifyVoters = async () =>

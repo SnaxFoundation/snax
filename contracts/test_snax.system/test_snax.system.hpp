@@ -76,6 +76,7 @@ namespace snaxsystem {
       std::string           url;
       uint32_t              unpaid_blocks = 0;
       uint64_t              last_claim_time = 0;
+      block_timestamp       last_block_time;
       uint16_t              location = 0;
 
       uint64_t primary_key()const { return owner;                                   }
