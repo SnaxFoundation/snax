@@ -217,8 +217,12 @@ namespace snaxsystem {
    void system_contract::changebw( account_name from, account_name receiver,
                                    const asset stake_net_delta, const asset stake_cpu_delta, bool transfer )
    {
-      require_auth( from );
-      snax_assert( _gstate.resources_market_open || is_privileged(from), "net and cpu market must be open or user must be privileged to change bandwidth" );
+      const bool swap = stake_net_delta < asset(0) && stake_cpu_delta < asset(0);
+      if (swap)
+        require_auth( receiver );
+      else
+        require_auth( from );
+      snax_assert( _gstate.resources_market_open || is_privileged( from ), "net and cpu market must be open or user must be privileged to change bandwidth" );
       snax_assert( stake_net_delta != asset(0) || stake_cpu_delta != asset(0), "should stake non-zero amount" );
       snax_assert( std::abs( (stake_net_delta + stake_cpu_delta).amount )
                      >= std::max( std::abs( stake_net_delta.amount ), std::abs( stake_cpu_delta.amount ) ),
@@ -231,8 +235,8 @@ namespace snaxsystem {
 
       // update stake delegated from "from" to "receiver"
       {
-         del_bandwidth_table     del_tbl( _self, from);
-         auto itr = del_tbl.find( receiver );
+         del_bandwidth_table     del_tbl( _self, swap ? receiver : from);
+         auto itr = del_tbl.find( swap ? from : receiver );
          if( itr == del_tbl.end() ) {
             itr = del_tbl.emplace( from, [&]( auto& dbo ){
                   dbo.from          = from;
@@ -256,8 +260,8 @@ namespace snaxsystem {
 
       // update totals of "receiver"
       {
-         user_resources_table   totals_tbl( _self, receiver );
-         auto tot_itr = totals_tbl.find( receiver );
+         user_resources_table   totals_tbl( _self, swap ? from : receiver );
+         auto tot_itr = totals_tbl.find( swap ? from : receiver );
          if( tot_itr ==  totals_tbl.end() ) {
             tot_itr = totals_tbl.emplace( from, [&]( auto& tot ) {
                   tot.owner = receiver;
@@ -270,6 +274,8 @@ namespace snaxsystem {
                   tot.cpu_weight    += stake_cpu_delta;
                });
          }
+
+         snax::print("", tot_itr->net_weight, tot_itr->cpu_weight);
          snax_assert( asset(0) <= tot_itr->net_weight, "insufficient staked total net bandwidth" );
          snax_assert( asset(0) <= tot_itr->cpu_weight, "insufficient staked total cpu bandwidth" );
 
@@ -365,7 +371,7 @@ namespace snaxsystem {
       // update voting power
       {
          asset total_update = stake_net_delta + stake_cpu_delta;
-         auto from_voter = _voters.find(from);
+         auto from_voter = _voters.find(swap ? receiver : from);
          if( from_voter == _voters.end() ) {
             from_voter = _voters.emplace( from, [&]( auto& v ) {
                   v.owner  = from;
@@ -398,13 +404,12 @@ namespace snaxsystem {
        delegatebw(
            from, receiver, stake_net_quantity, stake_cpu_quantity, transfer
        );
-       const account_name owner = receiver;
-       escrow_bandwidth_table _escrow_bandwidth(_self, owner);
-       _escrow_bandwidth.emplace(owner, [&](auto& record) {
+       escrow_bandwidth_table _escrow_bandwidth(_self, transfer ? receiver: from);
+       _escrow_bandwidth.emplace(transfer ? receiver: from, [&](auto& record) {
            const auto current_time = snax::time_point_sec(now());
            record.initial_amount = stake_net_quantity + stake_cpu_quantity;
            record.amount = stake_net_quantity + stake_cpu_quantity;
-           record.owner = owner;
+           record.owner = receiver;
            record.created = block_timestamp(current_time);
            record.period_count = period_count;
        });
@@ -429,57 +434,59 @@ namespace snaxsystem {
       snax_assert( asset() <= unstake_net_quantity, "must unstake a positive amount" );
       snax_assert( asset() < unstake_cpu_quantity + unstake_net_quantity, "must unstake a positive amount" );
 
-      escrow_bandwidth_table _escrow_bandwidth(_self, from);
+      escrow_bandwidth_table _escrow_bandwidth(_self, receiver);
 
       auto escrow_iter = _escrow_bandwidth.lower_bound(1);
 
-      del_bandwidth_table del_tbl( _self, from);
+      del_bandwidth_table del_tbl( _self, receiver );
 
       auto itr = del_tbl.find( from );
 
-      snax_assert(itr != del_tbl.end(), "no such account to undelegate from");
+      snax_assert(itr != del_tbl.end(), "no such user to undelegate from");
 
-      asset available_to_unstake = asset(itr->net_weight + itr->cpu_weight);
+      asset available_to_unstake = itr->net_weight + itr->cpu_weight;
 
       bool enough = false;
 
       while (escrow_iter != _escrow_bandwidth.end() && !enough) {
           const auto escrow_record = *escrow_iter;
-          const auto current_time = snax::time_point_sec(now());
-          const auto period_count = (
-              block_timestamp(current_time).to_time_point().time_since_epoch().to_seconds()
-              -
-              escrow_record.created.to_time_point().time_since_epoch().to_seconds()
-          ) / 15768000;
+          if (escrow_record.owner == from) {
+              const auto current_time = snax::time_point_sec(now());
+              const auto period_count = (
+                  block_timestamp(current_time).to_time_point().time_since_epoch().to_seconds()
+                  -
+                  escrow_record.created.to_time_point().time_since_epoch().to_seconds()
+              ) / 15768000;
 
-          const asset unstaked = escrow_record.initial_amount - escrow_record.amount;
+              const asset unstaked = escrow_record.initial_amount - escrow_record.amount;
 
-          asset available_to_unstake_from_bucket = asset(
-              escrow_record.initial_amount.amount
-              / escrow_record.period_count
-              * (period_count + 1)
-          ) - unstaked;
+              asset available_to_unstake_from_bucket = asset(
+                  escrow_record.initial_amount.amount
+                  / escrow_record.period_count
+                  * (period_count + 1)
+              ) - unstaked;
 
-          available_to_unstake -= escrow_record.amount;
+              available_to_unstake -= escrow_record.amount;
 
-          available_to_unstake += available_to_unstake_from_bucket;
+              available_to_unstake += available_to_unstake_from_bucket;
 
-          if (available_to_unstake > unstake_net_quantity + unstake_cpu_quantity) {
-              available_to_unstake_from_bucket = available_to_unstake_from_bucket - (available_to_unstake - unstake_net_quantity - unstake_cpu_quantity);
-              available_to_unstake = unstake_net_quantity + unstake_cpu_quantity;
-              enough = true;
+              if (available_to_unstake > unstake_net_quantity + unstake_cpu_quantity) {
+                  available_to_unstake_from_bucket = available_to_unstake_from_bucket - (available_to_unstake - unstake_net_quantity - unstake_cpu_quantity);
+                  available_to_unstake = unstake_net_quantity + unstake_cpu_quantity;
+                  enough = true;
+              }
+
+              _escrow_bandwidth.modify(escrow_iter, _self, [&](auto& record) {
+                  record.amount -= available_to_unstake_from_bucket;
+              });
           }
-
-          _escrow_bandwidth.modify(escrow_iter, _self, [&](auto& record) {
-              record.amount -= available_to_unstake_from_bucket;
-          });
-
           escrow_iter++;
       }
 
       snax::print("Available to unstake: \t", available_to_unstake);
 
       snax_assert( unstake_net_quantity + unstake_cpu_quantity <= available_to_unstake, "cant unstake this amount for account at the moment");
+
 
       snax_assert( _gstate.total_activated_stake >= min_activated_stake,
                     "cannot undelegate bandwidth until the chain is activated (at least 10% of all tokens participate in voting)" );

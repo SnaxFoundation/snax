@@ -148,7 +148,12 @@ describe("System", async () => {
       }
     );
 
-  const undelegatebw = (account, unstake_net_quantity, unstake_cpu_quantity) =>
+  const undelegatebw = (
+    from,
+    receiver,
+    unstake_net_quantity,
+    unstake_cpu_quantity
+  ) =>
     api.transact(
       {
         actions: [
@@ -157,15 +162,50 @@ describe("System", async () => {
             name: "undelegatebw",
             authorization: [
               {
-                actor: account,
+                actor: receiver,
                 permission: "active"
               }
             ],
             data: {
-              from: account,
-              receiver: account,
+              from,
+              receiver,
               unstake_net_quantity,
               unstake_cpu_quantity
+            }
+          }
+        ]
+      },
+      {
+        blocksBehind: 1,
+        expireSeconds: 30
+      }
+    );
+
+  const delegatebw = (
+    from,
+    receiver,
+    stake_net_quantity,
+    stake_cpu_quantity,
+    transfer = false
+  ) =>
+    api.transact(
+      {
+        actions: [
+          {
+            account: "snax",
+            name: "delegatebw",
+            authorization: [
+              {
+                actor: from,
+                permission: "active"
+              }
+            ],
+            data: {
+              from,
+              receiver,
+              stake_net_quantity,
+              stake_cpu_quantity,
+              transfer
             }
           }
         ]
@@ -183,6 +223,19 @@ describe("System", async () => {
           code: "snax",
           scope: account,
           table: "delband"
+        })
+      )
+    );
+    expect(tables).toMatchSnapshot();
+  };
+
+  const verifyUserResTable = async accounts => {
+    const tables = await Promise.all(
+      accounts.map(account =>
+        api.rpc.get_table_rows({
+          code: "snax",
+          scope: account,
+          table: "userres"
         })
       )
     );
@@ -285,7 +338,7 @@ describe("System", async () => {
   const getBalance = async account =>
     (await rpc.get_currency_balance("snax.token", account, "SNAX"))[0];
 
-  const transferBack = quantity =>
+  const transfer = (from, to, quantity) =>
     api.transact(
       {
         actions: [
@@ -294,15 +347,15 @@ describe("System", async () => {
             name: "transfer",
             authorization: [
               {
-                actor: "platform",
+                actor: from,
                 permission: "active"
               }
             ],
             data: {
-              from: "platform",
-              to: "snax",
+              from,
+              to,
               quantity,
-              memo: "back"
+              memo: "transfer"
             }
           }
         ]
@@ -370,6 +423,83 @@ describe("System", async () => {
       }
     ]);
 
+  it("should work correctly with delegatebw system after initialization", async () => {
+    await regproducer(
+      "testacc1",
+      "SNAX8mo3cUJW1Yy1GGxQfexWGN7QPUB2rXccQP7brrpgJXGjiw6gKR"
+    );
+    await voteproducer(["testacc1"]);
+    await Promise.all([
+      verifyBWTable(["testacc1", "snax.creator"]),
+      verifyUserResTable(["testacc1", "snax.creator"])
+    ]);
+    await undelegatebw(
+      "testacc1",
+      "snax.creator",
+      "10.0000 SNAX",
+      "10.0000 SNAX"
+    );
+    await Promise.all([
+      verifyBWTable(["testacc1", "snax.creator"]),
+      verifyUserResTable(["testacc1", "snax.creator"])
+    ]);
+  });
+
+  it("should work correctly with delegatebw system after initialization", async () => {
+    await regproducer(
+      "testacc1",
+      "SNAX8mo3cUJW1Yy1GGxQfexWGN7QPUB2rXccQP7brrpgJXGjiw6gKR"
+    );
+    await voteproducer(["testacc1"]);
+    await Promise.all([
+      verifyBWTable(["testacc1", "snax.creator", "testacc2"]),
+      verifyUserResTable(["testacc1", "snax.creator", "testacc2"])
+    ]);
+    await transfer("snax.creator", "testacc1", "10.0000 SNAX");
+    await delegatebw("testacc1", "testacc2", "5.0000 SNAX", "5.0000 SNAX");
+
+    await Promise.all([
+      tryCatchExpect(() =>
+        undelegatebw("testacc2", "testacc1", "6.0000 SNAX", "4.0000 SNAX")
+      ),
+      tryCatchExpect(() =>
+        undelegatebw("testacc2", "testacc1", "3.0000 SNAX", "7.0000 SNAX")
+      ),
+      tryCatchExpect(() =>
+        undelegatebw("testacc2", "testacc1", "3.0000 SNAX", "6.0000 SNAX")
+      )
+    ]);
+    await undelegatebw("testacc2", "testacc1", "4.0000 SNAX", "2.0000 SNAX");
+    await undelegatebw("testacc2", "testacc1", "1.0000 SNAX", "3.0000 SNAX");
+    await undelegatebw(
+      "testacc1",
+      "snax.creator",
+      "120.0000 SNAX",
+      "110.0000 SNAX"
+    );
+    await delegatebw("testacc1", "testacc1", "10.0000 SNAX", "10.0000 SNAX");
+    await undelegatebw(
+      "testacc2",
+      "snax.creator",
+      "10.0000 SNAX",
+      "10.0000 SNAX"
+    );
+    await Promise.all([
+      verifyBWTable(["testacc1", "snax.creator", "testacc2"]),
+      verifyUserResTable(["testacc1", "snax.creator", "testacc1"])
+    ]);
+    await undelegatebw(
+      "testacc1",
+      "snax.creator",
+      "240.0000 SNAX",
+      "110.0000 SNAX"
+    );
+    await Promise.all([
+      verifyBWTable(["testacc1", "snax.creator", "testacc2"]),
+      verifyUserResTable(["testacc1", "snax.creator", "testacc1"])
+    ]);
+  });
+
   it("should work correctly with escrow system after initialization", async () => {
     await regproducer(
       "testacc1",
@@ -378,6 +508,7 @@ describe("System", async () => {
     await voteproducer(["testacc1"]);
     await undelegatebw(
       "snax.team",
+      "snax.team",
       "1199200000.0000 SNAX",
       "299800000.0000 SNAX"
     );
@@ -385,7 +516,12 @@ describe("System", async () => {
     await verifyBWEscrowTable(["snax.team"]);
     await escrowbw("test.transf", "10.0000 SNAX", "10.0000 SNAX", 10);
     await verifyBWEscrowTable(["test.transf"]);
-    await undelegatebw("test.transf", "1.0000 SNAX", "1.0000 SNAX");
+    await undelegatebw(
+      "test.transf",
+      "test.transf",
+      "1.0000 SNAX",
+      "1.0000 SNAX"
+    );
   });
 
   it("should claim rewards", async () => {
@@ -452,10 +588,20 @@ describe("System", async () => {
     );
     await voteproducer(["testacc1"]);
     await tryCatchExpect(() =>
-      undelegatebw("snax.team", "1199999921.0000 SNAX", "299999980.0000 SNAX")
+      undelegatebw(
+        "snax.team",
+        "snax.team",
+        "1199999921.0000 SNAX",
+        "299999980.0000 SNAX"
+      )
     );
     await tryCatchExpect(() =>
-      undelegatebw("snax.team", "1199999920.0000 SNAX", "2999999801.0000 SNAX")
+      undelegatebw(
+        "snax.team",
+        "snax.team",
+        "1199999920.0000 SNAX",
+        "2999999801.0000 SNAX"
+      )
     );
     await verifyBWTable(["snax.team"]);
     await verifyBWEscrowTable(["snax.team"]);
@@ -468,6 +614,33 @@ describe("System", async () => {
   it("should call system's emitplatform correctly several times", async () => {
     const stepCount = 5e1;
     const pointList = [];
+    const transferBack = quantity =>
+      api.transact(
+        {
+          actions: [
+            {
+              account: "snax.token",
+              name: "transfer",
+              authorization: [
+                {
+                  actor: "platform",
+                  permission: "active"
+                }
+              ],
+              data: {
+                from: "platform",
+                to: "snax",
+                quantity,
+                memo: "back"
+              }
+            }
+          ]
+        },
+        {
+          blocksBehind: 1,
+          expireSeconds: 30
+        }
+      );
     for (let stepNum = 0; stepNum < stepCount; stepNum++) {
       await emitplatform("platform");
       const balance = await getBalance("platform");

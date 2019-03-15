@@ -269,7 +269,8 @@ private:
   platform_states_history _states_history;
 
   // Only contract itself is allowed to unlock update
-  void unlock_update(asset current_amount, asset sent_amount, uint32_t last_updated_account_count);
+  void unlock_update(asset current_amount, asset sent_amount,
+                     uint32_t last_updated_account_count);
 
   account find_account(account_name account);
 
