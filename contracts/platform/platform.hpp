@@ -280,10 +280,6 @@ private:
 
   void update_state_next_round();
 
-  void update_state_total_attention_rate_and_user_count(
-      double additional_attention_rate, uint32_t updated_account_count,
-      uint64_t new_accounts, uint64_t new_registered_accounts);
-
   asset get_balance(account_name account, symbol_type symbol_name);
 
   void claim_transfered(uint64_t id, account_name account);
