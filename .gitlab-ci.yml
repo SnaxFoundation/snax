@@ -11,6 +11,7 @@ variables:
   ORG: SnaxFoundation
   REGISTRY_PUB: snaxfoundation
 
+
 stages:
 - cleanup
 - build

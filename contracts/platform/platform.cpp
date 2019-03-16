@@ -250,6 +250,11 @@ void platform::updatear(const uint64_t id, const double attention_rate,
   snax_assert(found != _users.end() || add_account_if_not_exist,
               "user doesnt exist");
 
+  double registered_attention_rate = 0;
+  double total_attention_rate = 0;
+  uint32_t round_updated_account_count = 0;
+  uint32_t total_user_count = 0;
+
   if (found != _users.end()) {
     const double diff = attention_rate - found->attention_rate;
 
@@ -262,8 +267,8 @@ void platform::updatear(const uint64_t id, const double attention_rate,
         already_updated ? attention_rate - found->attention_rate
                         : attention_rate;
 
-    update_state_total_attention_rate_and_user_count(attention_rate_inc,
-                                                     !already_updated, 0, 0);
+    total_attention_rate += attention_rate_inc;
+    round_updated_account_count += !already_updated;
 
     _users.modify(found, _self, [&](auto &record) {
       record.attention_rate = attention_rate;
@@ -277,9 +282,10 @@ void platform::updatear(const uint64_t id, const double attention_rate,
     if (found_account != _accounts.end()) {
       _accounts.modify(found_account, _self,
                        [&](auto &record) { record.stat_diff = stat_diff; });
-      _state.registered_attention_rate += attention_rate_inc;
+      registered_attention_rate += attention_rate_inc;
     }
   } else {
+    total_user_count++;
     _users.emplace(_self, [&](auto &record) {
       record.attention_rate = attention_rate;
       record.attention_rate_rating_position = attention_rate_rating_position;
@@ -288,10 +294,16 @@ void platform::updatear(const uint64_t id, const double attention_rate,
       record.id = id;
     });
     addaccount(_self, 0, id, 0, string(""), stat_diff);
-    _state = _platform_state.get();
-    _state.total_attention_rate += attention_rate;
-    _state.round_updated_account_count++;
+
+    total_attention_rate += attention_rate;
+    round_updated_account_count++;
   }
+
+  _state = _platform_state.get();
+  _state.registered_attention_rate += registered_attention_rate;
+  _state.total_attention_rate += total_attention_rate;
+  _state.round_updated_account_count += round_updated_account_count;
+  _state.total_user_count += total_user_count;
   _platform_state.set(_state, _self);
 }
 
@@ -305,8 +317,10 @@ void platform::updatearmult(vector<account_with_attention_rate> &updates,
   snax_assert(_state.updating == 1, "platform must be in updating state 1 when "
                                     "updatearmult action is called");
 
-  double total_attention_rate_diff = 0;
+  double total_attention_rate = 0;
   uint32_t updated_account_count = 0;
+  double registered_attention_rate = 0;
+  uint32_t total_user_count = 0;
 
   for (auto &update : updates) {
     const auto &user = _users.find(update.id);
@@ -340,13 +354,15 @@ void platform::updatearmult(vector<account_with_attention_rate> &updates,
         _accounts.modify(found_account, _self, [&](auto &record) {
           record.stat_diff = update.stat_diff;
         });
-        _state.registered_attention_rate += attention_rate;
+        registered_attention_rate += attention_rate;
       }
 
-      total_attention_rate_diff += attention_rate_inc;
+      total_attention_rate += attention_rate_inc;
       updated_account_count += !already_updated;
 
     } else {
+      total_user_count++;
+
       _users.emplace(_self, [&](auto &record) {
         record.attention_rate = update.attention_rate;
         record.attention_rate_rating_position =
@@ -358,14 +374,17 @@ void platform::updatearmult(vector<account_with_attention_rate> &updates,
 
       addaccount(_self, 0, update.id, 0, string(""), update.stat_diff);
 
-      total_attention_rate_diff += update.attention_rate;
+      total_attention_rate += update.attention_rate;
       updated_account_count++;
     }
   }
 
+  _state = _platform_state.get();
+  _state.registered_attention_rate += registered_attention_rate;
+  _state.total_attention_rate += total_attention_rate;
+  _state.round_updated_account_count += updated_account_count;
+  _state.total_user_count += total_user_count;
   _platform_state.set(_state, _self);
-  update_state_total_attention_rate_and_user_count(total_attention_rate_diff,
-                                                   updated_account_count, 0, 0);
 }
 
 /// @abi action dropaccount
@@ -391,6 +410,7 @@ void platform::dropaccount(const account_name account,
     _users.erase(_users.find(found->id));
   }
 
+  _state = _platform_state.get();
   _state.total_user_count -= removed_accounts;
   _state.registered_user_count -= removed_registered_accounts;
   _platform_state.set(_state, _self);
@@ -409,6 +429,8 @@ void platform::addaccount(const account_name creator,
   const auto &found_user = _users.find(id);
   const auto &found_account = _accounts.find(id);
 
+  double registered_attention_rate = 0;
+
   snax_assert(found_user == _users.end() || found_account == _accounts.end(),
               "user already exists");
 
@@ -420,7 +442,9 @@ void platform::addaccount(const account_name creator,
 
   claim_transfered(id, account);
 
-  if (found_user == _users.end()) {
+  const auto is_user_new = found_user == _users.end();
+
+  if (is_user_new) {
     _users.emplace(_self, [&](auto &record) {
       record.id = id;
       record.last_attention_rate_updated_step_number = 0;
@@ -445,13 +469,15 @@ void platform::addaccount(const account_name creator,
     });
 
     if (found_user != _users.end()) {
-      _state.registered_attention_rate += found_user->attention_rate;
+      registered_attention_rate += found_user->attention_rate;
     }
   }
 
+  _state = _platform_state.get();
+  _state.total_user_count += is_user_new;
+  _state.registered_attention_rate += registered_attention_rate;
+  _state.registered_user_count += account != 0;
   _platform_state.set(_state, _self);
-
-  update_state_total_attention_rate_and_user_count(0, 0, 1, account != 0);
 };
 
 /// @abi action addaccounts
@@ -460,19 +486,13 @@ void platform::addaccounts(const account_name creator,
   require_creator_or_platform(creator);
   require_initialized();
 
-  uint32_t registered_accounts = 0;
+  uint32_t registered_user_count = 0;
 
   for (auto &account_to_add : accounts_to_add) {
     addaccount(creator, account_to_add.name, account_to_add.id,
                account_to_add.verification_tweet,
                account_to_add.verification_salt, account_to_add.stat_diff);
-
-    if (account_to_add.name)
-      registered_accounts++;
   }
-
-  update_state_total_attention_rate_and_user_count(0, 0, accounts_to_add.size(),
-                                                   registered_accounts);
 }
 
 /// @abi action transfertou
@@ -520,20 +540,6 @@ asset platform::get_balance(const account_name account,
   const auto result = found_balance != balances.end() ? found_balance->balance
                                                       : asset(0, symbol);
   return result;
-}
-
-void platform::update_state_total_attention_rate_and_user_count(
-    const double additional_attention_rate,
-    const uint32_t updated_account_count, const uint64_t new_accounts,
-    const uint64_t new_registered_accounts) {
-  require_initialized();
-  _state = _platform_state.get();
-
-  _state.total_attention_rate += additional_attention_rate;
-  _state.total_user_count += new_accounts;
-  _state.registered_user_count += new_registered_accounts;
-  _state.round_updated_account_count += updated_account_count;
-  _platform_state.set(_state, _self);
 }
 
 void platform::claim_transfered(const uint64_t id, const account_name account) {
@@ -586,7 +592,7 @@ void platform::unlock_update(const asset current_amount,
   _state.round_sent_account_count = 0;
   _state.round_updated_account_count = 0;
   _state.round_supply -= _state.round_supply;
-  _state.step_number += 1;
+  _state.step_number++;
 
   _platform_state.set(_state, _self);
 
