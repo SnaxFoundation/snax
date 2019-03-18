@@ -56,6 +56,7 @@ namespace snaxsystem {
                info.is_active     = true;
                info.url           = url;
                info.location      = location;
+               info.last_block_time = block_timestamp(0);
          });
       }
    }
@@ -80,20 +81,18 @@ namespace snaxsystem {
 
       for ( auto it = idx.cbegin(); it != idx.cend() && top_producers.size() < _gstate.top_producers_limit && 0 < it->total_votes; ++it ) {
          if (it->active()) {
-             const auto block_time_since_epoch = 
-                     it->last_block_time
-                         .to_time_point()
-                         .time_since_epoch()
-                         .to_seconds();
              if (
-                 block_time_since_epoch > 0
+                 it->last_block_time > block_timestamp(0)
                  &&
-                 block_time_since_epoch -
-                 it->last_block_time
-                    .to_time_point()
-                    .time_since_epoch()
-                    .to_seconds()
-                  > 3600
+                 block_time
+                     .to_time_point()
+                     .time_since_epoch()
+                     .to_seconds()
+                 - it->last_block_time
+                     .to_time_point()
+                     .time_since_epoch()
+                     .to_seconds()
+                 > 3600
              ) {
                  const auto prod = _producers.find(it->owner);
                  if (prod != _producers.end()) {
@@ -101,8 +100,7 @@ namespace snaxsystem {
                            info.deactivate();
                      });
                  }
-             }
-             else {
+             } else {
                  top_producers.emplace_back( std::pair<snax::producer_key,uint16_t>({{it->owner, it->producer_key}, it->location}) );
              }
          }
