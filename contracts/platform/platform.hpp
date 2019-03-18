@@ -171,7 +171,7 @@ private:
     uint64_t primary_key() const { return id; }
 
     uint64_t by_attention_rate_rating_position() const {
-      return (static_cast<uint64_t>(0xFFFFFFFF) + 1) *
+      return static_cast<uint64_t>(0xFFFFFFFF) *
                  static_cast<uint64_t>(
                      last_attention_rate_updated_step_number) +
              static_cast<uint64_t>(attention_rate_rating_position);
@@ -274,10 +274,6 @@ private:
 
   account find_account(account_name account);
 
-  void require_initialized();
-
-  void require_uninitialized();
-
   void update_state_next_round();
 
   asset get_balance(account_name account, symbol_type symbol_name);
@@ -285,6 +281,10 @@ private:
   void claim_transfered(uint64_t id, account_name account);
 
   void require_creator_or_platform(account_name account);
+
+  void require_initialized();
+
+  void require_uninitialized();
 };
 
 } /// namespace snax
