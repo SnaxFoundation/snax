@@ -47,6 +47,7 @@ namespace snaxsystem {
                info.is_active    = true;
                info.url          = url;
                info.location     = location;
+               info.last_block_time = block_timestamp(0);
             });
       } else {
          _producers.emplace( producer, [&]( producer_info& info ){
