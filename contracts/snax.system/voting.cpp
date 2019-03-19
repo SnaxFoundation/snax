@@ -84,8 +84,6 @@ namespace snaxsystem {
       for ( auto it = idx.cbegin(); it != idx.cend() && top_producers.size() < _gstate.top_producers_limit && 0 < it->total_votes; ++it ) {
          if (it->active()) {
              if (
-                 it->last_block_time > block_timestamp(0)
-                 &&
                  block_time
                      .to_time_point()
                      .time_since_epoch()
