@@ -40,6 +40,7 @@ namespace snaxsystem {
       require_auth( producer );
 
       auto prod = _producers.find( producer );
+      const auto current_time = snax::time_point_sec(now());
 
       if ( prod != _producers.end() ) {
          _producers.modify( prod, producer, [&]( producer_info& info ){
@@ -47,7 +48,7 @@ namespace snaxsystem {
                info.is_active    = true;
                info.url          = url;
                info.location     = location;
-               info.last_block_time = block_timestamp(0);
+               info.last_block_time = block_timestamp(current_time);
             });
       } else {
          _producers.emplace( producer, [&]( producer_info& info ){
@@ -57,7 +58,7 @@ namespace snaxsystem {
                info.is_active     = true;
                info.url           = url;
                info.location      = location;
-               info.last_block_time = block_timestamp(0);
+               info.last_block_time = block_timestamp(current_time);
          });
       }
    }
