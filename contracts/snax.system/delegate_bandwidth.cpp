@@ -275,7 +275,6 @@ namespace snaxsystem {
                });
          }
 
-         snax::print("", tot_itr->net_weight, tot_itr->cpu_weight);
          snax_assert( asset(0) <= tot_itr->net_weight, "insufficient staked total net bandwidth" );
          snax_assert( asset(0) <= tot_itr->cpu_weight, "insufficient staked total cpu bandwidth" );
 
