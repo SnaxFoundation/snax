@@ -1,5 +1,124 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`Platform drops account after updatear 1`] = `
+Object {
+  "more": false,
+  "rows": Array [
+    Object {
+      "account": "platform",
+      "airdrop": "",
+      "platform_name": "test_platform",
+      "registered_attention_rate": "300.00000000000000000",
+      "registered_user_count": 1,
+      "round_sent_account_count": 0,
+      "round_supply": "0.0000 SNAX",
+      "round_updated_account_count": 1,
+      "sent_amount": "0.0000 SNAX",
+      "step_number": 1,
+      "token_dealer": "snax",
+      "token_symbols": Array [
+        "379052774148",
+      ],
+      "total_attention_rate": "300.00000000000000000",
+      "total_user_count": 1,
+      "updating": 1,
+    },
+  ],
+}
+`;
+
+exports[`Platform drops account after updatear 2`] = `
+Object {
+  "more": false,
+  "rows": Array [],
+}
+`;
+
+exports[`Platform drops account after updatear 3`] = `
+Array [
+  Object {
+    "id": 1007,
+    "last_paid_step_number": 0,
+    "name": "test1",
+    "stat_diff": Array [
+      5,
+      10,
+      15,
+    ],
+    "verification_salt": "12345",
+    "verification_tweet": "1083836521751478272",
+  },
+]
+`;
+
+exports[`Platform drops account after updatear 4`] = `
+Object {
+  "more": false,
+  "rows": Array [
+    Object {
+      "attention_rate": "300.00000000000000000",
+      "attention_rate_rating_position": 1,
+      "id": 1007,
+      "last_attention_rate_updated_step_number": 1,
+      "tweets_ranked_in_last_period": 10,
+    },
+  ],
+}
+`;
+
+exports[`Platform drops account after updatear 5`] = `
+Object {
+  "more": false,
+  "rows": Array [
+    Object {
+      "account": "platform",
+      "airdrop": "",
+      "platform_name": "test_platform",
+      "registered_attention_rate": "0.00000000000000000",
+      "registered_user_count": 0,
+      "round_sent_account_count": 0,
+      "round_supply": "0.0000 SNAX",
+      "round_updated_account_count": 1,
+      "sent_amount": "0.0000 SNAX",
+      "step_number": 1,
+      "token_dealer": "snax",
+      "token_symbols": Array [
+        "379052774148",
+      ],
+      "total_attention_rate": "300.00000000000000000",
+      "total_user_count": 1,
+      "updating": 1,
+    },
+  ],
+}
+`;
+
+exports[`Platform drops account after updatear 6`] = `
+Object {
+  "more": false,
+  "rows": Array [],
+}
+`;
+
+exports[`Platform drops account after updatear 7`] = `Array []`;
+
+exports[`Platform drops account after updatear 8`] = `
+Object {
+  "more": false,
+  "rows": Array [
+    Object {
+      "attention_rate": "300.00000000000000000",
+      "attention_rate_rating_position": 1,
+      "id": 1007,
+      "last_attention_rate_updated_step_number": 1,
+      "tweets_ranked_in_last_period": 10,
+    },
+  ],
+}
+`;
+
+
+
 exports[`Platform adds account after updatear 1`] = `
 Object {
   "more": false,

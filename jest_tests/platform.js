@@ -519,6 +519,51 @@ describe("Platform", async () => {
       }
     );
 
+  const dropAccount = (account, max_account_count) =>
+    api.transact(
+      {
+        actions: [
+          {
+            account: "platform",
+            name: "dropaccount",
+            authorization: [
+              {
+                actor: "platform",
+                permission: "active"
+              }
+            ],
+            data: { account, max_account_count }
+          }
+        ]
+      },
+      {
+        blocksBehind: 1,
+        expireSeconds: 30
+      }
+    );
+
+  it("drops account after updatear", async () => {
+    await initialize();
+    await lockArUpdate();
+    await updateQualityRateOrCreate({
+      id: 1007,
+      attention_rate: 300.0,
+      attention_rate_rating_position: 1,
+      stat_diff: [51, 10, 210, 30],
+      tweets_ranked_in_period: 10
+    });
+    await addUser({
+      verification_salt: "12345",
+      stat_diff: [5, 10, 15],
+      verification_tweet: "1083836521751478272",
+      account: "test1",
+      id: 1007
+    });
+    await verifyStatesAndAccounts();
+    await dropAccount("test1", 1);
+    await verifyStatesAndAccounts();
+  });
+
   it("updates account using updatear method second time", async () => {
     await initialize();
     await lockArUpdate();
