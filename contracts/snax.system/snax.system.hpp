@@ -20,6 +20,11 @@ namespace snaxsystem {
    using snax::const_mem_fun;
    using snax::block_timestamp;
 
+   static const     int64_t  team_memory_initial = 1'000'0000;
+   static const     int64_t  staked_by_team_initial = 15'000'000'000'0000 - team_memory_initial;
+   static const     int64_t  account_creator_initial = 500'000'000'0000;
+   static const     int64_t  airdrop_initial = 500'000'000'0000;
+
    struct name_bid {
      account_name            newname;
      account_name            high_bidder;
@@ -57,6 +62,7 @@ namespace snaxsystem {
       int64_t              system_parabola_a = 4'385'772;
       int64_t              system_parabola_b = -1'324'503'311;
       asset                last_bp_semi_reward = asset(0);
+      asset                total_bp_reward = asset(0);
 
       // explicit serialization macro is not necessary, used here only to improve compilation time
       SNAXLIB_SERIALIZE_DERIVED( snax_global_state, snax::blockchain_parameters,
@@ -64,7 +70,7 @@ namespace snaxsystem {
                                 (last_producer_schedule_update)(last_pervote_bucket_fill)
                                 (pervote_bucket)(perblock_bucket)(total_unpaid_blocks)(total_activated_stake)(thresh_activated_stake_time)
                                 (last_producer_schedule_size)(total_producer_vote_weight)(last_name_close)(start_time)(initialized)
-                                (system_parabola_a)(system_parabola_b)(last_bp_semi_reward)
+                                (system_parabola_a)(system_parabola_b)(last_bp_semi_reward)(total_bp_reward)
                             )
    };
 
@@ -314,6 +320,7 @@ namespace snaxsystem {
          double apply_vote_weight(const account_name voter, const double vote_weight, const uint8_t iter) const {
              return voter == N(snax.team) ? vote_weight * snax_vote_multipliers[iter]: vote_weight;
          }
+         double get_block_reward_multiplier(double x) const;
          asset get_balance(account_name account);
 
          void update_elected_producers( block_timestamp timestamp );

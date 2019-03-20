@@ -30,10 +30,6 @@ namespace snaxsystem {
 
    static constexpr time refund_delay = 3*24*3600;
    static constexpr time refund_expiration_time = 3600;
-   static const     int64_t  team_memory_initial = 1'000'0000;
-   static const     int64_t  staked_by_team_initial = 15'000'000'000'0000 - team_memory_initial;
-   static const     int64_t  account_creator_initial = 500'000'000'0000;
-   static const     int64_t  airdrop_initial = 500'000'000'0000;
    static const     uint64_t seconds_per_year = 52*7*24*3600;
 
    struct user_resources {
@@ -274,7 +270,7 @@ namespace snaxsystem {
                   tot.cpu_weight    += stake_cpu_delta;
                });
          }
-         
+
          snax_assert( asset(0) <= tot_itr->net_weight, "insufficient staked total net bandwidth" );
          snax_assert( asset(0) <= tot_itr->cpu_weight, "insufficient staked total cpu bandwidth" );
 
