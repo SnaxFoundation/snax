@@ -239,6 +239,55 @@ describe("Platform", async () => {
         expireSeconds: 30
       }
     );
+
+  const activate = id =>
+    api.transact(
+      {
+        actions: [
+          {
+            account: account,
+            name: "activate",
+            authorization: [
+              {
+                actor: account,
+                permission: "active"
+              }
+            ],
+            data: {
+              id
+            }
+          }
+        ]
+      },
+      {
+        blocksBehind: 1,
+        expireSeconds: 30
+      }
+    );
+  const deactivate = id =>
+    api.transact(
+      {
+        actions: [
+          {
+            account: account,
+            name: "deactivate",
+            authorization: [
+              {
+                actor: account,
+                permission: "active"
+              }
+            ],
+            data: {
+              id
+            }
+          }
+        ]
+      },
+      {
+        blocksBehind: 1,
+        expireSeconds: 30
+      }
+    );
   const lockUpdate = () =>
     api.transact(
       {
@@ -480,6 +529,29 @@ describe("Platform", async () => {
         expireSeconds: 30
       }
     );
+
+  it("deactivates and activates account", async () => {
+    await initialize();
+    await lockArUpdate();
+    await updateQualityRateOrCreate({
+      id: 1007,
+      attention_rate: 300.0,
+      attention_rate_rating_position: 1,
+      stat_diff: [51, 10, 210, 30],
+      tweets_ranked_in_period: 10
+    });
+    await addUser({
+      verification_salt: "12345",
+      stat_diff: [5, 10, 15],
+      verification_tweet: "1083836521751478272",
+      account: "test1",
+      id: 1007
+    });
+    await deactivate(1007);
+    await verifyStatesAndAccounts();
+    await activate(1007);
+    await verifyStatesAndAccounts();
+  });
 
   it("drops account after updatear", async () => {
     await initialize();

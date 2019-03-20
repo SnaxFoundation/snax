@@ -68,6 +68,12 @@ public:
   /// @abi action sendpayments
   void sendpayments(account_name lower_account_name, uint64_t account_count);
 
+  /// @abi action activate
+  void activate(uint64_t id);
+
+  /// @abi action deactivate
+  void deactivate(uint64_t id);
+
   /// @abi action addpenacc
   void addpenacc(const account_name account, const uint64_t id);
 
@@ -128,6 +134,7 @@ private:
     string verification_salt;
     block_timestamp created;
     vector<uint32_t> stat_diff;
+    bool active;
 
     uint64_t primary_key() const { return id; }
 
@@ -139,7 +146,7 @@ private:
 
     SNAXLIB_SERIALIZE(account,
                       (id)(name)(last_paid_step_number)(verification_tweet)(
-                          verification_salt)(created)(stat_diff))
+                          verification_salt)(created)(stat_diff)(active))
   };
 
   /// @abi table pusers i64
@@ -261,6 +268,8 @@ private:
   void require_initialized();
 
   void require_uninitialized();
+
+  void set_account_active(uint64_t id, bool active);
 };
 
 } /// namespace snax
