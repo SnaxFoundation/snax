@@ -19,7 +19,7 @@ const rpc = new snaxjs.JsonRpc(
 );
 
 const { account, privateKey } = {
-  account: "platform",
+  account: "platform1",
   privateKey: "5KQwrPbwdL6PhXujxW37FSSQZ1JiwsST4cqQzDeyXtP79zkvFD3"
 };
 
@@ -402,11 +402,38 @@ describe("System", async () => {
         expireSeconds: 30
       }
     );
+  const transferBack = (account, quantity) =>
+    api.transact(
+      {
+        actions: [
+          {
+            account: "snax.token",
+            name: "transfer",
+            authorization: [
+              {
+                actor: account,
+                permission: "active"
+              }
+            ],
+            data: {
+              from: account,
+              to: "snax",
+              quantity,
+              memo: "back"
+            }
+          }
+        ]
+      },
+      {
+        blocksBehind: 1,
+        expireSeconds: 30
+      }
+    );
 
   const setPlatformLimits = () =>
     setplatforms([
       {
-        account: "platform",
+        account: "platform1",
         weight: 1,
         period: 1,
         quotas: { ram_bytes: 900000, net_weight: 1000000, cpu_weight: 1000000 }
@@ -424,6 +451,41 @@ describe("System", async () => {
         quotas: { ram_bytes: 1100000, net_weight: 1000000, cpu_weight: 70000 }
       }
     ]);
+
+  it("should call system's emitplatform correctly several times for several platforms", async () => {
+    const stepCount = 5e1;
+    const pointList = [];
+
+    for (let stepNum = 0; stepNum < stepCount; stepNum++) {
+      if (!(stepNum % 2)) await emitplatform("platform1");
+      await emitplatform("platform2");
+      const [balance1, balance2] = await Promise.all([
+        getBalance("platform1"),
+        getBalance("platform2")
+      ]);
+      await verifyAccountsBalances(["snax", "platform1", "platform2"]);
+
+      if (!(stepNum % 2)) {
+        const amountToTransferBack1 =
+          (parseFloat(balance1) * (stepCount - stepNum)) / stepCount;
+        if (amountToTransferBack1 > 0.0001)
+          await transferBack(
+            "platform1",
+            amountToTransferBack1.toFixed(4) + " SNAX"
+          );
+      }
+
+      const amountToTransferBack2 =
+        (parseFloat(balance2) * (stepCount - stepNum)) / stepCount;
+      await verifyState();
+
+      if (amountToTransferBack2 > 0.0001)
+        await transferBack(
+          "platform2",
+          amountToTransferBack2.toFixed(4) + " SNAX"
+        );
+    }
+  });
 
   it("should work correctly with delegatebw system after initialization", async () => {
     await regproducer(
@@ -575,11 +637,11 @@ describe("System", async () => {
 
   it("should set platforms", async () => {
     await Promise.all(
-      ["platform", "testacc1", "testacc2"].map(verifyAccountQuotas)
+      ["platform1", "testacc1", "testacc2"].map(verifyAccountQuotas)
     );
     await setPlatformLimits();
     await Promise.all(
-      ["platform", "testacc1", "testacc2"].map(verifyAccountQuotas)
+      ["platform1", "testacc1", "testacc2"].map(verifyAccountQuotas)
     );
   });
 
@@ -616,42 +678,19 @@ describe("System", async () => {
   it("should call system's emitplatform correctly several times", async () => {
     const stepCount = 5e1;
     const pointList = [];
-    const transferBack = quantity =>
-      api.transact(
-        {
-          actions: [
-            {
-              account: "snax.token",
-              name: "transfer",
-              authorization: [
-                {
-                  actor: "platform",
-                  permission: "active"
-                }
-              ],
-              data: {
-                from: "platform",
-                to: "snax",
-                quantity,
-                memo: "back"
-              }
-            }
-          ]
-        },
-        {
-          blocksBehind: 1,
-          expireSeconds: 30
-        }
-      );
+
     for (let stepNum = 0; stepNum < stepCount; stepNum++) {
-      await emitplatform("platform");
-      const balance = await getBalance("platform");
+      await emitplatform("platform1");
+      const balance = await getBalance("platform1");
       const amountToTransferBack =
         (parseFloat(balance) * (stepCount - stepNum)) / stepCount;
-      await verifyAccountsBalances(["snax", "platform"]);
+      await verifyAccountsBalances(["snax", "platform1"]);
       await verifyState();
       if (amountToTransferBack > 0.0001)
-        await transferBack(amountToTransferBack.toFixed(4) + " SNAX");
+        await transferBack(
+          "platform1",
+          amountToTransferBack.toFixed(4) + " SNAX"
+        );
     }
   });
 
@@ -665,13 +704,13 @@ describe("System", async () => {
   });
 
   it("should call system's emitplatform correctly", async () => {
-    await emitplatform("platform");
-    await verifyAccountsBalances(["snax", "platform"]);
+    await emitplatform("platform1");
+    await verifyAccountsBalances(["snax", "platform1"]);
   });
 
   it("should call system's emitplatform correctly for several platforms", async () => {
-    await emitplatform("platform");
-    await emitplatform("testacc1");
-    await verifyAccountsBalances(["testacc2", "testacc1", "snax", "platform"]);
+    await emitplatform("platform1");
+    await emitplatform("platform2");
+    await verifyAccountsBalances(["platform2", "snax", "platform1"]);
   });
 });

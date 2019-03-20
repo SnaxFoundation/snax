@@ -18,10 +18,7 @@ const rpc = new snaxjs.JsonRpc(
   }
 );
 
-const { account, privateKey } = {
-  account: "platform",
-  privateKey: "5KQwrPbwdL6PhXujxW37FSSQZ1JiwsST4cqQzDeyXtP79zkvFD3"
-};
+let account;
 
 const signatureProvider = new snaxjs.JsSignatureProvider([
   "5HvtgZn4wf4vNAe3nRb9vjYfLqvasemsSQckVHxmdAeBRbdPURs",
@@ -47,6 +44,7 @@ describe("Platform", async () => {
       stdio: "ignore"
     });
     await sleep(6e3);
+    account = "platform";
   });
 
   const verifyStatesAndAccounts = async () => {
@@ -814,6 +812,7 @@ describe("Platform", async () => {
       detached: true,
       stdio: "ignore"
     });
+    account = "platform1";
     await sleep(6e3);
     await initialize();
     await addUser({
