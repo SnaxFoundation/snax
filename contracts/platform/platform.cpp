@@ -393,11 +393,9 @@ void platform::dropaccount(const account_name account,
   require_auth(_self);
   require_initialized();
   _state = _platform_state.get();
-  snax_assert(!_state.updating, "platform must not be in updating state when "
-                                "dropaccount action is called");
 
   uint32_t removed_registered_accounts = 0;
-  uint32_t removed_accounts = 0;
+  double registered_attention_rate = 0;
   while (max_account_count--) {
     const auto &_accounts_account_index = _accounts.get_index<N(name)>();
     const auto &found = _accounts_account_index.find(account);
@@ -406,13 +404,14 @@ void platform::dropaccount(const account_name account,
     }
     if (found->name)
       removed_registered_accounts++;
-    removed_accounts++;
-    _users.erase(_users.find(found->id));
+    registered_attention_rate += _users.get(found->id, "cant find user with this id").attention_rate;
+    const auto found_by_id = _accounts.find(found->id);
+    _accounts.erase(found_by_id);
   }
 
   _state = _platform_state.get();
-  _state.total_user_count -= removed_accounts;
   _state.registered_user_count -= removed_registered_accounts;
+  _state.registered_attention_rate -= registered_attention_rate;
   _platform_state.set(_state, _self);
 }
 
@@ -621,5 +620,5 @@ void platform::require_creator_or_platform(const account_name account) {
 
 SNAX_ABI(snax::platform,
          (initialize)(lockarupdate)(lockupdate)(addcreator)(rmcreator)(
-             nextround)(addpenacc)(droppenacc)(sendpayments)(addaccount)(
+             nextround)(addpenacc)(droppenacc)(sendpayments)(dropaccount)(addaccount)(
              addaccounts)(updatear)(transfertou)(updatearmult))
