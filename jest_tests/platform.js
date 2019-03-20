@@ -49,16 +49,6 @@ describe("Platform", async () => {
     await sleep(6e3);
   });
 
-  const verifyPendingAccounts = async () => {
-    expect(
-      (await api.rpc.get_table_rows({
-        code: account,
-        scope: account,
-        table: "peaccounts"
-      })).rows.map(({ created, ...object }) => object)
-    ).toMatchSnapshot();
-  };
-
   const verifyStatesAndAccounts = async () => {
     const [state, states, accounts, users] = await Promise.all([
       api.rpc.get_table_rows({
@@ -366,57 +356,6 @@ describe("Platform", async () => {
             data: {
               ...accountObj,
               add_account_if_not_exist: true
-            }
-          }
-        ]
-      },
-      {
-        blocksBehind: 1,
-        expireSeconds: 30
-      }
-    );
-
-  const addPendingAccount = (name, id) =>
-    api.transact(
-      {
-        actions: [
-          {
-            account: account,
-            name: "addpenacc",
-            authorization: [
-              {
-                actor: account,
-                permission: "active"
-              }
-            ],
-            data: {
-              account: name,
-              id
-            }
-          }
-        ]
-      },
-      {
-        blocksBehind: 1,
-        expireSeconds: 30
-      }
-    );
-
-  const dropPendingAccount = name =>
-    api.transact(
-      {
-        actions: [
-          {
-            account: account,
-            name: "droppenacc",
-            authorization: [
-              {
-                actor: account,
-                permission: "active"
-              }
-            ],
-            data: {
-              account: name
             }
           }
         ]
@@ -947,32 +886,6 @@ describe("Platform", async () => {
     await verifyTransferTable("SNAX");
     await verifyTransferTable("SNIX");
     await verifyAccountsBalances(["test.transf", "test1"]);
-  });
-
-  it("should work with pending account correctly", async () => {
-    await initialize();
-    await verifyPendingAccounts();
-    await addPendingAccount("test1", 42);
-    await verifyPendingAccounts();
-    await verifyStatesAndAccounts();
-    await addUser({
-      verification_salt: "12345",
-      stat_diff: [5, 10, 15],
-      verification_tweet: "1083836521751478272",
-      account: "test1",
-      id: 42
-    });
-    await verifyPendingAccounts();
-    await verifyStatesAndAccounts();
-  });
-
-  it("should drop pending account correctly", async () => {
-    await initialize();
-    await verifyPendingAccounts();
-    await addPendingAccount("test1", 40);
-    await verifyPendingAccounts();
-    await dropPendingAccount("test1");
-    await verifyStatesAndAccounts();
   });
 
   it("should initialize correctly", async () => {

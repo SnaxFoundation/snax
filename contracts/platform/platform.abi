@@ -11,20 +11,6 @@
         }
       ]
     },{
-      "name": "pending_rec",
-      "base": "",
-      "fields": [{
-          "name": "account",
-          "type": "name"
-        },{
-          "name": "id",
-          "type": "uint64"
-        },{
-          "name": "created",
-          "type": "block_timestamp"
-        }
-      ]
-    },{
       "name": "creator_rec",
       "base": "",
       "fields": [{
@@ -462,16 +448,6 @@
     }
   ],
   "tables": [{
-      "name": "peaccounts",
-      "index_type": "i64",
-      "key_names": [
-        "account"
-      ],
-      "key_types": [
-        "name"
-      ],
-      "type": "pending_rec"
-    },{
       "name": "usercreators",
       "index_type": "i64",
       "key_names": [
