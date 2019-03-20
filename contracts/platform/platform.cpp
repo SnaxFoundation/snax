@@ -144,7 +144,7 @@ void platform::sendpayments(const account_name lower_account_name,
   while (iter != end_iter && account_count--) {
     const auto &account = *iter;
     const auto &user = *_users.find(account.id);
-    if (account.name) {
+    if (account.name && account.active) {
       updated_account_count++;
       if (user.attention_rate > 0.1 &&
           user.last_attention_rate_updated_step_number == _state.step_number) {
@@ -186,6 +186,20 @@ void platform::sendpayments(const account_name lower_account_name,
     _state.sent_amount += sent_amount;
     _platform_state.set(_state, _self);
   }
+}
+
+/// @abi action activate
+void platform::activate(const uint64_t id) {
+    require_auth(_self);
+    require_initialized();
+    set_account_active(id, true);
+}
+
+/// @abi action deactivate
+void platform::deactivate(const uint64_t id) {
+    require_auth(_self);
+    require_initialized();
+    set_account_active(id, false);
 }
 
 /// @abi action addsymbol
@@ -422,6 +436,7 @@ void platform::addaccount(const account_name creator,
                 "verification salt can't be empty");
 
     _accounts.emplace(_self, [&](auto &record) {
+      record.active = true;
       record.name = account;
       record.id = id;
       record.last_paid_step_number = 0;
@@ -580,9 +595,19 @@ void platform::require_creator_or_platform(const account_name account) {
   snax_assert(account == _self || _creators.find(account) != _creators.end(),
               "platform or creator authority needed");
 }
+
+void platform::set_account_active(const uint64_t id, const bool active) {
+    const auto found_account = _accounts.find(id);
+
+    snax_assert(found_account != _accounts.end(), "account doesnt exist");
+
+    _accounts.modify(found_account, 0, [&](auto& record) {
+        record.active = active;
+    });
+}
 }
 
 SNAX_ABI(snax::platform,
          (initialize)(lockarupdate)(lockupdate)(addcreator)(rmcreator)(
-             nextround)(sendpayments)(addaccount)(dropaccount)(
+             nextround)(activate)(deactivate)(addsymbol)(sendpayments)(addaccount)(dropaccount)(
              addaccounts)(updatear)(transfertou)(updatearmult))
