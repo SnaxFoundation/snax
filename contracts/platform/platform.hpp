@@ -40,8 +40,7 @@ public:
   };
 
   platform(account_name s)
-      : contract(s), _users(s, s), _accounts(s, s), _platform_state(s, s),
-        _pending_accounts(s, s), _creators(s, s), _states_history(s, s) {}
+      : contract(s), _users(s, s), _accounts(s, s), _platform_state(s, s), _creators(s, s), _states_history(s, s) {}
 
   /// @abi action addcreator
   void addcreator(const account_name name);
@@ -101,23 +100,6 @@ public:
   void transfertou(account_name from, uint64_t to, asset amount);
 
 private:
-  /// @abi table peaccounts i64
-  struct pending_rec {
-    account_name account;
-    uint64_t id;
-    block_timestamp created;
-
-    uint64_t primary_key() const { return account; }
-
-    uint64_t by_id() const { return id; }
-
-    uint64_t by_created() const {
-      return created.to_time_point().time_since_epoch().count();
-    }
-
-    SNAXLIB_SERIALIZE(pending_rec, (account)(id)(created))
-  };
-
   /// @abi table usercreators i64
   struct creator_rec {
     account_name account;
@@ -251,17 +233,11 @@ private:
                  const_mem_fun<user, uint64_t,
                                &user::by_attention_rate_rating_position>>>
       usertable;
-  typedef multi_index<
-      N(peaccounts), pending_rec,
-      indexed_by<N(created), const_mem_fun<pending_rec, uint64_t,
-                                           &pending_rec::by_created>>>
-      peacctable;
   typedef multi_index<N(usercreators), creator_rec> creators_table;
   typedef multi_index<N(states), state_step> platform_states_history;
   typedef singleton<N(state), state> platform_state;
 
   usertable _users;
-  peacctable _pending_accounts;
   platform_state _platform_state;
   state _state;
   registered_account_table _accounts;

@@ -201,36 +201,6 @@ void platform::addsymbol(const string token_symbol_str,
   _platform_state.set(_state, _self);
 }
 
-/// @abi action addpenacc
-void platform::addpenacc(const account_name account, const uint64_t id) {
-  require_auth(_self);
-  require_initialized();
-  _state = _platform_state.get();
-
-  const auto &found = _pending_accounts.find(account);
-
-  snax_assert(found == _pending_accounts.end(),
-              "account already in pending queue");
-
-  _pending_accounts.emplace(_self, [&](auto &record) {
-    record.account = account;
-    record.id = id;
-    record.created = block_timestamp(snax::time_point_sec(now()));
-  });
-}
-
-/// @abi action droppenacc
-void platform::droppenacc(const account_name account) {
-  require_auth(_self);
-  require_initialized();
-  const auto &found_acc = _pending_accounts.find(account);
-
-  snax_assert(found_acc != _pending_accounts.end(),
-              "pending account not found");
-
-  _pending_accounts.erase(found_acc);
-}
-
 /// @abi action updatear
 void platform::updatear(const uint64_t id, const double attention_rate,
                         const uint32_t attention_rate_rating_position,
@@ -393,11 +363,9 @@ void platform::dropaccount(const account_name account,
   require_auth(_self);
   require_initialized();
   _state = _platform_state.get();
-  snax_assert(!_state.updating, "platform must not be in updating state when "
-                                "dropaccount action is called");
 
   uint32_t removed_registered_accounts = 0;
-  uint32_t removed_accounts = 0;
+  double registered_attention_rate = 0;
   while (max_account_count--) {
     const auto &_accounts_account_index = _accounts.get_index<N(name)>();
     const auto &found = _accounts_account_index.find(account);
@@ -406,13 +374,14 @@ void platform::dropaccount(const account_name account,
     }
     if (found->name)
       removed_registered_accounts++;
-    removed_accounts++;
-    _users.erase(_users.find(found->id));
+    registered_attention_rate += _users.get(found->id, "cant find user with this id").attention_rate;
+    const auto found_by_id = _accounts.find(found->id);
+    _accounts.erase(found_by_id);
   }
 
   _state = _platform_state.get();
-  _state.total_user_count -= removed_accounts;
   _state.registered_user_count -= removed_registered_accounts;
+  _state.registered_attention_rate -= registered_attention_rate;
   _platform_state.set(_state, _self);
 }
 
@@ -433,12 +402,6 @@ void platform::addaccount(const account_name creator,
 
   snax_assert(found_user == _users.end() || found_account == _accounts.end(),
               "user already exists");
-
-  const auto &pending = _pending_accounts.find(account);
-
-  if (pending != _pending_accounts.end()) {
-    _pending_accounts.erase(pending);
-  }
 
   claim_transfered(id, account);
 
@@ -621,5 +584,5 @@ void platform::require_creator_or_platform(const account_name account) {
 
 SNAX_ABI(snax::platform,
          (initialize)(lockarupdate)(lockupdate)(addcreator)(rmcreator)(
-             nextround)(addpenacc)(droppenacc)(sendpayments)(addaccount)(
+             nextround)(sendpayments)(addaccount)(dropaccount)(
              addaccounts)(updatear)(transfertou)(updatearmult))
