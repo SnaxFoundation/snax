@@ -3,14 +3,6 @@
   "version": "snax::abi/1.0",
   "types": [],
   "structs": [{
-      "name": "block_timestamp",
-      "base": "",
-      "fields": [{
-          "name": "slot",
-          "type": "uint32"
-        }
-      ]
-    },{
       "name": "creator_rec",
       "base": "",
       "fields": [{
@@ -27,6 +19,14 @@
         },{
           "name": "amount",
           "type": "asset"
+        }
+      ]
+    },{
+      "name": "block_timestamp",
+      "base": "",
+      "fields": [{
+          "name": "slot",
+          "type": "uint32"
         }
       ]
     },{
@@ -320,14 +320,19 @@
         }
       ]
     },{
+      "name": "dropuser",
+      "base": "",
+      "fields": [{
+          "name": "id",
+          "type": "uint64"
+        }
+      ]
+    },{
       "name": "dropaccount",
       "base": "",
       "fields": [{
-          "name": "account",
-          "type": "name"
-        },{
-          "name": "max_account_count",
-          "type": "uint32"
+          "name": "id",
+          "type": "uint64"
         }
       ]
     },{
@@ -455,6 +460,10 @@
     },{
       "name": "updatearmult",
       "type": "updatearmult",
+      "ricardian_contract": ""
+    },{
+      "name": "dropuser",
+      "type": "dropuser",
       "ricardian_contract": ""
     },{
       "name": "dropaccount",

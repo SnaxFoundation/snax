@@ -505,7 +505,7 @@ describe("Platform", async () => {
       }
     );
 
-  const dropAccount = (account, max_account_count) =>
+  const dropAccount = id =>
     api.transact(
       {
         actions: [
@@ -518,7 +518,29 @@ describe("Platform", async () => {
                 permission: "active"
               }
             ],
-            data: { account, max_account_count }
+            data: { id }
+          }
+        ]
+      },
+      {
+        blocksBehind: 1,
+        expireSeconds: 30
+      }
+    );
+  const dropUser = id =>
+    api.transact(
+      {
+        actions: [
+          {
+            account: "platform",
+            name: "dropuser",
+            authorization: [
+              {
+                actor: "platform",
+                permission: "active"
+              }
+            ],
+            data: { id }
           }
         ]
       },
@@ -551,6 +573,21 @@ describe("Platform", async () => {
     await verifyStatesAndAccounts();
   });
 
+  it("drops user after updatear", async () => {
+    await initialize();
+    await lockArUpdate();
+    await updateQualityRateOrCreate({
+      id: 1007,
+      attention_rate: 300.0,
+      attention_rate_rating_position: 1,
+      stat_diff: [51, 10, 210, 30],
+      tweets_ranked_in_period: 10
+    });
+    await verifyStatesAndAccounts();
+    await dropUser(1007);
+    await verifyStatesAndAccounts();
+  });
+
   it("drops account after updatear", async () => {
     await initialize();
     await lockArUpdate();
@@ -569,7 +606,7 @@ describe("Platform", async () => {
       id: 1007
     });
     await verifyStatesAndAccounts();
-    await dropAccount("test1", 1);
+    await dropAccount(1007);
     await verifyStatesAndAccounts();
   });
 
