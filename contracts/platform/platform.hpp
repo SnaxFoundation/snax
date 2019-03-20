@@ -40,7 +40,8 @@ public:
   };
 
   platform(account_name s)
-      : contract(s), _users(s, s), _accounts(s, s), _platform_state(s, s), _creators(s, s), _states_history(s, s) {}
+      : contract(s), _users(s, s), _accounts(s, s), _platform_state(s, s),
+        _creators(s, s), _states_history(s, s) {}
 
   /// @abi action addcreator
   void addcreator(const account_name name);
@@ -90,8 +91,11 @@ public:
   void updatearmult(vector<account_with_attention_rate> &updates,
                     bool add_account_if_not_exist);
 
+  /// @abi action dropuser
+  void dropuser(uint64_t id);
+
   /// @abi action dropaccount
-  void dropaccount(account_name account, uint32_t max_account_count);
+  void dropaccount(uint64_t id);
 
   /// @abi action addaccount
   void addaccount(const account_name creator, account_name account, uint64_t id,
