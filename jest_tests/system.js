@@ -86,7 +86,9 @@ describe("System", async () => {
       })).rows.map(
         ({ last_claim_time, total_votes, last_block_time, ...obj }) => ({
           ...obj,
-          votes: +total_votes / +state.total_producer_vote_weight
+          votes:
+            +state.total_producer_vote_weight &&
+            +total_votes / +state.total_producer_vote_weight
         })
       )
     ).toMatchSnapshot();
@@ -105,7 +107,9 @@ describe("System", async () => {
         table: "voters"
       })).rows.map(({ last_vote_weight, ...obj }) => ({
         ...obj,
-        votes: +last_vote_weight / +state.total_producer_vote_weight
+        votes:
+          +state.total_producer_vote_weight &&
+          +last_vote_weight / +state.total_producer_vote_weight
       }))
     ).toMatchSnapshot();
   };
@@ -470,6 +474,30 @@ describe("System", async () => {
       }
     ]);
 
+  it("should fail to vote for non-unique producers", async () => {
+    const prods = [
+      ["snax", "SNAX8mo3cUJW1Yy1GGxQfexWGN7QPUB2rXccQP7brrpgJXGjiw6gKR"],
+      ["testacc1", "SNAX8mo3cUJW1Yy1GGxQfexWGN7QPUB2rXccQP7brrpgJXGjiw6gKR"],
+      ["testacc2", "SNAX8mo3cUJW1Yy1GGxQfexWGN7QPUB2rXccQP7brrpgJXGjiw6gKR"]
+    ];
+    await Promise.all(prods.map(args => regproducer(...args)));
+    await tryCatchExpect(() =>
+      voteproducer(["", "", "snax", "", ...prods.map(v => v[0])])
+    );
+    await verifyProds();
+    await verifyVoters();
+  });
+
+  it("should set platforms", async () => {
+    await Promise.all(
+      ["platform1", "testacc1", "testacc2"].map(verifyAccountQuotas)
+    );
+    await setPlatformLimits();
+    await Promise.all(
+      ["platform1", "testacc1", "testacc2"].map(verifyAccountQuotas)
+    );
+  });
+
   it("should claim rewards", async () => {
     await regproducer(
       "snax",
@@ -629,30 +657,6 @@ describe("System", async () => {
     await voteproducer(["", "", ...prods.map(v => v[0])]);
     await verifyProds();
     await verifyVoters();
-  });
-
-  it("should fail to vote for non-unique producers", async () => {
-    const prods = [
-      ["snax", "SNAX8mo3cUJW1Yy1GGxQfexWGN7QPUB2rXccQP7brrpgJXGjiw6gKR"],
-      ["testacc1", "SNAX8mo3cUJW1Yy1GGxQfexWGN7QPUB2rXccQP7brrpgJXGjiw6gKR"],
-      ["testacc2", "SNAX8mo3cUJW1Yy1GGxQfexWGN7QPUB2rXccQP7brrpgJXGjiw6gKR"]
-    ];
-    await Promise.all(prods.map(args => regproducer(...args)));
-    await tryCatchExpect(() =>
-      voteproducer(["", "", "snax", "", ...prods.map(v => v[0])])
-    );
-    await verifyProds();
-    await verifyVoters();
-  });
-
-  it("should set platforms", async () => {
-    await Promise.all(
-      ["platform1", "testacc1", "testacc2"].map(verifyAccountQuotas)
-    );
-    await setPlatformLimits();
-    await Promise.all(
-      ["platform1", "testacc1", "testacc2"].map(verifyAccountQuotas)
-    );
   });
 
   it("should work correctly with escrow system", async () => {
