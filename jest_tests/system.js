@@ -19,7 +19,7 @@ const rpc = new snaxjs.JsonRpc(
 );
 
 const { account, privateKey } = {
-  account: "platform",
+  account: "platform1",
   privateKey: "5KQwrPbwdL6PhXujxW37FSSQZ1JiwsST4cqQzDeyXtP79zkvFD3"
 };
 
@@ -72,25 +72,43 @@ describe("System", async () => {
       })
     ).toMatchSnapshot();
 
-  const verifyProds = async () =>
+  const verifyProds = async () => {
+    const state = (await api.rpc.get_table_rows({
+      code: "snax",
+      scope: "snax",
+      table: "global"
+    })).rows[0];
     expect(
       (await api.rpc.get_table_rows({
         code: "snax",
         scope: "snax",
         table: "producers"
       })).rows.map(
-        ({ last_claim_time, total_votes, last_block_time, ...obj }) => obj
+        ({ last_claim_time, total_votes, last_block_time, ...obj }) => ({
+          ...obj,
+          votes: +total_votes / +state.total_producer_vote_weight
+        })
       )
     ).toMatchSnapshot();
+  };
 
-  const verifyVoters = async () =>
+  const verifyVoters = async () => {
+    const state = (await api.rpc.get_table_rows({
+      code: "snax",
+      scope: "snax",
+      table: "global"
+    })).rows[0];
     expect(
       (await api.rpc.get_table_rows({
         code: "snax",
         scope: "snax",
         table: "voters"
-      })).rows.map(({ last_vote_weight, ...obj }) => obj)
+      })).rows.map(({ last_vote_weight, ...obj }) => ({
+        ...obj,
+        votes: +last_vote_weight / +state.total_producer_vote_weight
+      }))
     ).toMatchSnapshot();
+  };
 
   const verifyAccountQuotas = async account =>
     expect(
@@ -402,11 +420,38 @@ describe("System", async () => {
         expireSeconds: 30
       }
     );
+  const transferBack = (account, quantity) =>
+    api.transact(
+      {
+        actions: [
+          {
+            account: "snax.token",
+            name: "transfer",
+            authorization: [
+              {
+                actor: account,
+                permission: "active"
+              }
+            ],
+            data: {
+              from: account,
+              to: "snax",
+              quantity,
+              memo: "back"
+            }
+          }
+        ]
+      },
+      {
+        blocksBehind: 1,
+        expireSeconds: 30
+      }
+    );
 
   const setPlatformLimits = () =>
     setplatforms([
       {
-        account: "platform",
+        account: "platform1",
         weight: 1,
         period: 1,
         quotas: { ram_bytes: 900000, net_weight: 1000000, cpu_weight: 1000000 }
@@ -424,6 +469,47 @@ describe("System", async () => {
         quotas: { ram_bytes: 1100000, net_weight: 1000000, cpu_weight: 70000 }
       }
     ]);
+
+  it("should claim rewards", async () => {
+    await regproducer(
+      "snax",
+      "SNAX8mo3cUJW1Yy1GGxQfexWGN7QPUB2rXccQP7brrpgJXGjiw6gKR"
+    );
+    await voteproducer(["snax"]);
+    await verifyProds();
+    await verifyVoters();
+    await sleep(1e4);
+    await verifyAccountsBalances(["snax"]);
+    await claimrewards("snax");
+    await verifyAccountsBalances(["snax"]);
+  });
+
+  it("should call system's emitplatform correctly several times for several platforms", async () => {
+    const stepCount = 1e1;
+    const pointList = [];
+
+    for (let stepNum = 0; stepNum < stepCount; stepNum++) {
+      if (!(stepNum % 2)) await emitplatform("platform1");
+      await emitplatform("platform2");
+      const [balance1, balance2] = await Promise.all([
+        getBalance("platform1"),
+        getBalance("platform2")
+      ]);
+      await verifyAccountsBalances([
+        "snax",
+        "platform1",
+        "platform2",
+        "testacc1",
+        "testacc2"
+      ]);
+
+      if (!(stepNum % 2)) {
+        await transfer("platform1", "testacc1", balance1);
+      }
+
+      await transfer("platform2", "testacc2", balance2);
+    }
+  });
 
   it("should work correctly with delegatebw system after initialization", async () => {
     await regproducer(
@@ -526,20 +612,6 @@ describe("System", async () => {
     );
   });
 
-  it("should claim rewards", async () => {
-    await regproducer(
-      "snax",
-      "SNAX8mo3cUJW1Yy1GGxQfexWGN7QPUB2rXccQP7brrpgJXGjiw6gKR"
-    );
-    await voteproducer(["snax"]);
-    await verifyProds();
-    await verifyVoters();
-    await sleep(1e4);
-    await verifyAccountsBalances(["snax"]);
-    await claimrewards("snax");
-    await verifyAccountsBalances(["snax"]);
-  });
-
   it("should vote for producers and claim rewards", async () => {
     const prods = [
       ["snax", "SNAX8mo3cUJW1Yy1GGxQfexWGN7QPUB2rXccQP7brrpgJXGjiw6gKR"],
@@ -575,11 +647,11 @@ describe("System", async () => {
 
   it("should set platforms", async () => {
     await Promise.all(
-      ["platform", "testacc1", "testacc2"].map(verifyAccountQuotas)
+      ["platform1", "testacc1", "testacc2"].map(verifyAccountQuotas)
     );
     await setPlatformLimits();
     await Promise.all(
-      ["platform", "testacc1", "testacc2"].map(verifyAccountQuotas)
+      ["platform1", "testacc1", "testacc2"].map(verifyAccountQuotas)
     );
   });
 
@@ -614,44 +686,15 @@ describe("System", async () => {
   });
 
   it("should call system's emitplatform correctly several times", async () => {
-    const stepCount = 5e1;
+    const stepCount = 2e1;
     const pointList = [];
-    const transferBack = quantity =>
-      api.transact(
-        {
-          actions: [
-            {
-              account: "snax.token",
-              name: "transfer",
-              authorization: [
-                {
-                  actor: "platform",
-                  permission: "active"
-                }
-              ],
-              data: {
-                from: "platform",
-                to: "snax",
-                quantity,
-                memo: "back"
-              }
-            }
-          ]
-        },
-        {
-          blocksBehind: 1,
-          expireSeconds: 30
-        }
-      );
+
     for (let stepNum = 0; stepNum < stepCount; stepNum++) {
-      await emitplatform("platform");
-      const balance = await getBalance("platform");
-      const amountToTransferBack =
-        (parseFloat(balance) * (stepCount - stepNum)) / stepCount;
-      await verifyAccountsBalances(["snax", "platform"]);
+      await emitplatform("platform1");
+      const balance = await getBalance("platform1");
+      await verifyAccountsBalances(["snax", "platform1", "testacc1"]);
       await verifyState();
-      if (amountToTransferBack > 0.0001)
-        await transferBack(amountToTransferBack.toFixed(4) + " SNAX");
+      await transfer("platform1", "testacc1", balance);
     }
   });
 
@@ -665,13 +708,13 @@ describe("System", async () => {
   });
 
   it("should call system's emitplatform correctly", async () => {
-    await emitplatform("platform");
-    await verifyAccountsBalances(["snax", "platform"]);
+    await emitplatform("platform1");
+    await verifyAccountsBalances(["snax", "platform1"]);
   });
 
   it("should call system's emitplatform correctly for several platforms", async () => {
-    await emitplatform("platform");
-    await emitplatform("testacc1");
-    await verifyAccountsBalances(["testacc2", "testacc1", "snax", "platform"]);
+    await emitplatform("platform1");
+    await emitplatform("platform2");
+    await verifyAccountsBalances(["platform2", "snax", "platform1"]);
   });
 });

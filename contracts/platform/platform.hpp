@@ -40,7 +40,8 @@ public:
   };
 
   platform(account_name s)
-      : contract(s), _users(s, s), _accounts(s, s), _platform_state(s, s), _creators(s, s), _states_history(s, s) {}
+      : contract(s), _users(s, s), _accounts(s, s), _platform_state(s, s),
+        _creators(s, s), _states_history(s, s) {}
 
   /// @abi action addcreator
   void addcreator(const account_name name);
@@ -68,6 +69,12 @@ public:
   /// @abi action sendpayments
   void sendpayments(account_name lower_account_name, uint64_t account_count);
 
+  /// @abi action activate
+  void activate(uint64_t id);
+
+  /// @abi action deactivate
+  void deactivate(uint64_t id);
+
   /// @abi action addpenacc
   void addpenacc(const account_name account, const uint64_t id);
 
@@ -84,8 +91,11 @@ public:
   void updatearmult(vector<account_with_attention_rate> &updates,
                     bool add_account_if_not_exist);
 
+  /// @abi action dropuser
+  void dropuser(uint64_t id);
+
   /// @abi action dropaccount
-  void dropaccount(account_name account, uint32_t max_account_count);
+  void dropaccount(uint64_t id);
 
   /// @abi action addaccount
   void addaccount(const account_name creator, account_name account, uint64_t id,
@@ -128,6 +138,7 @@ private:
     string verification_salt;
     block_timestamp created;
     vector<uint32_t> stat_diff;
+    bool active;
 
     uint64_t primary_key() const { return id; }
 
@@ -139,7 +150,7 @@ private:
 
     SNAXLIB_SERIALIZE(account,
                       (id)(name)(last_paid_step_number)(verification_tweet)(
-                          verification_salt)(created)(stat_diff))
+                          verification_salt)(created)(stat_diff)(active))
   };
 
   /// @abi table pusers i64
@@ -261,6 +272,8 @@ private:
   void require_initialized();
 
   void require_uninitialized();
+
+  void set_account_active(uint64_t id, bool active);
 };
 
 } /// namespace snax

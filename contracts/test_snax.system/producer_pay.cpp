@@ -8,8 +8,7 @@ namespace snaxsystem {
    const int64_t  min_activated_stake   = 10'000'000'000'0000;
    const uint32_t blocks_per_day        = 2 * 24 * 3600;
    const uint64_t useconds_per_day      = 24 * 3600 * uint64_t(1000000);
-   const int64_t  min_per_block_amount  = 15'8548;
-   const int64_t  min_per_block_amount_multiplied_by_1e9 = min_per_block_amount * 1'000'000'000;
+   const int64_t  min_per_block_amount  = 4'0000;
 
    void system_contract::onblock( block_timestamp timestamp, account_name producer ) {
       using namespace snax;
@@ -38,18 +37,38 @@ namespace snaxsystem {
 
          const asset system_supply_soft_limit = system_supply_limit / 10;
 
-         const asset token_supply = snax::token(N(snax.token)).get_supply(snax::symbol_type(system_token_symbol).name());
+         asset platform_full_balance;
 
-         const asset supply_difference = system_supply_soft_limit - token_supply;
+         for (auto& config: _gstate.platforms) {
+            platform_full_balance += get_balance(config.account);
+         };
 
-         const asset bp_reward = supply_difference > asset(0) && supply_difference >= asset(min_per_block_amount_multiplied_by_1e9)
-                     ? supply_difference / 1'000'000'000
-                     : asset(min_per_block_amount);
+         const asset issued_supply = snax::token(N(snax.token)).get_supply(snax::symbol_type(system_token_symbol).name());
 
+         const asset circulating_supply =
+            issued_supply
+            - platform_full_balance
+            - get_balance(N(snax));
+
+         const asset supply_difference = system_supply_soft_limit - circulating_supply;
+
+         asset bp_reward = asset(
+            static_cast<int64_t>(
+                convert_asset_to_double(supply_difference) / 50'000'000'000.0
+                * get_block_reward_multiplier(
+                    convert_asset_to_double(
+                        circulating_supply - _gstate.total_bp_reward - asset(staked_by_team_initial) - asset(airdrop_initial) - asset(account_creator_initial)
+                    )
+                )
+            )
+         );
+
+         if (bp_reward.amount < min_per_block_amount)
+            bp_reward = asset(min_per_block_amount);
 
          const asset semi_bp_reward = asset(bp_reward.amount / 2);
 
-         if (bp_reward > asset(0) && semi_bp_reward > asset(0) && bp_reward + token_supply < system_supply_limit) {
+         if (semi_bp_reward > asset(0) && bp_reward + issued_supply < system_supply_limit) {
                INLINE_ACTION_SENDER(snax::token, issue)( N(snax.token), {N(snax),N(active)},
                                                                                    { N(snax.bpay), semi_bp_reward, "fund per-block bucket" } );
                INLINE_ACTION_SENDER(snax::token, issue)( N(snax.token), {N(snax),N(active)},
@@ -60,6 +79,7 @@ namespace snaxsystem {
 
                _gstate.pervote_bucket  += to_per_vote_pay.amount;
                _gstate.perblock_bucket += to_per_block_pay.amount;
+               _gstate.total_bp_reward += to_per_vote_pay + to_per_block_pay;
 
                _gstate.last_pervote_bucket_fill = ct;
                _gstate.last_bp_semi_reward = semi_bp_reward;

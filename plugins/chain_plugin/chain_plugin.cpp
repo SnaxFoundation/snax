@@ -1086,7 +1086,7 @@ uint64_t convert_to_type(const string& str, const string& desc) {
    try {
       return boost::lexical_cast<uint64_t>(str.c_str(), str.size());
    } catch( ... ) { }
-   
+
    try {
       auto trimmed_str = str;
       boost::trim(trimmed_str);
@@ -1100,7 +1100,7 @@ uint64_t convert_to_type(const string& str, const string& desc) {
          return symb.value();
       } catch( ... ) { }
    }
-   
+
    try {
       return ( snax::chain::string_to_symbol( 0, str.c_str() ) >> 8 );
    } catch( ... ) {
@@ -1695,9 +1695,9 @@ read_only::get_account_results read_only::get_account( const get_account_params&
    result.last_code_update = a.last_code_update;
    result.created          = a.creation_date;
 
-   bool grelisted = db.is_resource_greylisted(result.account_name);
-   result.net_limit = rm.get_account_net_limit_ex( result.account_name, !grelisted);
-   result.cpu_limit = rm.get_account_cpu_limit_ex( result.account_name, !grelisted);
+   bool greylisted = db.is_resource_greylisted(result.account_name);
+   result.net_limit = rm.get_account_net_limit_ex( result.account_name, !greylisted);
+   result.cpu_limit = rm.get_account_cpu_limit_ex( result.account_name, !greylisted);
    result.ram_usage = rm.get_account_ram_usage( result.account_name );
 
    const auto& permissions = d.get_index<permission_index,by_owner>();

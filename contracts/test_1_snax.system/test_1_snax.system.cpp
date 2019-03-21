@@ -75,11 +75,12 @@ namespace snaxsystem {
         uint64_t period_sum = 0;
 
         asset platform_full_balance;
+        int64_t offset_of_round = 0;
         for (auto& config: _gstate.platforms) {
            if (config.account == platform) {
                found_config = &config;
            }
-           period_sum += config.period;
+           if (config.period > offset_of_round) offset_of_round = config.period;
            platform_full_balance += get_balance(config.account);
         };
 
@@ -96,7 +97,7 @@ namespace snaxsystem {
                     .to_time_point()
                     .time_since_epoch()
                     .to_seconds()
-                    + 3600 * found_config -> period
+                    + 3600 * 24 * found_config -> period
                <=
                block_timestamp(current_time)
                     .to_time_point()
@@ -123,25 +124,25 @@ namespace snaxsystem {
            );
         }
 
-        const asset circulating_supply =
+        const asset issued_supply =
             snax::token(N(snax.token))
                 .get_supply(snax::symbol_type(system_token_symbol).name());
 
-        snax::print("Circulation supply: \t", circulating_supply, "\n");
+        snax::print("Issued supply: \t", issued_supply, "\n");
 
         const asset system_balance = get_balance(_self);
 
-        int64_t circulating_supply_without_system = circulating_supply.amount - system_balance.amount - platform_full_balance.amount;
+        int64_t circulating_supply = issued_supply.amount - system_balance.amount - platform_full_balance.amount;
 
-        if (circulating_supply_without_system < 0) {
-            circulating_supply_without_system = 0;
+        if (circulating_supply < 0) {
+            circulating_supply = 0;
         }
 
-        snax::print("Circulation supply without system: \t", circulating_supply_without_system, "\n");
+        snax::print("Circulating supply: \t", circulating_supply, "\n");
 
         double _, current_offset;
 
-        int64_t supply_difference = system_supply_soft_limit.amount - circulating_supply_without_system;
+        int64_t supply_difference = system_supply_soft_limit.amount - circulating_supply;
 
         if (supply_difference < 1'000'000'000'0000) {
             supply_difference = 1'000'000'000'0000;
@@ -150,7 +151,7 @@ namespace snaxsystem {
         std::tie(_, current_offset) = solve_quadratic_equation(
             static_cast<double>(_gstate.system_parabola_a),
             static_cast<double>(_gstate.system_parabola_b),
-            static_cast<double>(circulating_supply_without_system / 1'0000)
+            static_cast<double>(circulating_supply / 1'0000)
         );
 
         snax::print("Supply difference: \t", supply_difference, "\n");
@@ -165,7 +166,7 @@ namespace snaxsystem {
                     static_cast<double>(_gstate.system_parabola_a),
                     static_cast<double>(_gstate.system_parabola_b),
                     convert_asset_to_double(system_supply_soft_limit / 1'0000),
-                    static_cast<double>(current_offset + found_config->period / 24)
+                    static_cast<double>(current_offset + found_config->period)
                 )
             )
         ) * 1'0000;
@@ -174,12 +175,13 @@ namespace snaxsystem {
 
         const asset amount_to_transfer =
             asset(
-                round_supply
-                / 1000
-                / period_sum
-                * static_cast<int64_t>(found_config->weight * 1000)
-                * found_config->period
-            );
+                static_cast<int64_t>(
+                    static_cast<double>(round_supply)
+                    * found_config->weight
+                    * static_cast<double>(found_config->period)
+                    / static_cast<double>(offset_of_round)
+            )
+        );
 
         snax::print("Amount to transfer: \t", amount_to_transfer, "\n");
 
@@ -271,8 +273,18 @@ namespace snaxsystem {
                 });
              }
          }
-     }
+      }
 
+      const auto top_producers_limit = params.top_producers_limit;
+      snax_assert(
+          top_producers_limit == 4 ||
+          top_producers_limit == 9 ||
+          top_producers_limit == 12 ||
+          top_producers_limit == 15 ||
+          top_producers_limit == 18 ||
+          top_producers_limit == 21,
+          "top_producers_limit must be one of following: 4, 9, 12, 15, 18, 21"
+      );
       snax_assert(total_weight == 1 || total_weight == 0, "Summary weight of all platforms must be equal to 1 or 0");
       set_blockchain_parameters( params );
    }
@@ -479,6 +491,13 @@ namespace snaxsystem {
         _accounts_balances balances(N(snax.token), account);
         const auto& found = balances.find(snax::symbol_type(system_token_symbol).name());
         return found == balances.cend() ? asset(0): found->balance;
+    }
+
+    double system_contract::get_block_reward_multiplier(double x) const {
+        const double target_point = 40'000'000'000;
+        const double x0 = pow(exp(1), 0.15);
+        const double x1 = (exp(1) - x0) / target_point;
+        return log(x0 + x * x1);
     }
 
 

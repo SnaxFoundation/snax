@@ -10,7 +10,7 @@ Array [
     "more": false,
     "rows": Array [
       Object {
-        "balance": "2313899131.2000 SNAX",
+        "balance": "2398260027.0750 SNAX",
       },
     ],
   },
@@ -21,13 +21,9 @@ exports[`System should call system's emitplatform correctly for several platform
 Array [
   Object {
     "more": false,
-    "rows": Array [],
-  },
-  Object {
-    "more": false,
     "rows": Array [
       Object {
-        "balance": "987.5744 SNAX",
+        "balance": "6025778.9625 SNAX",
       },
     ],
   },
@@ -39,7 +35,7 @@ Array [
     "more": false,
     "rows": Array [
       Object {
-        "balance": "2313899131.2000 SNAX",
+        "balance": "2398260027.0750 SNAX",
       },
     ],
   },
@@ -56,7 +52,15 @@ Array [
     "more": false,
     "rows": Array [
       Object {
-        "balance": "2313899131.2000 SNAX",
+        "balance": "2398260027.0750 SNAX",
+      },
+    ],
+  },
+  Object {
+    "more": false,
+    "rows": Array [
+      Object {
+        "balance": "987.5723 SNAX",
       },
     ],
   },
@@ -80,7 +84,15 @@ Array [
     "more": false,
     "rows": Array [
       Object {
-        "balance": "2313899131.2000 SNAX",
+        "balance": "2363525108.4050 SNAX",
+      },
+    ],
+  },
+  Object {
+    "more": false,
+    "rows": Array [
+      Object {
+        "balance": "2398261014.6473 SNAX",
       },
     ],
   },
@@ -104,7 +116,15 @@ Array [
     "more": false,
     "rows": Array [
       Object {
-        "balance": "2360177113.8240 SNAX",
+        "balance": "2328790208.6400 SNAX",
+      },
+    ],
+  },
+  Object {
+    "more": false,
+    "rows": Array [
+      Object {
+        "balance": "4761786123.0523 SNAX",
       },
     ],
   },
@@ -128,7 +148,15 @@ Array [
     "more": false,
     "rows": Array [
       Object {
-        "balance": "2408306215.7530 SNAX",
+        "balance": "2294055328.7750 SNAX",
+      },
+    ],
+  },
+  Object {
+    "more": false,
+    "rows": Array [
+      Object {
+        "balance": "7090576331.6923 SNAX",
       },
     ],
   },
@@ -152,7 +180,15 @@ Array [
     "more": false,
     "rows": Array [
       Object {
-        "balance": "2458397504.1452 SNAX",
+        "balance": "2259320468.8100 SNAX",
+      },
+    ],
+  },
+  Object {
+    "more": false,
+    "rows": Array [
+      Object {
+        "balance": "9384631660.4673 SNAX",
       },
     ],
   },
@@ -176,7 +212,15 @@ Array [
     "more": false,
     "rows": Array [
       Object {
-        "balance": "2510570931.5316 SNAX",
+        "balance": "2224585629.7400 SNAX",
+      },
+    ],
+  },
+  Object {
+    "more": false,
+    "rows": Array [
+      Object {
+        "balance": "11643952129.2773 SNAX",
       },
     ],
   },
@@ -200,7 +244,15 @@ Array [
     "more": false,
     "rows": Array [
       Object {
-        "balance": "2564956224.3532 SNAX",
+        "balance": "2189850811.5650 SNAX",
+      },
+    ],
+  },
+  Object {
+    "more": false,
+    "rows": Array [
+      Object {
+        "balance": "13868537759.0173 SNAX",
       },
     ],
   },
@@ -224,7 +276,15 @@ Array [
     "more": false,
     "rows": Array [
       Object {
-        "balance": "2621693878.1224 SNAX",
+        "balance": "2155116016.2750 SNAX",
+      },
+    ],
+  },
+  Object {
+    "more": false,
+    "rows": Array [
+      Object {
+        "balance": "16058388570.5823 SNAX",
       },
     ],
   },
@@ -248,7 +308,15 @@ Array [
     "more": false,
     "rows": Array [
       Object {
-        "balance": "2680936274.1371 SNAX",
+        "balance": "2120381242.8750 SNAX",
+      },
+    ],
+  },
+  Object {
+    "more": false,
+    "rows": Array [
+      Object {
+        "balance": "18213504586.8573 SNAX",
       },
     ],
   },
@@ -272,7 +340,15 @@ Array [
     "more": false,
     "rows": Array [
       Object {
-        "balance": "2742848935.0619 SNAX",
+        "balance": "2085646493.3550 SNAX",
+      },
+    ],
+  },
+  Object {
+    "more": false,
+    "rows": Array [
+      Object {
+        "balance": "20333885829.7323 SNAX",
       },
     ],
   },
@@ -296,7 +372,15 @@ Array [
     "more": false,
     "rows": Array [
       Object {
-        "balance": "2807611939.5111 SNAX",
+        "balance": "2050911767.7150 SNAX",
+      },
+    ],
+  },
+  Object {
+    "more": false,
+    "rows": Array [
+      Object {
+        "balance": "22419532323.0873 SNAX",
       },
     ],
   },
@@ -320,7 +404,15 @@ Array [
     "more": false,
     "rows": Array [
       Object {
-        "balance": "2875421519.1022 SNAX",
+        "balance": "2016177066.9500 SNAX",
+      },
+    ],
+  },
+  Object {
+    "more": false,
+    "rows": Array [
+      Object {
+        "balance": "24470444090.8023 SNAX",
       },
     ],
   },
@@ -344,7 +436,15 @@ Array [
     "more": false,
     "rows": Array [
       Object {
-        "balance": "2946491865.4025 SNAX",
+        "balance": "1981442392.0550 SNAX",
+      },
+    ],
+  },
+  Object {
+    "more": false,
+    "rows": Array [
+      Object {
+        "balance": "26486621157.7523 SNAX",
       },
     ],
   },
@@ -368,7 +468,15 @@ Array [
     "more": false,
     "rows": Array [
       Object {
-        "balance": "3021057178.8966 SNAX",
+        "balance": "1946707744.0250 SNAX",
+      },
+    ],
+  },
+  Object {
+    "more": false,
+    "rows": Array [
+      Object {
+        "balance": "28468063549.8073 SNAX",
       },
     ],
   },
@@ -392,7 +500,15 @@ Array [
     "more": false,
     "rows": Array [
       Object {
-        "balance": "3099373997.7131 SNAX",
+        "balance": "1911973123.8550 SNAX",
+      },
+    ],
+  },
+  Object {
+    "more": false,
+    "rows": Array [
+      Object {
+        "balance": "30414771293.8323 SNAX",
       },
     ],
   },
@@ -416,7 +532,15 @@ Array [
     "more": false,
     "rows": Array [
       Object {
-        "balance": "3181723850.5597 SNAX",
+        "balance": "1877238532.5400 SNAX",
+      },
+    ],
+  },
+  Object {
+    "more": false,
+    "rows": Array [
+      Object {
+        "balance": "32326744417.6873 SNAX",
       },
     ],
   },
@@ -440,7 +564,15 @@ Array [
     "more": false,
     "rows": Array [
       Object {
-        "balance": "3268416286.3679 SNAX",
+        "balance": "1842503971.0750 SNAX",
+      },
+    ],
+  },
+  Object {
+    "more": false,
+    "rows": Array [
+      Object {
+        "balance": "34203982950.2273 SNAX",
       },
     ],
   },
@@ -464,7 +596,15 @@ Array [
     "more": false,
     "rows": Array [
       Object {
-        "balance": "3359792342.8377 SNAX",
+        "balance": "1807769440.4550 SNAX",
+      },
+    ],
+  },
+  Object {
+    "more": false,
+    "rows": Array [
+      Object {
+        "balance": "36046486921.3023 SNAX",
       },
     ],
   },
@@ -488,7 +628,15 @@ Array [
     "more": false,
     "rows": Array [
       Object {
-        "balance": "3456228527.7648 SNAX",
+        "balance": "1773034942.6700 SNAX",
+      },
+    ],
+  },
+  Object {
+    "more": false,
+    "rows": Array [
+      Object {
+        "balance": "37854256361.7573 SNAX",
       },
     ],
   },
@@ -512,7 +660,15 @@ Array [
     "more": false,
     "rows": Array [
       Object {
-        "balance": "3558141401.1953 SNAX",
+        "balance": "1738300477.7200 SNAX",
+      },
+    ],
+  },
+  Object {
+    "more": false,
+    "rows": Array [
+      Object {
+        "balance": "39627291304.4273 SNAX",
       },
     ],
   },
@@ -526,7 +682,7 @@ Object {
 }
 `;
 
-exports[`System should call system's emitplatform correctly several times 41`] = `
+exports[`System should call system's emitplatform correctly several times for several platforms 1`] = `
 Array [
   Object {
     "more": false,
@@ -536,21 +692,71 @@ Array [
     "more": false,
     "rows": Array [
       Object {
-        "balance": "3665992863.6542 SNAX",
+        "balance": "2398260027.0750 SNAX",
+      },
+    ],
+  },
+  Object {
+    "more": false,
+    "rows": Array [
+      Object {
+        "balance": "6025778.9625 SNAX",
+      },
+    ],
+  },
+  Object {
+    "more": false,
+    "rows": Array [
+      Object {
+        "balance": "987.5723 SNAX",
+      },
+    ],
+  },
+  Object {
+    "more": false,
+    "rows": Array [],
+  },
+]
+`;
+
+exports[`System should call system's emitplatform correctly several times for several platforms 2`] = `
+Array [
+  Object {
+    "more": false,
+    "rows": Array [],
+  },
+  Object {
+    "more": false,
+    "rows": Array [],
+  },
+  Object {
+    "more": false,
+    "rows": Array [
+      Object {
+        "balance": "5938505.2975 SNAX",
+      },
+    ],
+  },
+  Object {
+    "more": false,
+    "rows": Array [
+      Object {
+        "balance": "2398261014.6473 SNAX",
+      },
+    ],
+  },
+  Object {
+    "more": false,
+    "rows": Array [
+      Object {
+        "balance": "6025778.9625 SNAX",
       },
     ],
   },
 ]
 `;
 
-exports[`System should call system's emitplatform correctly several times 42`] = `
-Object {
-  "more": false,
-  "rows": Array [],
-}
-`;
-
-exports[`System should call system's emitplatform correctly several times 43`] = `
+exports[`System should call system's emitplatform correctly several times for several platforms 3`] = `
 Array [
   Object {
     "more": false,
@@ -560,21 +766,75 @@ Array [
     "more": false,
     "rows": Array [
       Object {
-        "balance": "3780296276.6617 SNAX",
+        "balance": "2363525108.4050 SNAX",
+      },
+    ],
+  },
+  Object {
+    "more": false,
+    "rows": Array [
+      Object {
+        "balance": "5938505.2975 SNAX",
+      },
+    ],
+  },
+  Object {
+    "more": false,
+    "rows": Array [
+      Object {
+        "balance": "2398261014.6473 SNAX",
+      },
+    ],
+  },
+  Object {
+    "more": false,
+    "rows": Array [
+      Object {
+        "balance": "11964284.2600 SNAX",
       },
     ],
   },
 ]
 `;
 
-exports[`System should call system's emitplatform correctly several times 44`] = `
-Object {
-  "more": false,
-  "rows": Array [],
-}
+exports[`System should call system's emitplatform correctly several times for several platforms 4`] = `
+Array [
+  Object {
+    "more": false,
+    "rows": Array [],
+  },
+  Object {
+    "more": false,
+    "rows": Array [],
+  },
+  Object {
+    "more": false,
+    "rows": Array [
+      Object {
+        "balance": "5851231.6800 SNAX",
+      },
+    ],
+  },
+  Object {
+    "more": false,
+    "rows": Array [
+      Object {
+        "balance": "4761786123.0523 SNAX",
+      },
+    ],
+  },
+  Object {
+    "more": false,
+    "rows": Array [
+      Object {
+        "balance": "17902789.5575 SNAX",
+      },
+    ],
+  },
+]
 `;
 
-exports[`System should call system's emitplatform correctly several times 45`] = `
+exports[`System should call system's emitplatform correctly several times for several platforms 5`] = `
 Array [
   Object {
     "more": false,
@@ -584,21 +844,75 @@ Array [
     "more": false,
     "rows": Array [
       Object {
-        "balance": "3901623567.3979 SNAX",
+        "balance": "2328790208.6400 SNAX",
+      },
+    ],
+  },
+  Object {
+    "more": false,
+    "rows": Array [
+      Object {
+        "balance": "5851231.6800 SNAX",
+      },
+    ],
+  },
+  Object {
+    "more": false,
+    "rows": Array [
+      Object {
+        "balance": "4761786123.0523 SNAX",
+      },
+    ],
+  },
+  Object {
+    "more": false,
+    "rows": Array [
+      Object {
+        "balance": "23754021.2375 SNAX",
       },
     ],
   },
 ]
 `;
 
-exports[`System should call system's emitplatform correctly several times 46`] = `
-Object {
-  "more": false,
-  "rows": Array [],
-}
+exports[`System should call system's emitplatform correctly several times for several platforms 6`] = `
+Array [
+  Object {
+    "more": false,
+    "rows": Array [],
+  },
+  Object {
+    "more": false,
+    "rows": Array [],
+  },
+  Object {
+    "more": false,
+    "rows": Array [
+      Object {
+        "balance": "5763958.1125 SNAX",
+      },
+    ],
+  },
+  Object {
+    "more": false,
+    "rows": Array [
+      Object {
+        "balance": "7090576331.6923 SNAX",
+      },
+    ],
+  },
+  Object {
+    "more": false,
+    "rows": Array [
+      Object {
+        "balance": "29605252.9175 SNAX",
+      },
+    ],
+  },
+]
 `;
 
-exports[`System should call system's emitplatform correctly several times 47`] = `
+exports[`System should call system's emitplatform correctly several times for several platforms 7`] = `
 Array [
   Object {
     "more": false,
@@ -608,21 +922,75 @@ Array [
     "more": false,
     "rows": Array [
       Object {
-        "balance": "4030613500.8551 SNAX",
+        "balance": "2294055328.7750 SNAX",
+      },
+    ],
+  },
+  Object {
+    "more": false,
+    "rows": Array [
+      Object {
+        "balance": "5763958.1125 SNAX",
+      },
+    ],
+  },
+  Object {
+    "more": false,
+    "rows": Array [
+      Object {
+        "balance": "7090576331.6923 SNAX",
+      },
+    ],
+  },
+  Object {
+    "more": false,
+    "rows": Array [
+      Object {
+        "balance": "35369211.0300 SNAX",
       },
     ],
   },
 ]
 `;
 
-exports[`System should call system's emitplatform correctly several times 48`] = `
-Object {
-  "more": false,
-  "rows": Array [],
-}
+exports[`System should call system's emitplatform correctly several times for several platforms 8`] = `
+Array [
+  Object {
+    "more": false,
+    "rows": Array [],
+  },
+  Object {
+    "more": false,
+    "rows": Array [],
+  },
+  Object {
+    "more": false,
+    "rows": Array [
+      Object {
+        "balance": "5676684.5950 SNAX",
+      },
+    ],
+  },
+  Object {
+    "more": false,
+    "rows": Array [
+      Object {
+        "balance": "9384631660.4673 SNAX",
+      },
+    ],
+  },
+  Object {
+    "more": false,
+    "rows": Array [
+      Object {
+        "balance": "41133169.1425 SNAX",
+      },
+    ],
+  },
+]
 `;
 
-exports[`System should call system's emitplatform correctly several times 49`] = `
+exports[`System should call system's emitplatform correctly several times for several platforms 9`] = `
 Array [
   Object {
     "more": false,
@@ -632,22 +1000,43 @@ Array [
     "more": false,
     "rows": Array [
       Object {
-        "balance": "4167981341.5933 SNAX",
+        "balance": "2259320468.8100 SNAX",
+      },
+    ],
+  },
+  Object {
+    "more": false,
+    "rows": Array [
+      Object {
+        "balance": "5676684.5950 SNAX",
+      },
+    ],
+  },
+  Object {
+    "more": false,
+    "rows": Array [
+      Object {
+        "balance": "9384631660.4673 SNAX",
+      },
+    ],
+  },
+  Object {
+    "more": false,
+    "rows": Array [
+      Object {
+        "balance": "46809853.7375 SNAX",
       },
     ],
   },
 ]
 `;
 
-exports[`System should call system's emitplatform correctly several times 50`] = `
-Object {
-  "more": false,
-  "rows": Array [],
-}
-`;
-
-exports[`System should call system's emitplatform correctly several times 51`] = `
+exports[`System should call system's emitplatform correctly several times for several platforms 10`] = `
 Array [
+  Object {
+    "more": false,
+    "rows": Array [],
+  },
   Object {
     "more": false,
     "rows": Array [],
@@ -656,594 +1045,27 @@ Array [
     "more": false,
     "rows": Array [
       Object {
-        "balance": "4314530175.1648 SNAX",
+        "balance": "5589411.1300 SNAX",
       },
     ],
-  },
-]
-`;
-
-exports[`System should call system's emitplatform correctly several times 52`] = `
-Object {
-  "more": false,
-  "rows": Array [],
-}
-`;
-
-exports[`System should call system's emitplatform correctly several times 53`] = `
-Array [
-  Object {
-    "more": false,
-    "rows": Array [],
   },
   Object {
     "more": false,
     "rows": Array [
       Object {
-        "balance": "4471164218.7824 SNAX",
+        "balance": "11643952129.2773 SNAX",
       },
     ],
-  },
-]
-`;
-
-exports[`System should call system's emitplatform correctly several times 54`] = `
-Object {
-  "more": false,
-  "rows": Array [],
-}
-`;
-
-exports[`System should call system's emitplatform correctly several times 55`] = `
-Array [
-  Object {
-    "more": false,
-    "rows": Array [],
   },
   Object {
     "more": false,
     "rows": Array [
       Object {
-        "balance": "4638904524.9668 SNAX",
+        "balance": "52486538.3325 SNAX",
       },
     ],
   },
 ]
-`;
-
-exports[`System should call system's emitplatform correctly several times 56`] = `
-Object {
-  "more": false,
-  "rows": Array [],
-}
-`;
-
-exports[`System should call system's emitplatform correctly several times 57`] = `
-Array [
-  Object {
-    "more": false,
-    "rows": Array [],
-  },
-  Object {
-    "more": false,
-    "rows": Array [
-      Object {
-        "balance": "4818907574.6821 SNAX",
-      },
-    ],
-  },
-]
-`;
-
-exports[`System should call system's emitplatform correctly several times 58`] = `
-Object {
-  "more": false,
-  "rows": Array [],
-}
-`;
-
-exports[`System should call system's emitplatform correctly several times 59`] = `
-Array [
-  Object {
-    "more": false,
-    "rows": Array [],
-  },
-  Object {
-    "more": false,
-    "rows": Array [
-      Object {
-        "balance": "5012487373.0220 SNAX",
-      },
-    ],
-  },
-]
-`;
-
-exports[`System should call system's emitplatform correctly several times 60`] = `
-Object {
-  "more": false,
-  "rows": Array [],
-}
-`;
-
-exports[`System should call system's emitplatform correctly several times 61`] = `
-Array [
-  Object {
-    "more": false,
-    "rows": Array [],
-  },
-  Object {
-    "more": false,
-    "rows": Array [
-      Object {
-        "balance": "5221141807.5528 SNAX",
-      },
-    ],
-  },
-]
-`;
-
-exports[`System should call system's emitplatform correctly several times 62`] = `
-Object {
-  "more": false,
-  "rows": Array [],
-}
-`;
-
-exports[`System should call system's emitplatform correctly several times 63`] = `
-Array [
-  Object {
-    "more": false,
-    "rows": Array [],
-  },
-  Object {
-    "more": false,
-    "rows": Array [
-      Object {
-        "balance": "5446584215.7317 SNAX",
-      },
-    ],
-  },
-]
-`;
-
-exports[`System should call system's emitplatform correctly several times 64`] = `
-Object {
-  "more": false,
-  "rows": Array [],
-}
-`;
-
-exports[`System should call system's emitplatform correctly several times 65`] = `
-Array [
-  Object {
-    "more": false,
-    "rows": Array [],
-  },
-  Object {
-    "more": false,
-    "rows": Array [
-      Object {
-        "balance": "5690781344.9537 SNAX",
-      },
-    ],
-  },
-]
-`;
-
-exports[`System should call system's emitplatform correctly several times 66`] = `
-Object {
-  "more": false,
-  "rows": Array [],
-}
-`;
-
-exports[`System should call system's emitplatform correctly several times 67`] = `
-Array [
-  Object {
-    "more": false,
-    "rows": Array [],
-  },
-  Object {
-    "more": false,
-    "rows": Array [
-      Object {
-        "balance": "5955999191.9704 SNAX",
-      },
-    ],
-  },
-]
-`;
-
-exports[`System should call system's emitplatform correctly several times 68`] = `
-Object {
-  "more": false,
-  "rows": Array [],
-}
-`;
-
-exports[`System should call system's emitplatform correctly several times 69`] = `
-Array [
-  Object {
-    "more": false,
-    "rows": Array [],
-  },
-  Object {
-    "more": false,
-    "rows": Array [
-      Object {
-        "balance": "6244858597.9005 SNAX",
-      },
-    ],
-  },
-]
-`;
-
-exports[`System should call system's emitplatform correctly several times 70`] = `
-Object {
-  "more": false,
-  "rows": Array [],
-}
-`;
-
-exports[`System should call system's emitplatform correctly several times 71`] = `
-Array [
-  Object {
-    "more": false,
-    "rows": Array [],
-  },
-  Object {
-    "more": false,
-    "rows": Array [
-      Object {
-        "balance": "6560402977.7723 SNAX",
-      },
-    ],
-  },
-]
-`;
-
-exports[`System should call system's emitplatform correctly several times 72`] = `
-Object {
-  "more": false,
-  "rows": Array [],
-}
-`;
-
-exports[`System should call system's emitplatform correctly several times 73`] = `
-Array [
-  Object {
-    "more": false,
-    "rows": Array [],
-  },
-  Object {
-    "more": false,
-    "rows": Array [
-      Object {
-        "balance": "6906181215.6406 SNAX",
-      },
-    ],
-  },
-]
-`;
-
-exports[`System should call system's emitplatform correctly several times 74`] = `
-Object {
-  "more": false,
-  "rows": Array [],
-}
-`;
-
-exports[`System should call system's emitplatform correctly several times 75`] = `
-Array [
-  Object {
-    "more": false,
-    "rows": Array [],
-  },
-  Object {
-    "more": false,
-    "rows": Array [
-      Object {
-        "balance": "7286349606.4612 SNAX",
-      },
-    ],
-  },
-]
-`;
-
-exports[`System should call system's emitplatform correctly several times 76`] = `
-Object {
-  "more": false,
-  "rows": Array [],
-}
-`;
-
-exports[`System should call system's emitplatform correctly several times 77`] = `
-Array [
-  Object {
-    "more": false,
-    "rows": Array [],
-  },
-  Object {
-    "more": false,
-    "rows": Array [
-      Object {
-        "balance": "7705797839.9813 SNAX",
-      },
-    ],
-  },
-]
-`;
-
-exports[`System should call system's emitplatform correctly several times 78`] = `
-Object {
-  "more": false,
-  "rows": Array [],
-}
-`;
-
-exports[`System should call system's emitplatform correctly several times 79`] = `
-Array [
-  Object {
-    "more": false,
-    "rows": Array [],
-  },
-  Object {
-    "more": false,
-    "rows": Array [
-      Object {
-        "balance": "8170305489.5858 SNAX",
-      },
-    ],
-  },
-]
-`;
-
-exports[`System should call system's emitplatform correctly several times 80`] = `
-Object {
-  "more": false,
-  "rows": Array [],
-}
-`;
-
-exports[`System should call system's emitplatform correctly several times 81`] = `
-Array [
-  Object {
-    "more": false,
-    "rows": Array [],
-  },
-  Object {
-    "more": false,
-    "rows": Array [
-      Object {
-        "balance": "8686737413.0769 SNAX",
-      },
-    ],
-  },
-]
-`;
-
-exports[`System should call system's emitplatform correctly several times 82`] = `
-Object {
-  "more": false,
-  "rows": Array [],
-}
-`;
-
-exports[`System should call system's emitplatform correctly several times 83`] = `
-Array [
-  Object {
-    "more": false,
-    "rows": Array [],
-  },
-  Object {
-    "more": false,
-    "rows": Array [
-      Object {
-        "balance": "9263289061.6615 SNAX",
-      },
-    ],
-  },
-]
-`;
-
-exports[`System should call system's emitplatform correctly several times 84`] = `
-Object {
-  "more": false,
-  "rows": Array [],
-}
-`;
-
-exports[`System should call system's emitplatform correctly several times 85`] = `
-Array [
-  Object {
-    "more": false,
-    "rows": Array [],
-  },
-  Object {
-    "more": false,
-    "rows": Array [
-      Object {
-        "balance": "9909796161.7624 SNAX",
-      },
-    ],
-  },
-]
-`;
-
-exports[`System should call system's emitplatform correctly several times 86`] = `
-Object {
-  "more": false,
-  "rows": Array [],
-}
-`;
-
-exports[`System should call system's emitplatform correctly several times 87`] = `
-Array [
-  Object {
-    "more": false,
-    "rows": Array [],
-  },
-  Object {
-    "more": false,
-    "rows": Array [
-      Object {
-        "balance": "10638127907.0804 SNAX",
-      },
-    ],
-  },
-]
-`;
-
-exports[`System should call system's emitplatform correctly several times 88`] = `
-Object {
-  "more": false,
-  "rows": Array [],
-}
-`;
-
-exports[`System should call system's emitplatform correctly several times 89`] = `
-Array [
-  Object {
-    "more": false,
-    "rows": Array [],
-  },
-  Object {
-    "more": false,
-    "rows": Array [
-      Object {
-        "balance": "11462689131.2891 SNAX",
-      },
-    ],
-  },
-]
-`;
-
-exports[`System should call system's emitplatform correctly several times 90`] = `
-Object {
-  "more": false,
-  "rows": Array [],
-}
-`;
-
-exports[`System should call system's emitplatform correctly several times 91`] = `
-Array [
-  Object {
-    "more": false,
-    "rows": Array [],
-  },
-  Object {
-    "more": false,
-    "rows": Array [
-      Object {
-        "balance": "12401065566.7344 SNAX",
-      },
-    ],
-  },
-]
-`;
-
-exports[`System should call system's emitplatform correctly several times 92`] = `
-Object {
-  "more": false,
-  "rows": Array [],
-}
-`;
-
-exports[`System should call system's emitplatform correctly several times 93`] = `
-Array [
-  Object {
-    "more": false,
-    "rows": Array [],
-  },
-  Object {
-    "more": false,
-    "rows": Array [
-      Object {
-        "balance": "13474858141.2610 SNAX",
-      },
-    ],
-  },
-]
-`;
-
-exports[`System should call system's emitplatform correctly several times 94`] = `
-Object {
-  "more": false,
-  "rows": Array [],
-}
-`;
-
-exports[`System should call system's emitplatform correctly several times 95`] = `
-Array [
-  Object {
-    "more": false,
-    "rows": Array [],
-  },
-  Object {
-    "more": false,
-    "rows": Array [
-      Object {
-        "balance": "14710768621.1601 SNAX",
-      },
-    ],
-  },
-]
-`;
-
-exports[`System should call system's emitplatform correctly several times 96`] = `
-Object {
-  "more": false,
-  "rows": Array [],
-}
-`;
-
-exports[`System should call system's emitplatform correctly several times 97`] = `
-Array [
-  Object {
-    "more": false,
-    "rows": Array [],
-  },
-  Object {
-    "more": false,
-    "rows": Array [
-      Object {
-        "balance": "16142021635.0905 SNAX",
-      },
-    ],
-  },
-]
-`;
-
-exports[`System should call system's emitplatform correctly several times 98`] = `
-Object {
-  "more": false,
-  "rows": Array [],
-}
-`;
-
-exports[`System should call system's emitplatform correctly several times 99`] = `
-Array [
-  Object {
-    "more": false,
-    "rows": Array [],
-  },
-  Object {
-    "more": false,
-    "rows": Array [
-      Object {
-        "balance": "17810239900.8869 SNAX",
-      },
-    ],
-  },
-]
-`;
-
-exports[`System should call system's emitplatform correctly several times 100`] = `
-Object {
-  "more": false,
-  "rows": Array [],
-}
 `;
 
 exports[`System should claim rewards 1`] = `
@@ -1255,6 +1077,7 @@ Array [
     "producer_key": "SNAX8mo3cUJW1Yy1GGxQfexWGN7QPUB2rXccQP7brrpgJXGjiw6gKR",
     "unpaid_blocks": 0,
     "url": "https://snax.one",
+    "votes": 1,
   },
 ]
 `;
@@ -1267,7 +1090,8 @@ Array [
     "producers": Array [],
     "proxied_vote_weight": "0.00000000000000000",
     "proxy": "",
-    "staked": 75000000,
+    "staked": 100000000,
+    "votes": 0,
   },
   Object {
     "is_proxy": 0,
@@ -1278,6 +1102,7 @@ Array [
     "proxied_vote_weight": "0.00000000000000000",
     "proxy": "",
     "staked": "149999990000000",
+    "votes": 1,
   },
 ]
 `;
@@ -1297,7 +1122,7 @@ Array [
     "more": false,
     "rows": Array [
       Object {
-        "balance": "251.9994 SNAX",
+        "balance": "6.0000 SNAX",
       },
     ],
   },
@@ -1315,6 +1140,7 @@ Array [
     "producer_key": "SNAX8mo3cUJW1Yy1GGxQfexWGN7QPUB2rXccQP7brrpgJXGjiw6gKR",
     "unpaid_blocks": 0,
     "url": "https://snax.one",
+    "votes": NaN,
   },
   Object {
     "is_active": 1,
@@ -1323,6 +1149,7 @@ Array [
     "producer_key": "SNAX8mo3cUJW1Yy1GGxQfexWGN7QPUB2rXccQP7brrpgJXGjiw6gKR",
     "unpaid_blocks": 0,
     "url": "https://snax.one",
+    "votes": NaN,
   },
   Object {
     "is_active": 1,
@@ -1331,6 +1158,7 @@ Array [
     "producer_key": "SNAX8mo3cUJW1Yy1GGxQfexWGN7QPUB2rXccQP7brrpgJXGjiw6gKR",
     "unpaid_blocks": 0,
     "url": "https://snax.one",
+    "votes": NaN,
   },
 ]
 `;
@@ -1343,7 +1171,8 @@ Array [
     "producers": Array [],
     "proxied_vote_weight": "0.00000000000000000",
     "proxy": "",
-    "staked": 75000000,
+    "staked": 100000000,
+    "votes": NaN,
   },
   Object {
     "is_proxy": 0,
@@ -1352,6 +1181,7 @@ Array [
     "proxied_vote_weight": "0.00000000000000000",
     "proxy": "",
     "staked": "149999990000000",
+    "votes": NaN,
   },
 ]
 `;
@@ -1378,7 +1208,7 @@ Array [
     "more": false,
     "rows": Array [
       Object {
-        "balance": "499984870.0442 SNAX",
+        "balance": "499979825.7603 SNAX",
       },
     ],
   },
@@ -1391,7 +1221,7 @@ Array [
     "more": false,
     "rows": Array [
       Object {
-        "balance": "499984870.0442 SNAX",
+        "balance": "499979825.7603 SNAX",
       },
     ],
   },
@@ -1463,6 +1293,7 @@ Array [
     "producer_key": "SNAX8mo3cUJW1Yy1GGxQfexWGN7QPUB2rXccQP7brrpgJXGjiw6gKR",
     "unpaid_blocks": 0,
     "url": "https://snax.one",
+    "votes": 0.4583333333333333,
   },
   Object {
     "is_active": 1,
@@ -1471,6 +1302,7 @@ Array [
     "producer_key": "SNAX8mo3cUJW1Yy1GGxQfexWGN7QPUB2rXccQP7brrpgJXGjiw6gKR",
     "unpaid_blocks": 0,
     "url": "https://snax.one",
+    "votes": 0.3333333333333333,
   },
   Object {
     "is_active": 1,
@@ -1479,6 +1311,7 @@ Array [
     "producer_key": "SNAX8mo3cUJW1Yy1GGxQfexWGN7QPUB2rXccQP7brrpgJXGjiw6gKR",
     "unpaid_blocks": 0,
     "url": "https://snax.one",
+    "votes": 0.20833333333333331,
   },
 ]
 `;
@@ -1491,7 +1324,8 @@ Array [
     "producers": Array [],
     "proxied_vote_weight": "0.00000000000000000",
     "proxy": "",
-    "staked": 75000000,
+    "staked": 100000000,
+    "votes": 0,
   },
   Object {
     "is_proxy": 0,
@@ -1508,6 +1342,7 @@ Array [
     "proxied_vote_weight": "0.00000000000000000",
     "proxy": "",
     "staked": "149999990000000",
+    "votes": 0.8333333333333333,
   },
 ]
 `;
@@ -1527,7 +1362,7 @@ Array [
     "more": false,
     "rows": Array [
       Object {
-        "balance": "125.9997 SNAX",
+        "balance": "6.0000 SNAX",
       },
     ],
   },
@@ -1543,6 +1378,7 @@ Array [
     "producer_key": "SNAX8mo3cUJW1Yy1GGxQfexWGN7QPUB2rXccQP7brrpgJXGjiw6gKR",
     "unpaid_blocks": 0,
     "url": "https://snax.one",
+    "votes": 0.3902439024390244,
   },
   Object {
     "is_active": 1,
@@ -1551,6 +1387,7 @@ Array [
     "producer_key": "SNAX8mo3cUJW1Yy1GGxQfexWGN7QPUB2rXccQP7brrpgJXGjiw6gKR",
     "unpaid_blocks": 0,
     "url": "https://snax.one",
+    "votes": 0.34146341463414626,
   },
   Object {
     "is_active": 1,
@@ -1559,6 +1396,7 @@ Array [
     "producer_key": "SNAX8mo3cUJW1Yy1GGxQfexWGN7QPUB2rXccQP7brrpgJXGjiw6gKR",
     "unpaid_blocks": 0,
     "url": "https://snax.one",
+    "votes": 0.2682926829268293,
   },
 ]
 `;
@@ -1571,7 +1409,8 @@ Array [
     "producers": Array [],
     "proxied_vote_weight": "0.00000000000000000",
     "proxy": "",
-    "staked": 75000000,
+    "staked": 100000000,
+    "votes": 0,
   },
   Object {
     "is_proxy": 0,
@@ -1586,6 +1425,7 @@ Array [
     "proxied_vote_weight": "0.00000000000000000",
     "proxy": "",
     "staked": "149999990000000",
+    "votes": 0.4878048780487804,
   },
 ]
 `;
@@ -1603,7 +1443,13 @@ Array [
         "cpu_weight": "1500.0000 SNAX",
         "from": "snax.creator",
         "net_weight": "1000.0000 SNAX",
-        "to": "platform",
+        "to": "platform1",
+      },
+      Object {
+        "cpu_weight": "1500.0000 SNAX",
+        "from": "snax.creator",
+        "net_weight": "1000.0000 SNAX",
+        "to": "platform2",
       },
       Object {
         "cpu_weight": "1500.0000 SNAX",
@@ -1655,7 +1501,13 @@ Array [
         "cpu_weight": "1500.0000 SNAX",
         "from": "snax.creator",
         "net_weight": "1000.0000 SNAX",
-        "to": "platform",
+        "to": "platform1",
+      },
+      Object {
+        "cpu_weight": "1500.0000 SNAX",
+        "from": "snax.creator",
+        "net_weight": "1000.0000 SNAX",
+        "to": "platform2",
       },
       Object {
         "cpu_weight": "1490.0000 SNAX",
@@ -1707,7 +1559,13 @@ Array [
         "cpu_weight": "1500.0000 SNAX",
         "from": "snax.creator",
         "net_weight": "1000.0000 SNAX",
-        "to": "platform",
+        "to": "platform1",
+      },
+      Object {
+        "cpu_weight": "1500.0000 SNAX",
+        "from": "snax.creator",
+        "net_weight": "1000.0000 SNAX",
+        "to": "platform2",
       },
       Object {
         "cpu_weight": "1500.0000 SNAX",
@@ -1787,7 +1645,13 @@ Array [
         "cpu_weight": "1500.0000 SNAX",
         "from": "snax.creator",
         "net_weight": "1000.0000 SNAX",
-        "to": "platform",
+        "to": "platform1",
+      },
+      Object {
+        "cpu_weight": "1500.0000 SNAX",
+        "from": "snax.creator",
+        "net_weight": "1000.0000 SNAX",
+        "to": "platform2",
       },
       Object {
         "cpu_weight": "1390.0000 SNAX",
@@ -1861,7 +1725,13 @@ Array [
         "cpu_weight": "1500.0000 SNAX",
         "from": "snax.creator",
         "net_weight": "1000.0000 SNAX",
-        "to": "platform",
+        "to": "platform1",
+      },
+      Object {
+        "cpu_weight": "1500.0000 SNAX",
+        "from": "snax.creator",
+        "net_weight": "1000.0000 SNAX",
+        "to": "platform2",
       },
       Object {
         "cpu_weight": "1280.0000 SNAX",

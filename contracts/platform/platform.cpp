@@ -144,7 +144,7 @@ void platform::sendpayments(const account_name lower_account_name,
   while (iter != end_iter && account_count--) {
     const auto &account = *iter;
     const auto &user = *_users.find(account.id);
-    if (account.name) {
+    if (account.name && account.active) {
       updated_account_count++;
       if (user.attention_rate > 0.1 &&
           user.last_attention_rate_updated_step_number == _state.step_number) {
@@ -188,6 +188,20 @@ void platform::sendpayments(const account_name lower_account_name,
   }
 }
 
+/// @abi action activate
+void platform::activate(const uint64_t id) {
+  require_auth(_self);
+  require_initialized();
+  set_account_active(id, true);
+}
+
+/// @abi action deactivate
+void platform::deactivate(const uint64_t id) {
+  require_auth(_self);
+  require_initialized();
+  set_account_active(id, false);
+}
+
 /// @abi action addsymbol
 void platform::addsymbol(const string token_symbol_str,
                          const uint8_t precision) {
@@ -226,8 +240,6 @@ void platform::updatear(const uint64_t id, const double attention_rate,
   uint32_t total_user_count = 0;
 
   if (found != _users.end()) {
-    const double diff = attention_rate - found->attention_rate;
-
     snax_assert(attention_rate >= 0, "incorrect attention rate");
 
     const auto already_updated =
@@ -298,7 +310,6 @@ void platform::updatearmult(vector<account_with_attention_rate> &updates,
                 "user doesnt exist");
     if (user != _users.end()) {
       const double attention_rate = update.attention_rate;
-      const double diff = attention_rate - user->attention_rate;
       const uint32_t attention_rate_rating_position =
           update.attention_rate_rating_position;
 
@@ -357,31 +368,47 @@ void platform::updatearmult(vector<account_with_attention_rate> &updates,
   _platform_state.set(_state, _self);
 }
 
+/// @abi action dropuser
+void platform::dropuser(const uint64_t id) {
+  require_auth(_self);
+  require_initialized();
+
+  const auto user = _users.find(id);
+
+  snax_assert(user != _users.end(), "user not found");
+
+  const auto account = _accounts.find(id);
+
+  if (account != _accounts.end()) {
+    dropaccount(id);
+  }
+
+  _state = _platform_state.get();
+  _state.total_attention_rate -= user->attention_rate;
+  _state.total_user_count--;
+
+  _users.erase(user);
+  _platform_state.set(_state, _self);
+}
+
 /// @abi action dropaccount
-void platform::dropaccount(const account_name account,
-                           uint32_t max_account_count) {
+void platform::dropaccount(const uint64_t id) {
   require_auth(_self);
   require_initialized();
   _state = _platform_state.get();
 
-  uint32_t removed_registered_accounts = 0;
-  double registered_attention_rate = 0;
-  while (max_account_count--) {
-    const auto &_accounts_account_index = _accounts.get_index<N(name)>();
-    const auto &found = _accounts_account_index.find(account);
-    if (found == _accounts_account_index.end()) {
-      break;
-    }
-    if (found->name)
-      removed_registered_accounts++;
-    registered_attention_rate += _users.get(found->id, "cant find user with this id").attention_rate;
-    const auto found_by_id = _accounts.find(found->id);
-    _accounts.erase(found_by_id);
-  }
+  const auto account = _accounts.find(id);
+
+  snax_assert(account != _accounts.end(), "no such account");
+
+  const auto user = _users.find(id);
 
   _state = _platform_state.get();
-  _state.registered_user_count -= removed_registered_accounts;
-  _state.registered_attention_rate -= registered_attention_rate;
+  _state.registered_user_count--;
+  if (user != _users.end()) {
+    _state.registered_attention_rate -= user->attention_rate;
+  }
+  _accounts.erase(account);
   _platform_state.set(_state, _self);
 }
 
@@ -422,6 +449,7 @@ void platform::addaccount(const account_name creator,
                 "verification salt can't be empty");
 
     _accounts.emplace(_self, [&](auto &record) {
+      record.active = true;
       record.name = account;
       record.id = id;
       record.last_paid_step_number = 0;
@@ -448,8 +476,6 @@ void platform::addaccounts(const account_name creator,
                            vector<account_to_add> &accounts_to_add) {
   require_creator_or_platform(creator);
   require_initialized();
-
-  uint32_t registered_user_count = 0;
 
   for (auto &account_to_add : accounts_to_add) {
     addaccount(creator, account_to_add.name, account_to_add.id,
@@ -580,9 +606,19 @@ void platform::require_creator_or_platform(const account_name account) {
   snax_assert(account == _self || _creators.find(account) != _creators.end(),
               "platform or creator authority needed");
 }
+
+void platform::set_account_active(const uint64_t id, const bool active) {
+  const auto found_account = _accounts.find(id);
+
+  snax_assert(found_account != _accounts.end(), "account doesnt exist");
+
+  _accounts.modify(found_account, 0,
+                   [&](auto &record) { record.active = active; });
+}
 }
 
-SNAX_ABI(snax::platform,
-         (initialize)(lockarupdate)(lockupdate)(addcreator)(rmcreator)(
-             nextround)(sendpayments)(addaccount)(dropaccount)(
-             addaccounts)(updatear)(transfertou)(updatearmult))
+SNAX_ABI(
+    snax::platform,
+    (initialize)(lockarupdate)(lockupdate)(addcreator)(rmcreator)(nextround)(
+        activate)(deactivate)(addsymbol)(sendpayments)(addaccount)(dropuser)(
+        dropaccount)(addaccounts)(updatear)(transfertou)(updatearmult))
