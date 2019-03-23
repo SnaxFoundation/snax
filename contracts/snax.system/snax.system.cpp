@@ -561,7 +561,7 @@ namespace snaxsystem {
 
     double system_contract::get_block_reward_multiplier(double x) const {
         const double target_point = 40'000'000'000;
-        const double x0 = pow(exp(1), 0.15);
+        const double x0 = exp(0.15);
         const double x1 = (exp(1) - x0) / target_point;
         return log(x0 + x * x1);
     }

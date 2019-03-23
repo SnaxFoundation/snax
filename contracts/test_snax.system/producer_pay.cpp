@@ -54,17 +54,23 @@ namespace snaxsystem {
 
          asset bp_reward = asset(
             static_cast<int64_t>(
-                convert_asset_to_double(supply_difference) / 50'000'000'000.0
+                convert_asset_to_double(supply_difference) * 5e-10
                 * get_block_reward_multiplier(
                     convert_asset_to_double(
-                        circulating_supply - _gstate.total_bp_reward - asset(staked_by_team_initial) - asset(airdrop_initial) - asset(account_creator_initial)
+                        (
+                            circulating_supply
+                            - _gstate.total_bp_reward
+                            - asset(staked_by_team_initial)
+                            - asset(airdrop_initial)
+                            - asset(account_creator_initial)
+                        )
                     )
                 )
             )
          );
 
          if (bp_reward.amount < min_per_block_amount)
-            bp_reward = asset(min_per_block_amount);
+             bp_reward = asset(min_per_block_amount);
 
          const asset semi_bp_reward = asset(bp_reward.amount / 2);
 
@@ -82,7 +88,7 @@ namespace snaxsystem {
                _gstate.total_bp_reward += to_per_vote_pay + to_per_block_pay;
 
                _gstate.last_pervote_bucket_fill = ct;
-               _gstate.last_bp_semi_reward = semi_bp_reward;
+
          }
 
          _producers.modify( prod, 0, [&](auto& p ) {
@@ -133,11 +139,11 @@ namespace snaxsystem {
 
       int64_t producer_per_block_pay = 0;
       if( _gstate.total_unpaid_blocks > 0 ) {
-         producer_per_block_pay = ((_gstate.perblock_bucket - _gstate.last_bp_semi_reward.amount) * prod.unpaid_blocks) / _gstate.total_unpaid_blocks;
+         producer_per_block_pay = (_gstate.perblock_bucket * prod.unpaid_blocks) / _gstate.total_unpaid_blocks;
       }
       int64_t producer_per_vote_pay = 0;
       if( _gstate.total_producer_vote_weight > 0 ) {
-         producer_per_vote_pay  = int64_t(((_gstate.pervote_bucket - _gstate.last_bp_semi_reward.amount) * prod.total_votes ) / _gstate.total_producer_vote_weight);
+         producer_per_vote_pay  = int64_t((_gstate.pervote_bucket * prod.total_votes ) / _gstate.total_producer_vote_weight);
       }
       if( producer_per_vote_pay < min_pervote_pay ) {
          producer_per_vote_pay = 0;
