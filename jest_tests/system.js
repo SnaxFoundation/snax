@@ -72,6 +72,21 @@ describe("System", async () => {
       })
     ).toMatchSnapshot();
 
+  const verifyGlobalState = async () => {
+    const {
+      last_pervote_bucket_fill,
+      start_time,
+      last_producer_schedule_update,
+      thresh_activated_stake_time,
+      ...state
+    } = (await api.rpc.get_table_rows({
+      code: "snax",
+      scope: "snax",
+      table: "global"
+    })).rows[0];
+    expect(state).toMatchSnapshot();
+  };
+
   const verifyProds = async () => {
     const state = (await api.rpc.get_table_rows({
       code: "snax",
@@ -474,6 +489,30 @@ describe("System", async () => {
       }
     ]);
 
+  it("should claim rewards", async () => {
+    await regproducer(
+      "snax",
+      "SNAX8mo3cUJW1Yy1GGxQfexWGN7QPUB2rXccQP7brrpgJXGjiw6gKR"
+    );
+    await voteproducer(["snax"]);
+    await emitplatform("platform1");
+    await verifyProds();
+    await verifyVoters();
+    await sleep(1e4);
+    await verifyGlobalState();
+    await Promise.all([
+      verifyAccountsBalances(["snax", "snax.vpay", "snax.bpay"]),
+      verifyProds(),
+      verifyGlobalState()
+    ]);
+    await claimrewards("snax");
+    await Promise.all([
+      verifyAccountsBalances(["snax", "snax.vpay", "snax.bpay"]),
+      verifyProds(),
+      verifyGlobalState()
+    ]);
+  });
+
   it("should fail to vote for non-unique producers", async () => {
     const prods = [
       ["snax", "SNAX8mo3cUJW1Yy1GGxQfexWGN7QPUB2rXccQP7brrpgJXGjiw6gKR"],
@@ -496,20 +535,6 @@ describe("System", async () => {
     await Promise.all(
       ["platform1", "testacc1", "testacc2"].map(verifyAccountQuotas)
     );
-  });
-
-  it("should claim rewards", async () => {
-    await regproducer(
-      "snax",
-      "SNAX8mo3cUJW1Yy1GGxQfexWGN7QPUB2rXccQP7brrpgJXGjiw6gKR"
-    );
-    await voteproducer(["snax"]);
-    await verifyProds();
-    await verifyVoters();
-    await sleep(1e4);
-    await verifyAccountsBalances(["snax"]);
-    await claimrewards("snax");
-    await verifyAccountsBalances(["snax"]);
   });
 
   it("should call system's emitplatform correctly several times for several platforms", async () => {
