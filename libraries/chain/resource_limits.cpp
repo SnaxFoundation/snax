@@ -410,7 +410,8 @@ account_resource_limit resource_limits_manager::get_account_cpu_limit_ex( const 
 
    auto max_user_use_in_window = (virtual_cpu_capacity_in_window * user_weight) / all_user_weight;
    auto cpu_used_in_window  = impl::integer_divide_ceil((uint128_t)usage.cpu_usage.value_ex * window_size, (uint128_t)config::rate_limiting_precision);
-   auto used = impl::downgrade_cast<int64_t>(cpu_used_in_window);
+
+   int64_t used = impl::downgrade_cast<int64_t>(cpu_used_in_window);
 
    if (impl::downgrade_cast<int64_t>(cpu_minimum_threshold) > 31000)
         cpu_minimum_threshold = 31000;
@@ -419,7 +420,7 @@ account_resource_limit resource_limits_manager::get_account_cpu_limit_ex( const 
 
    if (use_threshold) max_user_use_in_window = cpu_minimum_threshold;
 
-   if( impl::downgrade_cast<int64_t>(max_user_use_in_window) <= used )
+   if( max_user_use_in_window <= cpu_used_in_window )
       arl.available = 0;
    else
       arl.available = impl::downgrade_cast<int64_t>(max_user_use_in_window - cpu_used_in_window);
@@ -470,7 +471,7 @@ account_resource_limit resource_limits_manager::get_account_net_limit_ex( const 
 
    int64_t used = impl::downgrade_cast<int64_t>(net_used_in_window);
 
-   if( impl::downgrade_cast<int64_t>(max_user_use_in_window) <= used )
+   if( max_user_use_in_window <= net_used_in_window )
       arl.available = 0;
    else
       arl.available = impl::downgrade_cast<int64_t>(max_user_use_in_window - net_used_in_window);
