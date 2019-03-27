@@ -57,13 +57,11 @@ namespace snaxsystem {
                 convert_asset_to_double(supply_difference) * 5e-10
                 * get_block_reward_multiplier(
                     convert_asset_to_double(
-                        (
-                            circulating_supply
-                            - _gstate.total_bp_reward
-                            - asset(staked_by_team_initial)
-                            - asset(airdrop_initial)
-                            - asset(account_creator_initial)
-                        )
+                        circulating_supply
+                        - _gstate.total_bp_reward
+                        - asset(staked_by_team_initial)
+                        - asset(airdrop_initial)
+                        - asset(account_creator_initial)
                     )
                 )
             )
