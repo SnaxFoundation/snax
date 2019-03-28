@@ -6,6 +6,7 @@
 #include <boost/tuple/tuple_io.hpp>
 #include <snax/chain/database_utils.hpp>
 #include <algorithm>
+#include <math.h>
 
 namespace snax { namespace chain { namespace resource_limits {
 
@@ -144,14 +145,22 @@ void resource_limits_manager::add_transaction_usage(const flat_set<account_name>
          uint128_t user_weight     = (uint128_t)cpu_weight;
          uint128_t all_user_weight = state.total_cpu_weight;
 
+         uint128_t cpu_minimum_threshold = static_cast<uint128_t>(cbrt(static_cast<double>(cpu_weight)) * 1440);
+
          auto max_user_use_in_window = (virtual_network_capacity_in_window * user_weight) / all_user_weight;
+
+         if (impl::downgrade_cast<int64_t>(cpu_minimum_threshold) > 31000)
+            cpu_minimum_threshold = 31000;
+
+         if (max_user_use_in_window < cpu_minimum_threshold)
+            max_user_use_in_window = cpu_minimum_threshold;
 
          SNAX_ASSERT( cpu_used_in_window <= max_user_use_in_window,
                      tx_cpu_usage_exceeded,
                      "authorizing account '${n}' has insufficient cpu resources for this transaction",
                      ("n", name(a))
-                     ("cpu_used_in_window",cpu_used_in_window)
-                     ("max_user_use_in_window",max_user_use_in_window) );
+                     ("cpu_used_in_window",impl::downgrade_cast<int64_t>(cpu_used_in_window))
+                     ("max_user_use_in_window",impl::downgrade_cast<int64_t>(max_user_use_in_window)) );
       }
 
       if( net_weight >= 0 && state.total_net_weight > 0) {
@@ -163,7 +172,15 @@ void resource_limits_manager::add_transaction_usage(const flat_set<account_name>
          uint128_t user_weight     = (uint128_t)net_weight;
          uint128_t all_user_weight = state.total_net_weight;
 
+         uint128_t net_minimum_threshold = static_cast<uint128_t>(cbrt(static_cast<double>(net_weight)) * 75);
+
          auto max_user_use_in_window = (virtual_network_capacity_in_window * user_weight) / all_user_weight;
+
+         if (impl::downgrade_cast<int64_t>(net_minimum_threshold) > 2500)
+            net_minimum_threshold = 2500;
+
+         if (max_user_use_in_window < net_minimum_threshold)
+            max_user_use_in_window = net_minimum_threshold;
 
          SNAX_ASSERT( net_used_in_window <= max_user_use_in_window,
                      tx_net_usage_exceeded,
@@ -312,12 +329,11 @@ void resource_limits_manager::process_account_limit_updates() {
          }
 
          const auto& actual_entry = _db.get<resource_limits_object, by_owner>(boost::make_tuple(false, itr->owner));
-         if (itr->owner != N(platform))
-             _db.modify(actual_entry, [&](resource_limits_object& rlo){
-                update_state_and_value(rso.total_ram_bytes,  rlo.ram_bytes,  itr->ram_bytes, "ram_bytes");
-                update_state_and_value(rso.total_cpu_weight, rlo.cpu_weight, itr->cpu_weight, "cpu_weight");
-                update_state_and_value(rso.total_net_weight, rlo.net_weight, itr->net_weight, "net_weight");
-             });
+         _db.modify(actual_entry, [&](resource_limits_object& rlo){
+            update_state_and_value(rso.total_ram_bytes,  rlo.ram_bytes,  itr->ram_bytes, "ram_bytes");
+            update_state_and_value(rso.total_cpu_weight, rlo.cpu_weight, itr->cpu_weight, "cpu_weight");
+            update_state_and_value(rso.total_net_weight, rlo.net_weight, itr->net_weight, "net_weight");
+         });
 
          multi_index.remove(*itr);
       }
@@ -383,6 +399,7 @@ account_resource_limit resource_limits_manager::get_account_cpu_limit_ex( const 
    }
 
    account_resource_limit arl;
+   int128_t cpu_minimum_threshold = static_cast<uint128_t>(cbrt(static_cast<double>(cpu_weight)) * 1440);
 
    uint128_t window_size = config.account_cpu_usage_average_window;
 
@@ -393,13 +410,23 @@ account_resource_limit resource_limits_manager::get_account_cpu_limit_ex( const 
    auto max_user_use_in_window = (virtual_cpu_capacity_in_window * user_weight) / all_user_weight;
    auto cpu_used_in_window  = impl::integer_divide_ceil((uint128_t)usage.cpu_usage.value_ex * window_size, (uint128_t)config::rate_limiting_precision);
 
+   int64_t used = impl::downgrade_cast<int64_t>(cpu_used_in_window);
+
+   if (impl::downgrade_cast<int64_t>(cpu_minimum_threshold) > 31000)
+        cpu_minimum_threshold = 31000;
+
+   const bool use_threshold = max_user_use_in_window < cpu_minimum_threshold;
+
+   if (use_threshold) max_user_use_in_window = cpu_minimum_threshold;
+
    if( max_user_use_in_window <= cpu_used_in_window )
       arl.available = 0;
    else
       arl.available = impl::downgrade_cast<int64_t>(max_user_use_in_window - cpu_used_in_window);
 
-   arl.used = impl::downgrade_cast<int64_t>(cpu_used_in_window);
+   arl.used = used;
    arl.max = impl::downgrade_cast<int64_t>(max_user_use_in_window);
+
    return arl;
 }
 
@@ -427,18 +454,30 @@ account_resource_limit resource_limits_manager::get_account_net_limit_ex( const 
    uint128_t virtual_network_capacity_in_window = (uint128_t)(elastic ? state.virtual_net_limit : config.net_limit_parameters.max) * window_size;
    uint128_t user_weight     = (uint128_t)net_weight;
    uint128_t all_user_weight = (uint128_t)state.total_net_weight;
-
+   uint128_t net_minimum_threshold = static_cast<uint128_t>(cbrt(static_cast<double>(net_weight)) * 75);
 
    auto max_user_use_in_window = (virtual_network_capacity_in_window * user_weight) / all_user_weight;
+
    auto net_used_in_window  = impl::integer_divide_ceil((uint128_t)usage.net_usage.value_ex * window_size, (uint128_t)config::rate_limiting_precision);
+
+   if (impl::downgrade_cast<int64_t>(net_minimum_threshold) > 2500) {
+       net_minimum_threshold = 2500;
+   }
+
+   const bool use_threshold = max_user_use_in_window < net_minimum_threshold;
+
+   if (use_threshold) max_user_use_in_window = net_minimum_threshold;
+
+   int64_t used = impl::downgrade_cast<int64_t>(net_used_in_window);
 
    if( max_user_use_in_window <= net_used_in_window )
       arl.available = 0;
    else
       arl.available = impl::downgrade_cast<int64_t>(max_user_use_in_window - net_used_in_window);
 
-   arl.used = impl::downgrade_cast<int64_t>(net_used_in_window);
+   arl.used = used;
    arl.max = impl::downgrade_cast<int64_t>(max_user_use_in_window);
+
    return arl;
 }
 
