@@ -84,8 +84,8 @@ try:
     minRAMValue=1002
     maxRAMFlag="--chain-state-db-size-mb"
     maxRAMValue=1010
-    extraNodsnaxArgs=" %s %d %s %d " % (minRAMFlag, minRAMValue, maxRAMFlag, maxRAMValue)
-    if cluster.launch(onlyBios=False, pnodes=totalNodes, totalNodes=totalNodes, totalProducers=totalNodes, extraNodsnaxArgs=extraNodsnaxArgs, useBiosBootFile=False) is False:
+    extraSnaxnodeArgs=" %s %d %s %d " % (minRAMFlag, minRAMValue, maxRAMFlag, maxRAMValue)
+    if cluster.launch(onlyBios=False, pnodes=totalNodes, totalNodes=totalNodes, totalProducers=totalNodes, extraSnaxnodeArgs=extraSnaxnodeArgs, useBiosBootFile=False) is False:
         Utils.cmdError("launcher")
         errorExit("Failed to stand up snax cluster.")
 
@@ -119,7 +119,7 @@ try:
     # create accounts via snax as otherwise a bid is needed
     for account in accounts:
         Print("Create new account %s via %s" % (account.name, cluster.snaxAccount.name))
-        trans=nodes[0].createInitializeAccount(account, cluster.snaxAccount, stakedDeposit=500000, waitForTransBlock=False, stakeNet=50000, stakeCPU=50000, buyram=50000, exitOnError=True)
+        trans=nodes[0].createInitializeAccount(account, cluster.snaxAccount, stakedDeposit=500000, waitForTransBlock=False, stakeNet=50000, stakeCPU=50000, buyRAM=50000, exitOnError=True)
         transferAmount="70000000.0000 {0}".format(CORE_SYMBOL)
         Print("Transfer funds %s from account %s to %s" % (transferAmount, cluster.snaxAccount.name, account.name))
         nodes[0].transferFunds(cluster.snaxAccount, account, transferAmount, "test transfer")
@@ -129,7 +129,7 @@ try:
     contractAccount.name="contracttest"
     walletMgr.importKey(contractAccount, testWallet)
     Print("Create new account %s via %s" % (contractAccount.name, cluster.snaxAccount.name))
-    trans=nodes[0].createInitializeAccount(contractAccount, cluster.snaxAccount, stakedDeposit=500000, waitForTransBlock=False, stakeNet=50000, stakeCPU=50000, buyram=50000, exitOnError=True)
+    trans=nodes[0].createInitializeAccount(contractAccount, cluster.snaxAccount, stakedDeposit=500000, waitForTransBlock=False, stakeNet=50000, stakeCPU=50000, buyRAM=50000, exitOnError=True)
     transferAmount="90000000.0000 {0}".format(CORE_SYMBOL)
     Print("Transfer funds %s from account %s to %s" % (transferAmount, cluster.snaxAccount.name, contractAccount.name))
     nodes[0].transferFunds(cluster.snaxAccount, contractAccount, transferAmount, "test transfer")

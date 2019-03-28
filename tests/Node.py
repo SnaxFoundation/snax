@@ -511,11 +511,11 @@ class Node(object):
 
 
     # Create & initialize account and return creation transactions. Return transaction json object
-    def createInitializeAccount(self, account, creatorAccount, stakedDeposit=1000, waitForTransBlock=False, stakeNet=100, stakeCPU=100, buyram=100, exitOnError=False):
+    def createInitializeAccount(self, account, creatorAccount, stakedDeposit=1000, waitForTransBlock=False, stakeNet=100, stakeCPU=100, buyRAM=10000, exitOnError=False):
         cmdDesc="system newaccount"
-        cmd='%s -j %s %s %s %s --stake-net "%s.0000 %s" --stake-cpu "%s.0000 %s" --buy-ram "%s.0000 %s"' % (
+        cmd='%s -j %s %s %s %s --stake-net "%s %s" --stake-cpu "%s %s" --buy-ram "%s %s"' % (
             cmdDesc, creatorAccount.name, account.name, account.ownerPublicKey,
-            account.activePublicKey, stakeNet, CORE_SYMBOL, stakeCPU, CORE_SYMBOL, buyram, CORE_SYMBOL)
+            account.activePublicKey, stakeNet, CORE_SYMBOL, stakeCPU, CORE_SYMBOL, buyRAM, CORE_SYMBOL)
         msg="(creator account=%s, account=%s)" % (creatorAccount.name, account.name);
         trans=self.processClisnaxCmd(cmd, cmdDesc, silentErrors=False, exitOnError=exitOnError, exitMsg=msg)
         self.trackCmdTransaction(trans)
@@ -696,12 +696,17 @@ class Node(object):
         s=" ".join(cmdArr)
         if Utils.Debug: Utils.Print("cmd: %s" % (s))
         trans=None
+        start=time.perf_counter()
         try:
             trans=Utils.runCmdArrReturnJson(cmdArr)
+            if Utils.Debug:
+                end=time.perf_counter()
+                Utils.Print("cmd Duration: %.3f sec" % (end-start))
             self.trackCmdTransaction(trans)
         except subprocess.CalledProcessError as ex:
+            end=time.perf_counter()
             msg=ex.output.decode("utf-8")
-            Utils.Print("ERROR: Exception during funds transfer. %s" % (msg))
+            Utils.Print("ERROR: Exception during funds transfer.  cmd Duration: %.3f sec.  %s" % (end-start, msg))
             if exitOnError:
                 Utils.cmdError("could not transfer \"%s\" from %s to %s" % (amountStr, source, destination))
                 Utils.errorExit("Failed to transfer \"%s\" from %s to %s" % (amountStr, source, destination))
@@ -805,13 +810,18 @@ class Node(object):
         cmd="%s %s" % (Utils.MongoPath, self.mongoEndpointArgs)
         subcommand='db.action_traces.find({$or: [{"act.data.from":"%s"},{"act.data.to":"%s"}]}).sort({"_id":%d}).limit(%d)' % (account.name, account.name, pos, abs(offset))
         if Utils.Debug: Utils.Print("cmd: echo '%s' | %s" % (subcommand, cmd))
+        start=time.perf_counter()
         try:
             actions=Node.runMongoCmdReturnJson(cmd.split(), subcommand, exitOnError=exitOnError)
+            if Utils.Debug:
+                end=time.perf_counter()
+                Utils.Print("cmd Duration: %.3f sec" % (end-start))
             if actions is not None:
                 return actions
         except subprocess.CalledProcessError as ex:
+            end=time.perf_counter()
             msg=ex.output.decode("utf-8")
-            errorMsg="Exception during get db actions. %s" % (msg)
+            errorMsg="Exception during get db actions.  cmd Duration: %.3f sec.  %s" % (end-start, msg)
             if exitOnError:
                 Utils.cmdError(errorMsg)
                 Utils.errorExit(errorMsg)
@@ -855,8 +865,12 @@ class Node(object):
     def getAccountCodeHash(self, account):
         cmd="%s %s get code %s" % (Utils.SnaxClientPath, self.snaxClientArgs(), account)
         if Utils.Debug: Utils.Print("cmd: %s" % (cmd))
+        start=time.perf_counter()
         try:
             retStr=Utils.checkOutput(cmd.split())
+            if Utils.Debug:
+                end=time.perf_counter()
+                Utils.Print("cmd Duration: %.3f sec" % (end-start))
             #Utils.Print ("get code> %s"% retStr)
             p=re.compile(r'code\shash: (\w+)\n', re.MULTILINE)
             m=p.search(retStr)
@@ -867,8 +881,9 @@ class Node(object):
 
             return m.group(1)
         except subprocess.CalledProcessError as ex:
+            end=time.perf_counter()
             msg=ex.output.decode("utf-8")
-            Utils.Print("ERROR: Exception during code hash retrieval. %s" % (msg))
+            Utils.Print("ERROR: Exception during code hash retrieval.  cmd Duration: %.3f sec.  %s" % (end-start, msg))
             return None
 
     # publish contract and return transaction as json object
@@ -878,13 +893,18 @@ class Node(object):
         cmd += "" if abiFile is None else (" " + abiFile)
         if Utils.Debug: Utils.Print("cmd: %s" % (cmd))
         trans=None
+        start=time.perf_counter()
         try:
             trans=Utils.runCmdReturnJson(cmd, trace=False)
             self.trackCmdTransaction(trans)
+            if Utils.Debug:
+                end=time.perf_counter()
+                Utils.Print("cmd Duration: %.3f sec" % (end-start))
         except subprocess.CalledProcessError as ex:
             if not shouldFail:
+                end=time.perf_counter()
                 msg=ex.output.decode("utf-8")
-                Utils.Print("ERROR: Exception during code hash retrieval. %s" % (msg))
+                Utils.Print("ERROR: Exception during code hash retrieval.  cmd Duration: %.3f sec.  %s" % (end-start, msg))
                 return None
             else:
                 retMap={}
@@ -936,14 +956,19 @@ class Node(object):
             cmdArr += opts.split()
         s=" ".join(cmdArr)
         if Utils.Debug: Utils.Print("cmd: %s" % (cmdArr))
+        start=time.perf_counter()
         try:
             trans=Utils.runCmdArrReturnJson(cmdArr)
             self.trackCmdTransaction(trans, ignoreNonTrans=True)
+            if Utils.Debug:
+                end=time.perf_counter()
+                Utils.Print("cmd Duration: %.3f sec" % (end-start))
             return (True, trans)
         except subprocess.CalledProcessError as ex:
             msg=ex.output.decode("utf-8")
             if not silentErrors:
-                Utils.Print("ERROR: Exception during push message. %s" % (msg))
+                end=time.perf_counter()
+                Utils.Print("ERROR: Exception during push message.  cmd Duration=%.3f sec.  %s" % (end - start, msg))
             return (False, msg)
 
     def setPermission(self, account, code, pType, requirement, waitForTransBlock=False, exitOnError=False):
@@ -997,6 +1022,7 @@ class Node(object):
         else:
             exitMsg=""
         trans=None
+        start=time.perf_counter()
         try:
             if returnType==ReturnType.json:
                 trans=Utils.runCmdReturnJson(cmd, silentErrors=silentErrors)
@@ -1004,10 +1030,15 @@ class Node(object):
                 trans=Utils.runCmdReturnStr(cmd)
             else:
                 unhandledEnumType(returnType)
+
+            if Utils.Debug:
+                end=time.perf_counter()
+                Utils.Print("cmd Duration: %.3f sec" % (end-start))
         except subprocess.CalledProcessError as ex:
             if not silentErrors:
+                end=time.perf_counter()
                 msg=ex.output.decode("utf-8")
-                errorMsg="Exception during \"%s\". Exception message: %s. %s" % (cmdDesc, msg, exitMsg)
+                errorMsg="Exception during \"%s\". Exception message: %s.  cmd Duration=%.3f sec. %s" % (cmdDesc, msg, end-start, exitMsg)
                 if exitOnError:
                     Utils.cmdError(errorMsg)
                     Utils.errorExit(errorMsg)
@@ -1031,6 +1062,7 @@ class Node(object):
             (self.endpointHttp, producer, whereInSequence, basedOnLib)
         if Utils.Debug: Utils.Print("cmd: %s" % (cmd))
         rtn=None
+        start=time.perf_counter()
         try:
             if returnType==ReturnType.json:
                 rtn=Utils.runCmdReturnJson(cmd, silentErrors=silentErrors)
@@ -1038,10 +1070,15 @@ class Node(object):
                 rtn=Utils.runCmdReturnStr(cmd)
             else:
                 unhandledEnumType(returnType)
+
+            if Utils.Debug:
+                end=time.perf_counter()
+                Utils.Print("cmd Duration: %.3f sec" % (end-start))
         except subprocess.CalledProcessError as ex:
             if not silentErrors:
+                end=time.perf_counter()
                 msg=ex.output.decode("utf-8")
-                errorMsg="Exception during \"%s\". %s" % (cmd, msg)
+                errorMsg="Exception during \"%s\". %s.  cmd Duration=%.3f sec." % (cmd, msg, end-start)
                 if exitOnError:
                     Utils.cmdError(errorMsg)
                     Utils.errorExit(errorMsg)
@@ -1086,12 +1123,17 @@ class Node(object):
         cmd="%s %s" % (Utils.MongoPath, self.mongoEndpointArgs)
         subcommand="db.blocks.find().sort({\"_id\":%d}).limit(1).pretty()" % (idx)
         if Utils.Debug: Utils.Print("cmd: echo \"%s\" | %s" % (subcommand, cmd))
+        start=time.perf_counter()
         try:
             trans=Node.runMongoCmdReturnJson(cmd.split(), subcommand)
+            if Utils.Debug:
+                end=time.perf_counter()
+                Utils.Print("cmd Duration: %.3f sec" % (end-start))
             return trans
         except subprocess.CalledProcessError as ex:
+            end=time.perf_counter()
             msg=ex.output.decode("utf-8")
-            Utils.Print("ERROR: Exception during get db block. %s" % (msg))
+            Utils.Print("ERROR: Exception during get db block.  cmd Duration: %.3f sec.  %s" % (end-start, msg))
             return None
 
     def checkPulse(self, exitOnError=False):
