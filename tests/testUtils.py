@@ -15,7 +15,7 @@ import traceback
 
 ###########################################################################################
 class Utils:
-    Debug = False
+    Debug=False
     FNull = open(os.devnull, 'w')
 
     SnaxClientPath="programs/clisnax/clisnax"

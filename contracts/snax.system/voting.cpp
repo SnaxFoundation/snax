@@ -49,6 +49,7 @@ namespace snaxsystem {
                info.url          = url;
                info.location     = location;
                info.last_block_time = block_timestamp(current_time);
+               info.last_top_list_entry_time = block_timestamp(0);
             });
       } else {
          _producers.emplace( producer, [&]( producer_info& info ){
@@ -59,6 +60,7 @@ namespace snaxsystem {
                info.url           = url;
                info.location      = location;
                info.last_block_time = block_timestamp(current_time);
+               info.last_top_list_entry_time = block_timestamp(0);
          });
       }
    }
@@ -83,16 +85,31 @@ namespace snaxsystem {
 
       for ( auto it = idx.cbegin(); it != idx.cend() && top_producers.size() < _gstate.top_producers_limit && 0 < it->total_votes; ++it ) {
          if (it->active()) {
+             const bool previous_iteration_in_top_list =
+                block_time
+                    .slot
+                - it->last_top_list_entry_time
+                    .slot
+                == 120;
+
+             if (!previous_iteration_in_top_list) {
+                 const auto prod = _producers.find(it->owner);
+                 if (prod != _producers.end()) {
+                     _producers.modify( prod, 0, [&]( producer_info& info ){
+                           info.last_top_list_entry_time = block_time;
+                           info.last_block_time = block_time;
+                     });
+                 }
+             }
+
              if (
+                 previous_iteration_in_top_list
+                 &&
                  block_time
-                     .to_time_point()
-                     .time_since_epoch()
-                     .to_seconds()
+                    .slot
                  - it->last_block_time
-                     .to_time_point()
-                     .time_since_epoch()
-                     .to_seconds()
-                 > 3600
+                    .slot
+                 >= 7200
              ) {
                  const auto prod = _producers.find(it->owner);
                  if (prod != _producers.end()) {
@@ -101,6 +118,12 @@ namespace snaxsystem {
                      });
                  }
              } else {
+                 const auto prod = _producers.find(it->owner);
+                 if (prod != _producers.end()) {
+                     _producers.modify( prod, 0, [&]( producer_info& info ){
+                           info.last_top_list_entry_time = block_time;
+                     });
+                 }
                  top_producers.emplace_back( std::pair<snax::producer_key,uint16_t>({{it->owner, it->producer_key}, it->location}) );
              }
          }
