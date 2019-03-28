@@ -56,7 +56,7 @@ iptables -I INPUT -p tcp --dport 9876 -j ACCEPT
 4. Run your node with Docker
 ```sh
 docker run -d --restart=always --network=host --name producer \
-           -v $HOME/producer:/opt/snax/data snaxfoundation/snax:0.2.0-beta-6 \
+           -v $HOME/producer:/opt/snax/data snaxfoundation/snax:0.3.0-beta-1 \
            snaxnoded.sh --signature-provider put_your_public_key_here=KEY:put_your_private_key_here \
            --enable-stale-production \
            --plugin=snax::producer_plugin \
@@ -68,7 +68,19 @@ docker run -d --restart=always --network=host --name producer \
            --p2p-peer-address=54.71.79.75:9876 \
            --p2p-peer-address=80.66.90.29:9876 \
            --p2p-peer-address=92.53.79.186:9876 \
-           --p2p-peer-address=92.53.79.190:9876
+           --p2p-peer-address=92.53.79.190:9876 \
+           --p2p-peer-address=213.239.213.227:8888 \
+           --p2p-peer-address=snax.test.telosunlimited.io:9876 \
+           --p2p-peer-address=snax-peer1.eoskh.com:6789 \
+           --p2p-peer-address=213.239.212.15:9876 \
+           --p2p-peer-address=snax.eosnairobi.io:7276 \
+           --p2p-peer-address=snaxp2p.eclipse24.io:9877 \
+           --p2p-peer-address=157.230.219.218:8888 \
+           --p2p-peer-address=1snax.eossweden.eu:9022 \
+           --p2p-peer-address=1snax1.eossweden.eu:9032 \
+           --p2p-peer-address=snax-test-p2p.eosarabia.net:9876 \
+           --p2p-peer-address=159.203.74.78:8888 \
+           --p2p-peer-address=18.191.241.174:9876
 ```
 
 ### 4. Run kxd keystore with Docker
@@ -80,7 +92,7 @@ mkdir $HOME/snax-wallet
 2. Run kxd keystore with Docker
 ```sh
 docker run  --name=snax-wallet -d -v $HOME/snax-wallet:/root/snax-wallet \
-            --restart=always -p 127.0.0.1:8900:8900 snaxfoundation/snax:0.2.0-beta-6 kxd.sh \
+            --restart=always -p 127.0.0.1:8900:8900 snaxfoundation/snax:0.3.0-beta-1 kxd.sh \
             --http-server-address=0.0.0.0:8900 \
             --access-control-allow-origin=* \
             --access-control-allow-headers=* \
