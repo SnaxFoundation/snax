@@ -139,7 +139,7 @@ void resource_limits_manager::add_transaction_usage(const flat_set<account_name>
 
       if( cpu_weight >= 0 && state.total_cpu_weight > 0 ) {
          uint128_t window_size = config.account_cpu_usage_average_window;
-         auto virtual_network_capacity_in_window = (uint128_t)state.virtual_cpu_limit * window_size;
+         auto virtual_cpu_capacity_in_window = (uint128_t)state.virtual_cpu_limit * window_size / 10;
          auto cpu_used_in_window                 = ((uint128_t)usage.cpu_usage.value_ex * window_size) / (uint128_t)config::rate_limiting_precision;
 
          uint128_t user_weight     = (uint128_t)cpu_weight;
@@ -147,7 +147,7 @@ void resource_limits_manager::add_transaction_usage(const flat_set<account_name>
 
          uint128_t cpu_minimum_threshold = static_cast<uint128_t>(cbrt(static_cast<double>(cpu_weight)) * 1440);
 
-         auto max_user_use_in_window = (virtual_network_capacity_in_window * user_weight) / all_user_weight;
+         auto max_user_use_in_window = (virtual_cpu_capacity_in_window * user_weight) / all_user_weight;
 
          if (impl::downgrade_cast<int64_t>(cpu_minimum_threshold) > 31000)
             cpu_minimum_threshold = 31000;
@@ -166,7 +166,7 @@ void resource_limits_manager::add_transaction_usage(const flat_set<account_name>
       if( net_weight >= 0 && state.total_net_weight > 0) {
 
          uint128_t window_size = config.account_net_usage_average_window;
-         auto virtual_network_capacity_in_window = (uint128_t)state.virtual_net_limit * window_size;
+         auto virtual_network_capacity_in_window = (uint128_t)state.virtual_net_limit * window_size / 10;
          auto net_used_in_window                 = ((uint128_t)usage.net_usage.value_ex * window_size) / (uint128_t)config::rate_limiting_precision;
 
          uint128_t user_weight     = (uint128_t)net_weight;
@@ -404,7 +404,7 @@ account_resource_limit resource_limits_manager::get_account_cpu_limit_ex( const 
 
    uint128_t window_size = config.account_cpu_usage_average_window;
 
-   uint128_t virtual_cpu_capacity_in_window = (uint128_t)(elastic ? state.virtual_cpu_limit : config.cpu_limit_parameters.max) * window_size;
+   uint128_t virtual_cpu_capacity_in_window = (uint128_t)(elastic ? state.virtual_cpu_limit : config.cpu_limit_parameters.max) * window_size / 10;
    uint128_t user_weight     = (uint128_t)cpu_weight;
    uint128_t all_user_weight = (uint128_t)state.total_cpu_weight;
 
@@ -452,7 +452,7 @@ account_resource_limit resource_limits_manager::get_account_net_limit_ex( const 
 
    uint128_t window_size = config.account_net_usage_average_window;
 
-   uint128_t virtual_network_capacity_in_window = (uint128_t)(elastic ? state.virtual_net_limit : config.net_limit_parameters.max) * window_size;
+   uint128_t virtual_network_capacity_in_window = (uint128_t)(elastic ? state.virtual_net_limit : config.net_limit_parameters.max) * window_size / 10;
    uint128_t user_weight     = (uint128_t)net_weight;
    uint128_t all_user_weight = (uint128_t)state.total_net_weight;
    uint128_t net_minimum_threshold = static_cast<uint128_t>(cbrt(static_cast<double>(net_weight)) * 75);
