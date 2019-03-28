@@ -155,7 +155,7 @@ BOOST_FIXTURE_TEST_CASE(ram_tests, snax_system::snax_system_tester) { try {
                         ("from", 3)
                         ("to", 3));
    produce_blocks(1);
-
+   
    // verify that the new entry will exceed the allocation bytes limit
    BOOST_REQUIRE_EXCEPTION(
       tester->push_action( N(testram11111), N(setentry), N(testram11111), mvo()

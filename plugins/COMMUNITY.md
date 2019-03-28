@@ -7,7 +7,7 @@ Third parties are encouraged to make pull requests to this file (`develop` branc
 | Description | URL |
 | ----------- | --- |
 | BP Heartbeat  | https://github.com/bancorprotocol/snax-producer-heartbeat-plugin |
-| ElasticSearch | https://github.com/SNAXLaoMao/elasticsearch_plugin |
+| ElasticSearch | https://github.com/SnaxFoundationLaoMao/elasticsearch_plugin |
 | Kafka | https://github.com/TP-Lab/kafka_plugin |
 | MySQL | https://github.com/snaxBLACK/snax_mysqldb_plugin |
 | SQL | https://github.com/asiniscalchi/snax_sql_plugin |

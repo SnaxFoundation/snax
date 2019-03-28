@@ -21,9 +21,10 @@ docker build . -t snax/snax
 ```
 
 The above will build off the most recent commit to the master branch by default. If you would like to target a specific branch/tag, you may use a build argument. For example, if you wished to generate a docker image based off of the v1.4.3 tag, you could do the following:
+The above will build off the most recent commit to the master branch by default. If you would like to target a specific branch/tag, you may use a build argument. For example, if you wished to generate a docker image based off of the v1.5.7 tag, you could do the following:
 
 ```bash
-docker build -t snax/snax:v1.5.2 --build-arg branch=v1.5.2 .
+docker build -t snax/snax:v1.5.7 --build-arg branch=v1.5.7 .
 ```
 
 By default, the symbol in snax.system is set to SNAX. You can override this using the symbol argument while building the docker image.

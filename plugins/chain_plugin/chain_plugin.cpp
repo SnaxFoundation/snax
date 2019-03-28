@@ -1086,7 +1086,7 @@ uint64_t convert_to_type(const string& str, const string& desc) {
    try {
       return boost::lexical_cast<uint64_t>(str.c_str(), str.size());
    } catch( ... ) { }
-
+   
    try {
       auto trimmed_str = str;
       boost::trim(trimmed_str);
@@ -1100,7 +1100,7 @@ uint64_t convert_to_type(const string& str, const string& desc) {
          return symb.value();
       } catch( ... ) { }
    }
-
+   
    try {
       return ( snax::chain::string_to_symbol( 0, str.c_str() ) >> 8 );
    } catch( ... ) {
