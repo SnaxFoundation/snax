@@ -123,7 +123,6 @@ test:jest:
   tags:
   - build2
 
-
 test:core:
   stage: test
   script:
