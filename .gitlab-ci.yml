@@ -115,7 +115,7 @@ test:jest:
   script:
   - rm -rf $WALLET_DIR
   - if [ -f /tmp/build-$CI_COMMIT_REF_NAME.tar.gz ]; then tar -xf /tmp/build-$CI_COMMIT_REF_NAME.tar.gz; fi
-  - cd $JEST_TESTS && yarn install && yarn test
+  - cd $JEST_TESTS && yarn install && yarn test -u
   except:
     variables:
       - $CI_COMMIT_MESSAGE =~ /skip-test/
