@@ -81,7 +81,7 @@ try:
 
     Print("Kill cluster nodes.")
     cluster.killall(allInstances=killAll)
-    
+
     Print("Restart snaxnode repeatedly to ensure dirty database flag sticks.")
     timeout=6
 

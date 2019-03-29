@@ -66,6 +66,7 @@ public:
       issue(config::system_account_name,      core_from_string("1000000000.0000"));
       BOOST_REQUIRE_EQUAL( core_from_string("1000000000.0000"), get_balance( "snax" ) );
 
+      set_code( config::system_account_name, test_1_snax_system_wast );
       set_abi( config::system_account_name, test_1_snax_system_abi );
 
       {
@@ -476,7 +477,7 @@ public:
       produce_blocks( 250 );
 
       auto producer_keys = control->head_block_state()->active_schedule.producers;
-      BOOST_REQUIRE_EQUAL( 1, producer_keys.size() );
+      BOOST_REQUIRE_EQUAL( 21, producer_keys.size() );
       BOOST_REQUIRE_EQUAL( name("defproducera"), producer_keys[0].producer_name );
 
       return producer_names;

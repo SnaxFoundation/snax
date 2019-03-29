@@ -99,7 +99,13 @@ describe("System", async () => {
         scope: "snax",
         table: "producers"
       })).rows.map(
-        ({ last_claim_time, total_votes, last_block_time, ...obj }) => ({
+        ({
+          last_claim_time,
+          total_votes,
+          last_block_time,
+          last_top_list_entry_time,
+          ...obj
+        }) => ({
           ...obj,
           votes:
             +state.total_producer_vote_weight &&

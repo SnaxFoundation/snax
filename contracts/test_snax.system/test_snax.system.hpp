@@ -82,16 +82,17 @@ namespace snaxsystem {
       uint32_t              unpaid_blocks = 0;
       uint64_t              last_claim_time = 0;
       block_timestamp       last_block_time;
+      block_timestamp       last_top_list_entry_time;
       uint16_t              location = 0;
 
       uint64_t primary_key()const { return owner;                                   }
       double   by_votes()const    { return is_active ? -total_votes : total_votes;  }
       bool     active()const      { return is_active;                               }
-      void     deactivate()       { producer_key = public_key(); is_active = false; }
+      void     deactivate()       { producer_key = public_key(); is_active = false; last_top_list_entry_time = block_timestamp(0); }
 
       // explicit serialization macro is not necessary, used here only to improve compilation time
       SNAXLIB_SERIALIZE( producer_info, (owner)(total_votes)(producer_key)(is_active)(url)
-                        (unpaid_blocks)(last_claim_time)(last_block_time)(location) )
+                        (unpaid_blocks)(last_claim_time)(last_block_time)(last_top_list_entry_time)(location) )
    };
 
    struct account_with_balance {

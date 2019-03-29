@@ -121,7 +121,7 @@ test:jest:
     changes:
       - "*.md"
   tags:
-    - build2
+  - build2
 
 
 test:core:
@@ -140,7 +140,7 @@ test:core:
       - jest_tests/*
       - "*.md"
   tags:
-    - build2
+  - build2
 
 build:docker:
   stage: build-docker
@@ -156,7 +156,7 @@ build:docker:
     changes:
       - "*.md"
   tags:
-      - build2
+  - build2
 
 build:docker:tag:
   stage: build-docker
@@ -172,7 +172,7 @@ build:docker:tag:
   only:
   - tags
   tags:
-    - build2
+  - build2
 
 build:docker:tag:elastic:
   stage: build-docker
@@ -188,7 +188,7 @@ build:docker:tag:elastic:
   only:
   - tags
   tags:
-    - build1
+  - build1
 
 publish:
   stage: publish
@@ -203,18 +203,6 @@ publish:
     - build:tag
     - build:tag:macos
   only:
-    - tags
+  - tags
   tags:
-    - docker
-
-trigger_build:
-  stage: deploy
-  image: quay.io/collectai/alpine-curl
-  variables:
-    GIT_STRATEGY: none
-  script:
-    - "curl -X POST -F token=$BUILD_TOKEN -F ref=dev https://gitlab.snax.one/api/v4/projects/34/trigger/pipeline"
-  only:
-    - dev
-  tags:
-    - docker
+  - docker
