@@ -1158,7 +1158,6 @@ Object {
   "top_producers_limit": 21,
   "total_activated_stake": "149999990000000",
   "total_bp_reward": "25.3680 SNAX",
-  "total_producer_vote_weight": "960498571712885504.00000000000000000",
   "total_ram_bytes_reserved": 4479551,
   "total_ram_stake": 111307338,
   "total_unpaid_blocks": 4,
@@ -1241,7 +1240,6 @@ Object {
   "top_producers_limit": 21,
   "total_activated_stake": "149999990000000",
   "total_bp_reward": "25.3680 SNAX",
-  "total_producer_vote_weight": "960498571712885504.00000000000000000",
   "total_ram_bytes_reserved": 4479551,
   "total_ram_stake": 111307338,
   "total_unpaid_blocks": 4,
@@ -1338,7 +1336,6 @@ Object {
   "top_producers_limit": 21,
   "total_activated_stake": "149999990000000",
   "total_bp_reward": "25.3680 SNAX",
-  "total_producer_vote_weight": "960498571712885504.00000000000000000",
   "total_ram_bytes_reserved": 4479551,
   "total_ram_stake": 111307338,
   "total_unpaid_blocks": 0,
@@ -1523,7 +1520,7 @@ Array [
     "producer_key": "SNAX8mo3cUJW1Yy1GGxQfexWGN7QPUB2rXccQP7brrpgJXGjiw6gKR",
     "unpaid_blocks": 0,
     "url": "https://snax.one",
-    "votes": 0.4583333333333333,
+    "votes": 0.458333,
   },
   Object {
     "is_active": 1,
@@ -1532,7 +1529,7 @@ Array [
     "producer_key": "SNAX8mo3cUJW1Yy1GGxQfexWGN7QPUB2rXccQP7brrpgJXGjiw6gKR",
     "unpaid_blocks": 0,
     "url": "https://snax.one",
-    "votes": 0.33333333333333337,
+    "votes": 0.333333,
   },
   Object {
     "is_active": 1,
@@ -1541,7 +1538,7 @@ Array [
     "producer_key": "SNAX8mo3cUJW1Yy1GGxQfexWGN7QPUB2rXccQP7brrpgJXGjiw6gKR",
     "unpaid_blocks": 0,
     "url": "https://snax.one",
-    "votes": 0.20833333333333331,
+    "votes": 0.208333,
   },
 ]
 `;
@@ -1572,7 +1569,7 @@ Array [
     "proxied_vote_weight": "0.00000000000000000",
     "proxy": "",
     "staked": "149999990000000",
-    "votes": 0.8333333333333333,
+    "votes": 0.833333,
   },
 ]
 `;
@@ -1608,7 +1605,7 @@ Array [
     "producer_key": "SNAX8mo3cUJW1Yy1GGxQfexWGN7QPUB2rXccQP7brrpgJXGjiw6gKR",
     "unpaid_blocks": 0,
     "url": "https://snax.one",
-    "votes": 0.3902439024390244,
+    "votes": 0.390243,
   },
   Object {
     "is_active": 1,
@@ -1617,7 +1614,7 @@ Array [
     "producer_key": "SNAX8mo3cUJW1Yy1GGxQfexWGN7QPUB2rXccQP7brrpgJXGjiw6gKR",
     "unpaid_blocks": 0,
     "url": "https://snax.one",
-    "votes": 0.3414634146341463,
+    "votes": 0.341463,
   },
   Object {
     "is_active": 1,
@@ -1626,7 +1623,7 @@ Array [
     "producer_key": "SNAX8mo3cUJW1Yy1GGxQfexWGN7QPUB2rXccQP7brrpgJXGjiw6gKR",
     "unpaid_blocks": 0,
     "url": "https://snax.one",
-    "votes": 0.2682926829268293,
+    "votes": 0.268292,
   },
 ]
 `;
@@ -1655,7 +1652,7 @@ Array [
     "proxied_vote_weight": "0.00000000000000000",
     "proxy": "",
     "staked": "149999990000000",
-    "votes": 0.4878048780487805,
+    "votes": 0.487804,
   },
 ]
 `;
