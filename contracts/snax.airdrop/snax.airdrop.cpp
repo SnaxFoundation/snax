@@ -69,4 +69,4 @@ namespace snax {
 
 }
 
-SNAX_ABI(snax::airdrop, (addplatform)(request))
+SNAX_ABI(snax::airdrop, (addplatform)(upplatform)(request))
