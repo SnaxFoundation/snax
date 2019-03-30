@@ -78,6 +78,7 @@ describe("System", async () => {
       start_time,
       last_producer_schedule_update,
       thresh_activated_stake_time,
+      total_producer_vote_weight,
       ...state
     } = (await api.rpc.get_table_rows({
       code: "snax",
@@ -99,11 +100,19 @@ describe("System", async () => {
         scope: "snax",
         table: "producers"
       })).rows.map(
-        ({ last_claim_time, total_votes, last_block_time, ...obj }) => ({
+        ({
+          last_claim_time,
+          total_votes,
+          last_block_time,
+          last_top_list_entry_time,
+          votes,
+          ...obj
+        }) => ({
           ...obj,
           votes:
             +state.total_producer_vote_weight &&
-            +total_votes / +state.total_producer_vote_weight
+            (((+total_votes / +state.total_producer_vote_weight) * 1e6) | 0) /
+              1e6
         })
       )
     ).toMatchSnapshot();
@@ -123,8 +132,9 @@ describe("System", async () => {
       })).rows.map(({ last_vote_weight, ...obj }) => ({
         ...obj,
         votes:
-          +state.total_producer_vote_weight &&
-          +last_vote_weight / +state.total_producer_vote_weight
+          (+state.total_producer_vote_weight &&
+            ((+last_vote_weight / +state.total_producer_vote_weight) * 1e6) |
+              0) / 1e6
       }))
     ).toMatchSnapshot();
   };
