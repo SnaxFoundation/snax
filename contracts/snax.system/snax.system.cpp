@@ -227,7 +227,7 @@ namespace snaxsystem {
                     static_cast<double>(_gstate.system_parabola_a),
                     static_cast<double>(_gstate.system_parabola_b),
                     convert_asset_to_double(system_supply_soft_limit / 1'0000),
-                    static_cast<double>(current_offset + found_config->period)
+                    static_cast<double>(current_offset + offset_of_round)
                 )
             )
         ) * 1'0000;
