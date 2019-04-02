@@ -188,13 +188,13 @@ describe("Platform", async () => {
       }
     );
 
-  const socialTransfer = (from, to, amount) =>
+  const socialTransfer = (from, to, quantity, memo) =>
     api.transact(
       {
         actions: [
           {
             account: account,
-            name: "transfertou",
+            name: "transfersoc",
             authorization: [
               {
                 actor: from,
@@ -204,7 +204,8 @@ describe("Platform", async () => {
             data: {
               from,
               to,
-              amount
+              quantity,
+              memo
             }
           }
         ]
@@ -788,7 +789,7 @@ describe("Platform", async () => {
 
   it("should process social transfer correctly", async () => {
     await initialize();
-    await socialTransfer("test.transf", 15, "20.0000 SNAX");
+    await socialTransfer("test.transf", 15, "20.0000 SNAX", "hello");
     await verifyTransferTable("SNAX");
     await verifyAccountsBalances(["test.transf", "test1"]);
     await addUser({
@@ -971,10 +972,10 @@ describe("Platform", async () => {
     await initialize();
     await addSymbol("SNIX", 4);
     await Promise.all([
-      socialTransfer("test.transf", 15, "20.0000 SNIX"),
-      socialTransfer("test.transf", 16, "20.0000 SNAX"),
-      socialTransfer("test.transf", 17, "20.0000 SNAX"),
-      socialTransfer("test.transf", 30, "20.0000 SNIX")
+      socialTransfer("test.transf", 15, "20.0000 SNIX", "hello"),
+      socialTransfer("test.transf", 16, "20.0000 SNAX", "hello"),
+      socialTransfer("test.transf", 17, "20.0000 SNAX", "hello"),
+      socialTransfer("test.transf", 30, "20.0000 SNIX", "hello")
     ]);
     await verifyTransferTable("SNAX");
     await verifyTransferTable("SNIX");

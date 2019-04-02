@@ -390,7 +390,7 @@
         }
       ]
     },{
-      "name": "transfertou",
+      "name": "transfersoc",
       "base": "",
       "fields": [{
           "name": "from",
@@ -399,8 +399,11 @@
           "name": "to",
           "type": "uint64"
         },{
-          "name": "amount",
+          "name": "quantity",
           "type": "asset"
+        },{
+          "name": "memo",
+          "type": "string"
         }
       ]
     }
@@ -478,8 +481,8 @@
       "type": "addaccounts",
       "ricardian_contract": ""
     },{
-      "name": "transfertou",
-      "type": "transfertou",
+      "name": "transfersoc",
+      "type": "transfersoc",
       "ricardian_contract": ""
     }
   ],

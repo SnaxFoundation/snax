@@ -484,36 +484,36 @@ void platform::addaccounts(const account_name creator,
   }
 }
 
-/// @abi action transfertou
-void platform::transfertou(const account_name from, const uint64_t to,
-                           const asset amount) {
+/// @abi action transfersoc
+void platform::transfersoc(const account_name from, const uint64_t to,
+                           const asset quantity, const string memo) {
   require_auth(from);
   require_initialized();
 
-  const asset balance = get_balance(from, amount.symbol);
+  const asset balance = get_balance(from, quantity.symbol);
 
-  snax_assert(balance >= amount, "from account doesnt have enough tokens");
+  snax_assert(balance >= quantity, "from account doesnt have enough tokens");
 
   const auto &to_account = _accounts.find(to);
 
   if (to_account != _accounts.end() && to_account->name) {
     action(permission_level{from, N(active)}, N(snax.token), N(transfer),
-           make_tuple(from, to_account->name, amount, string("social")))
+           make_tuple(from, to_account->name, quantity, memo))
         .send();
   } else {
-    transfers_table _transfers(_self, amount.symbol.name());
+    transfers_table _transfers(_self, quantity.symbol.name());
 
     action(permission_level{from, N(active)}, N(snax.token), N(transfer),
-           make_tuple(from, N(snax.transf), amount, string("social")))
+           make_tuple(from, N(snax.transf), quantity, memo))
         .send();
     const auto &found_transfer = _transfers.find(to);
 
     if (found_transfer != _transfers.end()) {
       _transfers.modify(found_transfer, from,
-                        [&](auto &transfer) { transfer.amount += amount; });
+                        [&](auto &transfer) { transfer.amount += quantity; });
     } else {
       _transfers.emplace(from, [&](auto &transfer) {
-        transfer.amount = amount;
+        transfer.amount = quantity;
         transfer.id = to;
       });
     }
@@ -621,4 +621,4 @@ SNAX_ABI(
     snax::platform,
     (initialize)(lockarupdate)(lockupdate)(addcreator)(rmcreator)(nextround)(
         activate)(deactivate)(addsymbol)(sendpayments)(addaccount)(dropuser)(
-        dropaccount)(addaccounts)(updatear)(transfertou)(updatearmult))
+        dropaccount)(addaccounts)(updatear)(transfersoc)(updatearmult))

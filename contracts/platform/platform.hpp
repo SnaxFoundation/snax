@@ -106,8 +106,8 @@ public:
   void addaccounts(const account_name creator,
                    vector<account_to_add> &accounts_to_add);
 
-  /// @abi action transfertou
-  void transfertou(account_name from, uint64_t to, asset amount);
+  /// @abi action transfersoc
+  void transfersoc(account_name from, uint64_t to, asset quantity, string memo);
 
 private:
   /// @abi table usercreators i64
