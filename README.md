@@ -76,8 +76,8 @@ docker run -d --restart=always --network=host --name producer \
            --p2p-peer-address=snax.eosnairobi.io:7276 \
            --p2p-peer-address=snaxp2p.eclipse24.io:9877 \
            --p2p-peer-address=157.230.219.218:8888 \
-           --p2p-peer-address=1snax.eossweden.eu:9022 \
-           --p2p-peer-address=1snax1.eossweden.eu:9032 \
+           --p2p-peer-address=snax.eossweden.eu:9022 \
+           --p2p-peer-address=snax1.eossweden.eu:9032 \
            --p2p-peer-address=snax-test-p2p.eosarabia.net:9876 \
            --p2p-peer-address=159.203.74.78:8888 \
            --p2p-peer-address=18.191.241.174:9876
