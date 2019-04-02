@@ -109,7 +109,7 @@ namespace snaxsystem {
                     .slot
                  - it->last_block_time
                     .slot
-                 >= 7200
+                 >= 3600
              ) {
                  const auto prod = _producers.find(it->owner);
                  if (prod != _producers.end()) {
