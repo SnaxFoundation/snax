@@ -845,39 +845,34 @@ describe("Platform", async () => {
   });
 
   it("should process next round correctly", async () => {
-    spawn("./setup_system.sh", [], {
-      detached: true,
-      stdio: "ignore"
-    });
-    account = "platform1";
     await sleep(6e3);
     await initialize();
     await addUser({
       verification_salt: "12345",
       stat_diff: [5, 10, 15],
       verification_tweet: "1083836521751478272",
-      account: "testacc1",
+      account: "test1",
       id: 123
     });
     await addUser({
       verification_salt: "12345",
       stat_diff: [5, 10, 15],
       verification_tweet: "1083836521751478272",
-      account: "testacc2",
+      account: "test2",
       id: 1105
     });
     await addUser({
       verification_salt: "12345",
       stat_diff: [5, 10, 15],
       verification_tweet: "1083836521751478272",
-      account: "testacc2",
+      account: "test2",
       id: 1200
     });
     await addUser({
       verification_salt: "12345",
       stat_diff: [5, 10, 15],
       verification_tweet: "1083836521751478272",
-      account: "testacc1",
+      account: "test1",
       id: 1007
     });
     await lockArUpdate();
@@ -913,7 +908,7 @@ describe("Platform", async () => {
     ]);
     await updatePlatform();
     await verifyStatesAndAccounts();
-    await verifyAccountsBalances(["testacc2", "testacc1", "snax", "platform"]);
+    await verifyAccountsBalances(["test2", "test1", "snax", "platform"]);
   });
 
   it("creates account using updatear method", async () => {

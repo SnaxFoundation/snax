@@ -718,7 +718,7 @@ Object {
   "more": false,
   "rows": Array [
     Object {
-      "account": "platform1",
+      "account": "platform",
       "airdrop": "",
       "platform_name": "test_platform",
       "registered_attention_rate": "600.00000000000000000",
@@ -753,7 +753,7 @@ Array [
     "active": 1,
     "id": 123,
     "last_paid_step_number": 0,
-    "name": "testacc1",
+    "name": "test1",
     "stat_diff": Array [
       50,
       11,
@@ -767,7 +767,7 @@ Array [
     "active": 1,
     "id": 1007,
     "last_paid_step_number": 0,
-    "name": "testacc1",
+    "name": "test1",
     "stat_diff": Array [
       51,
       10,
@@ -781,7 +781,7 @@ Array [
     "active": 1,
     "id": 1105,
     "last_paid_step_number": 0,
-    "name": "testacc2",
+    "name": "test2",
     "stat_diff": Array [
       5,
       10,
@@ -795,7 +795,7 @@ Array [
     "active": 1,
     "id": 1200,
     "last_paid_step_number": 0,
-    "name": "testacc2",
+    "name": "test2",
     "stat_diff": Array [
       51,
       120,
@@ -860,7 +860,11 @@ Array [
   },
   Object {
     "more": false,
-    "rows": Array [],
+    "rows": Array [
+      Object {
+        "balance": "1209541572.0000 SNAX",
+      },
+    ],
   },
 ]
 `;
@@ -870,7 +874,7 @@ Object {
   "more": false,
   "rows": Array [
     Object {
-      "account": "platform1",
+      "account": "platform",
       "airdrop": "",
       "platform_name": "test_platform",
       "registered_attention_rate": "600.00000000000000000",
@@ -905,7 +909,7 @@ Array [
     "active": 1,
     "id": 123,
     "last_paid_step_number": 0,
-    "name": "testacc1",
+    "name": "test1",
     "stat_diff": Array [
       50,
       11,
@@ -919,7 +923,7 @@ Array [
     "active": 1,
     "id": 1007,
     "last_paid_step_number": 0,
-    "name": "testacc1",
+    "name": "test1",
     "stat_diff": Array [
       51,
       10,
@@ -933,7 +937,7 @@ Array [
     "active": 1,
     "id": 1105,
     "last_paid_step_number": 0,
-    "name": "testacc2",
+    "name": "test2",
     "stat_diff": Array [
       5,
       10,
@@ -947,7 +951,7 @@ Array [
     "active": 1,
     "id": 1200,
     "last_paid_step_number": 0,
-    "name": "testacc2",
+    "name": "test2",
     "stat_diff": Array [
       51,
       120,
@@ -1001,7 +1005,7 @@ Object {
   "more": false,
   "rows": Array [
     Object {
-      "account": "platform1",
+      "account": "platform",
       "airdrop": "",
       "platform_name": "test_platform",
       "registered_attention_rate": "600.00000000000000000",
@@ -1009,7 +1013,7 @@ Object {
       "round_sent_account_count": 0,
       "round_supply": "0.0000 SNAX",
       "round_updated_account_count": 0,
-      "sent_amount": "2398260027.0750 SNAX",
+      "sent_amount": "1209541572.0000 SNAX",
       "step_number": 2,
       "token_dealer": "snax",
       "token_symbols": Array [
@@ -1031,9 +1035,9 @@ Object {
       "registered_attention_rate": "600.00000000000000000",
       "registered_user_count": 4,
       "round_sent_account_count": 4,
-      "round_supply": "2398260027.0750 SNAX",
+      "round_supply": "1209541572.0000 SNAX",
       "round_updated_account_count": 4,
-      "sent_amount": "2398260027.0750 SNAX",
+      "sent_amount": "1209541572.0000 SNAX",
       "step_number": 1,
       "total_attention_rate": "600.00000000000000000",
       "total_user_count": 4,
@@ -1048,7 +1052,7 @@ Array [
     "active": 1,
     "id": 123,
     "last_paid_step_number": 0,
-    "name": "testacc1",
+    "name": "test1",
     "stat_diff": Array [
       50,
       11,
@@ -1062,7 +1066,7 @@ Array [
     "active": 1,
     "id": 1007,
     "last_paid_step_number": 1,
-    "name": "testacc1",
+    "name": "test1",
     "stat_diff": Array [
       51,
       10,
@@ -1076,7 +1080,7 @@ Array [
     "active": 1,
     "id": 1105,
     "last_paid_step_number": 1,
-    "name": "testacc2",
+    "name": "test2",
     "stat_diff": Array [
       5,
       10,
@@ -1090,7 +1094,7 @@ Array [
     "active": 1,
     "id": 1200,
     "last_paid_step_number": 1,
-    "name": "testacc2",
+    "name": "test2",
     "stat_diff": Array [
       51,
       120,
@@ -1145,7 +1149,7 @@ Array [
     "more": false,
     "rows": Array [
       Object {
-        "balance": "1199130013.5375 SNAX",
+        "balance": "604770786.0000 SNAX",
       },
     ],
   },
@@ -1153,7 +1157,7 @@ Array [
     "more": false,
     "rows": Array [
       Object {
-        "balance": "1199131001.1098 SNAX",
+        "balance": "604770786.0000 SNAX",
       },
     ],
   },
