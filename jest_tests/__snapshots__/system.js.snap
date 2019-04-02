@@ -1090,7 +1090,7 @@ Array [
     "producers": Array [],
     "proxied_vote_weight": "0.00000000000000000",
     "proxy": "",
-    "staked": 100000000,
+    "staked": 1000000000,
     "votes": 0,
   },
   Object {
@@ -1398,7 +1398,7 @@ Array [
     "producers": Array [],
     "proxied_vote_weight": "0.00000000000000000",
     "proxy": "",
-    "staked": 100000000,
+    "staked": 1000000000,
     "votes": 0,
   },
   Object {
@@ -1435,7 +1435,7 @@ Array [
     "more": false,
     "rows": Array [
       Object {
-        "balance": "499979825.7603 SNAX",
+        "balance": "499889825.7603 SNAX",
       },
     ],
   },
@@ -1448,7 +1448,7 @@ Array [
     "more": false,
     "rows": Array [
       Object {
-        "balance": "499979825.7603 SNAX",
+        "balance": "499889825.7603 SNAX",
       },
     ],
   },
@@ -1465,24 +1465,24 @@ Array [
 
 exports[`System should set platforms 1`] = `
 Object {
-  "cpu_weight": 15000000,
-  "net_weight": 10000000,
+  "cpu_weight": 150000000,
+  "net_weight": 100000000,
   "ram_quota": 1018492,
 }
 `;
 
 exports[`System should set platforms 2`] = `
 Object {
-  "cpu_weight": 15000000,
-  "net_weight": 10000000,
+  "cpu_weight": 150000000,
+  "net_weight": 100000000,
   "ram_quota": 1018492,
 }
 `;
 
 exports[`System should set platforms 3`] = `
 Object {
-  "cpu_weight": 15000000,
-  "net_weight": 10000000,
+  "cpu_weight": 150000000,
+  "net_weight": 100000000,
   "ram_quota": 1018492,
 }
 `;
@@ -1551,7 +1551,7 @@ Array [
     "producers": Array [],
     "proxied_vote_weight": "0.00000000000000000",
     "proxy": "",
-    "staked": 100000000,
+    "staked": 1000000000,
     "votes": 0,
   },
   Object {
@@ -1636,7 +1636,7 @@ Array [
     "producers": Array [],
     "proxied_vote_weight": "0.00000000000000000",
     "proxy": "",
-    "staked": 100000000,
+    "staked": 1000000000,
     "votes": 0,
   },
   Object {
@@ -1667,27 +1667,27 @@ Array [
     "more": false,
     "rows": Array [
       Object {
-        "cpu_weight": "1500.0000 SNAX",
+        "cpu_weight": "15000.0000 SNAX",
         "from": "snax.creator",
-        "net_weight": "1000.0000 SNAX",
+        "net_weight": "10000.0000 SNAX",
         "to": "platform1",
       },
       Object {
-        "cpu_weight": "1500.0000 SNAX",
+        "cpu_weight": "15000.0000 SNAX",
         "from": "snax.creator",
-        "net_weight": "1000.0000 SNAX",
+        "net_weight": "10000.0000 SNAX",
         "to": "platform2",
       },
       Object {
-        "cpu_weight": "1500.0000 SNAX",
+        "cpu_weight": "15000.0000 SNAX",
         "from": "snax.creator",
-        "net_weight": "1000.0000 SNAX",
+        "net_weight": "10000.0000 SNAX",
         "to": "testacc1",
       },
       Object {
-        "cpu_weight": "1500.0000 SNAX",
+        "cpu_weight": "15000.0000 SNAX",
         "from": "snax.creator",
-        "net_weight": "1000.0000 SNAX",
+        "net_weight": "10000.0000 SNAX",
         "to": "testacc2",
       },
     ],
@@ -1701,8 +1701,8 @@ Array [
     "more": false,
     "rows": Array [
       Object {
-        "cpu_weight": "1500.0000 SNAX",
-        "net_weight": "1000.0000 SNAX",
+        "cpu_weight": "15000.0000 SNAX",
+        "net_weight": "10000.0000 SNAX",
         "owner": "testacc1",
         "ram_bytes": 1018492,
       },
@@ -1725,27 +1725,27 @@ Array [
     "more": false,
     "rows": Array [
       Object {
-        "cpu_weight": "1500.0000 SNAX",
+        "cpu_weight": "15000.0000 SNAX",
         "from": "snax.creator",
-        "net_weight": "1000.0000 SNAX",
+        "net_weight": "10000.0000 SNAX",
         "to": "platform1",
       },
       Object {
-        "cpu_weight": "1500.0000 SNAX",
+        "cpu_weight": "15000.0000 SNAX",
         "from": "snax.creator",
-        "net_weight": "1000.0000 SNAX",
+        "net_weight": "10000.0000 SNAX",
         "to": "platform2",
       },
       Object {
-        "cpu_weight": "1490.0000 SNAX",
+        "cpu_weight": "14990.0000 SNAX",
         "from": "snax.creator",
-        "net_weight": "990.0000 SNAX",
+        "net_weight": "9990.0000 SNAX",
         "to": "testacc1",
       },
       Object {
-        "cpu_weight": "1500.0000 SNAX",
+        "cpu_weight": "15000.0000 SNAX",
         "from": "snax.creator",
-        "net_weight": "1000.0000 SNAX",
+        "net_weight": "10000.0000 SNAX",
         "to": "testacc2",
       },
     ],
@@ -1759,8 +1759,8 @@ Array [
     "more": false,
     "rows": Array [
       Object {
-        "cpu_weight": "1490.0000 SNAX",
-        "net_weight": "990.0000 SNAX",
+        "cpu_weight": "14990.0000 SNAX",
+        "net_weight": "9990.0000 SNAX",
         "owner": "testacc1",
         "ram_bytes": 1018492,
       },
@@ -1783,27 +1783,27 @@ Array [
     "more": false,
     "rows": Array [
       Object {
-        "cpu_weight": "1500.0000 SNAX",
+        "cpu_weight": "15000.0000 SNAX",
         "from": "snax.creator",
-        "net_weight": "1000.0000 SNAX",
+        "net_weight": "10000.0000 SNAX",
         "to": "platform1",
       },
       Object {
-        "cpu_weight": "1500.0000 SNAX",
+        "cpu_weight": "15000.0000 SNAX",
         "from": "snax.creator",
-        "net_weight": "1000.0000 SNAX",
+        "net_weight": "10000.0000 SNAX",
         "to": "platform2",
       },
       Object {
-        "cpu_weight": "1500.0000 SNAX",
+        "cpu_weight": "15000.0000 SNAX",
         "from": "snax.creator",
-        "net_weight": "1000.0000 SNAX",
+        "net_weight": "10000.0000 SNAX",
         "to": "testacc1",
       },
       Object {
-        "cpu_weight": "1500.0000 SNAX",
+        "cpu_weight": "15000.0000 SNAX",
         "from": "snax.creator",
-        "net_weight": "1000.0000 SNAX",
+        "net_weight": "10000.0000 SNAX",
         "to": "testacc2",
       },
     ],
@@ -1821,8 +1821,8 @@ Array [
     "more": false,
     "rows": Array [
       Object {
-        "cpu_weight": "1500.0000 SNAX",
-        "net_weight": "1000.0000 SNAX",
+        "cpu_weight": "15000.0000 SNAX",
+        "net_weight": "10000.0000 SNAX",
         "owner": "testacc1",
         "ram_bytes": 1018492,
       },
@@ -1836,8 +1836,8 @@ Array [
     "more": false,
     "rows": Array [
       Object {
-        "cpu_weight": "1500.0000 SNAX",
-        "net_weight": "1000.0000 SNAX",
+        "cpu_weight": "15000.0000 SNAX",
+        "net_weight": "10000.0000 SNAX",
         "owner": "testacc2",
         "ram_bytes": 1018492,
       },
@@ -1869,27 +1869,27 @@ Array [
     "more": false,
     "rows": Array [
       Object {
-        "cpu_weight": "1500.0000 SNAX",
+        "cpu_weight": "15000.0000 SNAX",
         "from": "snax.creator",
-        "net_weight": "1000.0000 SNAX",
+        "net_weight": "10000.0000 SNAX",
         "to": "platform1",
       },
       Object {
-        "cpu_weight": "1500.0000 SNAX",
+        "cpu_weight": "15000.0000 SNAX",
         "from": "snax.creator",
-        "net_weight": "1000.0000 SNAX",
+        "net_weight": "10000.0000 SNAX",
         "to": "platform2",
       },
       Object {
-        "cpu_weight": "1390.0000 SNAX",
+        "cpu_weight": "14890.0000 SNAX",
         "from": "snax.creator",
-        "net_weight": "880.0000 SNAX",
+        "net_weight": "9880.0000 SNAX",
         "to": "testacc1",
       },
       Object {
-        "cpu_weight": "1490.0000 SNAX",
+        "cpu_weight": "14990.0000 SNAX",
         "from": "snax.creator",
-        "net_weight": "990.0000 SNAX",
+        "net_weight": "9990.0000 SNAX",
         "to": "testacc2",
       },
     ],
@@ -1907,8 +1907,8 @@ Array [
     "more": false,
     "rows": Array [
       Object {
-        "cpu_weight": "1400.0000 SNAX",
-        "net_weight": "890.0000 SNAX",
+        "cpu_weight": "14900.0000 SNAX",
+        "net_weight": "9890.0000 SNAX",
         "owner": "testacc1",
         "ram_bytes": 1018492,
       },
@@ -1922,8 +1922,8 @@ Array [
     "more": false,
     "rows": Array [
       Object {
-        "cpu_weight": "1400.0000 SNAX",
-        "net_weight": "890.0000 SNAX",
+        "cpu_weight": "14900.0000 SNAX",
+        "net_weight": "9890.0000 SNAX",
         "owner": "testacc1",
         "ram_bytes": 1018492,
       },
@@ -1949,27 +1949,27 @@ Array [
     "more": false,
     "rows": Array [
       Object {
-        "cpu_weight": "1500.0000 SNAX",
+        "cpu_weight": "15000.0000 SNAX",
         "from": "snax.creator",
-        "net_weight": "1000.0000 SNAX",
+        "net_weight": "10000.0000 SNAX",
         "to": "platform1",
       },
       Object {
-        "cpu_weight": "1500.0000 SNAX",
+        "cpu_weight": "15000.0000 SNAX",
         "from": "snax.creator",
-        "net_weight": "1000.0000 SNAX",
+        "net_weight": "10000.0000 SNAX",
         "to": "platform2",
       },
       Object {
-        "cpu_weight": "1280.0000 SNAX",
+        "cpu_weight": "14780.0000 SNAX",
         "from": "snax.creator",
-        "net_weight": "640.0000 SNAX",
+        "net_weight": "9640.0000 SNAX",
         "to": "testacc1",
       },
       Object {
-        "cpu_weight": "1490.0000 SNAX",
+        "cpu_weight": "14990.0000 SNAX",
         "from": "snax.creator",
-        "net_weight": "990.0000 SNAX",
+        "net_weight": "9990.0000 SNAX",
         "to": "testacc2",
       },
     ],
@@ -1987,8 +1987,8 @@ Array [
     "more": false,
     "rows": Array [
       Object {
-        "cpu_weight": "1290.0000 SNAX",
-        "net_weight": "650.0000 SNAX",
+        "cpu_weight": "14790.0000 SNAX",
+        "net_weight": "9650.0000 SNAX",
         "owner": "testacc1",
         "ram_bytes": 1018492,
       },
@@ -2002,8 +2002,8 @@ Array [
     "more": false,
     "rows": Array [
       Object {
-        "cpu_weight": "1290.0000 SNAX",
-        "net_weight": "650.0000 SNAX",
+        "cpu_weight": "14790.0000 SNAX",
+        "net_weight": "9650.0000 SNAX",
         "owner": "testacc1",
         "ram_bytes": 1018492,
       },

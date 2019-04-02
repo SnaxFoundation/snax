@@ -35,7 +35,7 @@ clisnax set contract snax ../build/contracts/snax.bios -p snax@owner
 clisnax set contract snax.token ../build/contracts/snax.token -p snax.token@owner
 clisnax push action snax.token create '["snax", "1000000000000.0000 SNAX"]' -p snax.token@active
 clisnax set contract snax ../build/contracts/test_snax.system -p snax@owner -x 1000
-clisnax system newaccount snax.creator platform SNAX6MRyAjQq8ud7hVNYcfnVPJqcVpscN5So8BhtHuGYqET5GDW5CV -p snax.creator@active --stake-cpu="1500.0000 SNAX" --stake-net="1000.0000 SNAX" --buy-ram-kbytes=1000
+clisnax system newaccount snax.creator platform SNAX6MRyAjQq8ud7hVNYcfnVPJqcVpscN5So8BhtHuGYqET5GDW5CV -p snax.creator@active --stake-cpu="15000.0000 SNAX" --stake-net="10000.0000 SNAX" --buy-ram-kbytes=1000
 clisnax set contract snax.msig ../build/contracts/snax.msig -p snax.msig@owner
 clisnax push action snax setpriv '["snax.token", 1]' -p snax@active
 clisnax push action snax setpriv '["platform", 1]' -p snax@active
