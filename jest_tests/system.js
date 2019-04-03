@@ -499,6 +499,16 @@ describe("System", async () => {
       }
     ]);
 
+  it("should check platform configs", async () => {
+    expect(
+      await api.rpc.get_table_rows({
+        code: "snax",
+        scope: "snax",
+        table: "platforms"
+      })
+    ).toMatchSnapshot();
+  });
+
   it("should claim rewards", async () => {
     await regproducer(
       "snax",

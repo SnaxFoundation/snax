@@ -59,11 +59,9 @@ namespace snax {
     }
 
     void airdrop::check_platform_registered(const account_name platform) {
-        _snax_global_state _state(N(snax), N(snax));
-        const auto& state = _state.get();
-        for (auto& platform_config: state.platforms) {
-            if (platform_config.account == platform) return;
-        }
+        _platforms_table _platforms(N(snax), N(snax));
+        for (auto platform_config = _platforms.begin(); platform_config != _platforms.end(); platform_config++)
+            if (platform_config->account == platform) return;
         snax_assert(false, "platform doesnt exist in snax global state");
     }
 

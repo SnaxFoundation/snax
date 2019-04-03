@@ -17,17 +17,13 @@ namespace snax {
         account_name account;
         double weight;
         uint32_t period;
-
-        SNAXLIB_SERIALIZE(platform_config, (account)(weight)(period))
-    };
-
-    struct platform_config_extended {
-        account_name account;
-        double weight;
-        uint32_t period;
         quotas quotas;
 
-        SNAXLIB_SERIALIZE(platform_config_extended, (account)(weight)(period)(quotas))
+        uint64_t primary_key() const {
+            return account;
+        }
+
+        SNAXLIB_SERIALIZE(platform_config, (account)(weight)(period)(quotas))
     };
 
    /**
@@ -72,8 +68,6 @@ namespace snax {
       uint32_t min_transaction_cpu_usage;
 
       uint32_t resources_market_open;
-
-      uint32_t top_producers_limit;
 
       uint32_t privileged_contracts;
 
@@ -128,8 +122,6 @@ namespace snax {
        */
       uint16_t max_authority_depth;
 
-      std::vector<platform_config> platforms;
-
 
       SNAXLIB_SERIALIZE( blockchain_parameters,
                         (max_block_net_usage)(target_block_net_usage_pct)
@@ -139,12 +131,11 @@ namespace snax {
                         (max_block_cpu_usage)(target_block_cpu_usage_pct)
                         (max_transaction_cpu_usage)(min_transaction_cpu_usage)
 
-                        (resources_market_open)(top_producers_limit)(privileged_contracts)(contract_owner)(platform_lock_duration)
+                        (resources_market_open)(privileged_contracts)(contract_owner)(platform_lock_duration)
 
                         (max_transaction_lifetime)(deferred_trx_expiration_window)(max_transaction_delay)
                         (max_inline_action_size)(max_inline_action_depth)(max_authority_depth)
 
-                        (platforms)
       )
    };
 
@@ -160,7 +151,7 @@ namespace snax {
     * Retrieve the blolckchain parameters
     * @param params - It will be replaced with the retrieved blockchain params
     */
-   void get_blockchain_parameters(snax::blockchain_parameters& params, const uint8_t platform_count);
+   void get_blockchain_parameters(snax::blockchain_parameters& params);
 
    ///@} privilegedcppapi
 

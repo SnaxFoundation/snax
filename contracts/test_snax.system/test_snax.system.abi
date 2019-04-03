@@ -269,14 +269,6 @@
       "fields": [
          {"name": "account", "type": "account_name"},
          {"name": "weight", "type": "float64"},
-         {"name": "period", "type": "uint32"}
-      ]
-    },{
-      "name": "platform_config_extended",
-      "base": "",
-      "fields": [
-         {"name": "account", "type": "account_name"},
-         {"name": "weight", "type": "float64"},
          {"name": "period", "type": "uint32"},
          {"name": "quotas", "type": "quotas"}
       ]
@@ -296,7 +288,6 @@
          {"name":"max_transaction_cpu_usage",                 "type":"uint32"},
          {"name":"min_transaction_cpu_usage",                 "type":"uint32"},
          {"name":"resources_market_open",                     "type":"uint32"},
-         {"name":"top_producers_limit",                       "type":"uint32"},
          {"name":"privileged_contracts",                      "type":"uint32"},
          {"name":"contract_owner",                            "type":"uint32"},
          {"name":"platform_lock_duration",                    "type":"uint32"},
@@ -305,8 +296,7 @@
          {"name":"max_transaction_delay",                     "type":"uint32"},
          {"name":"max_inline_action_size",                    "type":"uint32"},
          {"name":"max_inline_action_depth",                   "type":"uint16"},
-         {"name":"max_authority_depth",                       "type":"uint16"},
-         {"name":"platforms",                                 "type":"platform_config[]"}
+         {"name":"max_authority_depth",                       "type":"uint16"}
       ]
     },{
       "name": "snax_global_state",
@@ -464,7 +454,7 @@
       "name": "setplatforms",
       "base": "",
       "fields": [
-        {"name":"platforms", "type":"platform_config_extended[]"}
+        {"name":"platforms", "type":"platform_config[]"}
       ]
     },{
       "name": "setparams",
@@ -658,6 +648,12 @@
       "type": "voter_info",
       "index_type": "i64",
       "key_names" : ["owner"],
+      "key_types" : ["account_name"]
+    },{
+      "name": "platforms",
+      "type": "platform_config",
+      "index_type": "i64",
+      "key_names" : ["account"],
       "key_types" : ["account_name"]
     },{
       "name": "userres",

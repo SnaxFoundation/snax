@@ -30,7 +30,7 @@ cleanup:
     changes:
       - "*.md"
   tags:
-    - build3
+    - build2
 
 build:
   stage: build
@@ -50,8 +50,7 @@ build:
     changes:
       - "*.md"
   tags:
-    - build3
-
+    - build2
 
 build:tag:
   stage: build
@@ -68,7 +67,7 @@ build:tag:
   only:
   - tags
   tags:
-    - build3
+    - build2
 
 build:tag:macos:
   stage: build
@@ -86,6 +85,7 @@ build:tag:macos:
   - tags
   tags:
   - macos
+
 
 build:tag:elastic:
   stage: build
@@ -109,7 +109,7 @@ build:tag:elastic:
   only:
   - tags
   tags:
-  - build3
+  - build2
 
 test:jest:
   stage: test
@@ -123,7 +123,7 @@ test:jest:
     changes:
       - "*.md"
   tags:
-  - build3
+  - build2
 
 test:core:
   stage: test
@@ -140,8 +140,10 @@ test:core:
       - contracts/platform/*
       - jest_tests/*
       - "*.md"
+      - contracts/*
+      - .gitlab-ci.yml
   tags:
-  - build3
+  - build2
 
 build:docker:
   stage: build-docker
@@ -157,7 +159,7 @@ build:docker:
     changes:
       - "*.md"
   tags:
-  - build3
+  - build2
 
 build:docker:tag:
   stage: build-docker
@@ -173,7 +175,7 @@ build:docker:tag:
   only:
   - tags
   tags:
-  - build3
+  - build2
 
 build:docker:tag:elastic:
   stage: build-docker
@@ -189,7 +191,7 @@ build:docker:tag:elastic:
   only:
   - tags
   tags:
-  - build3
+  - build2
 
 publish:
   stage: publish

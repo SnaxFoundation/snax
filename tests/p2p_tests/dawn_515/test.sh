@@ -31,7 +31,6 @@ read -d '' genesis << EOF
     "max_transaction_cpu_usage": 150000,
     "min_transaction_cpu_usage": 100,
     "resources_market_open": 1,
-    "top_producers_limit": 21,
     "privileged_contracts": 1,
     "contract_owner": 0,
     "platform_lock_duration": 14400,

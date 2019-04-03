@@ -167,6 +167,8 @@ namespace snaxsystem {
 
    typedef snax::multi_index< N(voters), voter_info >  voters_table;
 
+   typedef snax::multi_index< N(platforms), snax::platform_config >  platforms;
+
 
    typedef snax::multi_index< N(producers), producer_info,
                                indexed_by<N(prototalvote), const_mem_fun<producer_info, double, &producer_info::by_votes>  >
@@ -218,6 +220,7 @@ namespace snaxsystem {
          voters_table           _voters;
          producers_table        _producers;
          global_state_singleton _global;
+         platforms              _platforms;
 
          snax_global_state     _gstate;
          rammarket              _rammarket;
@@ -300,7 +303,7 @@ namespace snaxsystem {
 
          void regproxy( const account_name proxy, bool isproxy );
 
-         void setplatforms( const std::vector<snax::platform_config_extended>& platforms );
+         void setplatforms( const std::vector<snax::platform_config>& platforms );
 
          void setparams( const snax::blockchain_parameters& params );
 
@@ -322,6 +325,7 @@ namespace snaxsystem {
          }
          double get_block_reward_multiplier(double x) const;
          asset get_balance(account_name account);
+         asset get_platform_full_balance();
 
          void update_elected_producers( block_timestamp timestamp );
 

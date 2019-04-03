@@ -12,6 +12,7 @@ namespace snaxsystem {
 
    system_contract::system_contract( account_name s )
    :native(s),
+    _platforms(_self, _self),
     _voters(_self,_self),
     _producers(_self,_self),
     _global(_self,_self),
@@ -104,7 +105,7 @@ namespace snaxsystem {
 
    snax_global_state system_contract::get_default_parameters() {
       snax_global_state dp;
-      get_blockchain_parameters(dp, 0);
+      get_blockchain_parameters(dp);
       return dp;
    }
 
@@ -132,20 +133,21 @@ namespace snaxsystem {
         _platform_requests platform_requests(_self, platform);
         _platform_locks platform_locks(_self, platform);
 
-        platform_config* found_config = nullptr;
+        auto found_config = _platforms.end();
 
-        uint64_t period_sum = 0;
-        asset platform_full_balance;
-        int64_t offset_of_round = 0;
-        for (auto& config: _gstate.platforms) {
-           if (config.account == platform) {
-               found_config = &config;
-           }
-           if (config.period > offset_of_round) offset_of_round = config.period;
-           platform_full_balance += get_balance(config.account);
-        };
+        asset platform_full_balance = get_platform_full_balance();
+        int64_t offset_of_round = 1;
 
-        snax_assert(found_config != nullptr, "platform not found in platforms config");
+        for ( auto platform_conf = _platforms.begin(); platform_conf != _platforms.end(); platform_conf++ ) {
+            if (offset_of_round < platform_conf->period) {
+                offset_of_round = platform_conf->period;
+            }
+            if (platform_conf->account == platform) {
+                found_config = platform_conf;
+            }
+        }
+
+        snax_assert(found_config != _platforms.end(), "platform not found in platforms config");
 
         const auto current_time = snax::time_point_sec(now());
 
@@ -222,7 +224,7 @@ namespace snaxsystem {
         const int64_t round_supply = (
             supply_difference / 1'0000
             -
-            static_cast<uint64_t>(
+            static_cast<int64_t>(
                 calculate_parabola(
                     static_cast<double>(_gstate.system_parabola_a),
                     static_cast<double>(_gstate.system_parabola_b),
@@ -306,52 +308,6 @@ namespace snaxsystem {
       require_auth( N(snax) );
       (snax::blockchain_parameters&)(_gstate) = params;
       snax_assert( 3 <= _gstate.max_authority_depth, "max_authority_depth should be at least 3" );
-      double total_weight = 0;
-      for (auto platform = params.platforms.begin(); platform < params.platforms.end(); platform++) {
-         // Check that platforms are sorted
-         if ( platform > params.platforms.begin() )
-           snax_assert((--platform)->account < (++platform)->account, "platforms must be sorted");
-
-         const auto platform_config = *platform;
-
-         snax_assert(platform_config.weight >= 0, "platform weight must be greater than 0 or equal to 0");
-         total_weight += platform_config.weight;
-         snax_assert(platform_config.period > 0, "platform period must be greater than 0");
-     }
-     for (auto& snax_platform: _gstate.platforms) {
-         bool found_platform = false;
-         for (auto& platform: params.platforms) {
-             if (platform.account == snax_platform.account) {
-                 found_platform = true;
-             }
-         }
-         // Set default resourse limits to excluded platforms
-         if (!found_platform) {
-             user_resources_table  userres( _self, snax_platform.account );
-             auto res_itr = userres.find( snax_platform.account );
-             if (res_itr != userres.end()) {
-                set_resource_limits( res_itr->owner, 4000, 0, 0 );
-                userres.modify( res_itr, _self, [&]( auto& res ) {
-                  res.owner = snax_platform.account;
-                  res.ram_bytes = 4000;
-                  res.net_weight = asset(0);
-                  res.cpu_weight = asset(0);
-                });
-             }
-         }
-      }
-
-      const auto top_producers_limit = params.top_producers_limit;
-      snax_assert(
-          top_producers_limit == 4 ||
-          top_producers_limit == 9 ||
-          top_producers_limit == 12 ||
-          top_producers_limit == 15 ||
-          top_producers_limit == 18 ||
-          top_producers_limit == 21,
-          "top_producers_limit must be one of following: 4, 9, 12, 15, 18, 21"
-      );
-      snax_assert(total_weight == 1 || total_weight == 0, "Summary weight of all platforms must be equal to 1 or 0");
       set_blockchain_parameters( params );
    }
 
@@ -369,37 +325,57 @@ namespace snaxsystem {
          });
    }
 
-   void system_contract::setplatforms( const std::vector<snax::platform_config_extended>& platforms ) {
+   void system_contract::setplatforms( const std::vector<snax::platform_config>& platforms ) {
        require_auth( _self );
 
-       snax::blockchain_parameters _new_state;
+       for ( auto snax_platform = _platforms.begin(); snax_platform != _platforms.end(); ) {
+           bool found_platform = false;
+           for (auto& platform: platforms) {
+               if (platform.account == snax_platform->account) {
+                   found_platform = true;
+               }
+           }
+           // Set default resourse limits to excluded platforms
+           if (!found_platform) {
+               user_resources_table  userres( _self, snax_platform->account );
+               auto res_itr = userres.find( snax_platform->account );
+               if (res_itr != userres.end()) {
+                  set_resource_limits( res_itr->owner, res_itr->ram_bytes, 0, 0 );
+                  userres.modify( res_itr, _self, [&]( auto& res ) {
+                    res.owner = snax_platform->account;
+                    res.ram_bytes = res_itr->ram_bytes;
+                    res.net_weight = asset(0);
+                    res.cpu_weight = asset(0);
+                  });
+               }
+               _platforms.erase(snax_platform++);
+           } else {
+               snax_platform++;
+           }
+        }
 
-       get_blockchain_parameters(_new_state, _gstate.platforms.size());
+        double total_weight = 0;
 
-       _new_state.platforms = {};
+        for (auto& platform: platforms) {
 
-       for (const auto& platform: platforms) {
-           platform_config param_platform = {};
-           param_platform.period = platform.period;
-           param_platform.weight = platform.weight;
-           param_platform.account = platform.account;
-           _new_state.platforms.push_back(
-               param_platform
-           );
+            snax_assert(platform.weight >= 0, "platform weight must be greater than 0 or equal to 0");
 
-           snax::print("Platform: \t", platform.account, "\n");
+            total_weight += platform.weight;
 
-           snax::print("Quotas: \n");
+            snax_assert(platform.period > 0, "platform period must be greater than 0");
 
-           snax::print("RAM: \t", platform.quotas.ram_bytes, "\n");
-           snax::print("NET: \t", platform.quotas.net_weight, "\n");
-           snax::print("CPU: \t", platform.quotas.cpu_weight, "\n");
+            snax::print("Platform: \t", platform.account, "\n");
 
+            snax::print("Quotas: \n");
 
-           // Set platform memory limits to quota specified in configuration
-           user_resources_table  userres( _self, platform.account );
-           auto res_itr = userres.find( platform.account );
-           if (res_itr != userres.end()) {
+            snax::print("RAM: \t", platform.quotas.ram_bytes, "\n");
+            snax::print("NET: \t", platform.quotas.net_weight, "\n");
+            snax::print("CPU: \t", platform.quotas.cpu_weight, "\n");
+
+            // Set platform memory limits to quotas specified in configuration
+            user_resources_table  userres( _self, platform.account );
+            auto res_itr = userres.find( platform.account );
+            if (res_itr != userres.end()) {
                 set_resource_limits(
                     res_itr->owner,
                     platform.quotas.ram_bytes,
@@ -407,22 +383,44 @@ namespace snaxsystem {
                     static_cast<int64_t>(platform.quotas.cpu_weight)
                 );
                 userres.modify( res_itr, _self, [&]( auto& res ) {
-                  res.owner = platform.account;
-                  res.ram_bytes = platform.quotas.ram_bytes;
-                  res.net_weight = asset(platform.quotas.net_weight);
-                  res.cpu_weight = asset(platform.quotas.cpu_weight);
+                    res.owner = platform.account;
+                    res.ram_bytes = platform.quotas.ram_bytes;
+                    res.net_weight = asset(platform.quotas.net_weight);
+                    res.cpu_weight = asset(platform.quotas.cpu_weight);
                 });
             } else {
                 userres.emplace( _self, [&]( auto& res ) {
-                  res.owner = platform.account;
-                  res.ram_bytes = platform.quotas.ram_bytes;
-                  res.net_weight = asset(platform.quotas.net_weight);
-                  res.cpu_weight = asset(platform.quotas.cpu_weight);
+                    res.owner = platform.account;
+                    res.ram_bytes = platform.quotas.ram_bytes;
+                    res.net_weight = asset(platform.quotas.net_weight);
+                    res.cpu_weight = asset(platform.quotas.cpu_weight);
                 });
             }
-       }
 
-       setparams(_new_state);
+            const auto found_platform = _platforms.find(platform.account);
+
+            if (found_platform != _platforms.end()) {
+                _platforms.modify( found_platform, 0, [&](auto& record) {
+                    record.period = platform.period;
+                    record.weight = platform.weight;
+                    record.account = platform.account;
+                    record.quotas.ram_bytes = platform.quotas.ram_bytes;
+                    record.quotas.net_weight = platform.quotas.net_weight;
+                    record.quotas.cpu_weight = platform.quotas.cpu_weight;
+                });
+            } else {
+                _platforms.emplace( _self, [&](auto& record) {
+                    record.period = platform.period;
+                    record.weight = platform.weight;
+                    record.account = platform.account;
+                    record.quotas.ram_bytes = platform.quotas.ram_bytes;
+                    record.quotas.net_weight = platform.quotas.net_weight;
+                    record.quotas.cpu_weight = platform.quotas.cpu_weight;
+                });
+            }
+        }
+
+        snax_assert(total_weight <= 1  && total_weight >= 0, "Summary weight of all platforms must be equal from 1 to 0");
    }
 
    void system_contract::bidname( account_name bidder, account_name newname, asset bid ) {
@@ -564,6 +562,16 @@ namespace snaxsystem {
         const double x0 = exp(0.15);
         const double x1 = (exp(1) - x0) / target_point;
         return log(x0 + x * x1);
+    }
+
+    asset system_contract::get_platform_full_balance() {
+        asset balance = asset(0);
+
+        for ( auto platform = _platforms.begin(); platform != _platforms.end(); platform++ ) {
+            balance += get_balance(platform->account);
+        }
+
+        return balance;
     }
 
 

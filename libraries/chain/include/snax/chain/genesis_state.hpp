@@ -36,7 +36,6 @@ struct genesis_state {
       .min_transaction_cpu_usage            = config::default_min_transaction_cpu_usage,
 
       .resources_market_open                = config::resources_market_open,
-      .top_producers_limit                  = config::top_producers_limit,
       .privileged_contracts                 = config::privileged_contracts,
       .platform_lock_duration               = config::platform_lock_duration,
       .contract_owner                       = config::contract_owner,
@@ -45,8 +44,7 @@ struct genesis_state {
       .max_transaction_delay                = config::default_max_trx_delay,
       .max_inline_action_size               = config::default_max_inline_action_size,
       .max_inline_action_depth              = config::default_max_inline_action_depth,
-      .max_authority_depth                  = config::default_max_auth_depth,
-      .platforms                            = config::platforms,
+      .max_authority_depth                  = config::default_max_auth_depth
    };
 
    time_point                               initial_timestamp;

@@ -30,7 +30,6 @@ struct chain_config {
    uint32_t   max_transaction_cpu_usage;           ///< the maximum billable cpu usage (in microseconds) that the chain will allow regardless of account limits
    uint32_t   min_transaction_cpu_usage;           ///< the minimum billable cpu usage (in microseconds) that the chain requires
    uint32_t   resources_market_open;               ///< allows non privileged users to buy ram
-   uint32_t   top_producers_limit;                 ///< max allowed quantity of producers in system top list
    uint32_t   privileged_contracts;                ///< allows non privileged users to add contracts to system
    uint32_t   contract_owner;                      ///< require owner permission to set contract
    uint32_t   platform_lock_duration;              ///< platform lock duration in seconds
@@ -40,7 +39,6 @@ struct chain_config {
    uint32_t   max_inline_action_size;              ///< maximum allowed size (in bytes) of an inline action
    uint16_t   max_inline_action_depth;             ///< recursion depth limit on sending inline actions
    uint16_t   max_authority_depth;                 ///< recursion depth limit for checking if an authority is satisfied
-   std::vector<platform_config> platforms;         ///< configs for all platforms which have possibility to receive tokens from system
    void validate()const;
 
    template<typename Stream>
@@ -57,7 +55,6 @@ struct chain_config {
                  << "Max Transaction CPU Usage: " << c.max_transaction_cpu_usage << ", "
                  << "Min Transaction CPU Usage: " << c.min_transaction_cpu_usage << ", "
                  << "Ram market open: " << c.resources_market_open << ", "
-                 << "Top producers count: " << c.top_producers_limit << ", "
                  << "Enabled contracts by non privileged users: " << c.privileged_contracts << ", "
                  << "Platform lock duration in seconds: " << c.platform_lock_duration << ", "
                  << "Require owner permission to set contract: " << c.contract_owner << ", "
@@ -67,8 +64,7 @@ struct chain_config {
                  << "Max Transaction Delay: " << c.max_transaction_delay << ", "
                  << "Max Inline Action Size: " << c.max_inline_action_size << ", "
                  << "Max Inline Action Depth: " << c.max_inline_action_depth << ", "
-                 << "Max Authority Depth: " << c.max_authority_depth << "\n"
-                 << "Platforms configs: " << c.platforms << "\n";
+                 << "Max Authority Depth: " << c.max_authority_depth << "\n";
    }
 
    friend inline bool operator ==( const chain_config& lhs, const chain_config& rhs ) {
@@ -84,7 +80,6 @@ struct chain_config {
                            lhs.max_transaction_cpu_usage,
                            lhs.max_transaction_cpu_usage,
                            lhs.resources_market_open,
-                           lhs.top_producers_limit,
                            lhs.privileged_contracts,
                            lhs.contract_owner,
                            lhs.platform_lock_duration,
@@ -108,7 +103,6 @@ struct chain_config {
                            rhs.max_transaction_cpu_usage,
                            rhs.max_transaction_cpu_usage,
                            rhs.resources_market_open,
-                           rhs.top_producers_limit,
                            rhs.privileged_contracts,
                            rhs.contract_owner,
                            lhs.platform_lock_duration,
@@ -119,13 +113,6 @@ struct chain_config {
                            rhs.max_inline_action_depth,
                            rhs.max_authority_depth
                         );
-          result &= lhs.platforms.size() == rhs.platforms.size();
-          for (uint16_t i = 0; i < lhs.platforms.size(); i++) {
-              result &=
-                lhs.platforms[i].weight == rhs.platforms[i].weight
-                && lhs.platforms[i].period == rhs.platforms[i].period
-                && lhs.platforms[i].account == rhs.platforms[i].account;
-          }
           return result;
    };
 
@@ -144,10 +131,8 @@ FC_REFLECT(snax::chain::chain_config,
            (max_block_cpu_usage)(target_block_cpu_usage_pct)
            (max_transaction_cpu_usage)(min_transaction_cpu_usage)
 
-           (resources_market_open)(top_producers_limit)(privileged_contracts)(contract_owner)(platform_lock_duration)
+           (resources_market_open)(privileged_contracts)(contract_owner)(platform_lock_duration)
 
            (max_transaction_lifetime)(deferred_trx_expiration_window)(max_transaction_delay)
            (max_inline_action_size)(max_inline_action_depth)(max_authority_depth)
-
-           (platforms)
 )
