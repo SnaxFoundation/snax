@@ -46,7 +46,7 @@ else
     CONFIG_DIR=""
 fi
 
-if [ ! "$GENESIS_JSON" ]; then
+if [ ! -f '/opt/snax/data/blocks/blocks.log' ]; then
     GENESIS_JSON="--genesis-json=/genesis.json"
 else
     GENESIS_JSON=""
