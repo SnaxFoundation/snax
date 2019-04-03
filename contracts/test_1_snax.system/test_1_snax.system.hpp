@@ -82,16 +82,17 @@ namespace snaxsystem {
       uint32_t              unpaid_blocks = 0;
       uint64_t              last_claim_time = 0;
       block_timestamp       last_block_time;
+      block_timestamp       last_top_list_entry_time;
       uint16_t              location = 0;
 
       uint64_t primary_key()const { return owner;                                   }
       double   by_votes()const    { return is_active ? -total_votes : total_votes;  }
       bool     active()const      { return is_active;                               }
-      void     deactivate()       { producer_key = public_key(); is_active = false; }
+      void     deactivate()       { producer_key = public_key(); is_active = false; last_top_list_entry_time = block_timestamp(0); }
 
       // explicit serialization macro is not necessary, used here only to improve compilation time
       SNAXLIB_SERIALIZE( producer_info, (owner)(total_votes)(producer_key)(is_active)(url)
-                        (unpaid_blocks)(last_claim_time)(last_block_time)(location) )
+                        (unpaid_blocks)(last_claim_time)(last_block_time)(last_top_list_entry_time)(location) )
    };
 
    struct account_with_balance {
@@ -166,6 +167,8 @@ namespace snaxsystem {
 
    typedef snax::multi_index< N(voters), voter_info >  voters_table;
 
+   typedef snax::multi_index< N(platforms), snax::platform_config >  platforms;
+
 
    typedef snax::multi_index< N(producers), producer_info,
                                indexed_by<N(prototalvote), const_mem_fun<producer_info, double, &producer_info::by_votes>  >
@@ -179,11 +182,45 @@ namespace snaxsystem {
    static constexpr uint32_t     seconds_per_day = 24 * 3600;
    static constexpr uint64_t     system_token_symbol = CORE_SYMBOL;
 
+   static double snax_vote_multipliers[] = {
+        1.00000000000000,
+        0.90000000000000,
+        0.80000000000000,
+        0.70000000000000,
+        0.55000000000000,
+        0.40000000000000,
+        0.25000000000000,
+        0.10000000000000,
+        0.05000000000000,
+        0.02500000000000,
+        0.01250000000000,
+        0.00625000000000,
+        0.00312500000000,
+        0.00156250000000,
+        0.00078125000000,
+        0.00039062500000,
+        0.00019531250000,
+        0.00009765625000,
+        0.00004882812500,
+        0.00002441406250,
+        0.00001220703125,
+        0.00000610351563,
+        0.00000244140625,
+        0.00000244140625,
+        0.00000244140625,
+        0.00000244140625,
+        0.00000244140625,
+        0.00000244140625,
+        0.00000244140625,
+        0.00000244140625,
+   };
+
    class system_contract : public native {
       private:
          voters_table           _voters;
          producers_table        _producers;
          global_state_singleton _global;
+         platforms              _platforms;
 
          snax_global_state     _gstate;
          rammarket              _rammarket;
@@ -266,7 +303,7 @@ namespace snaxsystem {
 
          void regproxy( const account_name proxy, bool isproxy );
 
-         void setplatforms( const std::vector<snax::platform_config_extended>& platforms );
+         void setplatforms( const std::vector<snax::platform_config>& platforms );
 
          void setparams( const snax::blockchain_parameters& params );
 
@@ -283,8 +320,12 @@ namespace snaxsystem {
          std::tuple<double, double> get_parabola(double x0, double y0) const;
          double calculate_parabola(double a, double b, double c, double x) const;
          double convert_asset_to_double(asset value) const;
+         double apply_vote_weight(const account_name voter, const double vote_weight, const uint8_t iter) const {
+             return voter == N(snax.team) ? vote_weight * snax_vote_multipliers[iter]: vote_weight;
+         }
          double get_block_reward_multiplier(double x) const;
          asset get_balance(account_name account);
+         asset get_platform_full_balance();
 
          void update_elected_producers( block_timestamp timestamp );
 

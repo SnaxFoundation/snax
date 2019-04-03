@@ -37,11 +37,7 @@ namespace snaxsystem {
 
          const asset system_supply_soft_limit = system_supply_limit / 10;
 
-         asset platform_full_balance;
-
-         for (auto& config: _gstate.platforms) {
-            platform_full_balance += get_balance(config.account);
-         };
+         asset platform_full_balance = get_platform_full_balance();
 
          const asset issued_supply = snax::token(N(snax.token)).get_supply(snax::symbol_type(system_token_symbol).name());
 
@@ -96,7 +92,7 @@ namespace snaxsystem {
       }
 
       /// only update block producers once every minute, block_timestamp is in half seconds
-      if( timestamp.slot - _gstate.last_producer_schedule_update.slot > 120 ) {
+      if( timestamp.slot - _gstate.last_producer_schedule_update.slot >= 120 ) {
          update_elected_producers( timestamp );
 
          if( (timestamp.slot - _gstate.last_name_close.slot) > blocks_per_day ) {

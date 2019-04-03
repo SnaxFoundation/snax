@@ -110,7 +110,7 @@ namespace snax { namespace chain {
 
    void fork_database::set( block_state_ptr s ) {
       auto result = my->index.insert( s );
-      SNAX_ASSERT( s->id == s->header.id(), fork_database_exception, 
+      SNAX_ASSERT( s->id == s->header.id(), fork_database_exception,
                   "block state id (${id}) is different from block state header id (${hid})", ("id", string(s->id))("hid", string(s->header.id())) );
 
          //FC_ASSERT( s->block_num == s->header.block_num() );
@@ -196,8 +196,8 @@ namespace snax { namespace chain {
          result.second.push_back(second_branch);
          first_branch = get_block( first_branch->header.previous );
          second_branch = get_block( second_branch->header.previous );
-         SNAX_ASSERT( first_branch && second_branch, fork_db_block_not_found, 
-                     "either block ${fid} or ${sid} does not exist", 
+         SNAX_ASSERT( first_branch && second_branch, fork_db_block_not_found,
+                     "either block ${fid} or ${sid} does not exist",
                      ("fid", string(first_branch->header.previous))("sid", string(second_branch->header.previous)) );
       }
 
@@ -252,28 +252,32 @@ namespace snax { namespace chain {
    }
 
    void fork_database::prune( const block_state_ptr& h ) {
-      auto num = h->block_num;
+      try {
+          auto num = h->block_num;
 
-      auto& by_bn = my->index.get<by_block_num>();
-      auto bni = by_bn.begin();
-      while( bni != by_bn.end() && (*bni)->block_num < num ) {
-         prune( *bni );
-         bni = by_bn.begin();
-      }
+          auto& by_bn = my->index.get<by_block_num>();
+          auto bni = by_bn.begin();
+          while( bni != by_bn.end() && (*bni)->block_num < num ) {
+             prune( *bni );
+             bni = by_bn.begin();
+          }
 
-      auto itr = my->index.find( h->id );
-      if( itr != my->index.end() ) {
-         irreversible(*itr);
-         my->index.erase(itr);
-      }
+          auto itr = my->index.find( h->id );
+          if( itr != my->index.end() ) {
+             irreversible(*itr);
+             my->index.erase(itr);
+          }
 
-      auto& numidx = my->index.get<by_block_num>();
-      auto nitr = numidx.lower_bound( num );
-      while( nitr != numidx.end() && (*nitr)->block_num == num ) {
-         auto itr_to_remove = nitr;
-         ++nitr;
-         auto id = (*itr_to_remove)->id;
-         remove( id );
+          auto& numidx = my->index.get<by_block_num>();
+          auto nitr = numidx.lower_bound( num );
+          while( nitr != numidx.end() && (*nitr)->block_num == num ) {
+             auto itr_to_remove = nitr;
+             ++nitr;
+             auto id = (*itr_to_remove)->id;
+             remove( id );
+          }
+      } catch (...) {
+          wlog("Failed to prune object: ${object}", ("object", h));
       }
    }
 

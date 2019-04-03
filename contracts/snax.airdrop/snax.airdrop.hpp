@@ -72,7 +72,7 @@ namespace snax {
         typedef multi_index<N(accounts), account_with_balance> _accounts_balances;
         typedef multi_index<N(requested), account_n> _requested_accounts_table;
         typedef multi_index<N(platforms), platform_def> _platform_definitions_table;
-        typedef singleton<N(global), snaxsystem::snax_global_state> _snax_global_state;
+        typedef multi_index<N(platforms), snax::platform_config> _platforms_table;
 
         _platform_definitions_table _platform_definitions;
 
