@@ -64,12 +64,10 @@ iptables -I INPUT -p tcp --dport 9876 -j ACCEPT
 docker run -d --restart=always --network=host --name producer \
            -v $HOME/producer:/opt/snax/data snaxfoundation/snax:0.4.0-beta-1 \
            snaxnoded.sh --signature-provider put_your_public_key_here=KEY:put_your_private_key_here \
-           --enable-stale-production \
            --plugin=snax::producer_plugin \
            --producer-name=put_your_snax_account_name_here \
-           --max-clients=0 \
+           --max-clients=20 \
            --http-validate-host=false \
-           --plugin=snax::history_api_plugin \
            --p2p-peer-address=18.136.191.21:9876 \
            --p2p-peer-address=54.71.79.75:9876 \
            --p2p-peer-address=80.66.90.29:9876 \
