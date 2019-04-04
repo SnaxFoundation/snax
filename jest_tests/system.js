@@ -711,13 +711,13 @@ describe("System", async () => {
       ["testacc2", "SNAX8mo3cUJW1Yy1GGxQfexWGN7QPUB2rXccQP7brrpgJXGjiw6gKR"]
     ];
     await Promise.all(prods.map(args => regproducer(...args)));
-    await voteproducer(["", "", "", "", ...prods.map(v => v[0])]);
     const { rows: initialProducers } = await api.rpc.get_table_rows({
       code: "snax",
       scope: "snax",
       table: "producers"
     });
     expect(initialProducers).toMatchSnapshot();
+    await voteproducer(["", "", "", "", ...prods.map(v => v[0])]);
     await sleep(6e4);
     const {
       rows: [{ last_producer_schedule_update }]
