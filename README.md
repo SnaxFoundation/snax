@@ -95,7 +95,7 @@ docker run -d --restart=always --network=host --name producer \
            --p2p-peer-address=sslapi.teloscentral.com:64006 \
            --p2p-peer-address=snaxbp.germaneos.de:9876 \
            --p2p-peer-address=speer1.nodeone.io:9856 \
-           --p2p-peer-address=95.216.241.223:5032
+           --p2p-peer-address=95.216.245.221:5032
 ```
 
 ### 4. Run kxd keystore with Docker
