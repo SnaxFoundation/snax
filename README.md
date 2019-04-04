@@ -68,6 +68,9 @@ docker run -d --restart=always --network=host --name producer \
            --producer-name=put_your_snax_account_name_here \
            --max-clients=20 \
            --http-validate-host=false \
+           --p2p-server-address=YOU.PUBLIC.IP:9876 \
+           --agent-name="YOU_PRODUCER_NAME" \
+           --network-version-match=1 \
            --p2p-peer-address=18.136.191.21:9876 \
            --p2p-peer-address=54.71.79.75:9876 \
            --p2p-peer-address=80.66.90.29:9876 \
@@ -75,16 +78,24 @@ docker run -d --restart=always --network=host --name producer \
            --p2p-peer-address=92.53.79.190:9876 \
            --p2p-peer-address=213.239.213.227:8888 \
            --p2p-peer-address=snax.test.telosunlimited.io:9876 \
+           --p2p-peer-address=18.191.241.174:8888 \
            --p2p-peer-address=snax-peer1.eoskh.com:6789 \
-           --p2p-peer-address=213.239.212.15:9876 \
+           --p2p-peer-address=213.133.102.220:9876 \
            --p2p-peer-address=snax.eosnairobi.io:7276 \
            --p2p-peer-address=snaxp2p.eclipse24.io:9877 \
            --p2p-peer-address=157.230.219.218:8888 \
-           --p2p-peer-address=snax.eossweden.eu:9022 \
+           --p2p-peer-address=snax.eossweden.eu:9022 \ 
            --p2p-peer-address=snax1.eossweden.eu:9032 \
            --p2p-peer-address=snax-test-p2p.eosarabia.net:9876 \
-           --p2p-peer-address=159.203.74.78:8888 \
-           --p2p-peer-address=18.191.241.174:9876
+           --p2p-peer-address=snax-test.tron-mining.com:8888 \
+           --p2p-peer-address=p1-snax.eosph.io:9870 \
+           --p2p-peer-address=peer.snax-testnet.eosblocksmith.io:9876 \
+           --p2p-peer-address=sxn1.eosviet.io:9898 \
+           --p2p-peer-address=snax.onedac.io:7976 \
+           --p2p-peer-address=sslapi.teloscentral.com:64006 \
+           --p2p-peer-address=snaxbp.germaneos.de:9876 \
+           --p2p-peer-address=speer1.nodeone.io:9856 \
+           --p2p-peer-address=95.216.241.223:5032
 ```
 
 ### 4. Run kxd keystore with Docker
