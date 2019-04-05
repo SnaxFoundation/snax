@@ -1836,7 +1836,13 @@ exports[`System should work correctly with delegatebw system after initializatio
 
 exports[`System should work correctly with delegatebw system after initialization 9`] = `"assertion failure with message: insufficient staked cpu bandwidth"`;
 
-exports[`System should work correctly with delegatebw system after initialization 10`] = `
+exports[`System should work correctly with delegatebw system after initialization 10`] = `"assertion failure with message: no such user to undelegate from"`;
+
+exports[`System should work correctly with delegatebw system after initialization 11`] = `"assertion failure with message: cant unstake this amount for account at the moment"`;
+
+exports[`System should work correctly with delegatebw system after initialization 12`] = `"missing authority of testacc1"`;
+
+exports[`System should work correctly with delegatebw system after initialization 13`] = `
 Array [
   Object {
     "more": false,
@@ -1885,14 +1891,14 @@ Array [
 ]
 `;
 
-exports[`System should work correctly with delegatebw system after initialization 11`] = `
+exports[`System should work correctly with delegatebw system after initialization 14`] = `
 Array [
   Object {
     "more": false,
     "rows": Array [
       Object {
-        "cpu_weight": "14900.0000 SNAX",
-        "net_weight": "9890.0000 SNAX",
+        "cpu_weight": "14901.0000 SNAX",
+        "net_weight": "9893.0000 SNAX",
         "owner": "testacc1",
         "ram_bytes": 1018492,
       },
@@ -1906,8 +1912,8 @@ Array [
     "more": false,
     "rows": Array [
       Object {
-        "cpu_weight": "14900.0000 SNAX",
-        "net_weight": "9890.0000 SNAX",
+        "cpu_weight": "14901.0000 SNAX",
+        "net_weight": "9893.0000 SNAX",
         "owner": "testacc1",
         "ram_bytes": 1018492,
       },
@@ -1916,7 +1922,7 @@ Array [
 ]
 `;
 
-exports[`System should work correctly with delegatebw system after initialization 12`] = `
+exports[`System should work correctly with delegatebw system after initialization 15`] = `
 Array [
   Object {
     "more": false,
@@ -1965,14 +1971,14 @@ Array [
 ]
 `;
 
-exports[`System should work correctly with delegatebw system after initialization 13`] = `
+exports[`System should work correctly with delegatebw system after initialization 16`] = `
 Array [
   Object {
     "more": false,
     "rows": Array [
       Object {
-        "cpu_weight": "14790.0000 SNAX",
-        "net_weight": "9650.0000 SNAX",
+        "cpu_weight": "14791.0000 SNAX",
+        "net_weight": "9653.0000 SNAX",
         "owner": "testacc1",
         "ram_bytes": 1018492,
       },
@@ -1986,8 +1992,8 @@ Array [
     "more": false,
     "rows": Array [
       Object {
-        "cpu_weight": "14790.0000 SNAX",
-        "net_weight": "9650.0000 SNAX",
+        "cpu_weight": "14791.0000 SNAX",
+        "net_weight": "9653.0000 SNAX",
         "owner": "testacc1",
         "ram_bytes": 1018492,
       },
