@@ -283,8 +283,8 @@ namespace snaxsystem {
 
       // create refund or update from existing refund
       if ( N(snax.stake) != source_stake_from ) { //for snax both transfer and refund make no sense
-         refunds_table refunds_tbl( _self, from );
-         auto req = refunds_tbl.find( from );
+         refunds_table refunds_tbl( _self, receiver );
+         auto req = refunds_tbl.find( receiver );
 
          //create/update/delete refund
          auto net_balance = stake_net_delta;
@@ -330,8 +330,8 @@ namespace snaxsystem {
                }
 
             } else if ( net_balance < asset(0) || cpu_balance < asset(0) ) { //need to create refund
-               refunds_tbl.emplace( from, [&]( refund_request& r ) {
-                  r.owner = from;
+               refunds_tbl.emplace( receiver, [&]( refund_request& r ) {
+                  r.owner = receiver;
                   if ( net_balance < asset(0) ) {
                      r.net_amount = -net_balance;
                      net_balance = asset(0);
@@ -348,12 +348,12 @@ namespace snaxsystem {
 
          if ( need_deferred_trx ) {
             snax::transaction out;
-            out.actions.emplace_back( permission_level{ from, N(active) }, _self, N(refund), from );
+            out.actions.emplace_back( permission_level{ receiver, N(active) }, _self, N(refund), receiver );
             out.delay_sec = refund_delay;
-            cancel_deferred( from ); // TODO: Remove this line when replacing deferred trxs is fixed
-            out.send( from, from, true );
+            cancel_deferred( receiver ); // TODO: Remove this line when replacing deferred trxs is fixed
+            out.send( receiver, receiver, true );
          } else {
-            cancel_deferred( from );
+            cancel_deferred( receiver );
          }
 
          auto transfer_amount = net_balance + cpu_balance;
