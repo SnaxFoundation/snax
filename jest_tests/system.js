@@ -704,6 +704,40 @@ describe("System", async () => {
     await verifyVoters();
   });
 
+  it("should work correctly with producers schedule", async () => {
+    const prods = [
+      ["snax", "SNAX8mo3cUJW1Yy1GGxQfexWGN7QPUB2rXccQP7brrpgJXGjiw6gKR"],
+      ["testacc1", "SNAX8mo3cUJW1Yy1GGxQfexWGN7QPUB2rXccQP7brrpgJXGjiw6gKR"],
+      ["testacc2", "SNAX8mo3cUJW1Yy1GGxQfexWGN7QPUB2rXccQP7brrpgJXGjiw6gKR"]
+    ];
+    await Promise.all(prods.map(args => regproducer(...args)));
+    const { rows: initialProducers } = await api.rpc.get_table_rows({
+      code: "snax",
+      scope: "snax",
+      table: "producers"
+    });
+    expect(
+      initialProducers.map(({ last_block_time, ...obj }) => obj)
+    ).toMatchSnapshot();
+    await voteproducer(["", "", "", "", ...prods.map(v => v[0])]);
+    await sleep(6e4);
+    const {
+      rows: [{ last_producer_schedule_update }]
+    } = await api.rpc.get_table_rows({
+      code: "snax",
+      scope: "snax",
+      table: "global"
+    });
+    const { rows: producers } = await api.rpc.get_table_rows({
+      code: "snax",
+      scope: "snax",
+      table: "producers"
+    });
+    expect(producers[0].last_top_list_entry_time).toBe(
+      last_producer_schedule_update
+    );
+  });
+
   it("should work correctly with escrow system", async () => {
     await regproducer(
       "testacc1",
