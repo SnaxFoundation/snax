@@ -2002,6 +2002,22 @@ Array [
 ]
 `;
 
+exports[`System should work correctly with delegatebw system after initialization 17`] = `
+Array [
+  Object {
+    "cpu_amount": "230.0000 SNAX",
+    "net_amount": "370.0000 SNAX",
+    "owner": "snax.creator",
+  },
+]
+`;
+
+exports[`System should work correctly with delegatebw system after initialization 18`] = `Array []`;
+
+exports[`System should work correctly with delegatebw system after initialization 19`] = `Array []`;
+
+exports[`System should work correctly with delegatebw system after initialization 20`] = `Array []`;
+
 exports[`System should work correctly with escrow system 1`] = `"assertion failure with message: cant unstake this amount for account at the moment"`;
 
 exports[`System should work correctly with escrow system 2`] = `"assertion failure with message: cant unstake this amount for account at the moment"`;
@@ -2034,6 +2050,8 @@ Array [
   ],
 ]
 `;
+
+exports[`System should work correctly with escrow system 5`] = `Array []`;
 
 exports[`System should work correctly with escrow system after initialization 1`] = `
 Array [
@@ -2076,6 +2094,30 @@ Array [
   ],
 ]
 `;
+
+exports[`System should work correctly with escrow system after initialization 4`] = `
+Array [
+  Object {
+    "cpu_amount": "1.0000 SNAX",
+    "net_amount": "1.0000 SNAX",
+    "owner": "test.transf",
+  },
+]
+`;
+
+exports[`System should work correctly with escrow system after initialization 5`] = `
+Array [
+  Object {
+    "cpu_amount": "299800000.0000 SNAX",
+    "net_amount": "1199200000.0000 SNAX",
+    "owner": "snax.team",
+  },
+]
+`;
+
+exports[`System should work correctly with escrow system after initialization 6`] = `Array []`;
+
+exports[`System should work correctly with escrow system after initialization 7`] = `Array []`;
 
 exports[`System should work correctly with producers schedule 1`] = `
 Array [

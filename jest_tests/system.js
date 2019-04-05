@@ -72,6 +72,19 @@ describe("System", async () => {
       })
     ).toMatchSnapshot();
 
+  const verifyRefunds = accounts =>
+    Promise.all(
+      accounts.map(async account =>
+        expect(
+          (await api.rpc.get_table_rows({
+            code: "snax",
+            scope: account,
+            table: "refunds"
+          })).rows.map(({ request_time, ...obj }) => obj)
+        ).toMatchSnapshot()
+      )
+    );
+
   const verifyGlobalState = async () => {
     const {
       last_pervote_bucket_fill,
@@ -669,7 +682,8 @@ describe("System", async () => {
     );
     await Promise.all([
       verifyBWTable(["testacc1", "snax.creator", "testacc2"]),
-      verifyUserResTable(["testacc1", "snax.creator", "testacc1"])
+      verifyUserResTable(["testacc1", "snax.creator", "testacc1"]),
+      verifyRefunds(["snax.creator", "snax.team", "testacc2", "testacc1"])
     ]);
   });
 
@@ -695,6 +709,7 @@ describe("System", async () => {
       "1.0000 SNAX",
       "1.0000 SNAX"
     );
+    await verifyRefunds(["test.transf", "snax.team", "testacc2", "testacc1"]);
   });
 
   it("should vote for producers and claim rewards", async () => {
@@ -772,8 +787,11 @@ describe("System", async () => {
         "2999999801.0000 SNAX"
       )
     );
-    await verifyBWTable(["snax.team"]);
-    await verifyBWEscrowTable(["snax.team"]);
+    await Promise.all([
+      verifyBWTable(["snax.team"]),
+      verifyBWEscrowTable(["snax.team"]),
+      verifyRefunds(["snax.team"])
+    ]);
   });
 
   it("should send correct amounts to special accounts after initialization", async () => {
