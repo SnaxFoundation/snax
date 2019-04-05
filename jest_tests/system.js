@@ -617,7 +617,10 @@ describe("System", async () => {
       verifyUserResTable(["testacc1", "snax.creator", "testacc2"])
     ]);
     await transfer("snax.creator", "testacc1", "10.0000 SNAX");
+    await transfer("snax.creator", "snax.team", "10.0000 SNAX");
     await delegatebw("testacc1", "testacc2", "5.0000 SNAX", "5.0000 SNAX");
+    await delegatebw("snax.team", "testacc2", "3.0000 SNAX", "1.0000 SNAX");
+    await delegatebw("snax.team", "testacc1", "3.0000 SNAX", "1.0000 SNAX");
 
     await Promise.all([
       tryCatchExpect(() =>
@@ -628,6 +631,15 @@ describe("System", async () => {
       ),
       tryCatchExpect(() =>
         undelegatebw("testacc2", "testacc1", "3.0000 SNAX", "6.0000 SNAX")
+      ),
+      tryCatchExpect(() =>
+        undelegatebw("testacc2", "testacc2", "2.0000 SNAX", "2.0000 SNAX")
+      ),
+      tryCatchExpect(() =>
+        undelegatebw("testacc2", "snax.team", "2.0000 SNAX", "3.0000 SNAX")
+      ),
+      tryCatchExpect(() =>
+        undelegatebw("testacc1", "snax.team", "0.0000 SNAX", "2.0000 SNAX")
       )
     ]);
     await undelegatebw("testacc2", "testacc1", "4.0000 SNAX", "2.0000 SNAX");

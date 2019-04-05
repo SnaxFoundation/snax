@@ -109,7 +109,7 @@ build:tag:elastic:
   only:
   - tags
   tags:
-  - build3
+  - build2
 
 test:jest:
   stage: test
@@ -191,7 +191,7 @@ build:docker:tag:elastic:
   only:
   - tags
   tags:
-  - build3
+  - build2
 
 publish:
   stage: publish
