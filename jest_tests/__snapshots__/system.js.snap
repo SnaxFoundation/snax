@@ -2070,3 +2070,41 @@ Array [
   ],
 ]
 `;
+
+exports[`System should work correctly with producers schedule 1`] = `
+Array [
+  Object {
+    "is_active": 1,
+    "last_claim_time": 0,
+    "last_top_list_entry_time": "2000-01-01T00:00:00.000",
+    "location": 0,
+    "owner": "snax",
+    "producer_key": "SNAX8mo3cUJW1Yy1GGxQfexWGN7QPUB2rXccQP7brrpgJXGjiw6gKR",
+    "total_votes": "0.00000000000000000",
+    "unpaid_blocks": 0,
+    "url": "https://snax.one",
+  },
+  Object {
+    "is_active": 1,
+    "last_claim_time": 0,
+    "last_top_list_entry_time": "2000-01-01T00:00:00.000",
+    "location": 0,
+    "owner": "testacc1",
+    "producer_key": "SNAX8mo3cUJW1Yy1GGxQfexWGN7QPUB2rXccQP7brrpgJXGjiw6gKR",
+    "total_votes": "0.00000000000000000",
+    "unpaid_blocks": 0,
+    "url": "https://snax.one",
+  },
+  Object {
+    "is_active": 1,
+    "last_claim_time": 0,
+    "last_top_list_entry_time": "2000-01-01T00:00:00.000",
+    "location": 0,
+    "owner": "testacc2",
+    "producer_key": "SNAX8mo3cUJW1Yy1GGxQfexWGN7QPUB2rXccQP7brrpgJXGjiw6gKR",
+    "total_votes": "0.00000000000000000",
+    "unpaid_blocks": 0,
+    "url": "https://snax.one",
+  },
+]
+`;

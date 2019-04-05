@@ -716,7 +716,9 @@ describe("System", async () => {
       scope: "snax",
       table: "producers"
     });
-    expect(initialProducers).toMatchSnapshot();
+    expect(
+      initialProducers.map(({ last_block_time, ...obj }) => obj)
+    ).toMatchSnapshot();
     await voteproducer(["", "", "", "", ...prods.map(v => v[0])]);
     await sleep(6e4);
     const {
