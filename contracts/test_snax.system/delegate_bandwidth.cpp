@@ -213,13 +213,9 @@ namespace snaxsystem {
    void system_contract::changebw( account_name from, account_name receiver,
                                    const asset stake_net_delta, const asset stake_cpu_delta, bool transfer )
    {
-      const bool swap = stake_net_delta < asset(0) && stake_cpu_delta < asset(0);
-      if (swap)
-        require_auth( receiver );
-      else
-        require_auth( from );
-      snax_assert( _gstate.resources_market_open || is_privileged( from ), "net and cpu market must be open or user must be privileged to change bandwidth" );
+      require_auth( from );
       snax_assert( stake_net_delta != asset(0) || stake_cpu_delta != asset(0), "should stake non-zero amount" );
+      snax_assert( _gstate.resources_market_open || is_privileged( from ), "net and cpu market must be open or user must be privileged to change bandwidth" );
       snax_assert( std::abs( (stake_net_delta + stake_cpu_delta).amount )
                      >= std::max( std::abs( stake_net_delta.amount ), std::abs( stake_cpu_delta.amount ) ),
                     "net and cpu deltas cannot be opposite signs" );
@@ -231,8 +227,8 @@ namespace snaxsystem {
 
       // update stake delegated from "from" to "receiver"
       {
-         del_bandwidth_table     del_tbl( _self, swap ? receiver : from);
-         auto itr = del_tbl.find( swap ? from : receiver );
+         del_bandwidth_table     del_tbl( _self, from);
+         auto itr = del_tbl.find( receiver );
          if( itr == del_tbl.end() ) {
             itr = del_tbl.emplace( from, [&]( auto& dbo ){
                   dbo.from          = from;
@@ -256,8 +252,8 @@ namespace snaxsystem {
 
       // update totals of "receiver"
       {
-         user_resources_table   totals_tbl( _self, swap ? from : receiver );
-         auto tot_itr = totals_tbl.find( swap ? from : receiver );
+         user_resources_table   totals_tbl( _self, receiver );
+         auto tot_itr = totals_tbl.find( receiver );
          if( tot_itr ==  totals_tbl.end() ) {
             tot_itr = totals_tbl.emplace( from, [&]( auto& tot ) {
                   tot.owner = receiver;
@@ -270,7 +266,6 @@ namespace snaxsystem {
                   tot.cpu_weight    += stake_cpu_delta;
                });
          }
-
          snax_assert( asset(0) <= tot_itr->net_weight, "insufficient staked total net bandwidth" );
          snax_assert( asset(0) <= tot_itr->cpu_weight, "insufficient staked total cpu bandwidth" );
 
@@ -366,7 +361,7 @@ namespace snaxsystem {
       // update voting power
       {
          asset total_update = stake_net_delta + stake_cpu_delta;
-         auto from_voter = _voters.find(swap ? receiver : from);
+         auto from_voter = _voters.find(from);
          if( from_voter == _voters.end() ) {
             from_voter = _voters.emplace( from, [&]( auto& v ) {
                   v.owner  = from;
@@ -429,13 +424,13 @@ namespace snaxsystem {
       snax_assert( asset() <= unstake_net_quantity, "must unstake a positive amount" );
       snax_assert( asset() < unstake_cpu_quantity + unstake_net_quantity, "must unstake a positive amount" );
 
-      escrow_bandwidth_table _escrow_bandwidth(_self, receiver);
+      escrow_bandwidth_table _escrow_bandwidth(_self, from);
 
       auto escrow_iter = _escrow_bandwidth.lower_bound(1);
 
-      del_bandwidth_table del_tbl( _self, receiver );
+      del_bandwidth_table del_tbl( _self, from );
 
-      auto itr = del_tbl.find( from );
+      auto itr = del_tbl.find( receiver );
 
       snax_assert(itr != del_tbl.end(), "no such user to undelegate from");
 

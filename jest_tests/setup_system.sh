@@ -35,7 +35,7 @@ clisnax set contract snax.token ../build/contracts/snax.token -p snax.token@owne
 clisnax push action snax.token create '["snax", "1000000000000.0000 SNAX"]' -p snax.token@active
 clisnax set contract snax ../build/contracts/test_snax.system -x 1000 -p snax@owner
 
-clisnax system newaccount snax.creator testacc1 SNAX8mo3cUJW1Yy1GGxQfexWGN7QPUB2rXccQP7brrpgJXGjiw6gKR -p snax.creator@active --stake-cpu="15000.0000 SNAX" --stake-net="10000.0000 SNAX" --buy-ram-kbytes=1000
+clisnax system newaccount snax.creator testacc1 SNAX6MRyAjQq8ud7hVNYcfnVPJqcVpscN5So8BhtHuGYqET5GDW5CV -p snax.creator@active --stake-cpu="15000.0000 SNAX" --stake-net="10000.0000 SNAX" --buy-ram-kbytes=1000
 clisnax system newaccount snax.creator testacc2 SNAX8mo3cUJW1Yy1GGxQfexWGN7QPUB2rXccQP7brrpgJXGjiw6gKR  -p snax.creator@active --stake-cpu="15000.0000 SNAX" --stake-net="10000.0000 SNAX" --buy-ram-kbytes=1000
 clisnax system newaccount snax.creator platform1 SNAX6MRyAjQq8ud7hVNYcfnVPJqcVpscN5So8BhtHuGYqET5GDW5CV -p snax.creator@active --stake-cpu="15000.0000 SNAX" --stake-net="10000.0000 SNAX" --buy-ram-kbytes=1000
 clisnax system newaccount snax.creator platform2 SNAX6MRyAjQq8ud7hVNYcfnVPJqcVpscN5So8BhtHuGYqET5GDW5CV -p snax.creator@active --stake-cpu="15000.0000 SNAX" --stake-net="10000.0000 SNAX" --buy-ram-kbytes=1000
