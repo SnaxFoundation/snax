@@ -224,7 +224,7 @@ describe("System", async () => {
             name: "undelegatebw",
             authorization: [
               {
-                actor: receiver,
+                actor: from,
                 permission: "active"
               }
             ],
@@ -608,8 +608,8 @@ describe("System", async () => {
       verifyUserResTable(["testacc1", "snax.creator"])
     ]);
     await undelegatebw(
-      "testacc1",
       "snax.creator",
+      "testacc1",
       "10.0000 SNAX",
       "10.0000 SNAX"
     );
@@ -637,36 +637,27 @@ describe("System", async () => {
 
     await Promise.all([
       tryCatchExpect(() =>
-        undelegatebw("testacc2", "testacc1", "6.0000 SNAX", "4.0000 SNAX")
+        undelegatebw("testacc1", "testacc2", "6.0000 SNAX", "4.0000 SNAX")
       ),
       tryCatchExpect(() =>
-        undelegatebw("testacc2", "testacc1", "3.0000 SNAX", "7.0000 SNAX")
+        undelegatebw("testacc1", "testacc2", "3.0000 SNAX", "7.0000 SNAX")
       ),
       tryCatchExpect(() =>
-        undelegatebw("testacc2", "testacc1", "3.0000 SNAX", "6.0000 SNAX")
-      ),
-      tryCatchExpect(() =>
-        undelegatebw("testacc2", "testacc2", "2.0000 SNAX", "2.0000 SNAX")
-      ),
-      tryCatchExpect(() =>
-        undelegatebw("testacc2", "snax.team", "2.0000 SNAX", "3.0000 SNAX")
-      ),
-      tryCatchExpect(() =>
-        undelegatebw("testacc1", "snax.team", "0.0000 SNAX", "2.0000 SNAX")
+        undelegatebw("testacc1", "testacc2", "3.0000 SNAX", "6.0000 SNAX")
       )
     ]);
-    await undelegatebw("testacc2", "testacc1", "4.0000 SNAX", "2.0000 SNAX");
-    await undelegatebw("testacc2", "testacc1", "1.0000 SNAX", "3.0000 SNAX");
+    await undelegatebw("testacc1", "testacc2", "4.0000 SNAX", "2.0000 SNAX");
+    await undelegatebw("testacc1", "testacc2", "1.0000 SNAX", "3.0000 SNAX");
     await undelegatebw(
-      "testacc1",
       "snax.creator",
+      "testacc1",
       "120.0000 SNAX",
       "110.0000 SNAX"
     );
     await delegatebw("testacc1", "testacc1", "10.0000 SNAX", "10.0000 SNAX");
     await undelegatebw(
-      "testacc2",
       "snax.creator",
+      "testacc2",
       "10.0000 SNAX",
       "10.0000 SNAX"
     );
@@ -675,8 +666,8 @@ describe("System", async () => {
       verifyUserResTable(["testacc1", "snax.creator", "testacc1"])
     ]);
     await undelegatebw(
-      "testacc1",
       "snax.creator",
+      "testacc1",
       "240.0000 SNAX",
       "110.0000 SNAX"
     );

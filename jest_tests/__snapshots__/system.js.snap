@@ -1836,13 +1836,7 @@ exports[`System should work correctly with delegatebw system after initializatio
 
 exports[`System should work correctly with delegatebw system after initialization 9`] = `"assertion failure with message: insufficient staked cpu bandwidth"`;
 
-exports[`System should work correctly with delegatebw system after initialization 10`] = `"assertion failure with message: no such user to undelegate from"`;
-
-exports[`System should work correctly with delegatebw system after initialization 11`] = `"assertion failure with message: cant unstake this amount for account at the moment"`;
-
-exports[`System should work correctly with delegatebw system after initialization 12`] = `"missing authority of testacc1"`;
-
-exports[`System should work correctly with delegatebw system after initialization 13`] = `
+exports[`System should work correctly with delegatebw system after initialization 10`] = `
 Array [
   Object {
     "more": false,
@@ -1891,7 +1885,7 @@ Array [
 ]
 `;
 
-exports[`System should work correctly with delegatebw system after initialization 14`] = `
+exports[`System should work correctly with delegatebw system after initialization 11`] = `
 Array [
   Object {
     "more": false,
@@ -1922,7 +1916,7 @@ Array [
 ]
 `;
 
-exports[`System should work correctly with delegatebw system after initialization 15`] = `
+exports[`System should work correctly with delegatebw system after initialization 12`] = `
 Array [
   Object {
     "more": false,
@@ -1971,7 +1965,7 @@ Array [
 ]
 `;
 
-exports[`System should work correctly with delegatebw system after initialization 16`] = `
+exports[`System should work correctly with delegatebw system after initialization 13`] = `
 Array [
   Object {
     "more": false,
@@ -2002,21 +1996,29 @@ Array [
 ]
 `;
 
-exports[`System should work correctly with delegatebw system after initialization 17`] = `
+exports[`System should work correctly with delegatebw system after initialization 14`] = `Array []`;
+
+exports[`System should work correctly with delegatebw system after initialization 15`] = `Array []`;
+
+exports[`System should work correctly with delegatebw system after initialization 16`] = `
 Array [
   Object {
-    "cpu_amount": "230.0000 SNAX",
-    "net_amount": "370.0000 SNAX",
-    "owner": "snax.creator",
+    "cpu_amount": "15.0000 SNAX",
+    "net_amount": "15.0000 SNAX",
+    "owner": "testacc2",
   },
 ]
 `;
 
-exports[`System should work correctly with delegatebw system after initialization 18`] = `Array []`;
-
-exports[`System should work correctly with delegatebw system after initialization 19`] = `Array []`;
-
-exports[`System should work correctly with delegatebw system after initialization 20`] = `Array []`;
+exports[`System should work correctly with delegatebw system after initialization 17`] = `
+Array [
+  Object {
+    "cpu_amount": "210.0000 SNAX",
+    "net_amount": "350.0000 SNAX",
+    "owner": "testacc1",
+  },
+]
+`;
 
 exports[`System should work correctly with escrow system 1`] = `"assertion failure with message: cant unstake this amount for account at the moment"`;
 
