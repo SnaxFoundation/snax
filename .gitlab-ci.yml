@@ -29,7 +29,7 @@ cleanup:
     changes:
       - "*.md"
   tags:
-    - build1
+    - build4
 
 build:
   stage: build
@@ -49,7 +49,7 @@ build:
     changes:
       - "*.md"
   tags:
-    - build2
+    - build4
 
 build:tag:
   stage: build
@@ -66,7 +66,7 @@ build:tag:
   only:
   - tags
   tags:
-    - build2
+    - build4
 
 build:tag:macos:
   stage: build
@@ -108,7 +108,7 @@ build:tag:elastic:
   only:
   - tags
   tags:
-  - build1
+  - build4
 
 test:jest:
   stage: test
@@ -122,7 +122,7 @@ test:jest:
     changes:
       - "*.md"
   tags:
-  - build2
+  - build4
 
 test:core:
   stage: test
@@ -135,8 +135,14 @@ test:core:
   except:
     variables:
       - $CI_COMMIT_MESSAGE =~ /skip-test/
+    changes:
+      - contracts/platform/*
+      - jest_tests/*
+      - "*.md"
+      - contracts/*
+      - .gitlab-ci.yml
   tags:
-  - build2
+  - build4
 
 build:docker:
   stage: build-docker
@@ -152,7 +158,7 @@ build:docker:
     changes:
       - "*.md"
   tags:
-  - build2
+  - build4
 
 build:docker:tag:
   stage: build-docker
@@ -168,7 +174,7 @@ build:docker:tag:
   only:
   - tags
   tags:
-  - build2
+  - build4
 
 build:docker:tag:elastic:
   stage: build-docker
@@ -184,7 +190,7 @@ build:docker:tag:elastic:
   only:
   - tags
   tags:
-  - build1
+  - build4
 
 publish:
   stage: publish

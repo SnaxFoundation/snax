@@ -687,8 +687,8 @@ describe("System", async () => {
     await undelegatebw(
       "snax.team",
       "snax.team",
-      "1199200000.0000 SNAX",
-      "299800000.0000 SNAX"
+      "1199991920.0000 SNAX",
+      "299997980.0000 SNAX"
     );
     await verifyBWTable(["snax.team"]);
     await verifyBWEscrowTable(["snax.team"]);
@@ -766,16 +766,16 @@ describe("System", async () => {
       undelegatebw(
         "snax.team",
         "snax.team",
-        "1199999921.0000 SNAX",
-        "299999980.0000 SNAX"
+        "1199991921.0000 SNAX",
+        "299997980.0000 SNAX"
       )
     );
     await tryCatchExpect(() =>
       undelegatebw(
         "snax.team",
         "snax.team",
-        "1199999920.0000 SNAX",
-        "2999999801.0000 SNAX"
+        "1199991920.0000 SNAX",
+        "299997981.0000 SNAX"
       )
     );
     await Promise.all([

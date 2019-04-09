@@ -1139,7 +1139,7 @@ Array [
     ],
     "proxied_vote_weight": "0.00000000000000000",
     "proxy": "",
-    "staked": "149999990000000",
+    "staked": "149998990000000",
     "votes": 1,
   },
 ]
@@ -1167,8 +1167,8 @@ Object {
   "max_transaction_net_usage": 524288,
   "min_transaction_cpu_usage": 100,
   "net_usage_leeway": 500,
-  "perblock_bucket": 126840,
-  "pervote_bucket": 126840,
+  "perblock_bucket": 154484,
+  "pervote_bucket": 154484,
   "platform_lock_duration": 0,
   "privileged_contracts": 0,
   "resources_market_open": 1,
@@ -1176,8 +1176,8 @@ Object {
   "system_parabola_b": -1324503311,
   "target_block_cpu_usage_pct": 1000,
   "target_block_net_usage_pct": 1000,
-  "total_activated_stake": "149999990000000",
-  "total_bp_reward": "25.3680 SNAX",
+  "total_activated_stake": "149998990000000",
+  "total_bp_reward": "30.8968 SNAX",
   "total_ram_bytes_reserved": 4479551,
   "total_ram_stake": 111307338,
   "total_unpaid_blocks": 4,
@@ -1194,7 +1194,7 @@ Array [
     "more": false,
     "rows": Array [
       Object {
-        "balance": "12.6840 SNAX",
+        "balance": "15.4484 SNAX",
       },
     ],
   },
@@ -1202,7 +1202,7 @@ Array [
     "more": false,
     "rows": Array [
       Object {
-        "balance": "12.6840 SNAX",
+        "balance": "15.4484 SNAX",
       },
     ],
   },
@@ -1231,8 +1231,8 @@ Object {
   "max_transaction_net_usage": 524288,
   "min_transaction_cpu_usage": 100,
   "net_usage_leeway": 500,
-  "perblock_bucket": 126840,
-  "pervote_bucket": 126840,
+  "perblock_bucket": 154484,
+  "pervote_bucket": 154484,
   "platform_lock_duration": 0,
   "privileged_contracts": 0,
   "resources_market_open": 1,
@@ -1240,8 +1240,8 @@ Object {
   "system_parabola_b": -1324503311,
   "target_block_cpu_usage_pct": 1000,
   "target_block_net_usage_pct": 1000,
-  "total_activated_stake": "149999990000000",
-  "total_bp_reward": "25.3680 SNAX",
+  "total_activated_stake": "149998990000000",
+  "total_bp_reward": "30.8968 SNAX",
   "total_ram_bytes_reserved": 4479551,
   "total_ram_stake": 111307338,
   "total_unpaid_blocks": 4,
@@ -1268,7 +1268,7 @@ Array [
     "more": false,
     "rows": Array [
       Object {
-        "balance": "12.6840 SNAX",
+        "balance": "15.4484 SNAX",
       },
     ],
   },
@@ -1276,7 +1276,7 @@ Array [
     "more": false,
     "rows": Array [
       Object {
-        "balance": "12.6840 SNAX",
+        "balance": "15.4484 SNAX",
       },
     ],
   },
@@ -1310,7 +1310,7 @@ Object {
   "min_transaction_cpu_usage": 100,
   "net_usage_leeway": 500,
   "perblock_bucket": 0,
-  "pervote_bucket": 126840,
+  "pervote_bucket": 154484,
   "platform_lock_duration": 0,
   "privileged_contracts": 0,
   "resources_market_open": 1,
@@ -1318,8 +1318,8 @@ Object {
   "system_parabola_b": -1324503311,
   "target_block_cpu_usage_pct": 1000,
   "target_block_net_usage_pct": 1000,
-  "total_activated_stake": "149999990000000",
-  "total_bp_reward": "25.3680 SNAX",
+  "total_activated_stake": "149998990000000",
+  "total_bp_reward": "30.8968 SNAX",
   "total_ram_bytes_reserved": 4479551,
   "total_ram_stake": 111307338,
   "total_unpaid_blocks": 0,
@@ -1391,7 +1391,7 @@ Array [
     "producers": Array [],
     "proxied_vote_weight": "0.00000000000000000",
     "proxy": "",
-    "staked": "149999990000000",
+    "staked": "149998990000000",
     "votes": 0,
   },
 ]
@@ -1405,7 +1405,11 @@ Array [
   },
   Object {
     "more": false,
-    "rows": Array [],
+    "rows": Array [
+      Object {
+        "balance": "100000.0000 SNAX",
+      },
+    ],
   },
   Object {
     "more": false,
@@ -1552,7 +1556,7 @@ Array [
     ],
     "proxied_vote_weight": "0.00000000000000000",
     "proxy": "",
-    "staked": "149999990000000",
+    "staked": "149998990000000",
     "votes": 0.833333,
   },
 ]
@@ -1573,7 +1577,7 @@ Array [
     "more": false,
     "rows": Array [
       Object {
-        "balance": "12.6840 SNAX",
+        "balance": "15.4484 SNAX",
       },
     ],
   },
@@ -1635,7 +1639,7 @@ Array [
     ],
     "proxied_vote_weight": "0.00000000000000000",
     "proxy": "",
-    "staked": "149999990000000",
+    "staked": "149998990000000",
     "votes": 0.487804,
   },
 ]
@@ -2030,9 +2034,9 @@ Array [
     "more": false,
     "rows": Array [
       Object {
-        "cpu_weight": "11999999200.0000 SNAX",
+        "cpu_weight": "11999919200.0000 SNAX",
         "from": "snax.team",
-        "net_weight": "2999999800.0000 SNAX",
+        "net_weight": "2999979800.0000 SNAX",
         "to": "snax.team",
       },
     ],
@@ -2044,8 +2048,8 @@ exports[`System should work correctly with escrow system 4`] = `
 Array [
   Array [
     Object {
-      "amount": "14999999000.0000 SNAX",
-      "initial_amount": "14999999000.0000 SNAX",
+      "amount": "14999899000.0000 SNAX",
+      "initial_amount": "14999899000.0000 SNAX",
       "owner": "snax.team",
       "period_count": 10,
     },
@@ -2061,9 +2065,9 @@ Array [
     "more": false,
     "rows": Array [
       Object {
-        "cpu_weight": "11700199200.0000 SNAX",
+        "cpu_weight": "11699921220.0000 SNAX",
         "from": "snax.team",
-        "net_weight": "1800799800.0000 SNAX",
+        "net_weight": "1799987880.0000 SNAX",
         "to": "snax.team",
       },
     ],
@@ -2075,8 +2079,8 @@ exports[`System should work correctly with escrow system after initialization 2`
 Array [
   Array [
     Object {
-      "amount": "13500999000.0000 SNAX",
-      "initial_amount": "14999999000.0000 SNAX",
+      "amount": "13499909100.0000 SNAX",
+      "initial_amount": "14999899000.0000 SNAX",
       "owner": "snax.team",
       "period_count": 10,
     },
@@ -2110,8 +2114,8 @@ Array [
 exports[`System should work correctly with escrow system after initialization 5`] = `
 Array [
   Object {
-    "cpu_amount": "299800000.0000 SNAX",
-    "net_amount": "1199200000.0000 SNAX",
+    "cpu_amount": "299997980.0000 SNAX",
+    "net_amount": "1199991920.0000 SNAX",
     "owner": "snax.team",
   },
 ]

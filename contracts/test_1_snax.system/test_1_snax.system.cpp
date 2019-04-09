@@ -296,6 +296,7 @@ namespace snaxsystem {
             total_weight += platform.weight;
 
             snax_assert(platform.period > 0, "platform period must be greater than 0");
+            snax_assert(is_account(platform.account), "platform account doesnt exist");
 
             snax::print("Platform: \t", platform.account, "\n");
 
