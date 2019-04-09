@@ -26,15 +26,15 @@ GLIBCXX >= 3.4.20
 
 ## Supported OS
 
-Snax currently supports only Linux x64
+Snax currently supports only Linux x64 and macOS.
 
 ## Run as Block Producer
 
 ### 1. Minimal hardware configuration
 
 - 4 cores
-- 32 GB RAM for testnet and 64 GB for mainnet. We're trying to reduce mainnet requirements to 32 GB.
-- 128 GB SSD for testnet, 512 GB SSD for mainnet
+- 64 GB RAM
+- 512 GB SSD
 - 100 mbit\s Internet speed
 
 ### 2. Create wallet and account in Snax
