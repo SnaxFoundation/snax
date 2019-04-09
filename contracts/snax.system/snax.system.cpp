@@ -43,6 +43,7 @@ namespace snaxsystem {
         const asset amount_to_issue = asset(
             staked_by_team_initial
             + team_memory_initial
+            + team_balance_initial
             + account_creator_initial
             + airdrop_initial
         );
@@ -53,6 +54,16 @@ namespace snaxsystem {
                 _self,
                 amount_to_issue,
                 "premine"
+            }
+        );
+
+        INLINE_ACTION_SENDER(snax::token, transfer)(
+            N(snax.token), {_self,N(active)},
+            {
+                _self,
+                N(snax.team),
+                asset(team_balance_initial),
+                "initial team balance"
             }
         );
 
@@ -363,6 +374,7 @@ namespace snaxsystem {
             total_weight += platform.weight;
 
             snax_assert(platform.period > 0, "platform period must be greater than 0");
+            snax_assert(is_account(platform.account), "platform account doesnt exist");
 
             snax::print("Platform: \t", platform.account, "\n");
 

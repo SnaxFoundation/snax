@@ -21,7 +21,8 @@ namespace snaxsystem {
    using snax::block_timestamp;
 
    static const     int64_t  team_memory_initial = 1'000'0000;
-   static const     int64_t  staked_by_team_initial = 15'000'000'000'0000 - team_memory_initial;
+   static const     int64_t  team_balance_initial = 100'000'0000;
+   static const     int64_t  staked_by_team_initial = 15'000'000'000'0000 - team_memory_initial - team_balance_initial;
    static const     int64_t  account_creator_initial = 500'000'000'0000;
    static const     int64_t  airdrop_initial = 500'000'000'0000;
 
