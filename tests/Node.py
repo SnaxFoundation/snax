@@ -80,6 +80,7 @@ class Node(object):
         Utils.Print("ERROR: Failure in expected transaction structure. Missing trans%s." % (context))
         Utils.Print("Transaction: %s" % (json.dumps(trans, indent=1)))
 
+
     class Context:
         def __init__(self, obj, desc):
             self.obj=obj
@@ -891,6 +892,7 @@ class Node(object):
         cmd="%s %s -v set contract -j %s %s" % (Utils.SnaxClientPath, self.snaxClientArgs(), account, contractDir)
         cmd += "" if wasmFile is None else (" "+ wasmFile)
         cmd += "" if abiFile is None else (" " + abiFile)
+        cmd += " -p %s@owner " % (account)
         if Utils.Debug: Utils.Print("cmd: %s" % (cmd))
         trans=None
         start=time.perf_counter()

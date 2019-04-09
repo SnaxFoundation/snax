@@ -1,4 +1,3 @@
-
 find_package( Gperftools QUIET )
 if( GPERFTOOLS_FOUND )
     message( STATUS "Found gperftools; compiling tests with TCMalloc")
@@ -22,7 +21,7 @@ target_include_directories( plugin_test PUBLIC
                             ${CMAKE_SOURCE_DIR}/plugins/net_plugin/include
                             ${CMAKE_SOURCE_DIR}/plugins/chain_plugin/include )
 
-#
+
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/core_symbol.py.in ${CMAKE_CURRENT_BINARY_DIR}/core_symbol.py)
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/testUtils.py ${CMAKE_CURRENT_BINARY_DIR}/testUtils.py COPYONLY)
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/WalletMgr.py ${CMAKE_CURRENT_BINARY_DIR}/WalletMgr.py COPYONLY)
@@ -45,23 +44,24 @@ configure_file(${CMAKE_CURRENT_SOURCE_DIR}/validate-dirty-db.py ${CMAKE_CURRENT_
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/launcher_test.py ${CMAKE_CURRENT_BINARY_DIR}/launcher_test.py COPYONLY)
 
 #To run plugin_test with all log from blockchain displayed, put --verbose after --, i.e. plugin_test -- --verbose
-add_test(NAME plugin_test COMMAND plugin_test --report_level=detailed --color_output)
+add_test(NAME plugin_test COMMAND plugin_test --report_level=detailed --color_output)#
 
 add_test(NAME snaxnode_sanity_test COMMAND tests/snaxnode_run_test.py -v --sanity-test --clean-run --dump-error-detail WORKING_DIRECTORY ${CMAKE_BINARY_DIR})
 set_property(TEST snaxnode_sanity_test PROPERTY LABELS nonparallelizable_tests)
 add_test(NAME snaxnode_sanity_bnet_test COMMAND tests/snaxnode_run_test.py -v --sanity-test --clean-run --p2p-plugin bnet --dump-error-detail WORKING_DIRECTORY ${CMAKE_BINARY_DIR})
 set_property(TEST snaxnode_sanity_bnet_test PROPERTY LABELS nonparallelizable_tests)
-#add_test(NAME snaxnode_run_test COMMAND tests/snaxnode_run_test.py -v --clean-run --dump-error-detail WORKING_DIRECTORY ${CMAKE_BINARY_DIR})
-#set_property(TEST snaxnode_run_test PROPERTY LABELS nonparallelizable_tests)
-#add_test(NAME snaxnode_run_bnet_test COMMAND tests/snaxnode_run_test.py -v --clean-run --p2p-plugin bnet --dump-error-detail WORKING_DIRECTORY ${CMAKE_BINARY_DIR})
-#set_property(TEST snaxnode_run_bnet_test PROPERTY LABELS nonparallelizable_tests)
+add_test(NAME snaxnode_run_test COMMAND tests/snaxnode_run_test.py -v --clean-run --dump-error-detail WORKING_DIRECTORY ${CMAKE_BINARY_DIR})
+set_property(TEST snaxnode_run_test PROPERTY LABELS nonparallelizable_tests)
+add_test(NAME snaxnode_run_bnet_test COMMAND tests/snaxnode_run_test.py -v --clean-run --p2p-plugin bnet --dump-error-detail WORKING_DIRECTORY ${CMAKE_BINARY_DIR})
+set_property(TEST snaxnode_run_bnet_test PROPERTY LABELS nonparallelizable_tests)
 
 add_test(NAME p2p_dawn515_test COMMAND tests/p2p_tests/dawn_515/test.sh WORKING_DIRECTORY ${CMAKE_BINARY_DIR})
 set_property(TEST p2p_dawn515_test PROPERTY LABELS nonparallelizable_tests)
 if(BUILD_MONGO_DB_PLUGIN)
- # add_test(NAME snaxnode_run_test-mongodb COMMAND tests/snaxnode_run_test.py --mongodb -v --clean-run --dump-error-detail WORKING_DIRECTORY ${CMAKE_BINARY_DIR})
- # set_property(TEST snaxnode_run_test-mongodb PROPERTY LABELS nonparallelizable_tests)
+ add_test(NAME snaxnode_run_test-mongodb COMMAND tests/snaxnode_run_test.py --mongodb -v --clean-run --dump-error-detail WORKING_DIRECTORY ${CMAKE_BINARY_DIR})
+ set_property(TEST snaxnode_run_test-mongodb PROPERTY LABELS nonparallelizable_tests)
 endif()
+
 
 add_test(NAME distributed-transactions-test COMMAND tests/distributed-transactions-test.py -d 2 -p 4 -n 6 -v --clean-run --dump-error-detail WORKING_DIRECTORY ${CMAKE_BINARY_DIR})
 set_property(TEST distributed-transactions-test PROPERTY LABELS nonparallelizable_tests)
@@ -73,7 +73,7 @@ add_test(NAME restart-scenarios-test-hard_replay COMMAND tests/restart-scenarios
 set_property(TEST restart-scenarios-test-hard_replay PROPERTY LABELS nonparallelizable_tests)
 add_test(NAME restart-scenarios-test-none COMMAND tests/restart-scenarios-test.py -c none --kill-sig term -p4 -v --clean-run --dump-error-details WORKING_DIRECTORY ${CMAKE_BINARY_DIR})
 set_property(TEST restart-scenarios-test-none PROPERTY LABELS nonparallelizable_tests)
-# TODO: add_test(NAME consensus-validation-malicious-producers COMMAND tests/consensus-validation-malicious-producers.py -w 80 --dump-error-details WORKING_DIRECTORY ${CMAKE_BINARY_DIR})
+# TODO: #add_test(NAME consensus-validation-malicious-producers COMMAND tests/consensus-validation-malicious-producers.py -w 80 --dump-error-details WORKING_DIRECTORY ${CMAKE_BINARY_DIR})
 add_test(NAME validate_dirty_db_test COMMAND tests/validate-dirty-db.py -v --clean-run --dump-error-detail WORKING_DIRECTORY ${CMAKE_BINARY_DIR})
 set_property(TEST validate_dirty_db_test PROPERTY LABELS nonparallelizable_tests)
 add_test(NAME launcher_test COMMAND tests/launcher_test.py -v --clean-run --dump-error-detail WORKING_DIRECTORY ${CMAKE_BINARY_DIR})
@@ -84,10 +84,10 @@ add_test(NAME snaxnode_sanity_lr_test COMMAND tests/snaxnode_run_test.py -v --sa
 set_property(TEST snaxnode_sanity_lr_test PROPERTY LABELS long_running_tests)
 add_test(NAME snaxnode_sanity_bnet_lr_test COMMAND tests/snaxnode_run_test.py -v --sanity-test --p2p-plugin bnet --clean-run --dump-error-detail WORKING_DIRECTORY ${CMAKE_BINARY_DIR})
 set_property(TEST snaxnode_sanity_bnet_lr_test PROPERTY LABELS long_running_tests)
-#add_test(NAME snaxnode_run_check_lr_test COMMAND tests/snaxnode_run_test.py -v --clean-run --dump-error-detail WORKING_DIRECTORY ${CMAKE_BINARY_DIR})
-#set_property(TEST snaxnode_run_check_lr_test PROPERTY LABELS long_running_tests)
-#add_test(NAME snaxnode_remote_lr_test COMMAND tests/snaxnode_run_remote_test.py -v --clean-run --dump-error-detail WORKING_DIRECTORY ${CMAKE_BINARY_DIR})
-#set_property(TEST snaxnode_remote_lr_test PROPERTY LABELS long_running_tests)
+add_test(NAME snaxnode_run_check_lr_test COMMAND tests/snaxnode_run_test.py -v --clean-run --dump-error-detail WORKING_DIRECTORY ${CMAKE_BINARY_DIR})
+set_property(TEST snaxnode_run_check_lr_test PROPERTY LABELS long_running_tests)
+add_test(NAME snaxnode_remote_lr_test COMMAND tests/snaxnode_run_remote_test.py -v --clean-run --dump-error-detail WORKING_DIRECTORY ${CMAKE_BINARY_DIR})
+set_property(TEST snaxnode_remote_lr_test PROPERTY LABELS long_running_tests)
 
 #add_test(NAME distributed_transactions_lr_test COMMAND tests/distributed-transactions-test.py -d 2 -p 21 -n 21 -v --clean-run --dump-error-detail WORKING_DIRECTORY ${CMAKE_BINARY_DIR})
 #set_property(TEST distributed_transactions_lr_test PROPERTY LABELS long_running_tests)
@@ -103,7 +103,6 @@ set_property(TEST snaxnode_sanity_bnet_lr_test PROPERTY LABELS long_running_test
 
 #add_test(NAME snaxnode_under_min_avail_ram_lr_test COMMAND tests/snaxnode_under_min_avail_ram.py -v --wallet-port 9904 --clean-run --dump-error-detail WORKING_DIRECTORY ${CMAKE_BINARY_DIR})
 #set_property(TEST snaxnode_under_min_avail_ram_lr_test PROPERTY LABELS long_running_tests)
-
 
 if(ENABLE_COVERAGE_TESTING)
 
