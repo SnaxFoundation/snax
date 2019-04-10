@@ -129,8 +129,9 @@ namespace snaxsystem {
 
       _gstate.last_producer_schedule_update = block_time;
 
-      if (top_producers.size() == 0)
-         return;
+      if ( top_producers.size() < _gstate.last_producer_schedule_size ) {
+          return;
+      }
 
       /// sort by producer name
       std::sort( top_producers.begin(), top_producers.end() );

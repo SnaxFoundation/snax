@@ -76,8 +76,6 @@ namespace snaxsystem {
    }
 
    void system_contract::update_elected_producers( block_timestamp block_time ) {
-      _gstate.last_producer_schedule_update = block_time;
-
       auto idx = _producers.get_index<N(prototalvote)>();
 
       std::vector< std::pair<snax::producer_key,uint16_t> > top_producers;
@@ -86,11 +84,11 @@ namespace snaxsystem {
       for ( auto it = idx.cbegin(); it != idx.cend() && top_producers.size() < 21 && 0 < it->total_votes; ++it ) {
          if (it->active()) {
              const bool previous_iteration_in_top_list =
-                block_time
+                 it->last_top_list_entry_time
                     .slot
-                - it->last_top_list_entry_time
-                    .slot
-                == 120;
+                 ==
+                 _gstate.last_producer_schedule_update
+                    .slot;
 
              if (!previous_iteration_in_top_list) {
                  const auto prod = _producers.find(it->owner);
@@ -129,8 +127,11 @@ namespace snaxsystem {
          }
       }
 
-      if (top_producers.size() == 0)
-         return;
+      _gstate.last_producer_schedule_update = block_time;
+
+      if ( top_producers.size() < _gstate.last_producer_schedule_size ) {
+          return;
+      }
 
       /// sort by producer name
       std::sort( top_producers.begin(), top_producers.end() );
