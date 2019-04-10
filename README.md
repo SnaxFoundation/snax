@@ -62,7 +62,7 @@ iptables -I INPUT -p tcp --dport 9876 -j ACCEPT
 
 ```sh
 docker run -d --restart=always --network=host --name producer \
-           -v $HOME/producer:/opt/snax/data snaxfoundation/snax:1.0.0 \
+           -v $HOME/producer:/opt/snax/data snaxfoundation/snax:1.0.1 \
            snaxnoded.sh --signature-provider put_your_public_key_here=KEY:put_your_private_key_here \
            --plugin=snax::producer_plugin \
            --producer-name=put_your_snax_account_name_here \
@@ -117,7 +117,7 @@ mkdir $HOME/snax-wallet
 
 ```sh
 docker run  --name=snax-wallet -d -v $HOME/snax-wallet:/root/snax-wallet \
-            --restart=always -p 127.0.0.1:8900:8900 snaxfoundation/snax:1.0.0 kxd.sh \
+            --restart=always -p 127.0.0.1:8900:8900 snaxfoundation/snax:1.0.1 kxd.sh \
             --http-server-address=0.0.0.0:8900 \
             --access-control-allow-origin=* \
             --access-control-allow-headers=* \
