@@ -28,13 +28,13 @@ public:
     double attention_rate;
     uint32_t attention_rate_rating_position;
     vector<uint32_t> stat_diff;
-    uint8_t tweets_ranked_in_period;
+    uint8_t posts_ranked_in_period;
   };
 
   struct account_to_add {
     account_name name;
     uint64_t id;
-    uint64_t verification_tweet;
+    uint64_t verification_post;
     string verification_salt;
     vector<uint32_t> stat_diff;
   };
@@ -84,7 +84,7 @@ public:
   /// @abi action updatear
   void updatear(uint64_t id, double attention_rate,
                 uint32_t attention_rate_rating_position,
-                vector<uint32_t> stat_diff, uint8_t tweets_ranked_in_period,
+                vector<uint32_t> stat_diff, uint8_t posts_ranked_in_period,
                 bool add_account_if_not_exist);
 
   /// @abi action updatearmult
@@ -99,7 +99,7 @@ public:
 
   /// @abi action addaccount
   void addaccount(const account_name creator, account_name account, uint64_t id,
-                  uint64_t verification_tweet, string verification_salt,
+                  uint64_t verification_post, string verification_salt,
                   vector<uint32_t> stat_diff);
 
   /// @abi action addaccounts
@@ -134,7 +134,7 @@ private:
     uint64_t id;
     account_name name;
     uint16_t last_paid_step_number;
-    uint64_t verification_tweet;
+    uint64_t verification_post;
     string verification_salt;
     block_timestamp created;
     vector<uint32_t> stat_diff;
@@ -149,7 +149,7 @@ private:
     }
 
     SNAXLIB_SERIALIZE(account,
-                      (id)(name)(last_paid_step_number)(verification_tweet)(
+                      (id)(name)(last_paid_step_number)(verification_post)(
                           verification_salt)(created)(stat_diff)(active))
   };
 
@@ -159,7 +159,7 @@ private:
     double attention_rate;
     uint32_t attention_rate_rating_position;
     uint16_t last_attention_rate_updated_step_number;
-    uint8_t tweets_ranked_in_last_period;
+    uint8_t posts_ranked_in_last_period;
 
     uint64_t primary_key() const { return id; }
 
@@ -173,7 +173,7 @@ private:
     SNAXLIB_SERIALIZE(user,
                       (id)(attention_rate)(attention_rate_rating_position)(
                           last_attention_rate_updated_step_number)(
-                          tweets_ranked_in_last_period))
+                          posts_ranked_in_last_period))
   };
 
   /// @abi table state i64

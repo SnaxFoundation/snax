@@ -46,8 +46,8 @@ Array [
       10,
       15,
     ],
+    "verification_post": "1083836521751478272",
     "verification_salt": "12345",
-    "verification_tweet": "1083836521751478272",
   },
 ]
 `;
@@ -61,7 +61,7 @@ Object {
       "attention_rate_rating_position": 1,
       "id": 1007,
       "last_attention_rate_updated_step_number": 1,
-      "tweets_ranked_in_last_period": 10,
+      "posts_ranked_in_last_period": 10,
     },
   ],
 }
@@ -112,7 +112,7 @@ Object {
       "attention_rate_rating_position": 1,
       "id": 1007,
       "last_attention_rate_updated_step_number": 1,
-      "tweets_ranked_in_last_period": 10,
+      "posts_ranked_in_last_period": 10,
     },
   ],
 }
@@ -163,28 +163,28 @@ Object {
       "attention_rate_rating_position": 4294967295,
       "id": 123,
       "last_attention_rate_updated_step_number": 1,
-      "tweets_ranked_in_last_period": 6,
+      "posts_ranked_in_last_period": 6,
     },
     Object {
       "attention_rate": "300.00000000000000000",
       "attention_rate_rating_position": 1,
       "id": 1007,
       "last_attention_rate_updated_step_number": 1,
-      "tweets_ranked_in_last_period": 10,
+      "posts_ranked_in_last_period": 10,
     },
     Object {
       "attention_rate": "50.00000000000000000",
       "attention_rate_rating_position": 3,
       "id": 1105,
       "last_attention_rate_updated_step_number": 1,
-      "tweets_ranked_in_last_period": 10,
+      "posts_ranked_in_last_period": 10,
     },
     Object {
       "attention_rate": "250.00000000000000000",
       "attention_rate_rating_position": 2,
       "id": 1200,
       "last_attention_rate_updated_step_number": 1,
-      "tweets_ranked_in_last_period": 10,
+      "posts_ranked_in_last_period": 10,
     },
   ],
 }
@@ -236,8 +236,8 @@ Array [
       10,
       15,
     ],
+    "verification_post": "1083836521751478272",
     "verification_salt": "12345",
-    "verification_tweet": "1083836521751478272",
   },
 ]
 `;
@@ -251,7 +251,7 @@ Object {
       "attention_rate_rating_position": 1,
       "id": 1007,
       "last_attention_rate_updated_step_number": 1,
-      "tweets_ranked_in_last_period": 10,
+      "posts_ranked_in_last_period": 10,
     },
   ],
 }
@@ -303,8 +303,8 @@ Array [
       10,
       15,
     ],
+    "verification_post": "1083836521751478272",
     "verification_salt": "12345",
-    "verification_tweet": "1083836521751478272",
   },
 ]
 `;
@@ -318,7 +318,7 @@ Object {
       "attention_rate_rating_position": 1,
       "id": 1007,
       "last_attention_rate_updated_step_number": 1,
-      "tweets_ranked_in_last_period": 10,
+      "posts_ranked_in_last_period": 10,
     },
   ],
 }
@@ -370,8 +370,8 @@ Array [
       10,
       15,
     ],
+    "verification_post": "1083836521751478272",
     "verification_salt": "12345",
-    "verification_tweet": "1083836521751478272",
   },
 ]
 `;
@@ -385,7 +385,7 @@ Object {
       "attention_rate_rating_position": 1,
       "id": 1007,
       "last_attention_rate_updated_step_number": 1,
-      "tweets_ranked_in_last_period": 10,
+      "posts_ranked_in_last_period": 10,
     },
   ],
 }
@@ -436,7 +436,7 @@ Object {
       "attention_rate_rating_position": 1,
       "id": 1007,
       "last_attention_rate_updated_step_number": 1,
-      "tweets_ranked_in_last_period": 10,
+      "posts_ranked_in_last_period": 10,
     },
   ],
 }
@@ -487,7 +487,7 @@ Object {
       "attention_rate_rating_position": 1,
       "id": 1007,
       "last_attention_rate_updated_step_number": 1,
-      "tweets_ranked_in_last_period": 10,
+      "posts_ranked_in_last_period": 10,
     },
   ],
 }
@@ -582,8 +582,8 @@ Array [
       10,
       15,
     ],
+    "verification_post": "1083836521751478272",
     "verification_salt": "12345",
-    "verification_tweet": "1083836521751478272",
   },
 ]
 `;
@@ -597,7 +597,7 @@ Object {
       "attention_rate_rating_position": 0,
       "id": 123,
       "last_attention_rate_updated_step_number": 0,
-      "tweets_ranked_in_last_period": 0,
+      "posts_ranked_in_last_period": 0,
     },
   ],
 }
@@ -649,8 +649,8 @@ Array [
       0,
       0,
     ],
+    "verification_post": 43,
     "verification_salt": "hello",
-    "verification_tweet": 43,
   },
 ]
 `;
@@ -664,7 +664,7 @@ Object {
       "attention_rate_rating_position": 0,
       "id": 65,
       "last_attention_rate_updated_step_number": 0,
-      "tweets_ranked_in_last_period": 0,
+      "posts_ranked_in_last_period": 0,
     },
   ],
 }
@@ -760,8 +760,8 @@ Array [
       25,
       50,
     ],
+    "verification_post": "1083836521751478272",
     "verification_salt": "12345",
-    "verification_tweet": "1083836521751478272",
   },
   Object {
     "active": 1,
@@ -774,8 +774,8 @@ Array [
       210,
       30,
     ],
+    "verification_post": "1083836521751478272",
     "verification_salt": "12345",
-    "verification_tweet": "1083836521751478272",
   },
   Object {
     "active": 1,
@@ -788,8 +788,8 @@ Array [
       20,
       30,
     ],
+    "verification_post": "1083836521751478272",
     "verification_salt": "12345",
-    "verification_tweet": "1083836521751478272",
   },
   Object {
     "active": 1,
@@ -802,8 +802,8 @@ Array [
       210,
       30,
     ],
+    "verification_post": "1083836521751478272",
     "verification_salt": "12345",
-    "verification_tweet": "1083836521751478272",
   },
 ]
 `;
@@ -817,28 +817,28 @@ Object {
       "attention_rate_rating_position": 4294967295,
       "id": 123,
       "last_attention_rate_updated_step_number": 1,
-      "tweets_ranked_in_last_period": 6,
+      "posts_ranked_in_last_period": 6,
     },
     Object {
       "attention_rate": "300.00000000000000000",
       "attention_rate_rating_position": 1,
       "id": 1007,
       "last_attention_rate_updated_step_number": 1,
-      "tweets_ranked_in_last_period": 10,
+      "posts_ranked_in_last_period": 10,
     },
     Object {
       "attention_rate": "50.00000000000000000",
       "attention_rate_rating_position": 3,
       "id": 1105,
       "last_attention_rate_updated_step_number": 1,
-      "tweets_ranked_in_last_period": 10,
+      "posts_ranked_in_last_period": 10,
     },
     Object {
       "attention_rate": "250.00000000000000000",
       "attention_rate_rating_position": 2,
       "id": 1200,
       "last_attention_rate_updated_step_number": 1,
-      "tweets_ranked_in_last_period": 10,
+      "posts_ranked_in_last_period": 10,
     },
   ],
 }
@@ -916,8 +916,8 @@ Array [
       25,
       50,
     ],
+    "verification_post": "1083836521751478272",
     "verification_salt": "12345",
-    "verification_tweet": "1083836521751478272",
   },
   Object {
     "active": 1,
@@ -930,8 +930,8 @@ Array [
       210,
       30,
     ],
+    "verification_post": "1083836521751478272",
     "verification_salt": "12345",
-    "verification_tweet": "1083836521751478272",
   },
   Object {
     "active": 1,
@@ -944,8 +944,8 @@ Array [
       20,
       30,
     ],
+    "verification_post": "1083836521751478272",
     "verification_salt": "12345",
-    "verification_tweet": "1083836521751478272",
   },
   Object {
     "active": 1,
@@ -958,8 +958,8 @@ Array [
       210,
       30,
     ],
+    "verification_post": "1083836521751478272",
     "verification_salt": "12345",
-    "verification_tweet": "1083836521751478272",
   },
 ]
 `;
@@ -973,28 +973,28 @@ Object {
       "attention_rate_rating_position": 4294967295,
       "id": 123,
       "last_attention_rate_updated_step_number": 1,
-      "tweets_ranked_in_last_period": 6,
+      "posts_ranked_in_last_period": 6,
     },
     Object {
       "attention_rate": "300.00000000000000000",
       "attention_rate_rating_position": 1,
       "id": 1007,
       "last_attention_rate_updated_step_number": 1,
-      "tweets_ranked_in_last_period": 10,
+      "posts_ranked_in_last_period": 10,
     },
     Object {
       "attention_rate": "50.00000000000000000",
       "attention_rate_rating_position": 3,
       "id": 1105,
       "last_attention_rate_updated_step_number": 1,
-      "tweets_ranked_in_last_period": 10,
+      "posts_ranked_in_last_period": 10,
     },
     Object {
       "attention_rate": "250.00000000000000000",
       "attention_rate_rating_position": 2,
       "id": 1200,
       "last_attention_rate_updated_step_number": 1,
-      "tweets_ranked_in_last_period": 10,
+      "posts_ranked_in_last_period": 10,
     },
   ],
 }
@@ -1059,8 +1059,8 @@ Array [
       25,
       50,
     ],
+    "verification_post": "1083836521751478272",
     "verification_salt": "12345",
-    "verification_tweet": "1083836521751478272",
   },
   Object {
     "active": 1,
@@ -1073,8 +1073,8 @@ Array [
       210,
       30,
     ],
+    "verification_post": "1083836521751478272",
     "verification_salt": "12345",
-    "verification_tweet": "1083836521751478272",
   },
   Object {
     "active": 1,
@@ -1087,8 +1087,8 @@ Array [
       20,
       30,
     ],
+    "verification_post": "1083836521751478272",
     "verification_salt": "12345",
-    "verification_tweet": "1083836521751478272",
   },
   Object {
     "active": 1,
@@ -1101,8 +1101,8 @@ Array [
       210,
       30,
     ],
+    "verification_post": "1083836521751478272",
     "verification_salt": "12345",
-    "verification_tweet": "1083836521751478272",
   },
 ]
 `;
@@ -1116,28 +1116,28 @@ Object {
       "attention_rate_rating_position": 4294967295,
       "id": 123,
       "last_attention_rate_updated_step_number": 1,
-      "tweets_ranked_in_last_period": 6,
+      "posts_ranked_in_last_period": 6,
     },
     Object {
       "attention_rate": "300.00000000000000000",
       "attention_rate_rating_position": 1,
       "id": 1007,
       "last_attention_rate_updated_step_number": 1,
-      "tweets_ranked_in_last_period": 10,
+      "posts_ranked_in_last_period": 10,
     },
     Object {
       "attention_rate": "50.00000000000000000",
       "attention_rate_rating_position": 3,
       "id": 1105,
       "last_attention_rate_updated_step_number": 1,
-      "tweets_ranked_in_last_period": 10,
+      "posts_ranked_in_last_period": 10,
     },
     Object {
       "attention_rate": "250.00000000000000000",
       "attention_rate_rating_position": 2,
       "id": 1200,
       "last_attention_rate_updated_step_number": 1,
-      "tweets_ranked_in_last_period": 10,
+      "posts_ranked_in_last_period": 10,
     },
   ],
 }
@@ -1386,8 +1386,8 @@ Array [
       20,
       30,
     ],
+    "verification_post": "1083836521751478272",
     "verification_salt": "12345",
-    "verification_tweet": "1083836521751478272",
   },
 ]
 `;
@@ -1401,7 +1401,7 @@ Object {
       "attention_rate_rating_position": 1,
       "id": 123,
       "last_attention_rate_updated_step_number": 1,
-      "tweets_ranked_in_last_period": 7,
+      "posts_ranked_in_last_period": 7,
     },
   ],
 }
@@ -1454,8 +1454,8 @@ Array [
       20,
       30,
     ],
+    "verification_post": "1083836521751478272",
     "verification_salt": "12345",
-    "verification_tweet": "1083836521751478272",
   },
   Object {
     "active": 1,
@@ -1468,8 +1468,8 @@ Array [
       20,
       30,
     ],
+    "verification_post": "1083836521751478272",
     "verification_salt": "12345",
-    "verification_tweet": "1083836521751478272",
   },
 ]
 `;
@@ -1483,14 +1483,14 @@ Object {
       "attention_rate_rating_position": 1,
       "id": 123,
       "last_attention_rate_updated_step_number": 1,
-      "tweets_ranked_in_last_period": 10,
+      "posts_ranked_in_last_period": 10,
     },
     Object {
       "attention_rate": "20.00000000000000000",
       "attention_rate_rating_position": 2,
       "id": 243,
       "last_attention_rate_updated_step_number": 1,
-      "tweets_ranked_in_last_period": 6,
+      "posts_ranked_in_last_period": 6,
     },
   ],
 }
@@ -1544,8 +1544,8 @@ Array [
       10,
       15,
     ],
+    "verification_post": "1083836521751478272",
     "verification_salt": "12345",
-    "verification_tweet": "1083836521751478272",
   },
 ]
 `;
@@ -1559,7 +1559,7 @@ Object {
       "attention_rate_rating_position": 0,
       "id": 123,
       "last_attention_rate_updated_step_number": 0,
-      "tweets_ranked_in_last_period": 0,
+      "posts_ranked_in_last_period": 0,
     },
   ],
 }
@@ -1660,8 +1660,8 @@ Array [
       10,
       15,
     ],
+    "verification_post": "1083836521751478272",
     "verification_salt": "12345",
-    "verification_tweet": "1083836521751478272",
   },
 ]
 `;
@@ -1675,7 +1675,7 @@ Object {
       "attention_rate_rating_position": 0,
       "id": 1105,
       "last_attention_rate_updated_step_number": 0,
-      "tweets_ranked_in_last_period": 0,
+      "posts_ranked_in_last_period": 0,
     },
   ],
 }
@@ -1731,8 +1731,8 @@ Array [
       10,
       15,
     ],
+    "verification_post": "1083836521751478272",
     "verification_salt": "12345",
-    "verification_tweet": "1083836521751478272",
   },
 ]
 `;
@@ -1746,7 +1746,7 @@ Object {
       "attention_rate_rating_position": 0,
       "id": 1105,
       "last_attention_rate_updated_step_number": 0,
-      "tweets_ranked_in_last_period": 0,
+      "posts_ranked_in_last_period": 0,
     },
   ],
 }
@@ -1800,8 +1800,8 @@ Array [
       10,
       15,
     ],
+    "verification_post": "1083836521751478272",
     "verification_salt": "12345",
-    "verification_tweet": "1083836521751478272",
   },
 ]
 `;
@@ -1815,7 +1815,7 @@ Object {
       "attention_rate_rating_position": 0,
       "id": 123,
       "last_attention_rate_updated_step_number": 0,
-      "tweets_ranked_in_last_period": 0,
+      "posts_ranked_in_last_period": 0,
     },
   ],
 }
@@ -1911,7 +1911,7 @@ Object {
       "attention_rate_rating_position": 1,
       "id": 1007,
       "last_attention_rate_updated_step_number": 1,
-      "tweets_ranked_in_last_period": 10,
+      "posts_ranked_in_last_period": 10,
     },
   ],
 }
@@ -1962,28 +1962,28 @@ Object {
       "attention_rate_rating_position": 4294967295,
       "id": 123,
       "last_attention_rate_updated_step_number": 1,
-      "tweets_ranked_in_last_period": 6,
+      "posts_ranked_in_last_period": 6,
     },
     Object {
       "attention_rate": "300.00000000000000000",
       "attention_rate_rating_position": 1,
       "id": 1007,
       "last_attention_rate_updated_step_number": 1,
-      "tweets_ranked_in_last_period": 10,
+      "posts_ranked_in_last_period": 10,
     },
     Object {
       "attention_rate": "50.00000000000000000",
       "attention_rate_rating_position": 3,
       "id": 1105,
       "last_attention_rate_updated_step_number": 1,
-      "tweets_ranked_in_last_period": 10,
+      "posts_ranked_in_last_period": 10,
     },
     Object {
       "attention_rate": "250.00000000000000000",
       "attention_rate_rating_position": 2,
       "id": 1200,
       "last_attention_rate_updated_step_number": 1,
-      "tweets_ranked_in_last_period": 10,
+      "posts_ranked_in_last_period": 10,
     },
   ],
 }
