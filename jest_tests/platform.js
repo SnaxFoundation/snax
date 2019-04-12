@@ -557,28 +557,28 @@ describe("Platform", async () => {
     await addUser({
       verification_salt: "12345",
       stat_diff: [5, 10, 15],
-      verification_tweet: "1083836521751478272",
+      verification_post: "1083836521751478272",
       account: "test1",
       id: 123
     });
     await addUser({
       verification_salt: "12345",
       stat_diff: [5, 10, 15],
-      verification_tweet: "1083836521751478272",
+      verification_post: "1083836521751478272",
       account: "test2",
       id: 1105
     });
     await addUser({
       verification_salt: "12345",
       stat_diff: [5, 10, 15],
-      verification_tweet: "1083836521751478272",
+      verification_post: "1083836521751478272",
       account: "test2",
       id: 1200
     });
     await addUser({
       verification_salt: "12345",
       stat_diff: [5, 10, 15],
-      verification_tweet: "1083836521751478272",
+      verification_post: "1083836521751478272",
       account: "test1",
       id: 1007
     });
@@ -589,28 +589,28 @@ describe("Platform", async () => {
         attention_rate: 0,
         attention_rate_rating_position: 0xffffffff,
         stat_diff: [50, 11, 25, 50],
-        tweets_ranked_in_period: 6
+        posts_ranked_in_period: 6
       },
       {
         id: 1105,
         attention_rate: 50,
         attention_rate_rating_position: 3,
         stat_diff: [5, 10, 20, 30],
-        tweets_ranked_in_period: 10
+        posts_ranked_in_period: 10
       },
       {
         id: 1200,
         attention_rate: 250.0,
         attention_rate_rating_position: 2,
         stat_diff: [51, 120, 210, 30],
-        tweets_ranked_in_period: 10
+        posts_ranked_in_period: 10
       },
       {
         id: 1007,
         attention_rate: 300.0,
         attention_rate_rating_position: 1,
         stat_diff: [51, 10, 210, 30],
-        tweets_ranked_in_period: 10
+        posts_ranked_in_period: 10
       }
     ]);
     await updatePlatform();
@@ -626,12 +626,12 @@ describe("Platform", async () => {
       attention_rate: 300.0,
       attention_rate_rating_position: 1,
       stat_diff: [51, 10, 210, 30],
-      tweets_ranked_in_period: 10
+      posts_ranked_in_period: 10
     });
     await addUser({
       verification_salt: "12345",
       stat_diff: [5, 10, 15],
-      verification_tweet: "1083836521751478272",
+      verification_post: "1083836521751478272",
       account: "test1",
       id: 1007
     });
@@ -649,7 +649,7 @@ describe("Platform", async () => {
       attention_rate: 300.0,
       attention_rate_rating_position: 1,
       stat_diff: [51, 10, 210, 30],
-      tweets_ranked_in_period: 10
+      posts_ranked_in_period: 10
     });
     await verifyStatesAndAccounts();
     await dropUser(1007);
@@ -664,12 +664,12 @@ describe("Platform", async () => {
       attention_rate: 300.0,
       attention_rate_rating_position: 1,
       stat_diff: [51, 10, 210, 30],
-      tweets_ranked_in_period: 10
+      posts_ranked_in_period: 10
     });
     await addUser({
       verification_salt: "12345",
       stat_diff: [5, 10, 15],
-      verification_tweet: "1083836521751478272",
+      verification_post: "1083836521751478272",
       account: "test1",
       id: 1007
     });
@@ -686,14 +686,14 @@ describe("Platform", async () => {
       attention_rate: 300.0,
       attention_rate_rating_position: 1,
       stat_diff: [51, 10, 210, 30],
-      tweets_ranked_in_period: 10
+      posts_ranked_in_period: 10
     });
     await updateQualityRateOrCreate({
       id: 1007,
       attention_rate: 300.0,
       attention_rate_rating_position: 1,
       stat_diff: [51, 10, 210, 30],
-      tweets_ranked_in_period: 10
+      posts_ranked_in_period: 10
     });
     await verifyStatesAndAccounts();
   });
@@ -706,12 +706,12 @@ describe("Platform", async () => {
       attention_rate: 300.0,
       attention_rate_rating_position: 1,
       stat_diff: [51, 10, 210, 30],
-      tweets_ranked_in_period: 10
+      posts_ranked_in_period: 10
     });
     await addUser({
       verification_salt: "12345",
       stat_diff: [5, 10, 15],
-      verification_tweet: "1083836521751478272",
+      verification_post: "1083836521751478272",
       account: "test1",
       id: 1007
     });
@@ -727,28 +727,28 @@ describe("Platform", async () => {
         attention_rate: 0,
         attention_rate_rating_position: 0xffffffff,
         stat_diff: [50, 11, 25, 50],
-        tweets_ranked_in_period: 6
+        posts_ranked_in_period: 6
       },
       {
         id: 1105,
         attention_rate: 50,
         attention_rate_rating_position: 3,
         stat_diff: [5, 10, 20, 30],
-        tweets_ranked_in_period: 10
+        posts_ranked_in_period: 10
       },
       {
         id: 1200,
         attention_rate: 250.0,
         attention_rate_rating_position: 2,
         stat_diff: [51, 120, 210, 30],
-        tweets_ranked_in_period: 10
+        posts_ranked_in_period: 10
       },
       {
         id: 1007,
         attention_rate: 300.0,
         attention_rate_rating_position: 1,
         stat_diff: [51, 10, 210, 30],
-        tweets_ranked_in_period: 10
+        posts_ranked_in_period: 10
       }
     ]);
     await updateQualityRateMultiOrCreate([
@@ -757,28 +757,28 @@ describe("Platform", async () => {
         attention_rate: 0,
         attention_rate_rating_position: 0xffffffff,
         stat_diff: [50, 11, 25, 50],
-        tweets_ranked_in_period: 6
+        posts_ranked_in_period: 6
       },
       {
         id: 1105,
         attention_rate: 50,
         attention_rate_rating_position: 3,
         stat_diff: [5, 10, 20, 30],
-        tweets_ranked_in_period: 10
+        posts_ranked_in_period: 10
       },
       {
         id: 1200,
         attention_rate: 250.0,
         attention_rate_rating_position: 2,
         stat_diff: [51, 120, 210, 30],
-        tweets_ranked_in_period: 10
+        posts_ranked_in_period: 10
       },
       {
         id: 1007,
         attention_rate: 300.0,
         attention_rate_rating_position: 1,
         stat_diff: [51, 10, 210, 30],
-        tweets_ranked_in_period: 10
+        posts_ranked_in_period: 10
       }
     ]);
     await verifyStatesAndAccounts();
@@ -793,28 +793,28 @@ describe("Platform", async () => {
         attention_rate: 0,
         attention_rate_rating_position: 0xffffffff,
         stat_diff: [50, 11, 25, 50],
-        tweets_ranked_in_period: 6
+        posts_ranked_in_period: 6
       },
       {
         id: 1105,
         attention_rate: 50,
         attention_rate_rating_position: 3,
         stat_diff: [5, 10, 20, 30],
-        tweets_ranked_in_period: 10
+        posts_ranked_in_period: 10
       },
       {
         id: 1200,
         attention_rate: 250.0,
         attention_rate_rating_position: 2,
         stat_diff: [51, 120, 210, 30],
-        tweets_ranked_in_period: 10
+        posts_ranked_in_period: 10
       },
       {
         id: 1007,
         attention_rate: 300.0,
         attention_rate_rating_position: 1,
         stat_diff: [51, 10, 210, 30],
-        tweets_ranked_in_period: 10
+        posts_ranked_in_period: 10
       }
     ]);
     await verifyStatesAndAccounts();
@@ -825,7 +825,7 @@ describe("Platform", async () => {
     await addUser({
       verification_salt: "12345",
       stat_diff: [5, 10, 15],
-      verification_tweet: "1083836521751478272",
+      verification_post: "1083836521751478272",
       account: "test1",
       id: 1105
     });
@@ -837,7 +837,7 @@ describe("Platform", async () => {
         attention_rate: 20.0,
         attention_rate_rating_position: 1,
         stat_diff: [5, 10, 20, 30],
-        tweets_ranked_in_period: 16
+        posts_ranked_in_period: 16
       })
     );
     await tryCatchExpect(() =>
@@ -847,7 +847,7 @@ describe("Platform", async () => {
           attention_rate: 20.0,
           attention_rate_rating_position: 1,
           stat_diff: [5, 10, 20, 30],
-          tweets_ranked_in_period: 117
+          posts_ranked_in_period: 117
         }
       ])
     );
@@ -862,7 +862,7 @@ describe("Platform", async () => {
     await addUser({
       verification_salt: "12345",
       stat_diff: [5, 10, 15],
-      verification_tweet: "1083836521751478272",
+      verification_post: "1083836521751478272",
       account: "test1",
       id: 15
     });
@@ -905,7 +905,7 @@ describe("Platform", async () => {
         keys: []
       },
       id: 65,
-      verification_tweet: 43,
+      verification_post: 43,
       verification_salt: "hello",
       stat_diff: [0, 0, 0]
     });
@@ -920,7 +920,7 @@ describe("Platform", async () => {
       attention_rate: 300.0,
       attention_rate_rating_position: 1,
       stat_diff: [51, 10, 210, 30],
-      tweets_ranked_in_period: 10
+      posts_ranked_in_period: 10
     });
     await verifyStatesAndAccounts();
   });
@@ -960,7 +960,7 @@ describe("Platform", async () => {
           keys: []
         },
         id: 65,
-        verification_tweet: 43,
+        verification_post: 43,
         verification_salt: "hello",
         stat_diff: [0, 0, 0]
       })
@@ -983,7 +983,7 @@ describe("Platform", async () => {
     await addUser({
       verification_salt: "12345",
       stat_diff: [5, 10, 15],
-      verification_tweet: "1083836521751478272",
+      verification_post: "1083836521751478272",
       account: "test1",
       id: 15
     });
@@ -1008,7 +1008,7 @@ describe("Platform", async () => {
     const result = await addUser({
       verification_salt: "12345",
       stat_diff: [5, 10, 15],
-      verification_tweet: "1083836521751478272",
+      verification_post: "1083836521751478272",
       account: "test2",
       id: 123
     });
@@ -1020,7 +1020,7 @@ describe("Platform", async () => {
     await addUser({
       verification_salt: "12345",
       stat_diff: [5, 10, 15],
-      verification_tweet: "1083836521751478272",
+      verification_post: "1083836521751478272",
       account: "test2",
       id: 123
     });
@@ -1028,7 +1028,7 @@ describe("Platform", async () => {
       addUser({
         verification_salt: "12345",
         stat_diff: [5, 10, 15],
-        verification_tweet: "1083836521751478272",
+        verification_post: "1083836521751478272",
         account: "test2",
 
         attention_rate_rating_position: 2
@@ -1042,7 +1042,7 @@ describe("Platform", async () => {
     await addUser({
       verification_salt: "12345",
       stat_diff: [5, 10, 15],
-      verification_tweet: "1083836521751478272",
+      verification_post: "1083836521751478272",
       account: "test2",
       id: 123
     });
@@ -1052,7 +1052,7 @@ describe("Platform", async () => {
       attention_rate: 20.0,
       attention_rate_rating_position: 1,
       stat_diff: [5, 10, 20, 30],
-      tweets_ranked_in_period: 7
+      posts_ranked_in_period: 7
     });
     await verifyStatesAndAccounts();
   });
@@ -1062,14 +1062,14 @@ describe("Platform", async () => {
     await addUser({
       verification_salt: "12345",
       stat_diff: [5, 10, 15],
-      verification_tweet: "1083836521751478272",
+      verification_post: "1083836521751478272",
       account: "test2",
       id: 123
     });
     await addUser({
       verification_salt: "12345",
       stat_diff: [5, 10, 15],
-      verification_tweet: "1083836521751478272",
+      verification_post: "1083836521751478272",
       account: "test1",
       id: 243
     });
@@ -1080,14 +1080,14 @@ describe("Platform", async () => {
         attention_rate: 20.0,
         attention_rate_rating_position: 2,
         stat_diff: [5, 10, 20, 30],
-        tweets_ranked_in_period: 6
+        posts_ranked_in_period: 6
       },
       {
         id: 123,
         attention_rate: 25.0,
         attention_rate_rating_position: 1,
         stat_diff: [5, 10, 20, 30],
-        tweets_ranked_in_period: 10
+        posts_ranked_in_period: 10
       }
     ]);
     await verifyStatesAndAccounts();
@@ -1098,7 +1098,7 @@ describe("Platform", async () => {
     await addUser({
       verification_salt: "12345",
       stat_diff: [5, 10, 15],
-      verification_tweet: "1083836521751478272",
+      verification_post: "1083836521751478272",
       account: "test2",
       id: 123
     });
@@ -1108,7 +1108,7 @@ describe("Platform", async () => {
         attention_rate: 20.0,
         attention_rate_rating_position: 2,
         stat_diff: [5, 10, 20, 30],
-        tweets_ranked_in_period: 42
+        posts_ranked_in_period: 42
       })
     );
 
@@ -1120,7 +1120,7 @@ describe("Platform", async () => {
     await addUser({
       verification_salt: "12345",
       stat_diff: [5, 10, 15],
-      verification_tweet: "1083836521751478272",
+      verification_post: "1083836521751478272",
       account: "test1",
       id: 1105
     });
@@ -1130,7 +1130,7 @@ describe("Platform", async () => {
         attention_rate: 20.0,
         attention_rate_rating_position: 1,
         stat_diff: [5, 10, 20, 30],
-        tweets_ranked_in_period: 16
+        posts_ranked_in_period: 16
       })
     );
     await tryCatchExpect(() =>
@@ -1140,7 +1140,7 @@ describe("Platform", async () => {
           attention_rate: 20.0,
           attention_rate_rating_position: 1,
           stat_diff: [5, 10, 20, 30],
-          tweets_ranked_in_period: 117
+          posts_ranked_in_period: 117
         }
       ])
     );

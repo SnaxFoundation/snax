@@ -67,7 +67,7 @@ public:
                       const asset stake_net, const asset stake_cpu,
                       const bool transfer, const authority &owner,
                       const authority &active, const uint64_t id,
-                      const uint64_t verification_tweet,
+                      const uint64_t verification_post,
                       const string verification_salt,
                       const vector<uint32_t> stat_diff);
 };

@@ -94,7 +94,7 @@
           "name": "id",
           "type": "uint64"
         },{
-          "name": "verification_tweet",
+          "name": "verification_post",
           "type": "uint64"
         },{
           "name": "verification_salt",

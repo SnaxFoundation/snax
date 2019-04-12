@@ -219,7 +219,7 @@ void platform::addsymbol(const string token_symbol_str,
 void platform::updatear(const uint64_t id, const double attention_rate,
                         const uint32_t attention_rate_rating_position,
                         const vector<uint32_t> stat_diff,
-                        const uint8_t tweets_ranked_in_period,
+                        const uint8_t posts_ranked_in_period,
                         const bool add_account_if_not_exist) {
   require_auth(_self);
   require_initialized();
@@ -256,7 +256,7 @@ void platform::updatear(const uint64_t id, const double attention_rate,
       record.attention_rate = attention_rate;
       record.attention_rate_rating_position = attention_rate_rating_position;
       record.last_attention_rate_updated_step_number = _state.step_number;
-      record.tweets_ranked_in_last_period = tweets_ranked_in_period;
+      record.posts_ranked_in_last_period = posts_ranked_in_period;
     });
 
     const auto &found_account = _accounts.find(id);
@@ -272,7 +272,7 @@ void platform::updatear(const uint64_t id, const double attention_rate,
       record.attention_rate = attention_rate;
       record.attention_rate_rating_position = attention_rate_rating_position;
       record.last_attention_rate_updated_step_number = _state.step_number;
-      record.tweets_ranked_in_last_period = tweets_ranked_in_period;
+      record.posts_ranked_in_last_period = posts_ranked_in_period;
       record.id = id;
     });
     addaccount(_self, 0, id, 0, string(""), stat_diff);
@@ -326,7 +326,7 @@ void platform::updatearmult(vector<account_with_attention_rate> &updates,
         record.attention_rate = attention_rate;
         record.attention_rate_rating_position = attention_rate_rating_position;
         record.last_attention_rate_updated_step_number = _state.step_number;
-        record.tweets_ranked_in_last_period = update.tweets_ranked_in_period;
+        record.posts_ranked_in_last_period = update.posts_ranked_in_period;
       });
 
       const auto &found_account = _accounts.find(update.id);
@@ -349,7 +349,7 @@ void platform::updatearmult(vector<account_with_attention_rate> &updates,
         record.attention_rate_rating_position =
             update.attention_rate_rating_position;
         record.last_attention_rate_updated_step_number = _state.step_number;
-        record.tweets_ranked_in_last_period = update.tweets_ranked_in_period;
+        record.posts_ranked_in_last_period = update.posts_ranked_in_period;
         record.id = update.id;
       });
 
@@ -415,7 +415,7 @@ void platform::dropaccount(const uint64_t id) {
 /// @abi action addaccount
 void platform::addaccount(const account_name creator,
                           const account_name account, const uint64_t id,
-                          const uint64_t verification_tweet,
+                          const uint64_t verification_post,
                           const string verification_salt,
                           const vector<uint32_t> stat_diff) {
   require_creator_or_platform(creator);
@@ -443,8 +443,8 @@ void platform::addaccount(const account_name creator,
 
   if (account) {
     snax_assert(found_account == _accounts.end(), "account already exists");
-    snax_assert(verification_tweet > 0,
-                "verification tweet status id can't be empty");
+    snax_assert(verification_post > 0,
+                "verification post status id can't be empty");
     snax_assert(verification_salt.size() > 0,
                 "verification salt can't be empty");
 
@@ -454,7 +454,7 @@ void platform::addaccount(const account_name creator,
       record.id = id;
       record.last_paid_step_number = 0;
       record.created = block_timestamp(snax::time_point_sec(now()));
-      record.verification_tweet = verification_tweet;
+      record.verification_post = verification_post;
       record.verification_salt = verification_salt;
       record.stat_diff = stat_diff;
     });
@@ -479,7 +479,7 @@ void platform::addaccounts(const account_name creator,
 
   for (auto &account_to_add : accounts_to_add) {
     addaccount(creator, account_to_add.name, account_to_add.id,
-               account_to_add.verification_tweet,
+               account_to_add.verification_post,
                account_to_add.verification_salt, account_to_add.stat_diff);
   }
 }
