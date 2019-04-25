@@ -1,17 +1,18 @@
-# Snax - Blockchain-Based Social Overlay
+# Snax - Decentralized Social Media Overlay
 
 ## Some of the key features of Snax
 
 1. Free rate limited transactions
 2. Free account registration
-3. Social transactions over the most popular social platforms (e.g. Twitter, Reddit)
-4. Low latency block confirmation (0.5 seconds)
-5. Low-overhead Byzantine Fault Tolerant Finality
-6. Smart contract platform powered by Web Assembly
-7. Designed for sparse header light client validation
-8. Hierarchical role based permissions
-9. Support for biometric hardware secured keys
-10. Designed for parallel execution of context free validation logic
+3. Social Transactions over the most popular social platforms (e.g. Twitter, Reddit)
+4. Token supply based on Regular Publisher Rewards system for content creators on public social media
+5. Low latency block confirmation (0.5 seconds)
+6. Low-overhead Byzantine Fault Tolerant Finality
+7. Smart contract platform powered by Web Assembly
+8. Designed for sparse header light client validation
+9. Hierarchical role based permissions
+10. Support for biometric hardware secured keys
+11. Designed for parallel execution of context free validation logic
 
 ## Disclaimer
 
