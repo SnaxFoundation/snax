@@ -50,7 +50,7 @@
       BUILD_DIR="${PWD}"
    fi
    CMAKE_BUILD_TYPE=Release
-   DISK_MIN=5
+   DISK_MIN=2
    DOXYGEN=false
    ENABLE_COVERAGE_TESTING=false
    CORE_SYMBOL_NAME="SNAX"
