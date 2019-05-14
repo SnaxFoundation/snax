@@ -6,6 +6,7 @@
 
 #include <math.h>
 #include <snaxlib/asset.hpp>
+#include <snaxlib/crypto.h>
 #include <snaxlib/print.hpp>
 #include <snaxlib/singleton.hpp>
 #include <snaxlib/snax.hpp>
@@ -21,10 +22,11 @@ class system_contract;
 namespace snax {
 using namespace std;
 
-class platform : public contract {
+class steem : public contract {
 public:
   struct account_with_attention_rate {
     uint64_t id;
+    string account_name;
     double attention_rate;
     uint32_t attention_rate_rating_position;
     vector<uint32_t> stat_diff;
@@ -34,14 +36,27 @@ public:
   struct account_to_add {
     account_name name;
     uint64_t id;
+    string account_name;
     uint64_t verification_post;
     string verification_salt;
     vector<uint32_t> stat_diff;
   };
 
-  platform(account_name s)
+  steem(account_name s)
       : contract(s), _users(s, s), _accounts(s, s), _platform_state(s, s),
-        _creators(s, s), _states_history(s, s) {}
+        _creators(s, s), _states_history(s, s), _bounty_state(s, s),
+        _bounty_articles(s, s) {}
+
+  /// @abi action addarticle
+  void addarticle(const uint64_t author, const string permlink,
+                  const string title, const block_timestamp created);
+
+  /// @abi action rmarticle
+  void rmarticle(const string permlink);
+
+  /// @abi action paybounty
+  void paybounty(const account_name payer, const string permlink,
+                 const asset amount);
 
   /// @abi action addcreator
   void addcreator(const account_name name);
@@ -76,7 +91,7 @@ public:
   void deactivate(uint64_t id);
 
   /// @abi action updatear
-  void updatear(uint64_t id, double attention_rate,
+  void updatear(uint64_t id, string account_name, double attention_rate,
                 uint32_t attention_rate_rating_position,
                 vector<uint32_t> stat_diff, uint8_t posts_ranked_in_period,
                 bool add_account_if_not_exist);
@@ -96,17 +111,58 @@ public:
 
   /// @abi action addaccount
   void addaccount(account_name creator, account_name account, uint64_t id,
-                  uint64_t verification_post, string verification_salt,
-                  vector<uint32_t> stat_diff);
+                  string account_name, uint64_t verification_post,
+                  string verification_salt, vector<uint32_t> stat_diff);
 
   /// @abi action addaccounts
   void addaccounts(account_name creator,
                    vector<account_to_add> &accounts_to_add);
 
+  /// @abi action transfersoca
+  void transfersoca(account_name from, string to, asset quantity, string memo);
+
   /// @abi action transfersoc
   void transfersoc(account_name from, uint64_t to, asset quantity, string memo);
 
 private:
+  /// @abi table barticles i64
+  struct article {
+    uint64_t seq;
+    uint64_t author;
+    string permlink;
+    string title;
+    block_timestamp created;
+    asset paid;
+
+    uint64_t primary_key() const { return seq; }
+
+    uint64_t by_author() const { return author; }
+
+    uint64_t by_created() const {
+      return created.to_time_point().time_since_epoch().count();
+    }
+
+    key256 by_permlink() const {
+      checksum256 hash;
+      sha256(permlink.c_str(), permlink.size() * sizeof(char), &hash);
+      return checksum256_to_sha256(hash);
+    }
+
+    SNAXLIB_SERIALIZE(article, (seq)(author)(permlink)(title)(created)(paid))
+  };
+
+  /// @abi table bounty i64
+  struct bounty_state {
+    asset total_paid;
+    block_timestamp last_update;
+
+    uint64_t primary_key() const {
+      return last_update.to_time_point().time_since_epoch().count();
+    }
+
+    SNAXLIB_SERIALIZE(bounty_state, (total_paid)(last_update))
+  };
+
   /// @abi table bindings i64
   struct binding {
     account_name account;
@@ -167,8 +223,15 @@ private:
     uint32_t attention_rate_rating_position;
     uint16_t last_attention_rate_updated_step_number;
     uint8_t posts_ranked_in_last_period;
+    string account_name;
 
     uint64_t primary_key() const { return id; }
+
+    key256 by_account_name() const {
+      checksum256 hash;
+      sha256(account_name.c_str(), account_name.size() * sizeof(char), &hash);
+      return checksum256_to_sha256(hash);
+    }
 
     uint64_t by_attention_rate_rating_position() const {
       return static_cast<uint64_t>(0xFFFFFFFF) *
@@ -180,7 +243,7 @@ private:
     SNAXLIB_SERIALIZE(user,
                       (id)(attention_rate)(attention_rate_rating_position)(
                           last_attention_rate_updated_step_number)(
-                          posts_ranked_in_last_period))
+                          posts_ranked_in_last_period)(account_name))
   };
 
   /// @abi table state i64
@@ -249,18 +312,33 @@ private:
       N(pusers), user,
       indexed_by<N(attention_rate_rating_position),
                  const_mem_fun<user, uint64_t,
-                               &user::by_attention_rate_rating_position>>>
+                               &user::by_attention_rate_rating_position>>,
+      indexed_by<N(account_name),
+                 const_mem_fun<user, key256, &user::by_account_name>>>
       usertable;
   typedef multi_index<N(usercreators), creator_rec> creators_table;
   typedef multi_index<N(states), state_step> platform_states_history;
   typedef multi_index<N(bindings), binding> _account_bindings;
+  typedef multi_index<
+      N(barticles), article,
+      indexed_by<N(author),
+                 const_mem_fun<article, uint64_t, &article::by_author>>,
+      indexed_by<N(permlink),
+                 const_mem_fun<article, key256, &article::by_permlink>>,
+      indexed_by<N(created),
+                 const_mem_fun<article, uint64_t, &article::by_created>>>
+      bounty_articles_table;
   typedef singleton<N(state), state> platform_state;
+  typedef singleton<N(bounty), bounty_state> bounty_state_table;
 
   usertable _users;
   platform_state _platform_state;
+  bounty_state_table _bounty_state;
+  bounty_state _bounty;
   state _state;
   registered_account_table _accounts;
   creators_table _creators;
+  bounty_articles_table _bounty_articles;
   platform_states_history _states_history;
 
   // Only contract itself is allowed to unlock update
@@ -282,6 +360,14 @@ private:
   void require_uninitialized();
 
   void set_account_active(uint64_t id, bool active);
+
+  static key256 checksum256_to_sha256(const checksum256 &hash) {
+    const uint128_t *p128 = reinterpret_cast<const uint128_t *>(&hash);
+    key256 k;
+    k.data()[0] = p128[0];
+    k.data()[1] = p128[1];
+    return k;
+  }
 };
 
 } /// namespace snax

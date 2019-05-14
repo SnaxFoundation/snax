@@ -1,13 +1,13 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Platform adds account after updatear 1`] = `
+exports[`Steem adds account after updatear 1`] = `
 Object {
   "more": false,
   "rows": Array [
     Object {
-      "account": "platform",
+      "account": "p.steem",
       "airdrop": "",
-      "platform_name": "test_platform",
+      "platform_name": "test_p.steem",
       "registered_attention_rate": "300.00000000000000000",
       "registered_user_count": 1,
       "round_sent_account_count": 0,
@@ -27,14 +27,14 @@ Object {
 }
 `;
 
-exports[`Platform adds account after updatear 2`] = `
+exports[`Steem adds account after updatear 2`] = `
 Object {
   "more": false,
   "rows": Array [],
 }
 `;
 
-exports[`Platform adds account after updatear 3`] = `
+exports[`Steem adds account after updatear 3`] = `
 Array [
   Object {
     "active": 1,
@@ -52,11 +52,12 @@ Array [
 ]
 `;
 
-exports[`Platform adds account after updatear 4`] = `
+exports[`Steem adds account after updatear 4`] = `
 Object {
   "more": false,
   "rows": Array [
     Object {
+      "account_name": "",
       "attention_rate": "300.00000000000000000",
       "attention_rate_rating_position": 1,
       "id": 1007,
@@ -67,14 +68,34 @@ Object {
 }
 `;
 
-exports[`Platform creates account using updatear method 1`] = `
+exports[`Steem checks bounty 1`] = `
+Array [
+  Object {
+    "author": 11,
+    "paid": "10.0000 SNAX",
+    "permlink": "somearticle",
+    "seq": 0,
+    "title": "Some article",
+  },
+]
+`;
+
+exports[`Steem checks bounty 2`] = `
+Array [
+  Object {
+    "total_paid": "10.0000 SNAX",
+  },
+]
+`;
+
+exports[`Steem creates account using updatear method 1`] = `
 Object {
   "more": false,
   "rows": Array [
     Object {
-      "account": "platform",
+      "account": "p.steem",
       "airdrop": "",
-      "platform_name": "test_platform",
+      "platform_name": "test_p.steem",
       "registered_attention_rate": "0.00000000000000000",
       "registered_user_count": 0,
       "round_sent_account_count": 0,
@@ -94,20 +115,21 @@ Object {
 }
 `;
 
-exports[`Platform creates account using updatear method 2`] = `
+exports[`Steem creates account using updatear method 2`] = `
 Object {
   "more": false,
   "rows": Array [],
 }
 `;
 
-exports[`Platform creates account using updatear method 3`] = `Array []`;
+exports[`Steem creates account using updatear method 3`] = `Array []`;
 
-exports[`Platform creates account using updatear method 4`] = `
+exports[`Steem creates account using updatear method 4`] = `
 Object {
   "more": false,
   "rows": Array [
     Object {
+      "account_name": "",
       "attention_rate": "300.00000000000000000",
       "attention_rate_rating_position": 1,
       "id": 1007,
@@ -118,14 +140,14 @@ Object {
 }
 `;
 
-exports[`Platform creates accounts using updatearmult method 1`] = `
+exports[`Steem creates accounts using updatearmult method 1`] = `
 Object {
   "more": false,
   "rows": Array [
     Object {
-      "account": "platform",
+      "account": "p.steem",
       "airdrop": "",
-      "platform_name": "test_platform",
+      "platform_name": "test_p.steem",
       "registered_attention_rate": "0.00000000000000000",
       "registered_user_count": 0,
       "round_sent_account_count": 0,
@@ -145,20 +167,21 @@ Object {
 }
 `;
 
-exports[`Platform creates accounts using updatearmult method 2`] = `
+exports[`Steem creates accounts using updatearmult method 2`] = `
 Object {
   "more": false,
   "rows": Array [],
 }
 `;
 
-exports[`Platform creates accounts using updatearmult method 3`] = `Array []`;
+exports[`Steem creates accounts using updatearmult method 3`] = `Array []`;
 
-exports[`Platform creates accounts using updatearmult method 4`] = `
+exports[`Steem creates accounts using updatearmult method 4`] = `
 Object {
   "more": false,
   "rows": Array [
     Object {
+      "account_name": "",
       "attention_rate": "0.00000000000000000",
       "attention_rate_rating_position": 4294967295,
       "id": 123,
@@ -166,6 +189,7 @@ Object {
       "posts_ranked_in_last_period": 6,
     },
     Object {
+      "account_name": "",
       "attention_rate": "300.00000000000000000",
       "attention_rate_rating_position": 1,
       "id": 1007,
@@ -173,6 +197,7 @@ Object {
       "posts_ranked_in_last_period": 10,
     },
     Object {
+      "account_name": "",
       "attention_rate": "50.00000000000000000",
       "attention_rate_rating_position": 3,
       "id": 1105,
@@ -180,6 +205,7 @@ Object {
       "posts_ranked_in_last_period": 10,
     },
     Object {
+      "account_name": "",
       "attention_rate": "250.00000000000000000",
       "attention_rate_rating_position": 2,
       "id": 1200,
@@ -190,14 +216,14 @@ Object {
 }
 `;
 
-exports[`Platform deactivates and activates account 1`] = `
+exports[`Steem deactivates and activates account 1`] = `
 Object {
   "more": false,
   "rows": Array [
     Object {
-      "account": "platform",
+      "account": "p.steem",
       "airdrop": "",
-      "platform_name": "test_platform",
+      "platform_name": "test_p.steem",
       "registered_attention_rate": "300.00000000000000000",
       "registered_user_count": 1,
       "round_sent_account_count": 0,
@@ -217,14 +243,14 @@ Object {
 }
 `;
 
-exports[`Platform deactivates and activates account 2`] = `
+exports[`Steem deactivates and activates account 2`] = `
 Object {
   "more": false,
   "rows": Array [],
 }
 `;
 
-exports[`Platform deactivates and activates account 3`] = `
+exports[`Steem deactivates and activates account 3`] = `
 Array [
   Object {
     "active": 0,
@@ -242,11 +268,12 @@ Array [
 ]
 `;
 
-exports[`Platform deactivates and activates account 4`] = `
+exports[`Steem deactivates and activates account 4`] = `
 Object {
   "more": false,
   "rows": Array [
     Object {
+      "account_name": "",
       "attention_rate": "300.00000000000000000",
       "attention_rate_rating_position": 1,
       "id": 1007,
@@ -257,14 +284,14 @@ Object {
 }
 `;
 
-exports[`Platform deactivates and activates account 5`] = `
+exports[`Steem deactivates and activates account 5`] = `
 Object {
   "more": false,
   "rows": Array [
     Object {
-      "account": "platform",
+      "account": "p.steem",
       "airdrop": "",
-      "platform_name": "test_platform",
+      "platform_name": "test_p.steem",
       "registered_attention_rate": "300.00000000000000000",
       "registered_user_count": 1,
       "round_sent_account_count": 0,
@@ -284,14 +311,14 @@ Object {
 }
 `;
 
-exports[`Platform deactivates and activates account 6`] = `
+exports[`Steem deactivates and activates account 6`] = `
 Object {
   "more": false,
   "rows": Array [],
 }
 `;
 
-exports[`Platform deactivates and activates account 7`] = `
+exports[`Steem deactivates and activates account 7`] = `
 Array [
   Object {
     "active": 1,
@@ -309,11 +336,12 @@ Array [
 ]
 `;
 
-exports[`Platform deactivates and activates account 8`] = `
+exports[`Steem deactivates and activates account 8`] = `
 Object {
   "more": false,
   "rows": Array [
     Object {
+      "account_name": "",
       "attention_rate": "300.00000000000000000",
       "attention_rate_rating_position": 1,
       "id": 1007,
@@ -324,14 +352,14 @@ Object {
 }
 `;
 
-exports[`Platform drops account after updatear 1`] = `
+exports[`Steem drops account after updatear 1`] = `
 Object {
   "more": false,
   "rows": Array [
     Object {
-      "account": "platform",
+      "account": "p.steem",
       "airdrop": "",
-      "platform_name": "test_platform",
+      "platform_name": "test_p.steem",
       "registered_attention_rate": "300.00000000000000000",
       "registered_user_count": 1,
       "round_sent_account_count": 0,
@@ -351,14 +379,14 @@ Object {
 }
 `;
 
-exports[`Platform drops account after updatear 2`] = `
+exports[`Steem drops account after updatear 2`] = `
 Object {
   "more": false,
   "rows": Array [],
 }
 `;
 
-exports[`Platform drops account after updatear 3`] = `
+exports[`Steem drops account after updatear 3`] = `
 Array [
   Object {
     "active": 1,
@@ -376,11 +404,12 @@ Array [
 ]
 `;
 
-exports[`Platform drops account after updatear 4`] = `
+exports[`Steem drops account after updatear 4`] = `
 Object {
   "more": false,
   "rows": Array [
     Object {
+      "account_name": "",
       "attention_rate": "300.00000000000000000",
       "attention_rate_rating_position": 1,
       "id": 1007,
@@ -391,14 +420,14 @@ Object {
 }
 `;
 
-exports[`Platform drops account after updatear 5`] = `
+exports[`Steem drops account after updatear 5`] = `
 Object {
   "more": false,
   "rows": Array [
     Object {
-      "account": "platform",
+      "account": "p.steem",
       "airdrop": "",
-      "platform_name": "test_platform",
+      "platform_name": "test_p.steem",
       "registered_attention_rate": "0.00000000000000000",
       "registered_user_count": 0,
       "round_sent_account_count": 0,
@@ -418,20 +447,21 @@ Object {
 }
 `;
 
-exports[`Platform drops account after updatear 6`] = `
+exports[`Steem drops account after updatear 6`] = `
 Object {
   "more": false,
   "rows": Array [],
 }
 `;
 
-exports[`Platform drops account after updatear 7`] = `Array []`;
+exports[`Steem drops account after updatear 7`] = `Array []`;
 
-exports[`Platform drops account after updatear 8`] = `
+exports[`Steem drops account after updatear 8`] = `
 Object {
   "more": false,
   "rows": Array [
     Object {
+      "account_name": "",
       "attention_rate": "300.00000000000000000",
       "attention_rate_rating_position": 1,
       "id": 1007,
@@ -442,14 +472,14 @@ Object {
 }
 `;
 
-exports[`Platform drops user after updatear 1`] = `
+exports[`Steem drops user after updatear 1`] = `
 Object {
   "more": false,
   "rows": Array [
     Object {
-      "account": "platform",
+      "account": "p.steem",
       "airdrop": "",
-      "platform_name": "test_platform",
+      "platform_name": "test_p.steem",
       "registered_attention_rate": "0.00000000000000000",
       "registered_user_count": 0,
       "round_sent_account_count": 0,
@@ -469,20 +499,21 @@ Object {
 }
 `;
 
-exports[`Platform drops user after updatear 2`] = `
+exports[`Steem drops user after updatear 2`] = `
 Object {
   "more": false,
   "rows": Array [],
 }
 `;
 
-exports[`Platform drops user after updatear 3`] = `Array []`;
+exports[`Steem drops user after updatear 3`] = `Array []`;
 
-exports[`Platform drops user after updatear 4`] = `
+exports[`Steem drops user after updatear 4`] = `
 Object {
   "more": false,
   "rows": Array [
     Object {
+      "account_name": "",
       "attention_rate": "300.00000000000000000",
       "attention_rate_rating_position": 1,
       "id": 1007,
@@ -493,14 +524,14 @@ Object {
 }
 `;
 
-exports[`Platform drops user after updatear 5`] = `
+exports[`Steem drops user after updatear 5`] = `
 Object {
   "more": false,
   "rows": Array [
     Object {
-      "account": "platform",
+      "account": "p.steem",
       "airdrop": "",
-      "platform_name": "test_platform",
+      "platform_name": "test_p.steem",
       "registered_attention_rate": "0.00000000000000000",
       "registered_user_count": 0,
       "round_sent_account_count": 0,
@@ -520,30 +551,30 @@ Object {
 }
 `;
 
-exports[`Platform drops user after updatear 6`] = `
+exports[`Steem drops user after updatear 6`] = `
 Object {
   "more": false,
   "rows": Array [],
 }
 `;
 
-exports[`Platform drops user after updatear 7`] = `Array []`;
+exports[`Steem drops user after updatear 7`] = `Array []`;
 
-exports[`Platform drops user after updatear 8`] = `
+exports[`Steem drops user after updatear 8`] = `
 Object {
   "more": false,
   "rows": Array [],
 }
 `;
 
-exports[`Platform should add account correctly 1`] = `
+exports[`Steem should add account correctly 1`] = `
 Object {
   "more": false,
   "rows": Array [
     Object {
-      "account": "platform",
+      "account": "p.steem",
       "airdrop": "",
-      "platform_name": "test_platform",
+      "platform_name": "test_p.steem",
       "registered_attention_rate": "0.00000000000000000",
       "registered_user_count": 1,
       "round_sent_account_count": 0,
@@ -563,14 +594,14 @@ Object {
 }
 `;
 
-exports[`Platform should add account correctly 2`] = `
+exports[`Steem should add account correctly 2`] = `
 Object {
   "more": false,
   "rows": Array [],
 }
 `;
 
-exports[`Platform should add account correctly 3`] = `
+exports[`Steem should add account correctly 3`] = `
 Array [
   Object {
     "active": 1,
@@ -588,11 +619,12 @@ Array [
 ]
 `;
 
-exports[`Platform should add account correctly 4`] = `
+exports[`Steem should add account correctly 4`] = `
 Object {
   "more": false,
   "rows": Array [
     Object {
+      "account_name": "test_account",
       "attention_rate": "0.00000000000000000",
       "attention_rate_rating_position": 0,
       "id": 123,
@@ -603,14 +635,14 @@ Object {
 }
 `;
 
-exports[`Platform should create user using newaccount method 1`] = `
+exports[`Steem should create user using newaccount method 1`] = `
 Object {
   "more": false,
   "rows": Array [
     Object {
-      "account": "platform",
+      "account": "p.steem",
       "airdrop": "",
-      "platform_name": "test_platform",
+      "platform_name": "test_p.steem",
       "registered_attention_rate": "0.00000000000000000",
       "registered_user_count": 1,
       "round_sent_account_count": 0,
@@ -630,14 +662,14 @@ Object {
 }
 `;
 
-exports[`Platform should create user using newaccount method 2`] = `
+exports[`Steem should create user using newaccount method 2`] = `
 Object {
   "more": false,
   "rows": Array [],
 }
 `;
 
-exports[`Platform should create user using newaccount method 3`] = `
+exports[`Steem should create user using newaccount method 3`] = `
 Array [
   Object {
     "active": 1,
@@ -655,11 +687,12 @@ Array [
 ]
 `;
 
-exports[`Platform should create user using newaccount method 4`] = `
+exports[`Steem should create user using newaccount method 4`] = `
 Object {
   "more": false,
   "rows": Array [
     Object {
+      "account_name": "accountname",
       "attention_rate": "0.00000000000000000",
       "attention_rate_rating_position": 0,
       "id": 65,
@@ -670,14 +703,14 @@ Object {
 }
 `;
 
-exports[`Platform should initialize correctly 1`] = `
+exports[`Steem should initialize correctly 1`] = `
 Object {
   "more": false,
   "rows": Array [
     Object {
-      "account": "platform",
+      "account": "p.steem",
       "airdrop": "",
-      "platform_name": "test_platform",
+      "platform_name": "test_p.steem",
       "registered_attention_rate": "0.00000000000000000",
       "registered_user_count": 0,
       "round_sent_account_count": 0,
@@ -697,30 +730,30 @@ Object {
 }
 `;
 
-exports[`Platform should initialize correctly 2`] = `
+exports[`Steem should initialize correctly 2`] = `
 Object {
   "more": false,
   "rows": Array [],
 }
 `;
 
-exports[`Platform should initialize correctly 3`] = `Array []`;
+exports[`Steem should initialize correctly 3`] = `Array []`;
 
-exports[`Platform should initialize correctly 4`] = `
+exports[`Steem should initialize correctly 4`] = `
 Object {
   "more": false,
   "rows": Array [],
 }
 `;
 
-exports[`Platform should process next round correctly 1`] = `
+exports[`Steem should process next round correctly 1`] = `
 Object {
   "more": false,
   "rows": Array [
     Object {
-      "account": "platform",
+      "account": "p.steem",
       "airdrop": "",
-      "platform_name": "test_platform",
+      "platform_name": "test_p.steem",
       "registered_attention_rate": "600.00000000000000000",
       "registered_user_count": 4,
       "round_sent_account_count": 0,
@@ -740,14 +773,14 @@ Object {
 }
 `;
 
-exports[`Platform should process next round correctly 2`] = `
+exports[`Steem should process next round correctly 2`] = `
 Object {
   "more": false,
   "rows": Array [],
 }
 `;
 
-exports[`Platform should process next round correctly 3`] = `
+exports[`Steem should process next round correctly 3`] = `
 Array [
   Object {
     "active": 1,
@@ -808,11 +841,12 @@ Array [
 ]
 `;
 
-exports[`Platform should process next round correctly 4`] = `
+exports[`Steem should process next round correctly 4`] = `
 Object {
   "more": false,
   "rows": Array [
     Object {
+      "account_name": "test_account",
       "attention_rate": "0.00000000000000000",
       "attention_rate_rating_position": 4294967295,
       "id": 123,
@@ -820,6 +854,7 @@ Object {
       "posts_ranked_in_last_period": 6,
     },
     Object {
+      "account_name": "test_account",
       "attention_rate": "300.00000000000000000",
       "attention_rate_rating_position": 1,
       "id": 1007,
@@ -827,6 +862,7 @@ Object {
       "posts_ranked_in_last_period": 10,
     },
     Object {
+      "account_name": "test_account",
       "attention_rate": "50.00000000000000000",
       "attention_rate_rating_position": 3,
       "id": 1105,
@@ -834,6 +870,7 @@ Object {
       "posts_ranked_in_last_period": 10,
     },
     Object {
+      "account_name": "test_account",
       "attention_rate": "250.00000000000000000",
       "attention_rate_rating_position": 2,
       "id": 1200,
@@ -844,7 +881,7 @@ Object {
 }
 `;
 
-exports[`Platform should process next round correctly 5`] = `
+exports[`Steem should process next round correctly 5`] = `
 Array [
   Object {
     "more": false,
@@ -862,21 +899,21 @@ Array [
     "more": false,
     "rows": Array [
       Object {
-        "balance": "1209541572.0000 SNAX",
+        "balance": "1209541372.0000 SNAX",
       },
     ],
   },
 ]
 `;
 
-exports[`Platform should process next round correctly 6`] = `
+exports[`Steem should process next round correctly 6`] = `
 Object {
   "more": false,
   "rows": Array [
     Object {
-      "account": "platform",
+      "account": "p.steem",
       "airdrop": "",
-      "platform_name": "test_platform",
+      "platform_name": "test_p.steem",
       "registered_attention_rate": "600.00000000000000000",
       "registered_user_count": 4,
       "round_sent_account_count": 0,
@@ -896,14 +933,14 @@ Object {
 }
 `;
 
-exports[`Platform should process next round correctly 7`] = `
+exports[`Steem should process next round correctly 7`] = `
 Object {
   "more": false,
   "rows": Array [],
 }
 `;
 
-exports[`Platform should process next round correctly 8`] = `
+exports[`Steem should process next round correctly 8`] = `
 Array [
   Object {
     "active": 1,
@@ -964,11 +1001,12 @@ Array [
 ]
 `;
 
-exports[`Platform should process next round correctly 9`] = `
+exports[`Steem should process next round correctly 9`] = `
 Object {
   "more": false,
   "rows": Array [
     Object {
+      "account_name": "test_account",
       "attention_rate": "0.00000000000000000",
       "attention_rate_rating_position": 4294967295,
       "id": 123,
@@ -976,6 +1014,7 @@ Object {
       "posts_ranked_in_last_period": 6,
     },
     Object {
+      "account_name": "test_account",
       "attention_rate": "300.00000000000000000",
       "attention_rate_rating_position": 1,
       "id": 1007,
@@ -983,6 +1022,7 @@ Object {
       "posts_ranked_in_last_period": 10,
     },
     Object {
+      "account_name": "test_account",
       "attention_rate": "50.00000000000000000",
       "attention_rate_rating_position": 3,
       "id": 1105,
@@ -990,6 +1030,7 @@ Object {
       "posts_ranked_in_last_period": 10,
     },
     Object {
+      "account_name": "test_account",
       "attention_rate": "250.00000000000000000",
       "attention_rate_rating_position": 2,
       "id": 1200,
@@ -1000,20 +1041,20 @@ Object {
 }
 `;
 
-exports[`Platform should process next round correctly 10`] = `
+exports[`Steem should process next round correctly 10`] = `
 Object {
   "more": false,
   "rows": Array [
     Object {
-      "account": "platform",
+      "account": "p.steem",
       "airdrop": "",
-      "platform_name": "test_platform",
+      "platform_name": "test_p.steem",
       "registered_attention_rate": "600.00000000000000000",
       "registered_user_count": 4,
       "round_sent_account_count": 0,
       "round_supply": "0.0000 SNAX",
       "round_updated_account_count": 0,
-      "sent_amount": "1209541572.0000 SNAX",
+      "sent_amount": "1209541372.0000 SNAX",
       "step_number": 2,
       "token_dealer": "snax",
       "token_symbols": Array [
@@ -1027,7 +1068,7 @@ Object {
 }
 `;
 
-exports[`Platform should process next round correctly 11`] = `
+exports[`Steem should process next round correctly 11`] = `
 Object {
   "more": false,
   "rows": Array [
@@ -1035,9 +1076,9 @@ Object {
       "registered_attention_rate": "600.00000000000000000",
       "registered_user_count": 4,
       "round_sent_account_count": 4,
-      "round_supply": "1209541572.0000 SNAX",
+      "round_supply": "1209541372.0000 SNAX",
       "round_updated_account_count": 4,
-      "sent_amount": "1209541572.0000 SNAX",
+      "sent_amount": "1209541372.0000 SNAX",
       "step_number": 1,
       "total_attention_rate": "600.00000000000000000",
       "total_user_count": 4,
@@ -1046,7 +1087,7 @@ Object {
 }
 `;
 
-exports[`Platform should process next round correctly 12`] = `
+exports[`Steem should process next round correctly 12`] = `
 Array [
   Object {
     "active": 1,
@@ -1107,11 +1148,12 @@ Array [
 ]
 `;
 
-exports[`Platform should process next round correctly 13`] = `
+exports[`Steem should process next round correctly 13`] = `
 Object {
   "more": false,
   "rows": Array [
     Object {
+      "account_name": "test_account",
       "attention_rate": "0.00000000000000000",
       "attention_rate_rating_position": 4294967295,
       "id": 123,
@@ -1119,6 +1161,7 @@ Object {
       "posts_ranked_in_last_period": 6,
     },
     Object {
+      "account_name": "test_account",
       "attention_rate": "300.00000000000000000",
       "attention_rate_rating_position": 1,
       "id": 1007,
@@ -1126,6 +1169,7 @@ Object {
       "posts_ranked_in_last_period": 10,
     },
     Object {
+      "account_name": "test_account",
       "attention_rate": "50.00000000000000000",
       "attention_rate_rating_position": 3,
       "id": 1105,
@@ -1133,6 +1177,7 @@ Object {
       "posts_ranked_in_last_period": 10,
     },
     Object {
+      "account_name": "test_account",
       "attention_rate": "250.00000000000000000",
       "attention_rate_rating_position": 2,
       "id": 1200,
@@ -1143,13 +1188,13 @@ Object {
 }
 `;
 
-exports[`Platform should process next round correctly 14`] = `
+exports[`Steem should process next round correctly 14`] = `
 Array [
   Object {
     "more": false,
     "rows": Array [
       Object {
-        "balance": "604770786.0000 SNAX",
+        "balance": "604770686.0000 SNAX",
       },
     ],
   },
@@ -1157,7 +1202,7 @@ Array [
     "more": false,
     "rows": Array [
       Object {
-        "balance": "604770786.0000 SNAX",
+        "balance": "604770686.0000 SNAX",
       },
     ],
   },
@@ -1172,7 +1217,7 @@ Array [
 ]
 `;
 
-exports[`Platform should process social transfer correctly 1`] = `
+exports[`Steem should process social transfer correctly 1`] = `
 Object {
   "more": false,
   "rows": Array [
@@ -1184,7 +1229,7 @@ Object {
 }
 `;
 
-exports[`Platform should process social transfer correctly 2`] = `
+exports[`Steem should process social transfer correctly 2`] = `
 Array [
   Object {
     "more": false,
@@ -1204,14 +1249,14 @@ Array [
 ]
 `;
 
-exports[`Platform should process social transfer correctly 3`] = `
+exports[`Steem should process social transfer correctly 3`] = `
 Object {
   "more": false,
   "rows": Array [],
 }
 `;
 
-exports[`Platform should process social transfer correctly 4`] = `
+exports[`Steem should process social transfer correctly 4`] = `
 Array [
   Object {
     "more": false,
@@ -1235,7 +1280,70 @@ Array [
 ]
 `;
 
-exports[`Platform should process social transfers with different assets correctly 1`] = `
+exports[`Steem should process social transfer with account name correctly 1`] = `
+Object {
+  "more": false,
+  "rows": Array [
+    Object {
+      "amount": "20.0000 SNAX",
+      "id": 15,
+    },
+  ],
+}
+`;
+
+exports[`Steem should process social transfer with account name correctly 2`] = `
+Array [
+  Object {
+    "more": false,
+    "rows": Array [
+      Object {
+        "balance": "980.0000 SNAX",
+      },
+      Object {
+        "balance": "1000.0000 SNIX",
+      },
+    ],
+  },
+  Object {
+    "more": false,
+    "rows": Array [],
+  },
+]
+`;
+
+exports[`Steem should process social transfer with account name correctly 3`] = `
+Object {
+  "more": false,
+  "rows": Array [],
+}
+`;
+
+exports[`Steem should process social transfer with account name correctly 4`] = `
+Array [
+  Object {
+    "more": false,
+    "rows": Array [
+      Object {
+        "balance": "980.0000 SNAX",
+      },
+      Object {
+        "balance": "1000.0000 SNIX",
+      },
+    ],
+  },
+  Object {
+    "more": false,
+    "rows": Array [
+      Object {
+        "balance": "20.0000 SNAX",
+      },
+    ],
+  },
+]
+`;
+
+exports[`Steem should process social transfers with different assets correctly 1`] = `
 Object {
   "more": false,
   "rows": Array [
@@ -1251,7 +1359,7 @@ Object {
 }
 `;
 
-exports[`Platform should process social transfers with different assets correctly 2`] = `
+exports[`Steem should process social transfers with different assets correctly 2`] = `
 Object {
   "more": false,
   "rows": Array [
@@ -1267,7 +1375,7 @@ Object {
 }
 `;
 
-exports[`Platform should process social transfers with different assets correctly 3`] = `
+exports[`Steem should process social transfers with different assets correctly 3`] = `
 Array [
   Object {
     "more": false,
@@ -1287,7 +1395,7 @@ Array [
 ]
 `;
 
-exports[`Platform should process social transfers with different assets correctly 4`] = `
+exports[`Steem should process social transfers with different assets correctly 4`] = `
 Object {
   "more": false,
   "rows": Array [
@@ -1303,7 +1411,7 @@ Object {
 }
 `;
 
-exports[`Platform should process social transfers with different assets correctly 5`] = `
+exports[`Steem should process social transfers with different assets correctly 5`] = `
 Object {
   "more": false,
   "rows": Array [
@@ -1315,7 +1423,7 @@ Object {
 }
 `;
 
-exports[`Platform should process social transfers with different assets correctly 6`] = `
+exports[`Steem should process social transfers with different assets correctly 6`] = `
 Array [
   Object {
     "more": false,
@@ -1339,14 +1447,14 @@ Array [
 ]
 `;
 
-exports[`Platform should update account's attention rate correctly 1`] = `
+exports[`Steem should update account's attention rate correctly 1`] = `
 Object {
   "more": false,
   "rows": Array [
     Object {
-      "account": "platform",
+      "account": "p.steem",
       "airdrop": "",
-      "platform_name": "test_platform",
+      "platform_name": "test_p.steem",
       "registered_attention_rate": "20.00000000000000000",
       "registered_user_count": 1,
       "round_sent_account_count": 0,
@@ -1366,14 +1474,14 @@ Object {
 }
 `;
 
-exports[`Platform should update account's attention rate correctly 2`] = `
+exports[`Steem should update account's attention rate correctly 2`] = `
 Object {
   "more": false,
   "rows": Array [],
 }
 `;
 
-exports[`Platform should update account's attention rate correctly 3`] = `
+exports[`Steem should update account's attention rate correctly 3`] = `
 Array [
   Object {
     "active": 1,
@@ -1392,11 +1500,12 @@ Array [
 ]
 `;
 
-exports[`Platform should update account's attention rate correctly 4`] = `
+exports[`Steem should update account's attention rate correctly 4`] = `
 Object {
   "more": false,
   "rows": Array [
     Object {
+      "account_name": "test_account",
       "attention_rate": "20.00000000000000000",
       "attention_rate_rating_position": 1,
       "id": 123,
@@ -1407,14 +1516,14 @@ Object {
 }
 `;
 
-exports[`Platform should update multiple account's attention rate correctly 1`] = `
+exports[`Steem should update multiple account's attention rate correctly 1`] = `
 Object {
   "more": false,
   "rows": Array [
     Object {
-      "account": "platform",
+      "account": "p.steem",
       "airdrop": "",
-      "platform_name": "test_platform",
+      "platform_name": "test_p.steem",
       "registered_attention_rate": "45.00000000000000000",
       "registered_user_count": 2,
       "round_sent_account_count": 0,
@@ -1434,14 +1543,14 @@ Object {
 }
 `;
 
-exports[`Platform should update multiple account's attention rate correctly 2`] = `
+exports[`Steem should update multiple account's attention rate correctly 2`] = `
 Object {
   "more": false,
   "rows": Array [],
 }
 `;
 
-exports[`Platform should update multiple account's attention rate correctly 3`] = `
+exports[`Steem should update multiple account's attention rate correctly 3`] = `
 Array [
   Object {
     "active": 1,
@@ -1474,11 +1583,12 @@ Array [
 ]
 `;
 
-exports[`Platform should update multiple account's attention rate correctly 4`] = `
+exports[`Steem should update multiple account's attention rate correctly 4`] = `
 Object {
   "more": false,
   "rows": Array [
     Object {
+      "account_name": "test_account",
       "attention_rate": "25.00000000000000000",
       "attention_rate_rating_position": 1,
       "id": 123,
@@ -1486,6 +1596,7 @@ Object {
       "posts_ranked_in_last_period": 10,
     },
     Object {
+      "account_name": "test_account",
       "attention_rate": "20.00000000000000000",
       "attention_rate_rating_position": 2,
       "id": 243,
@@ -1496,16 +1607,16 @@ Object {
 }
 `;
 
-exports[`Platform shouldn't be able to add user with the same id second time 1`] = `"missing addaccount.id (type=uint64)"`;
+exports[`Steem shouldn't be able to add user with the same id second time 1`] = `"missing addaccount.id (type=uint64)"`;
 
-exports[`Platform shouldn't be able to add user with the same id second time 2`] = `
+exports[`Steem shouldn't be able to add user with the same id second time 2`] = `
 Object {
   "more": false,
   "rows": Array [
     Object {
-      "account": "platform",
+      "account": "p.steem",
       "airdrop": "",
-      "platform_name": "test_platform",
+      "platform_name": "test_p.steem",
       "registered_attention_rate": "0.00000000000000000",
       "registered_user_count": 1,
       "round_sent_account_count": 0,
@@ -1525,14 +1636,14 @@ Object {
 }
 `;
 
-exports[`Platform shouldn't be able to add user with the same id second time 3`] = `
+exports[`Steem shouldn't be able to add user with the same id second time 3`] = `
 Object {
   "more": false,
   "rows": Array [],
 }
 `;
 
-exports[`Platform shouldn't be able to add user with the same id second time 4`] = `
+exports[`Steem shouldn't be able to add user with the same id second time 4`] = `
 Array [
   Object {
     "active": 1,
@@ -1550,11 +1661,12 @@ Array [
 ]
 `;
 
-exports[`Platform shouldn't be able to add user with the same id second time 5`] = `
+exports[`Steem shouldn't be able to add user with the same id second time 5`] = `
 Object {
   "more": false,
   "rows": Array [
     Object {
+      "account_name": "test_account",
       "attention_rate": "0.00000000000000000",
       "attention_rate_rating_position": 0,
       "id": 123,
@@ -1565,16 +1677,16 @@ Object {
 }
 `;
 
-exports[`Platform shouldn't be able to initialize second time 1`] = `"assertion failure with message: platform is already initialized"`;
+exports[`Steem shouldn't be able to initialize second time 1`] = `"assertion failure with message: platform is already initialized"`;
 
-exports[`Platform shouldn't be able to initialize second time 2`] = `
+exports[`Steem shouldn't be able to initialize second time 2`] = `
 Object {
   "more": false,
   "rows": Array [
     Object {
-      "account": "platform",
+      "account": "p.steem",
       "airdrop": "",
-      "platform_name": "test_platform",
+      "platform_name": "test_p.steem",
       "registered_attention_rate": "0.00000000000000000",
       "registered_user_count": 0,
       "round_sent_account_count": 0,
@@ -1594,34 +1706,34 @@ Object {
 }
 `;
 
-exports[`Platform shouldn't be able to initialize second time 3`] = `
+exports[`Steem shouldn't be able to initialize second time 3`] = `
 Object {
   "more": false,
   "rows": Array [],
 }
 `;
 
-exports[`Platform shouldn't be able to initialize second time 4`] = `Array []`;
+exports[`Steem shouldn't be able to initialize second time 4`] = `Array []`;
 
-exports[`Platform shouldn't be able to initialize second time 5`] = `
+exports[`Steem shouldn't be able to initialize second time 5`] = `
 Object {
   "more": false,
   "rows": Array [],
 }
 `;
 
-exports[`Platform shouldn't be able to update attention rate when platform is updating 1`] = `"assertion failure with message: platform must be in updating state 1 when updatear action is called"`;
+exports[`Steem shouldn't be able to update attention rate when p.steem is updating 1`] = `"assertion failure with message: platform must be in updating state 1 when updatear action is called"`;
 
-exports[`Platform shouldn't be able to update attention rate when platform is updating 2`] = `"assertion failure with message: platform must be in updating state 1 when updatearmult action is called"`;
+exports[`Steem shouldn't be able to update attention rate when p.steem is updating 2`] = `"assertion failure with message: platform must be in updating state 1 when updatearmult action is called"`;
 
-exports[`Platform shouldn't be able to update attention rate when platform is updating 3`] = `
+exports[`Steem shouldn't be able to update attention rate when p.steem is updating 3`] = `
 Object {
   "more": false,
   "rows": Array [
     Object {
-      "account": "platform",
+      "account": "p.steem",
       "airdrop": "",
-      "platform_name": "test_platform",
+      "platform_name": "test_p.steem",
       "registered_attention_rate": "0.00000000000000000",
       "registered_user_count": 1,
       "round_sent_account_count": 0,
@@ -1641,14 +1753,14 @@ Object {
 }
 `;
 
-exports[`Platform shouldn't be able to update attention rate when platform is updating 4`] = `
+exports[`Steem shouldn't be able to update attention rate when p.steem is updating 4`] = `
 Object {
   "more": false,
   "rows": Array [],
 }
 `;
 
-exports[`Platform shouldn't be able to update attention rate when platform is updating 5`] = `
+exports[`Steem shouldn't be able to update attention rate when p.steem is updating 5`] = `
 Array [
   Object {
     "active": 1,
@@ -1666,11 +1778,12 @@ Array [
 ]
 `;
 
-exports[`Platform shouldn't be able to update attention rate when platform is updating 6`] = `
+exports[`Steem shouldn't be able to update attention rate when p.steem is updating 6`] = `
 Object {
   "more": false,
   "rows": Array [
     Object {
+      "account_name": "test_account",
       "attention_rate": "0.00000000000000000",
       "attention_rate_rating_position": 0,
       "id": 1105,
@@ -1681,18 +1794,18 @@ Object {
 }
 `;
 
-exports[`Platform shouldn't be able to update attention rate when platform isnt in updating ar state 1`] = `"assertion failure with message: platform must be in updating state 1 when updatear action is called"`;
+exports[`Steem shouldn't be able to update attention rate when p.steem isnt in updating ar state 1`] = `"assertion failure with message: platform must be in updating state 1 when updatear action is called"`;
 
-exports[`Platform shouldn't be able to update attention rate when platform isnt in updating ar state 2`] = `"assertion failure with message: platform must be in updating state 1 when updatearmult action is called"`;
+exports[`Steem shouldn't be able to update attention rate when p.steem isnt in updating ar state 2`] = `"assertion failure with message: platform must be in updating state 1 when updatearmult action is called"`;
 
-exports[`Platform shouldn't be able to update attention rate when platform isnt in updating ar state 3`] = `
+exports[`Steem shouldn't be able to update attention rate when p.steem isnt in updating ar state 3`] = `
 Object {
   "more": false,
   "rows": Array [
     Object {
-      "account": "platform",
+      "account": "p.steem",
       "airdrop": "",
-      "platform_name": "test_platform",
+      "platform_name": "test_p.steem",
       "registered_attention_rate": "0.00000000000000000",
       "registered_user_count": 1,
       "round_sent_account_count": 0,
@@ -1712,14 +1825,14 @@ Object {
 }
 `;
 
-exports[`Platform shouldn't be able to update attention rate when platform isnt in updating ar state 4`] = `
+exports[`Steem shouldn't be able to update attention rate when p.steem isnt in updating ar state 4`] = `
 Object {
   "more": false,
   "rows": Array [],
 }
 `;
 
-exports[`Platform shouldn't be able to update attention rate when platform isnt in updating ar state 5`] = `
+exports[`Steem shouldn't be able to update attention rate when p.steem isnt in updating ar state 5`] = `
 Array [
   Object {
     "active": 1,
@@ -1737,11 +1850,12 @@ Array [
 ]
 `;
 
-exports[`Platform shouldn't be able to update attention rate when platform isnt in updating ar state 6`] = `
+exports[`Steem shouldn't be able to update attention rate when p.steem isnt in updating ar state 6`] = `
 Object {
   "more": false,
   "rows": Array [
     Object {
+      "account_name": "test_account",
       "attention_rate": "0.00000000000000000",
       "attention_rate_rating_position": 0,
       "id": 1105,
@@ -1752,16 +1866,16 @@ Object {
 }
 `;
 
-exports[`Platform shouldn't be able to update non-existent account's attention rate 1`] = `"assertion failure with message: platform must be in updating state 1 when updatear action is called"`;
+exports[`Steem shouldn't be able to update non-existent account's attention rate 1`] = `"assertion failure with message: platform must be in updating state 1 when updatear action is called"`;
 
-exports[`Platform shouldn't be able to update non-existent account's attention rate 2`] = `
+exports[`Steem shouldn't be able to update non-existent account's attention rate 2`] = `
 Object {
   "more": false,
   "rows": Array [
     Object {
-      "account": "platform",
+      "account": "p.steem",
       "airdrop": "",
-      "platform_name": "test_platform",
+      "platform_name": "test_p.steem",
       "registered_attention_rate": "0.00000000000000000",
       "registered_user_count": 1,
       "round_sent_account_count": 0,
@@ -1781,14 +1895,14 @@ Object {
 }
 `;
 
-exports[`Platform shouldn't be able to update non-existent account's attention rate 3`] = `
+exports[`Steem shouldn't be able to update non-existent account's attention rate 3`] = `
 Object {
   "more": false,
   "rows": Array [],
 }
 `;
 
-exports[`Platform shouldn't be able to update non-existent account's attention rate 4`] = `
+exports[`Steem shouldn't be able to update non-existent account's attention rate 4`] = `
 Array [
   Object {
     "active": 1,
@@ -1806,11 +1920,12 @@ Array [
 ]
 `;
 
-exports[`Platform shouldn't be able to update non-existent account's attention rate 5`] = `
+exports[`Steem shouldn't be able to update non-existent account's attention rate 5`] = `
 Object {
   "more": false,
   "rows": Array [
     Object {
+      "account_name": "test_account",
       "attention_rate": "0.00000000000000000",
       "attention_rate_rating_position": 0,
       "id": 123,
@@ -1821,16 +1936,16 @@ Object {
 }
 `;
 
-exports[`Platform shouldnt be able to create user using newaccount method 1`] = `"assertion failure with message: platform or creator authority needed"`;
+exports[`Steem shouldnt be able to create user using newaccount method 1`] = `"assertion failure with message: platform or creator authority needed"`;
 
-exports[`Platform shouldnt be able to create user using newaccount method 2`] = `
+exports[`Steem shouldnt be able to create user using newaccount method 2`] = `
 Object {
   "more": false,
   "rows": Array [
     Object {
-      "account": "platform",
+      "account": "p.steem",
       "airdrop": "",
-      "platform_name": "test_platform",
+      "platform_name": "test_p.steem",
       "registered_attention_rate": "0.00000000000000000",
       "registered_user_count": 0,
       "round_sent_account_count": 0,
@@ -1850,30 +1965,30 @@ Object {
 }
 `;
 
-exports[`Platform shouldnt be able to create user using newaccount method 3`] = `
+exports[`Steem shouldnt be able to create user using newaccount method 3`] = `
 Object {
   "more": false,
   "rows": Array [],
 }
 `;
 
-exports[`Platform shouldnt be able to create user using newaccount method 4`] = `Array []`;
+exports[`Steem shouldnt be able to create user using newaccount method 4`] = `Array []`;
 
-exports[`Platform shouldnt be able to create user using newaccount method 5`] = `
+exports[`Steem shouldnt be able to create user using newaccount method 5`] = `
 Object {
   "more": false,
   "rows": Array [],
 }
 `;
 
-exports[`Platform updates account using updatear method second time 1`] = `
+exports[`Steem updates account using updatear method second time 1`] = `
 Object {
   "more": false,
   "rows": Array [
     Object {
-      "account": "platform",
+      "account": "p.steem",
       "airdrop": "",
-      "platform_name": "test_platform",
+      "platform_name": "test_p.steem",
       "registered_attention_rate": "0.00000000000000000",
       "registered_user_count": 0,
       "round_sent_account_count": 0,
@@ -1893,20 +2008,21 @@ Object {
 }
 `;
 
-exports[`Platform updates account using updatear method second time 2`] = `
+exports[`Steem updates account using updatear method second time 2`] = `
 Object {
   "more": false,
   "rows": Array [],
 }
 `;
 
-exports[`Platform updates account using updatear method second time 3`] = `Array []`;
+exports[`Steem updates account using updatear method second time 3`] = `Array []`;
 
-exports[`Platform updates account using updatear method second time 4`] = `
+exports[`Steem updates account using updatear method second time 4`] = `
 Object {
   "more": false,
   "rows": Array [
     Object {
+      "account_name": "",
       "attention_rate": "300.00000000000000000",
       "attention_rate_rating_position": 1,
       "id": 1007,
@@ -1917,14 +2033,14 @@ Object {
 }
 `;
 
-exports[`Platform updates the same accounts again during one step 1`] = `
+exports[`Steem updates the same accounts again during one step 1`] = `
 Object {
   "more": false,
   "rows": Array [
     Object {
-      "account": "platform",
+      "account": "p.steem",
       "airdrop": "",
-      "platform_name": "test_platform",
+      "platform_name": "test_p.steem",
       "registered_attention_rate": "0.00000000000000000",
       "registered_user_count": 0,
       "round_sent_account_count": 0,
@@ -1944,20 +2060,21 @@ Object {
 }
 `;
 
-exports[`Platform updates the same accounts again during one step 2`] = `
+exports[`Steem updates the same accounts again during one step 2`] = `
 Object {
   "more": false,
   "rows": Array [],
 }
 `;
 
-exports[`Platform updates the same accounts again during one step 3`] = `Array []`;
+exports[`Steem updates the same accounts again during one step 3`] = `Array []`;
 
-exports[`Platform updates the same accounts again during one step 4`] = `
+exports[`Steem updates the same accounts again during one step 4`] = `
 Object {
   "more": false,
   "rows": Array [
     Object {
+      "account_name": "",
       "attention_rate": "0.00000000000000000",
       "attention_rate_rating_position": 4294967295,
       "id": 123,
@@ -1965,6 +2082,7 @@ Object {
       "posts_ranked_in_last_period": 6,
     },
     Object {
+      "account_name": "",
       "attention_rate": "300.00000000000000000",
       "attention_rate_rating_position": 1,
       "id": 1007,
@@ -1972,6 +2090,7 @@ Object {
       "posts_ranked_in_last_period": 10,
     },
     Object {
+      "account_name": "",
       "attention_rate": "50.00000000000000000",
       "attention_rate_rating_position": 3,
       "id": 1105,
@@ -1979,6 +2098,7 @@ Object {
       "posts_ranked_in_last_period": 10,
     },
     Object {
+      "account_name": "",
       "attention_rate": "250.00000000000000000",
       "attention_rate_rating_position": 2,
       "id": 1200,

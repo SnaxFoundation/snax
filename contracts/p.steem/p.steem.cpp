@@ -1,13 +1,13 @@
-#include "platform.hpp"
+#include "p.steem.hpp"
 
 using namespace std;
 
 namespace snax {
 
 /// @abi action initialize
-void platform::initialize(const string name, const account_name token_dealer,
-                          const string token_symbol_str,
-                          const uint8_t precision, const account_name airdrop) {
+void steem::initialize(const string name, const account_name token_dealer,
+                       const string token_symbol_str, const uint8_t precision,
+                       const account_name airdrop) {
   require_auth(_self);
   require_uninitialized();
 
@@ -35,8 +35,90 @@ void platform::initialize(const string name, const account_name token_dealer,
   _platform_state.set(_state, _self);
 }
 
+/// @abi action addarticle
+void steem::addarticle(const uint64_t author, const string permlink,
+                       const string title, const block_timestamp created) {
+  require_auth(_self);
+  require_initialized();
+  snax_assert(_users.find(author) != _users.end(), "author not found");
+  checksum256 hash;
+  sha256(permlink.c_str(), permlink.size() * sizeof(char), &hash);
+  const auto permlink_key = checksum256_to_sha256(hash);
+
+  const auto permlink_index = _bounty_articles.get_index<N(permlink)>();
+
+  const auto author_index = _bounty_articles.get_index<N(author)>();
+
+  snax_assert(permlink_index.find(permlink_key) == permlink_index.end(),
+              "article already added");
+
+  snax_assert(author_index.find(author) == author_index.end(),
+              "author already has an article");
+
+  auto end = _bounty_articles.end();
+
+  _bounty_articles.emplace(_self, [&](auto &record) {
+    record.seq = _bounty_articles.begin() != _bounty_articles.end()
+                     ? (--end)->seq + 1
+                     : 0;
+    record.author = author;
+    record.permlink = permlink;
+    record.title = title;
+    record.created = created;
+    record.paid = asset(0, _platform_state.get().round_supply.symbol);
+  });
+
+  if (_bounty_state.exists()) {
+    _bounty = _bounty_state.get();
+  } else {
+    _bounty.total_paid = asset(0, _platform_state.get().round_supply.symbol);
+  }
+  _bounty.last_update = block_timestamp(snax::time_point_sec(now()));
+  _bounty_state.set(_bounty, _self);
+}
+
+/// @abi action rmarticle
+void steem::rmarticle(const string permlink) {
+  require_auth(_self);
+  require_initialized();
+  checksum256 hash;
+  sha256(permlink.c_str(), permlink.size() * sizeof(char), &hash);
+  const auto permlink_key = checksum256_to_sha256(hash);
+
+  const auto permlink_index = _bounty_articles.get_index<N(permlink)>();
+  const auto &article = permlink_index.find(permlink_key);
+
+  snax_assert(article != permlink_index.end(), "article not found");
+  _bounty_articles.erase(_bounty_articles.find(article->seq));
+}
+
+/// @abi action paybounty
+void steem::paybounty(const account_name payer, const string permlink,
+                      const asset amount) {
+  require_auth(payer);
+  require_initialized();
+  checksum256 hash;
+  sha256(permlink.c_str(), permlink.size() * sizeof(char), &hash);
+  const auto permlink_key = checksum256_to_sha256(hash);
+
+  const auto permlink_index = _bounty_articles.get_index<N(permlink)>();
+
+  const auto &article = permlink_index.find(permlink_key);
+
+  snax_assert(article != permlink_index.end(), "article not found");
+  action(permission_level{payer, N(active)}, _self, N(transfersoc),
+         make_tuple(payer, article->author, amount, string("bounty program")))
+      .send();
+
+  _bounty_articles.modify(_bounty_articles.find(article->seq), _self,
+                          [&](auto &record) { record.paid += amount; });
+  _bounty = _bounty_state.get();
+  _bounty.total_paid += amount;
+  _bounty_state.set(_bounty, _self);
+}
+
 /// @abi action lockarupdate
-void platform::lockarupdate() {
+void steem::lockarupdate() {
   require_auth(_self);
   require_initialized();
   _state = _platform_state.get();
@@ -51,7 +133,7 @@ void platform::lockarupdate() {
 }
 
 /// @abi action lockupdate
-void platform::lockupdate() {
+void steem::lockupdate() {
   require_auth(_self);
   require_initialized();
   _state = _platform_state.get();
@@ -67,7 +149,7 @@ void platform::lockupdate() {
 }
 
 /// @abi action addcreator
-void platform::addcreator(const account_name name) {
+void steem::addcreator(const account_name name) {
   require_auth(_self);
   require_initialized();
   snax_assert(is_account(name), "account isnt registered");
@@ -80,7 +162,7 @@ void platform::addcreator(const account_name name) {
 }
 
 /// @abi action rmcreator
-void platform::rmcreator(const account_name name) {
+void steem::rmcreator(const account_name name) {
   require_auth(_self);
   require_initialized();
   snax_assert(is_account(name), "account isnt registered");
@@ -93,7 +175,7 @@ void platform::rmcreator(const account_name name) {
 }
 
 /// @abi action nextround
-void platform::nextround() {
+void steem::nextround() {
   require_auth(_self);
   require_initialized();
 
@@ -114,8 +196,8 @@ void platform::nextround() {
 }
 
 /// @abi action sendpayments
-void platform::sendpayments(const account_name lower_account_name,
-                            uint64_t account_count) {
+void steem::sendpayments(const account_name lower_account_name,
+                         uint64_t account_count) {
   require_auth(_self);
   require_initialized();
   _state = _platform_state.get();
@@ -146,7 +228,7 @@ void platform::sendpayments(const account_name lower_account_name,
     const auto &user = *_users.find(account.id);
     if (account.name && account.active) {
       snax_assert(account.last_paid_step_number < _state.step_number + 1,
-                    "account already updated");
+                  "account already updated");
       updated_account_count++;
       if (user.attention_rate > 0.1 &&
           user.last_attention_rate_updated_step_number == _state.step_number) {
@@ -188,22 +270,21 @@ void platform::sendpayments(const account_name lower_account_name,
 }
 
 /// @abi action activate
-void platform::activate(const uint64_t id) {
+void steem::activate(const uint64_t id) {
   require_auth(_self);
   require_initialized();
   set_account_active(id, true);
 }
 
 /// @abi action deactivate
-void platform::deactivate(const uint64_t id) {
+void steem::deactivate(const uint64_t id) {
   require_auth(_self);
   require_initialized();
   set_account_active(id, false);
 }
 
 /// @abi action addsymbol
-void platform::addsymbol(const string token_symbol_str,
-                         const uint8_t precision) {
+void steem::addsymbol(const string token_symbol_str, const uint8_t precision) {
   require_auth(_self);
   require_initialized();
 
@@ -215,11 +296,12 @@ void platform::addsymbol(const string token_symbol_str,
 }
 
 /// @abi action updatear
-void platform::updatear(const uint64_t id, const double attention_rate,
-                        const uint32_t attention_rate_rating_position,
-                        const vector<uint32_t> stat_diff,
-                        const uint8_t posts_ranked_in_period,
-                        const bool add_account_if_not_exist) {
+void steem::updatear(const uint64_t id, const string account_name,
+                     const double attention_rate,
+                     const uint32_t attention_rate_rating_position,
+                     const vector<uint32_t> stat_diff,
+                     const uint8_t posts_ranked_in_period,
+                     const bool add_account_if_not_exist) {
   require_auth(_self);
   require_initialized();
   _state = _platform_state.get();
@@ -274,7 +356,7 @@ void platform::updatear(const uint64_t id, const double attention_rate,
       record.posts_ranked_in_last_period = posts_ranked_in_period;
       record.id = id;
     });
-    addaccount(_self, 0, id, 0, string(""), stat_diff);
+    addaccount(_self, 0, id, account_name, 0, string(""), stat_diff);
 
     total_attention_rate += attention_rate;
     round_updated_account_count++;
@@ -289,8 +371,8 @@ void platform::updatear(const uint64_t id, const double attention_rate,
 }
 
 /// @abi action updatearmult
-void platform::updatearmult(vector<account_with_attention_rate> &updates,
-                            const bool add_account_if_not_exist) {
+void steem::updatearmult(vector<account_with_attention_rate> &updates,
+                         const bool add_account_if_not_exist) {
   require_auth(_self);
   require_initialized();
   _state = _platform_state.get();
@@ -352,7 +434,8 @@ void platform::updatearmult(vector<account_with_attention_rate> &updates,
         record.id = update.id;
       });
 
-      addaccount(_self, 0, update.id, 0, string(""), update.stat_diff);
+      addaccount(_self, 0, update.id, update.account_name, 0, string(""),
+                 update.stat_diff);
 
       total_attention_rate += update.attention_rate;
       updated_account_count++;
@@ -368,7 +451,7 @@ void platform::updatearmult(vector<account_with_attention_rate> &updates,
 }
 
 /// @abi action dropuser
-void platform::dropuser(const uint64_t id) {
+void steem::dropuser(const uint64_t id) {
   require_auth(_self);
   require_initialized();
 
@@ -390,20 +473,20 @@ void platform::dropuser(const uint64_t id) {
   _platform_state.set(_state, _self);
 }
 
-
 /// @abi action bindaccount
-void platform::bindaccount(const account_name account, const string salt) {
-    require_auth(account);
-    _account_bindings account_bindings(_self, account);
-    snax_assert(account_bindings.begin() == account_bindings.end(), "account is already bound");
-    account_bindings.emplace(account, [&](auto& record) {
-        record.account = account;
-        record.salt = salt;
-    });
+void steem::bindaccount(const account_name account, const string salt) {
+  require_auth(account);
+  _account_bindings account_bindings(_self, account);
+  snax_assert(account_bindings.begin() == account_bindings.end(),
+              "account is already bound");
+  account_bindings.emplace(account, [&](auto &record) {
+    record.account = account;
+    record.salt = salt;
+  });
 }
 
 /// @abi action dropaccount
-void platform::dropaccount(const account_name initiator, const uint64_t id) {
+void steem::dropaccount(const account_name initiator, const uint64_t id) {
   require_auth(initiator);
   require_initialized();
   _state = _platform_state.get();
@@ -412,7 +495,8 @@ void platform::dropaccount(const account_name initiator, const uint64_t id) {
 
   snax_assert(account != _accounts.end(), "no such account");
 
-  snax_assert(_self == initiator || account->name == initiator, "cant drop account");
+  snax_assert(_self == initiator || account->name == initiator,
+              "cant drop account");
 
   const auto user = _users.find(id);
 
@@ -426,11 +510,11 @@ void platform::dropaccount(const account_name initiator, const uint64_t id) {
 }
 
 /// @abi action addaccount
-void platform::addaccount(const account_name creator,
-                          const account_name account, const uint64_t id,
-                          const uint64_t verification_post,
-                          const string verification_salt,
-                          const vector<uint32_t> stat_diff) {
+void steem::addaccount(const account_name creator, const account_name account,
+                       const uint64_t id, const string account_name,
+                       const uint64_t verification_post,
+                       const string verification_salt,
+                       const vector<uint32_t> stat_diff) {
   require_creator_or_platform(creator);
   require_initialized();
   _state = _platform_state.get();
@@ -449,6 +533,7 @@ void platform::addaccount(const account_name creator,
 
   if (is_user_new) {
     _users.emplace(_self, [&](auto &record) {
+      record.account_name = account_name;
       record.id = id;
       record.last_attention_rate_updated_step_number = 0;
     });
@@ -485,21 +570,38 @@ void platform::addaccount(const account_name creator,
 };
 
 /// @abi action addaccounts
-void platform::addaccounts(const account_name creator,
-                           vector<account_to_add> &accounts_to_add) {
+void steem::addaccounts(const account_name creator,
+                        vector<account_to_add> &accounts_to_add) {
   require_creator_or_platform(creator);
   require_initialized();
 
   for (auto &account_to_add : accounts_to_add) {
     addaccount(creator, account_to_add.name, account_to_add.id,
-               account_to_add.verification_post,
+               account_to_add.account_name, account_to_add.verification_post,
                account_to_add.verification_salt, account_to_add.stat_diff);
   }
 }
 
+/// @abi action transfersoca
+void steem::transfersoca(const account_name from, const string to,
+                         const asset quantity, const string memo) {
+  checksum256 hash;
+  sha256(to.c_str(), to.size() * sizeof(char), &hash);
+  const auto to_key = checksum256_to_sha256(hash);
+
+  const auto users_account_name_index = _users.get_index<N(account_name)>();
+
+  const auto &to_user = users_account_name_index.find(to_key);
+
+  snax_assert(to_user != users_account_name_index.end(),
+              "to account not found");
+
+  transfersoc(from, to_user->id, quantity, memo);
+}
+
 /// @abi action transfersoc
-void platform::transfersoc(const account_name from, const uint64_t to,
-                           const asset quantity, const string memo) {
+void steem::transfersoc(const account_name from, const uint64_t to,
+                        const asset quantity, const string memo) {
   require_auth(from);
   require_initialized();
 
@@ -533,8 +635,7 @@ void platform::transfersoc(const account_name from, const uint64_t to,
   }
 }
 
-asset platform::get_balance(const account_name account,
-                            const symbol_type symbol) {
+asset steem::get_balance(const account_name account, const symbol_type symbol) {
   require_initialized();
 
   _users_balances balances(N(snax.token), account);
@@ -544,7 +645,7 @@ asset platform::get_balance(const account_name account,
   return result;
 }
 
-void platform::claim_transfered(const uint64_t id, const account_name account) {
+void steem::claim_transfered(const uint64_t id, const account_name account) {
   require_initialized();
 
   if (!account)
@@ -569,9 +670,9 @@ void platform::claim_transfered(const uint64_t id, const account_name account) {
 }
 
 // Only contract itself is allowed to unlock update
-void platform::unlock_update(const asset current_amount,
-                             const asset last_sent_amount,
-                             const uint32_t last_updated_account_count) {
+void steem::unlock_update(const asset current_amount,
+                          const asset last_sent_amount,
+                          const uint32_t last_updated_account_count) {
   require_initialized();
   _state = _platform_state.get();
 
@@ -606,21 +707,21 @@ void platform::unlock_update(const asset current_amount,
   }
 }
 
-void platform::require_initialized() {
+void steem::require_initialized() {
   snax_assert(_platform_state.exists(), "platform must be initialized");
 }
 
-void platform::require_uninitialized() {
+void steem::require_uninitialized() {
   snax_assert(!_platform_state.exists(), "platform is already initialized");
 }
 
-void platform::require_creator_or_platform(const account_name account) {
+void steem::require_creator_or_platform(const account_name account) {
   require_auth(account);
   snax_assert(account == _self || _creators.find(account) != _creators.end(),
               "platform or creator authority needed");
 }
 
-void platform::set_account_active(const uint64_t id, const bool active) {
+void steem::set_account_active(const uint64_t id, const bool active) {
   const auto found_account = _accounts.find(id);
 
   snax_assert(found_account != _accounts.end(), "account doesnt exist");
@@ -631,7 +732,8 @@ void platform::set_account_active(const uint64_t id, const bool active) {
 }
 
 SNAX_ABI(
-    snax::platform,
-    (initialize)(lockarupdate)(lockupdate)(addcreator)(rmcreator)(nextround)(
-        activate)(deactivate)(addsymbol)(sendpayments)(addaccount)(dropuser)(bindaccount)(
-        dropaccount)(addaccounts)(updatear)(transfersoc)(updatearmult))
+    snax::steem,
+    (initialize)(addarticle)(rmarticle)(paybounty)(lockarupdate)(lockupdate)(
+        addcreator)(rmcreator)(nextround)(activate)(deactivate)(addsymbol)(
+        sendpayments)(addaccount)(dropuser)(bindaccount)(dropaccount)(
+        addaccounts)(updatear)(transfersoc)(transfersoca)(updatearmult))

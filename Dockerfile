@@ -21,5 +21,5 @@ RUN apt-get update \
         ca-certificates \
       && rm -rf /var/lib/apt/lists/* \
       && chmod +x /opt/snax/bin/*.sh
-      
+
 EXPOSE 8888 9876 8900

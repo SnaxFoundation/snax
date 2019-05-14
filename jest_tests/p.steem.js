@@ -37,14 +37,14 @@ const api = new snaxjs.Api({
 
 jest.setTimeout(1e6);
 
-describe("Platform", async () => {
+describe("Steem", async () => {
   beforeEach(async () => {
-    spawn("./setup_platform.sh", [], {
+    spawn("./setup_steem.sh", [], {
       detached: true,
       stdio: "ignore"
     });
     await sleep(6e3);
-    account = "platform";
+    account = "p.steem";
   });
 
   const verifyStatesAndAccounts = async () => {
@@ -99,6 +99,27 @@ describe("Platform", async () => {
     expect(tables).toMatchSnapshot();
   };
 
+  const verifyBounty = async () => {
+    const [articles, bounty] = await Promise.all([
+      api.rpc.get_table_rows({
+        code: account,
+        scope: account,
+        table: "barticles"
+      }),
+      api.rpc.get_table_rows({
+        code: account,
+        scope: account,
+        table: "bounty"
+      })
+    ]);
+    expect(
+      articles.rows.map(({ created, ...article }) => article)
+    ).toMatchSnapshot();
+    expect(
+      bounty.rows.map(({ last_update, ...bounty }) => bounty)
+    ).toMatchSnapshot();
+  };
+
   const initialize = async () => {
     await api.transact(
       {
@@ -113,7 +134,7 @@ describe("Platform", async () => {
               }
             ],
             data: {
-              name: "test_platform",
+              name: "test_p.steem",
               token_dealer: "snax",
               token_symbol_str: "SNAX",
               precision: 4,
@@ -169,7 +190,7 @@ describe("Platform", async () => {
         actions: [
           {
             account: "snax.creator",
-            name: "newaccount",
+            name: "newaccname",
             authorization: [
               {
                 actor: "snax.creator",
@@ -195,6 +216,34 @@ describe("Platform", async () => {
           {
             account: account,
             name: "transfersoc",
+            authorization: [
+              {
+                actor: from,
+                permission: "active"
+              }
+            ],
+            data: {
+              from,
+              to,
+              quantity,
+              memo
+            }
+          }
+        ]
+      },
+      {
+        blocksBehind: 1,
+        expireSeconds: 30
+      }
+    );
+
+  const socialTransferByAccount = (from, to, quantity, memo) =>
+    api.transact(
+      {
+        actions: [
+          {
+            account: account,
+            name: "transfersoca",
             authorization: [
               {
                 actor: from,
@@ -263,6 +312,57 @@ describe("Platform", async () => {
         expireSeconds: 30
       }
     );
+
+  const addarticle = article =>
+    api.transact(
+      {
+        actions: [
+          {
+            account: account,
+            name: "addarticle",
+            authorization: [
+              {
+                actor: account,
+                permission: "active"
+              }
+            ],
+            data: {
+              ...article
+            }
+          }
+        ]
+      },
+      {
+        blocksBehind: 1,
+        expireSeconds: 30
+      }
+    );
+  const paybounty = (payer, permlink, amount) =>
+    api.transact(
+      {
+        actions: [
+          {
+            account: account,
+            name: "paybounty",
+            authorization: [
+              {
+                actor: payer,
+                permission: "active"
+              }
+            ],
+            data: {
+              payer,
+              permlink,
+              amount
+            }
+          }
+        ]
+      },
+      {
+        blocksBehind: 1,
+        expireSeconds: 30
+      }
+    );
   const deactivate = id =>
     api.transact(
       {
@@ -310,7 +410,7 @@ describe("Platform", async () => {
       }
     );
 
-  const updatePlatform = async () => {
+  const updateSteem = async () => {
     await lockUpdate();
     await verifyStatesAndAccounts();
     await api.transact(
@@ -334,7 +434,7 @@ describe("Platform", async () => {
         expireSeconds: 30
       }
     );
-    await verifyAccountsBalances(["test2", "test1", "snax", "platform"]);
+    await verifyAccountsBalances(["test2", "test1", "snax", "p.steem"]);
     await verifyStatesAndAccounts();
     await api.transact(
       {
@@ -349,7 +449,7 @@ describe("Platform", async () => {
               }
             ],
             data: {
-              lower_account_name: "",
+              lower_account_name: "someacc",
               account_count: 1000
             }
           }
@@ -377,6 +477,7 @@ describe("Platform", async () => {
             ],
             data: {
               ...accountObj,
+              account_name: "someacc",
               add_account_if_not_exist: false
             }
           }
@@ -403,6 +504,7 @@ describe("Platform", async () => {
             ],
             data: {
               ...accountObj,
+              account_name: "someacc",
               add_account_if_not_exist: true
             }
           }
@@ -427,7 +529,13 @@ describe("Platform", async () => {
                 permission: "active"
               }
             ],
-            data: { updates, add_account_if_not_exist: false }
+            data: {
+              updates: updates.map(update => ({
+                ...update,
+                account_name: "someacc"
+              })),
+              add_account_if_not_exist: false
+            }
           }
         ]
       },
@@ -450,7 +558,14 @@ describe("Platform", async () => {
                 permission: "active"
               }
             ],
-            data: { updates, add_account_if_not_exist: true }
+            data: {
+              updates: updates.map(update => ({
+                ...update,
+                account_name: "someacc"
+              })),
+              account_name: "someacc",
+              add_account_if_not_exist: true
+            }
           }
         ]
       },
@@ -465,7 +580,7 @@ describe("Platform", async () => {
       {
         actions: [
           {
-            account: "platform",
+            account: "p.steem",
             name: "addsymbol",
             authorization: [
               {
@@ -488,11 +603,11 @@ describe("Platform", async () => {
       {
         actions: [
           {
-            account: "platform",
+            account: "p.steem",
             name: "addcreator",
             authorization: [
               {
-                actor: "platform",
+                actor: "p.steem",
                 permission: "active"
               }
             ],
@@ -511,15 +626,15 @@ describe("Platform", async () => {
       {
         actions: [
           {
-            account: "platform",
+            account: "p.steem",
             name: "dropaccount",
             authorization: [
               {
-                actor: "platform",
+                actor: "p.steem",
                 permission: "active"
               }
             ],
-            data: { initiator: "platform", id }
+            data: { initiator: "p.steem", id }
           }
         ]
       },
@@ -533,11 +648,11 @@ describe("Platform", async () => {
       {
         actions: [
           {
-            account: "platform",
+            account: "p.steem",
             name: "dropuser",
             authorization: [
               {
-                actor: "platform",
+                actor: "p.steem",
                 permission: "active"
               }
             ],
@@ -555,6 +670,7 @@ describe("Platform", async () => {
     await sleep(6e3);
     await initialize();
     await addUser({
+      account_name: "test_account",
       verification_salt: "12345",
       stat_diff: [5, 10, 15],
       verification_post: "1083836521751478272",
@@ -562,6 +678,7 @@ describe("Platform", async () => {
       id: 123
     });
     await addUser({
+      account_name: "test_account",
       verification_salt: "12345",
       stat_diff: [5, 10, 15],
       verification_post: "1083836521751478272",
@@ -569,6 +686,7 @@ describe("Platform", async () => {
       id: 1105
     });
     await addUser({
+      account_name: "test_account",
       verification_salt: "12345",
       stat_diff: [5, 10, 15],
       verification_post: "1083836521751478272",
@@ -576,6 +694,7 @@ describe("Platform", async () => {
       id: 1200
     });
     await addUser({
+      account_name: "test_account",
       verification_salt: "12345",
       stat_diff: [5, 10, 15],
       verification_post: "1083836521751478272",
@@ -613,9 +732,9 @@ describe("Platform", async () => {
         posts_ranked_in_period: 10
       }
     ]);
-    await updatePlatform();
+    await updateSteem();
     await verifyStatesAndAccounts();
-    await verifyAccountsBalances(["test2", "test1", "snax", "platform"]);
+    await verifyAccountsBalances(["test2", "test1", "snax", "p.steem"]);
   });
 
   it("deactivates and activates account", async () => {
@@ -629,6 +748,7 @@ describe("Platform", async () => {
       posts_ranked_in_period: 10
     });
     await addUser({
+      account_name: "test_account",
       verification_salt: "12345",
       stat_diff: [5, 10, 15],
       verification_post: "1083836521751478272",
@@ -656,6 +776,28 @@ describe("Platform", async () => {
     await verifyStatesAndAccounts();
   });
 
+  it("checks bounty", async () => {
+    await initialize();
+    await addUser({
+      account_name: "test_account",
+      verification_salt: "12345",
+      stat_diff: [5, 10, 15],
+      verification_post: "1083836521751478272",
+      account: "test1",
+      id: 11
+    });
+    await addarticle({
+      author: 11,
+      permlink: "somearticle",
+      title: "Some article",
+      created: {
+        slot: 5e5
+      }
+    });
+    await paybounty("snax.creator", "somearticle", "10.0000 SNAX");
+    await verifyBounty();
+  });
+
   it("drops account after updatear", async () => {
     await initialize();
     await lockArUpdate();
@@ -667,6 +809,7 @@ describe("Platform", async () => {
       posts_ranked_in_period: 10
     });
     await addUser({
+      account_name: "test_account",
       verification_salt: "12345",
       stat_diff: [5, 10, 15],
       verification_post: "1083836521751478272",
@@ -709,6 +852,7 @@ describe("Platform", async () => {
       posts_ranked_in_period: 10
     });
     await addUser({
+      account_name: "test_account",
       verification_salt: "12345",
       stat_diff: [5, 10, 15],
       verification_post: "1083836521751478272",
@@ -820,9 +964,10 @@ describe("Platform", async () => {
     await verifyStatesAndAccounts();
   });
 
-  it("shouldn't be able to update attention rate when platform is updating", async () => {
+  it("shouldn't be able to update attention rate when p.steem is updating", async () => {
     await initialize();
     await addUser({
+      account_name: "test_account",
       verification_salt: "12345",
       stat_diff: [5, 10, 15],
       verification_post: "1083836521751478272",
@@ -860,6 +1005,37 @@ describe("Platform", async () => {
     await verifyTransferTable("SNAX");
     await verifyAccountsBalances(["test.transf", "test1"]);
     await addUser({
+      account_name: "test_account",
+      verification_salt: "12345",
+      stat_diff: [5, 10, 15],
+      verification_post: "1083836521751478272",
+      account: "test1",
+      id: 15
+    });
+    await verifyTransferTable("SNAX");
+    await verifyAccountsBalances(["test.transf", "test1"]);
+  });
+
+  it("should process social transfer with account name correctly", async () => {
+    await initialize();
+    await addUser({
+      account: "",
+      account_name: "test_account",
+      verification_salt: 0,
+      stat_diff: [],
+      verification_post: "",
+      id: 15
+    });
+    await socialTransferByAccount(
+      "test.transf",
+      "test_account",
+      "20.0000 SNAX",
+      "hello"
+    );
+    await verifyTransferTable("SNAX");
+    await verifyAccountsBalances(["test.transf", "test1"]);
+    await addUser({
+      account_name: "test_account",
       verification_salt: "12345",
       stat_diff: [5, 10, 15],
       verification_post: "1083836521751478272",
@@ -874,7 +1050,8 @@ describe("Platform", async () => {
     await initialize();
     await addCreator("snax.creator");
     await newUser({
-      platform: "platform",
+      account_name: "accountname",
+      platform: "p.steem",
       account: "created11",
       bytes: 4000,
       stake_net: "100.0000 SNAX",
@@ -929,7 +1106,8 @@ describe("Platform", async () => {
     await initialize();
     await tryCatchExpect(() =>
       newUser({
-        platform: "platform",
+        account_name: "accountname",
+        platform: "p.steem",
         account: "created11",
         bytes: 4000,
         stake_net: "100.0000 SNAX",
@@ -981,6 +1159,7 @@ describe("Platform", async () => {
     await verifyTransferTable("SNIX");
     await verifyAccountsBalances(["test.transf", "test1"]);
     await addUser({
+      account_name: "test_account",
       verification_salt: "12345",
       stat_diff: [5, 10, 15],
       verification_post: "1083836521751478272",
@@ -1006,6 +1185,7 @@ describe("Platform", async () => {
   it("should add account correctly", async () => {
     await initialize();
     const result = await addUser({
+      account_name: "test_account",
       verification_salt: "12345",
       stat_diff: [5, 10, 15],
       verification_post: "1083836521751478272",
@@ -1018,6 +1198,7 @@ describe("Platform", async () => {
   it("shouldn't be able to add user with the same id second time", async () => {
     await initialize();
     await addUser({
+      account_name: "test_account",
       verification_salt: "12345",
       stat_diff: [5, 10, 15],
       verification_post: "1083836521751478272",
@@ -1026,6 +1207,7 @@ describe("Platform", async () => {
     });
     await tryCatchExpect(() =>
       addUser({
+        account_name: "test_account",
         verification_salt: "12345",
         stat_diff: [5, 10, 15],
         verification_post: "1083836521751478272",
@@ -1040,6 +1222,7 @@ describe("Platform", async () => {
   it("should update account's attention rate correctly", async () => {
     await initialize();
     await addUser({
+      account_name: "test_account",
       verification_salt: "12345",
       stat_diff: [5, 10, 15],
       verification_post: "1083836521751478272",
@@ -1060,6 +1243,7 @@ describe("Platform", async () => {
   it("should update multiple account's attention rate correctly", async () => {
     await initialize();
     await addUser({
+      account_name: "test_account",
       verification_salt: "12345",
       stat_diff: [5, 10, 15],
       verification_post: "1083836521751478272",
@@ -1067,6 +1251,7 @@ describe("Platform", async () => {
       id: 123
     });
     await addUser({
+      account_name: "test_account",
       verification_salt: "12345",
       stat_diff: [5, 10, 15],
       verification_post: "1083836521751478272",
@@ -1096,6 +1281,7 @@ describe("Platform", async () => {
   it("shouldn't be able to update non-existent account's attention rate", async () => {
     await initialize();
     await addUser({
+      account_name: "test_account",
       verification_salt: "12345",
       stat_diff: [5, 10, 15],
       verification_post: "1083836521751478272",
@@ -1115,9 +1301,10 @@ describe("Platform", async () => {
     await verifyStatesAndAccounts();
   });
 
-  it("shouldn't be able to update attention rate when platform isnt in updating ar state", async () => {
+  it("shouldn't be able to update attention rate when p.steem isnt in updating ar state", async () => {
     await initialize();
     await addUser({
+      account_name: "test_account",
       verification_salt: "12345",
       stat_diff: [5, 10, 15],
       verification_post: "1083836521751478272",
