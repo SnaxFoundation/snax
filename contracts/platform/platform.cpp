@@ -390,10 +390,10 @@ void platform::dropuser(const uint64_t id) {
   _platform_state.set(_state, _self);
 }
 
-
 /// @abi action bindaccount
 void platform::bindaccount(const account_name account, const string salt) {
     require_auth(account);
+    require_initialized();
     _account_bindings account_bindings(_self, account);
     snax_assert(account_bindings.begin() == account_bindings.end(), "account is already bound");
     account_bindings.emplace(account, [&](auto& record) {
