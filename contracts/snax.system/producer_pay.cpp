@@ -37,7 +37,7 @@ namespace snaxsystem {
 
          const asset system_supply_soft_limit = system_supply_limit / 10;
 
-         asset platform_full_balance = get_platform_full_balance();
+         const asset platform_full_balance = get_platform_full_balance();
 
          const asset issued_supply = snax::token(N(snax.token)).get_supply(snax::symbol_type(system_token_symbol).name());
 
@@ -58,7 +58,7 @@ namespace snaxsystem {
                         - asset(staked_by_team_initial)
                         - asset(airdrop_initial)
                         - asset(account_creator_initial)
-                    )
+                    ) / 1'0000
                 )
             )
          );

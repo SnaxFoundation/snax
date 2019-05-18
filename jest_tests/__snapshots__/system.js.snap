@@ -1167,8 +1167,8 @@ Object {
   "max_transaction_net_usage": 524288,
   "min_transaction_cpu_usage": 100,
   "net_usage_leeway": 500,
-  "perblock_bucket": 154484,
-  "pervote_bucket": 154484,
+  "perblock_bucket": 126000,
+  "pervote_bucket": 126000,
   "platform_lock_duration": 0,
   "privileged_contracts": 0,
   "resources_market_open": 1,
@@ -1177,7 +1177,7 @@ Object {
   "target_block_cpu_usage_pct": 1000,
   "target_block_net_usage_pct": 1000,
   "total_activated_stake": "149998990000000",
-  "total_bp_reward": "30.8968 SNAX",
+  "total_bp_reward": "25.2000 SNAX",
   "total_ram_bytes_reserved": 4479551,
   "total_ram_stake": 111307338,
   "total_unpaid_blocks": 4,
@@ -1194,7 +1194,7 @@ Array [
     "more": false,
     "rows": Array [
       Object {
-        "balance": "15.4484 SNAX",
+        "balance": "12.6000 SNAX",
       },
     ],
   },
@@ -1202,7 +1202,7 @@ Array [
     "more": false,
     "rows": Array [
       Object {
-        "balance": "15.4484 SNAX",
+        "balance": "12.6000 SNAX",
       },
     ],
   },
@@ -1231,8 +1231,8 @@ Object {
   "max_transaction_net_usage": 524288,
   "min_transaction_cpu_usage": 100,
   "net_usage_leeway": 500,
-  "perblock_bucket": 154484,
-  "pervote_bucket": 154484,
+  "perblock_bucket": 126000,
+  "pervote_bucket": 126000,
   "platform_lock_duration": 0,
   "privileged_contracts": 0,
   "resources_market_open": 1,
@@ -1241,7 +1241,7 @@ Object {
   "target_block_cpu_usage_pct": 1000,
   "target_block_net_usage_pct": 1000,
   "total_activated_stake": "149998990000000",
-  "total_bp_reward": "30.8968 SNAX",
+  "total_bp_reward": "25.2000 SNAX",
   "total_ram_bytes_reserved": 4479551,
   "total_ram_stake": 111307338,
   "total_unpaid_blocks": 4,
@@ -1268,7 +1268,7 @@ Array [
     "more": false,
     "rows": Array [
       Object {
-        "balance": "15.4484 SNAX",
+        "balance": "12.6000 SNAX",
       },
     ],
   },
@@ -1276,7 +1276,7 @@ Array [
     "more": false,
     "rows": Array [
       Object {
-        "balance": "15.4484 SNAX",
+        "balance": "12.6000 SNAX",
       },
     ],
   },
@@ -1310,7 +1310,7 @@ Object {
   "min_transaction_cpu_usage": 100,
   "net_usage_leeway": 500,
   "perblock_bucket": 0,
-  "pervote_bucket": 154484,
+  "pervote_bucket": 126000,
   "platform_lock_duration": 0,
   "privileged_contracts": 0,
   "resources_market_open": 1,
@@ -1319,7 +1319,7 @@ Object {
   "target_block_cpu_usage_pct": 1000,
   "target_block_net_usage_pct": 1000,
   "total_activated_stake": "149998990000000",
-  "total_bp_reward": "30.8968 SNAX",
+  "total_bp_reward": "25.2000 SNAX",
   "total_ram_bytes_reserved": 4479551,
   "total_ram_stake": 111307338,
   "total_unpaid_blocks": 0,
@@ -1577,7 +1577,7 @@ Array [
     "more": false,
     "rows": Array [
       Object {
-        "balance": "15.4484 SNAX",
+        "balance": "12.6000 SNAX",
       },
     ],
   },
