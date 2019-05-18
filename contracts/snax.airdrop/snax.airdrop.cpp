@@ -43,10 +43,10 @@ namespace snax {
 
         const asset balance = get_balance(definition->amount_per_account.symbol.name());
 
-        if (balance >= definition->amount_per_account && _requested_accounts.find(account) == _requested_accounts.end()) {
+        if (balance >= definition->amount_per_account && _requested_accounts.find(account) == _requested_accounts.end() && definition->amount_per_account > asset(0)) {
             action(permission_level{_self, N(active)},
                    N(snax.token), N(transfer),
-                   make_tuple(_self, account, definition->amount_per_account, string("airdrop payment"))
+                   make_tuple(_self, account, definition->amount_per_account, std::string("airdrop payment for platform ")+(name{platform}).to_string())
             ).send();
             _requested_accounts.emplace(_self, [&](auto& record) { record.name = account; });
         }
