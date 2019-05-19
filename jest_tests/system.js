@@ -428,6 +428,33 @@ describe("System", async () => {
       }
     );
 
+  const issue = (actor, to, quantity) =>
+    api.transact(
+      {
+        actions: [
+          {
+            account: "snax.token",
+            name: "issue",
+            authorization: [
+              {
+                actor,
+                permission: "active"
+              }
+            ],
+            data: {
+              to,
+              quantity,
+              memo: "test issue"
+            }
+          }
+        ]
+      },
+      {
+        blocksBehind: 1,
+        expireSeconds: 30
+      }
+    );
+
   const escrowbw = (
     actor,
     stake_cpu_quantity,
@@ -532,7 +559,6 @@ describe("System", async () => {
     await verifyProds();
     await verifyVoters();
     await sleep(1e4);
-    await verifyGlobalState();
     await Promise.all([
       verifyAccountsBalances(["snax", "snax.vpay", "snax.bpay"]),
       verifyProds(),
@@ -541,6 +567,40 @@ describe("System", async () => {
     await claimrewards("snax");
     await Promise.all([
       verifyAccountsBalances(["snax", "snax.vpay", "snax.bpay"]),
+      verifyProds(),
+      verifyGlobalState()
+    ]);
+  });
+
+  it("should claim rewards", async () => {
+    await issue("snax", "snax.creator", "17000000000.0000 SNAX");
+    await regproducer(
+      "snax",
+      "SNAX8mo3cUJW1Yy1GGxQfexWGN7QPUB2rXccQP7brrpgJXGjiw6gKR"
+    );
+    await voteproducer(["snax"]);
+    await emitplatform("platform1");
+    await verifyProds();
+    await verifyVoters();
+    await sleep(1e4);
+    await Promise.all([
+      verifyAccountsBalances([
+        "snax",
+        "snax.vpay",
+        "snax.bpay",
+        "snax.creator"
+      ]),
+      verifyProds(),
+      verifyGlobalState()
+    ]);
+    await claimrewards("snax");
+    await Promise.all([
+      verifyAccountsBalances([
+        "snax",
+        "snax.vpay",
+        "snax.bpay",
+        "snax.creator"
+      ]),
       verifyProds(),
       verifyGlobalState()
     ]);
