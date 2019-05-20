@@ -665,7 +665,7 @@ void steem::claim_transfered(const uint64_t id, const account_name account) {
              make_tuple(N(snax.transf), account, amount, string("social")))
           .send();
 
-      _transfers.erase(found++);
+      _transfers.erase(found);
     }
   }
 }
