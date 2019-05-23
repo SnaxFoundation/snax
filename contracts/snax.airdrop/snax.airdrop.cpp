@@ -37,7 +37,7 @@ namespace snax {
         check_platform_registered(platform);
 
         const auto& definition = _platform_definitions.find(platform);
-        snax_assert(definition != _platform_definitions.end(), "paltform doesnt exist in airdrop configuration");
+        snax_assert(definition != _platform_definitions.end(), "platform doesnt exist in airdrop configuration");
 
         _requested_accounts_table _requested_accounts(_self, platform);
 

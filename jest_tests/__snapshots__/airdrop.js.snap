@@ -162,4 +162,4 @@ Object {
 
 exports[`Airdrop shouldn't be able to add platform because it's not in system 1`] = `"assertion failure with message: platform doesnt exist in snax global state"`;
 
-exports[`Airdrop shouldn't be able to request because platform isn't added 1`] = `"assertion failure with message: paltform doesnt exist in airdrop configuration"`;
+exports[`Airdrop shouldn't be able to request because platform isn't added 1`] = `"assertion failure with message: platform doesnt exist in airdrop configuration"`;
