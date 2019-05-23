@@ -528,6 +528,8 @@ void steem::addaccount(const account_name creator, const account_name account,
   snax_assert(found_user == _users.end() || found_account == _accounts.end(),
               "user already exists");
 
+  snax_assert(account_name.size() > 0, "account_name cannot be empty");
+
   claim_transfered(id, account);
 
   const auto is_user_new = found_user == _users.end();
