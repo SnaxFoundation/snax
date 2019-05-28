@@ -449,7 +449,7 @@ describe("Steem", async () => {
               }
             ],
             data: {
-              lower_account_name: "someacc",
+              lower_account_name: "test_account",
               account_count: 1000
             }
           }
@@ -477,7 +477,7 @@ describe("Steem", async () => {
             ],
             data: {
               ...accountObj,
-              account_name: "someacc",
+              account_name: "test_account",
               add_account_if_not_exist: false
             }
           }
@@ -504,7 +504,7 @@ describe("Steem", async () => {
             ],
             data: {
               ...accountObj,
-              account_name: "someacc",
+              account_name: "test_account",
               add_account_if_not_exist: true
             }
           }
@@ -532,7 +532,7 @@ describe("Steem", async () => {
             data: {
               updates: updates.map(update => ({
                 ...update,
-                account_name: "someacc"
+                account_name: "test_account"
               })),
               add_account_if_not_exist: false
             }
@@ -561,9 +561,9 @@ describe("Steem", async () => {
             data: {
               updates: updates.map(update => ({
                 ...update,
-                account_name: "someacc"
+                account_name: "test_account"
               })),
-              account_name: "someacc",
+              account_name: "test_account",
               add_account_if_not_exist: true
             }
           }

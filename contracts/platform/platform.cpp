@@ -334,7 +334,7 @@ void platform::updatearmult(vector<account_with_attention_rate> &updates,
         _accounts.modify(found_account, _self, [&](auto &record) {
           record.stat_diff = update.stat_diff;
         });
-        registered_attention_rate += attention_rate;
+        registered_attention_rate += attention_rate_inc;
       }
 
       total_attention_rate += attention_rate_inc;

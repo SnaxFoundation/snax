@@ -355,6 +355,7 @@ void steem::updatear(const uint64_t id, const string account_name,
       record.last_attention_rate_updated_step_number = _state.step_number;
       record.posts_ranked_in_last_period = posts_ranked_in_period;
       record.id = id;
+      record.account_name = account_name;
     });
     addaccount(_self, 0, id, account_name, 0, string(""), stat_diff);
 
@@ -416,7 +417,7 @@ void steem::updatearmult(vector<account_with_attention_rate> &updates,
         _accounts.modify(found_account, _self, [&](auto &record) {
           record.stat_diff = update.stat_diff;
         });
-        registered_attention_rate += attention_rate;
+        registered_attention_rate += attention_rate_inc;
       }
 
       total_attention_rate += attention_rate_inc;
@@ -432,6 +433,7 @@ void steem::updatearmult(vector<account_with_attention_rate> &updates,
         record.last_attention_rate_updated_step_number = _state.step_number;
         record.posts_ranked_in_last_period = update.posts_ranked_in_period;
         record.id = update.id;
+        record.account_name = update.account_name;
       });
 
       addaccount(_self, 0, update.id, update.account_name, 0, string(""),
