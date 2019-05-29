@@ -391,11 +391,12 @@ namespace snaxsystem {
        const bool transfer,
        const uint8_t period_count
    ) {
+       snax_assert(from == receiver || transfer, "must escrowbw to the same account or transfer");
        delegatebw(
            from, receiver, stake_net_quantity, stake_cpu_quantity, transfer
        );
-       escrow_bandwidth_table _escrow_bandwidth(_self, transfer ? receiver: from);
-       _escrow_bandwidth.emplace(transfer ? receiver: from, [&](auto& record) {
+       escrow_bandwidth_table _escrow_bandwidth(_self, receiver);
+       _escrow_bandwidth.emplace(receiver, [&](auto& record) {
            const auto current_time = snax::time_point_sec(now());
            record.initial_amount = stake_net_quantity + stake_cpu_quantity;
            record.amount = stake_net_quantity + stake_cpu_quantity;
@@ -438,7 +439,7 @@ namespace snaxsystem {
 
       bool enough = false;
 
-      while (escrow_iter != _escrow_bandwidth.end() && !enough) {
+      while (from == receiver && escrow_iter != _escrow_bandwidth.end() && !enough) {
           const auto escrow_record = *escrow_iter;
           if (escrow_record.owner == from) {
               const auto current_time = snax::time_point_sec(now());
