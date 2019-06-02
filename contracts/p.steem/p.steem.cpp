@@ -227,7 +227,7 @@ void steem::sendpayments(const account_name lower_account_name,
     const auto &account = *iter;
     const auto &user = *_users.find(account.id);
     if (account.name && account.active) {
-      snax_assert(account.last_paid_step_number < _state.step_number + 1,
+      snax_assert(account.last_paid_step_number < _state.step_number,
                   "account already updated");
       updated_account_count++;
       if (user.attention_rate > 0.1 &&
