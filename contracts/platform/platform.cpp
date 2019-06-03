@@ -144,12 +144,13 @@ void platform::sendpayments(const account_name lower_account_name,
   while (iter != end_iter && account_count--) {
     const auto &account = *iter;
     const auto &user = *_users.find(account.id);
-    if (account.name && account.active) {
+    if (account.name) {
       snax_assert(account.last_paid_step_number < _state.step_number,
                     "account already updated");
       updated_account_count++;
       if (user.attention_rate > 0.1 &&
-          user.last_attention_rate_updated_step_number == _state.step_number) {
+          user.last_attention_rate_updated_step_number == _state.step_number &&
+          account.active) {
         asset token_amount;
         const int64_t portion = static_cast<int64_t>(
             _state.total_attention_rate / user.attention_rate);
@@ -392,14 +393,15 @@ void platform::dropuser(const uint64_t id) {
 
 /// @abi action bindaccount
 void platform::bindaccount(const account_name account, const string salt) {
-    require_auth(account);
-    require_initialized();
-    _account_bindings account_bindings(_self, account);
-    snax_assert(account_bindings.begin() == account_bindings.end(), "account is already bound");
-    account_bindings.emplace(account, [&](auto& record) {
-        record.account = account;
-        record.salt = salt;
-    });
+  require_auth(account);
+  require_initialized();
+  _account_bindings account_bindings(_self, account);
+  snax_assert(account_bindings.begin() == account_bindings.end(),
+              "account is already bound");
+  account_bindings.emplace(account, [&](auto &record) {
+    record.account = account;
+    record.salt = salt;
+  });
 }
 
 /// @abi action dropaccount
@@ -412,7 +414,8 @@ void platform::dropaccount(const account_name initiator, const uint64_t id) {
 
   snax_assert(account != _accounts.end(), "no such account");
 
-  snax_assert(_self == initiator || account->name == initiator, "cant drop account");
+  snax_assert(_self == initiator || account->name == initiator,
+              "cant drop account");
 
   const auto user = _users.find(id);
 
