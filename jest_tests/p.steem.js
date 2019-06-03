@@ -737,6 +737,215 @@ describe("Steem", async () => {
     await verifyAccountsBalances(["test2", "test1", "snax", "p.steem"]);
   });
 
+  it("should process nextround with attempt to update same accounts second time", async () => {
+    await sleep(6e3);
+    await initialize();
+    await addUser({
+      account_name: "test_account",
+      verification_salt: "12345",
+      stat_diff: [5, 10, 15],
+      verification_post: "1083836521751478272",
+      account: "test1",
+      id: 123
+    });
+    await addUser({
+      account_name: "test_account",
+      verification_salt: "12345",
+      stat_diff: [5, 10, 15],
+      verification_post: "1083836521751478272",
+      account: "test2",
+      id: 1105
+    });
+    await addUser({
+      account_name: "test_account",
+      verification_salt: "12345",
+      stat_diff: [5, 10, 15],
+      verification_post: "1083836521751478272",
+      account: "test3",
+      id: 1200
+    });
+    await addUser({
+      account_name: "test_account",
+      verification_salt: "12345",
+      stat_diff: [5, 10, 15],
+      verification_post: "1083836521751478272",
+      account: "test4",
+      id: 1007
+    });
+    await lockArUpdate();
+    await updateAttentionRateMulti([
+      {
+        id: 123,
+        attention_rate: 0,
+        attention_rate_rating_position: 0xffffffff,
+        stat_diff: [50, 11, 25, 50],
+        posts_ranked_in_period: 6
+      },
+      {
+        id: 1105,
+        attention_rate: 50,
+        attention_rate_rating_position: 3,
+        stat_diff: [5, 10, 20, 30],
+        posts_ranked_in_period: 10
+      },
+      {
+        id: 1200,
+        attention_rate: 250.0,
+        attention_rate_rating_position: 2,
+        stat_diff: [51, 120, 210, 30],
+        posts_ranked_in_period: 10
+      },
+      {
+        id: 1007,
+        attention_rate: 300.0,
+        attention_rate_rating_position: 1,
+        stat_diff: [51, 10, 210, 30],
+        posts_ranked_in_period: 10
+      }
+    ]);
+    await lockUpdate();
+    await verifyStatesAndAccounts();
+    await api.transact(
+      {
+        actions: [
+          {
+            account,
+            name: "nextround",
+            authorization: [
+              {
+                actor: account,
+                permission: "active"
+              }
+            ],
+            data: {}
+          }
+        ]
+      },
+      {
+        blocksBehind: 1,
+        expireSeconds: 30
+      }
+    );
+    await verifyAccountsBalances([
+      "test2",
+      "test1",
+      "test3",
+      "test4",
+      "snax",
+      "platform"
+    ]);
+    await api.transact(
+      {
+        actions: [
+          {
+            account,
+            name: "sendpayments",
+            authorization: [
+              {
+                actor: account,
+                permission: "active"
+              }
+            ],
+            data: {
+              lower_account_name: "",
+              account_count: 2
+            }
+          }
+        ]
+      },
+      {
+        blocksBehind: 1,
+        expireSeconds: 30
+      }
+    );
+    await verifyStatesAndAccounts();
+    await tryCatchExpect(() =>
+      api.transact(
+        {
+          actions: [
+            {
+              account,
+              name: "sendpayments",
+              authorization: [
+                {
+                  actor: account,
+                  permission: "active"
+                }
+              ],
+              data: {
+                lower_account_name: "",
+                account_count: 2
+              }
+            }
+          ]
+        },
+        {
+          blocksBehind: 1,
+          expireSeconds: 30
+        }
+      )
+    );
+    await tryCatchExpect(() =>
+      api.transact(
+        {
+          actions: [
+            {
+              account,
+              name: "sendpayments",
+              authorization: [
+                {
+                  actor: account,
+                  permission: "active"
+                }
+              ],
+              data: {
+                lower_account_name: "test1",
+                account_count: 2
+              }
+            }
+          ]
+        },
+        {
+          blocksBehind: 1,
+          expireSeconds: 30
+        }
+      )
+    );
+    await api.transact(
+      {
+        actions: [
+          {
+            account,
+            name: "sendpayments",
+            authorization: [
+              {
+                actor: account,
+                permission: "active"
+              }
+            ],
+            data: {
+              lower_account_name: "test3",
+              account_count: 2
+            }
+          }
+        ]
+      },
+      {
+        blocksBehind: 1,
+        expireSeconds: 30
+      }
+    );
+    await verifyStatesAndAccounts();
+    await verifyAccountsBalances([
+      "test2",
+      "test1",
+      "test3",
+      "test4",
+      "snax",
+      "platform"
+    ]);
+  });
+
   it("deactivates and activates account", async () => {
     await initialize();
     await lockArUpdate();
