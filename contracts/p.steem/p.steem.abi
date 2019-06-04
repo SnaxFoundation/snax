@@ -292,6 +292,13 @@
       "base": "",
       "fields": []
     },{
+      "name": "resetupdate",
+      "base": "",
+      "fields": [{
+        "name": "updating_state",
+        "type": "uint8"
+      }]
+    },{
       "name": "nextround",
       "base": "",
       "fields": []
@@ -550,6 +557,10 @@
     },{
       "name": "lockupdate",
       "type": "lockupdate",
+      "ricardian_contract": ""
+    },{
+      "name": "resetupdate",
+      "type": "resetupdate",
       "ricardian_contract": ""
     },{
       "name": "nextround",

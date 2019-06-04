@@ -60,6 +60,9 @@ public:
   /// @abi action lockupdate
   void lockupdate();
 
+  /// @abi action resetupdate
+  void resetupdate(const uint8_t updating_state);
+
   /// @abi action nextround
   void nextround();
 

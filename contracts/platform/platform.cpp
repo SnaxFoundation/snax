@@ -66,6 +66,38 @@ void platform::lockupdate() {
   _platform_state.set(_state, _self);
 }
 
+/// @abi action resetupdate
+void platform::resetupdate(const uint8_t updating_state) {
+  require_auth(_self);
+  require_initialized();
+  _state = _platform_state.get();
+
+  snax_assert(updating_state == 0 || updating_state == 1,
+              "updating state must be 0 or 1");
+
+  snax_assert(_state.updating > updating_state && _state.updating < 3,
+              "platform must be in greater updating state that param and less than 3");
+
+  if (updating_state == 0) {
+    snax_assert(_state.total_attention_rate == 0.0 &&
+                    _state.registered_attention_rate == 0.0,
+                "cant reset to state 0 because have non zero attention rates");
+
+    if (_states_history.begin() != _states_history.end()) {
+      auto last_round = _states_history.end();
+
+      --last_round;
+
+      _state.total_attention_rate = last_round->total_attention_rate;
+      _state.registered_attention_rate = last_round->registered_attention_rate;
+    };
+  }
+
+  _state.updating = updating_state;
+
+  _platform_state.set(_state, _self);
+}
+
 /// @abi action addcreator
 void platform::addcreator(const account_name name) {
   require_auth(_self);
@@ -146,7 +178,7 @@ void platform::sendpayments(const account_name lower_account_name,
     const auto &user = *_users.find(account.id);
     if (account.name) {
       snax_assert(account.last_paid_step_number < _state.step_number,
-                    "account already updated");
+                  "account already updated");
       updated_account_count++;
       if (user.attention_rate > 0.1 &&
           user.last_attention_rate_updated_step_number == _state.step_number &&
@@ -633,8 +665,8 @@ void platform::set_account_active(const uint64_t id, const bool active) {
 }
 }
 
-SNAX_ABI(
-    snax::platform,
-    (initialize)(lockarupdate)(lockupdate)(addcreator)(rmcreator)(nextround)(
-        activate)(deactivate)(addsymbol)(sendpayments)(addaccount)(dropuser)(bindaccount)(
-        dropaccount)(addaccounts)(updatear)(transfersoc)(updatearmult))
+SNAX_ABI(snax::platform,
+         (initialize)(lockarupdate)(lockupdate)(resetupdate)(addcreator)(rmcreator)(
+             nextround)(activate)(deactivate)(addsymbol)(sendpayments)(
+             addaccount)(dropuser)(bindaccount)(dropaccount)(addaccounts)(
+             updatear)(transfersoc)(updatearmult))
