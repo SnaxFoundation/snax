@@ -57,7 +57,7 @@ Object {
   "more": false,
   "rows": Array [
     Object {
-      "account_name": "",
+      "account_name": "test_account",
       "attention_rate": "300.00000000000000000",
       "attention_rate_rating_position": 1,
       "id": 1007,
@@ -129,7 +129,7 @@ Object {
   "more": false,
   "rows": Array [
     Object {
-      "account_name": "",
+      "account_name": "test_account",
       "attention_rate": "300.00000000000000000",
       "attention_rate_rating_position": 1,
       "id": 1007,
@@ -181,7 +181,7 @@ Object {
   "more": false,
   "rows": Array [
     Object {
-      "account_name": "",
+      "account_name": "test_account",
       "attention_rate": "0.00000000000000000",
       "attention_rate_rating_position": 4294967295,
       "id": 123,
@@ -189,7 +189,7 @@ Object {
       "posts_ranked_in_last_period": 6,
     },
     Object {
-      "account_name": "",
+      "account_name": "test_account",
       "attention_rate": "300.00000000000000000",
       "attention_rate_rating_position": 1,
       "id": 1007,
@@ -197,7 +197,7 @@ Object {
       "posts_ranked_in_last_period": 10,
     },
     Object {
-      "account_name": "",
+      "account_name": "test_account",
       "attention_rate": "50.00000000000000000",
       "attention_rate_rating_position": 3,
       "id": 1105,
@@ -205,7 +205,7 @@ Object {
       "posts_ranked_in_last_period": 10,
     },
     Object {
-      "account_name": "",
+      "account_name": "test_account",
       "attention_rate": "250.00000000000000000",
       "attention_rate_rating_position": 2,
       "id": 1200,
@@ -273,7 +273,7 @@ Object {
   "more": false,
   "rows": Array [
     Object {
-      "account_name": "",
+      "account_name": "test_account",
       "attention_rate": "300.00000000000000000",
       "attention_rate_rating_position": 1,
       "id": 1007,
@@ -341,7 +341,7 @@ Object {
   "more": false,
   "rows": Array [
     Object {
-      "account_name": "",
+      "account_name": "test_account",
       "attention_rate": "300.00000000000000000",
       "attention_rate_rating_position": 1,
       "id": 1007,
@@ -409,7 +409,7 @@ Object {
   "more": false,
   "rows": Array [
     Object {
-      "account_name": "",
+      "account_name": "test_account",
       "attention_rate": "300.00000000000000000",
       "attention_rate_rating_position": 1,
       "id": 1007,
@@ -461,7 +461,7 @@ Object {
   "more": false,
   "rows": Array [
     Object {
-      "account_name": "",
+      "account_name": "test_account",
       "attention_rate": "300.00000000000000000",
       "attention_rate_rating_position": 1,
       "id": 1007,
@@ -513,7 +513,7 @@ Object {
   "more": false,
   "rows": Array [
     Object {
-      "account_name": "",
+      "account_name": "test_account",
       "attention_rate": "300.00000000000000000",
       "attention_rate_rating_position": 1,
       "id": 1007,
@@ -1203,6 +1203,498 @@ Array [
     "rows": Array [
       Object {
         "balance": "604770686.0000 SNAX",
+      },
+    ],
+  },
+  Object {
+    "more": false,
+    "rows": Array [],
+  },
+  Object {
+    "more": false,
+    "rows": Array [],
+  },
+]
+`;
+
+
+exports[`Steem should process nextround with attempt to update same accounts second time 1`] = `
+Object {
+  "more": false,
+  "rows": Array [
+    Object {
+      "account": "p.steem",
+      "airdrop": "",
+      "platform_name": "test_p.steem",
+      "registered_attention_rate": "600.00000000000000000",
+      "registered_user_count": 4,
+      "round_sent_account_count": 0,
+      "round_supply": "0.0000 SNAX",
+      "round_updated_account_count": 4,
+      "sent_amount": "0.0000 SNAX",
+      "step_number": 1,
+      "token_dealer": "snax",
+      "token_symbols": Array [
+        "379052774148",
+      ],
+      "total_attention_rate": "600.00000000000000000",
+      "total_user_count": 4,
+      "updating": 2,
+    },
+  ],
+}
+`;
+
+exports[`Steem should process nextround with attempt to update same accounts second time 2`] = `
+Object {
+  "more": false,
+  "rows": Array [],
+}
+`;
+
+exports[`Steem should process nextround with attempt to update same accounts second time 3`] = `
+Array [
+  Object {
+    "active": 1,
+    "id": 123,
+    "last_paid_step_number": 0,
+    "name": "test1",
+    "stat_diff": Array [
+      50,
+      11,
+      25,
+      50,
+    ],
+    "verification_post": "1083836521751478272",
+    "verification_salt": "12345",
+  },
+  Object {
+    "active": 1,
+    "id": 1007,
+    "last_paid_step_number": 0,
+    "name": "test4",
+    "stat_diff": Array [
+      51,
+      10,
+      210,
+      30,
+    ],
+    "verification_post": "1083836521751478272",
+    "verification_salt": "12345",
+  },
+  Object {
+    "active": 1,
+    "id": 1105,
+    "last_paid_step_number": 0,
+    "name": "test2",
+    "stat_diff": Array [
+      5,
+      10,
+      20,
+      30,
+    ],
+    "verification_post": "1083836521751478272",
+    "verification_salt": "12345",
+  },
+  Object {
+    "active": 1,
+    "id": 1200,
+    "last_paid_step_number": 0,
+    "name": "test3",
+    "stat_diff": Array [
+      51,
+      120,
+      210,
+      30,
+    ],
+    "verification_post": "1083836521751478272",
+    "verification_salt": "12345",
+  },
+]
+`;
+
+exports[`Steem should process nextround with attempt to update same accounts second time 4`] = `
+Object {
+  "more": false,
+  "rows": Array [
+    Object {
+      "account_name": "test_account",
+      "attention_rate": "0.00000000000000000",
+      "attention_rate_rating_position": 4294967295,
+      "id": 123,
+      "last_attention_rate_updated_step_number": 1,
+      "posts_ranked_in_last_period": 6,
+    },
+    Object {
+      "account_name": "test_account",
+      "attention_rate": "300.00000000000000000",
+      "attention_rate_rating_position": 1,
+      "id": 1007,
+      "last_attention_rate_updated_step_number": 1,
+      "posts_ranked_in_last_period": 10,
+    },
+    Object {
+      "account_name": "test_account",
+      "attention_rate": "50.00000000000000000",
+      "attention_rate_rating_position": 3,
+      "id": 1105,
+      "last_attention_rate_updated_step_number": 1,
+      "posts_ranked_in_last_period": 10,
+    },
+    Object {
+      "account_name": "test_account",
+      "attention_rate": "250.00000000000000000",
+      "attention_rate_rating_position": 2,
+      "id": 1200,
+      "last_attention_rate_updated_step_number": 1,
+      "posts_ranked_in_last_period": 10,
+    },
+  ],
+}
+`;
+
+exports[`Steem should process nextround with attempt to update same accounts second time 5`] = `
+Array [
+  Object {
+    "more": false,
+    "rows": Array [],
+  },
+  Object {
+    "more": false,
+    "rows": Array [],
+  },
+  Object {
+    "more": false,
+    "rows": Array [],
+  },
+  Object {
+    "more": false,
+    "rows": Array [],
+  },
+  Object {
+    "more": false,
+    "rows": Array [],
+  },
+  Object {
+    "more": false,
+    "rows": Array [],
+  },
+]
+`;
+
+exports[`Steem should process nextround with attempt to update same accounts second time 6`] = `
+Object {
+  "more": false,
+  "rows": Array [
+    Object {
+      "account": "p.steem",
+      "airdrop": "",
+      "platform_name": "test_p.steem",
+      "registered_attention_rate": "600.00000000000000000",
+      "registered_user_count": 4,
+      "round_sent_account_count": 2,
+      "round_supply": "1209541372.0000 SNAX",
+      "round_updated_account_count": 4,
+      "sent_amount": "100795114.3333 SNAX",
+      "step_number": 1,
+      "token_dealer": "snax",
+      "token_symbols": Array [
+        "379052774148",
+      ],
+      "total_attention_rate": "600.00000000000000000",
+      "total_user_count": 4,
+      "updating": 3,
+    },
+  ],
+}
+`;
+
+exports[`Steem should process nextround with attempt to update same accounts second time 7`] = `
+Object {
+  "more": false,
+  "rows": Array [],
+}
+`;
+
+exports[`Steem should process nextround with attempt to update same accounts second time 8`] = `
+Array [
+  Object {
+    "active": 1,
+    "id": 123,
+    "last_paid_step_number": 1,
+    "name": "test1",
+    "stat_diff": Array [
+      50,
+      11,
+      25,
+      50,
+    ],
+    "verification_post": "1083836521751478272",
+    "verification_salt": "12345",
+  },
+  Object {
+    "active": 1,
+    "id": 1007,
+    "last_paid_step_number": 0,
+    "name": "test4",
+    "stat_diff": Array [
+      51,
+      10,
+      210,
+      30,
+    ],
+    "verification_post": "1083836521751478272",
+    "verification_salt": "12345",
+  },
+  Object {
+    "active": 1,
+    "id": 1105,
+    "last_paid_step_number": 1,
+    "name": "test2",
+    "stat_diff": Array [
+      5,
+      10,
+      20,
+      30,
+    ],
+    "verification_post": "1083836521751478272",
+    "verification_salt": "12345",
+  },
+  Object {
+    "active": 1,
+    "id": 1200,
+    "last_paid_step_number": 0,
+    "name": "test3",
+    "stat_diff": Array [
+      51,
+      120,
+      210,
+      30,
+    ],
+    "verification_post": "1083836521751478272",
+    "verification_salt": "12345",
+  },
+]
+`;
+
+exports[`Steem should process nextround with attempt to update same accounts second time 9`] = `
+Object {
+  "more": false,
+  "rows": Array [
+    Object {
+      "account_name": "test_account",
+      "attention_rate": "0.00000000000000000",
+      "attention_rate_rating_position": 4294967295,
+      "id": 123,
+      "last_attention_rate_updated_step_number": 1,
+      "posts_ranked_in_last_period": 6,
+    },
+    Object {
+      "account_name": "test_account",
+      "attention_rate": "300.00000000000000000",
+      "attention_rate_rating_position": 1,
+      "id": 1007,
+      "last_attention_rate_updated_step_number": 1,
+      "posts_ranked_in_last_period": 10,
+    },
+    Object {
+      "account_name": "test_account",
+      "attention_rate": "50.00000000000000000",
+      "attention_rate_rating_position": 3,
+      "id": 1105,
+      "last_attention_rate_updated_step_number": 1,
+      "posts_ranked_in_last_period": 10,
+    },
+    Object {
+      "account_name": "test_account",
+      "attention_rate": "250.00000000000000000",
+      "attention_rate_rating_position": 2,
+      "id": 1200,
+      "last_attention_rate_updated_step_number": 1,
+      "posts_ranked_in_last_period": 10,
+    },
+  ],
+}
+`;
+
+exports[`Steem should process nextround with attempt to update same accounts second time 10`] = `"assertion failure with message: account already updated"`;
+
+exports[`Steem should process nextround with attempt to update same accounts second time 11`] = `"assertion failure with message: account already updated"`;
+
+exports[`Steem should process nextround with attempt to update same accounts second time 12`] = `
+Object {
+  "more": false,
+  "rows": Array [
+    Object {
+      "account": "p.steem",
+      "airdrop": "",
+      "platform_name": "test_p.steem",
+      "registered_attention_rate": "600.00000000000000000",
+      "registered_user_count": 4,
+      "round_sent_account_count": 0,
+      "round_supply": "0.0000 SNAX",
+      "round_updated_account_count": 0,
+      "sent_amount": "1209541372.0000 SNAX",
+      "step_number": 2,
+      "token_dealer": "snax",
+      "token_symbols": Array [
+        "379052774148",
+      ],
+      "total_attention_rate": "600.00000000000000000",
+      "total_user_count": 4,
+      "updating": 0,
+    },
+  ],
+}
+`;
+
+exports[`Steem should process nextround with attempt to update same accounts second time 13`] = `
+Object {
+  "more": false,
+  "rows": Array [
+    Object {
+      "registered_attention_rate": "600.00000000000000000",
+      "registered_user_count": 4,
+      "round_sent_account_count": 4,
+      "round_supply": "1209541372.0000 SNAX",
+      "round_updated_account_count": 4,
+      "sent_amount": "1209541372.0000 SNAX",
+      "step_number": 1,
+      "total_attention_rate": "600.00000000000000000",
+      "total_user_count": 4,
+    },
+  ],
+}
+`;
+
+exports[`Steem should process nextround with attempt to update same accounts second time 14`] = `
+Array [
+  Object {
+    "active": 1,
+    "id": 123,
+    "last_paid_step_number": 1,
+    "name": "test1",
+    "stat_diff": Array [
+      50,
+      11,
+      25,
+      50,
+    ],
+    "verification_post": "1083836521751478272",
+    "verification_salt": "12345",
+  },
+  Object {
+    "active": 1,
+    "id": 1007,
+    "last_paid_step_number": 1,
+    "name": "test4",
+    "stat_diff": Array [
+      51,
+      10,
+      210,
+      30,
+    ],
+    "verification_post": "1083836521751478272",
+    "verification_salt": "12345",
+  },
+  Object {
+    "active": 1,
+    "id": 1105,
+    "last_paid_step_number": 1,
+    "name": "test2",
+    "stat_diff": Array [
+      5,
+      10,
+      20,
+      30,
+    ],
+    "verification_post": "1083836521751478272",
+    "verification_salt": "12345",
+  },
+  Object {
+    "active": 1,
+    "id": 1200,
+    "last_paid_step_number": 1,
+    "name": "test3",
+    "stat_diff": Array [
+      51,
+      120,
+      210,
+      30,
+    ],
+    "verification_post": "1083836521751478272",
+    "verification_salt": "12345",
+  },
+]
+`;
+
+exports[`Steem should process nextround with attempt to update same accounts second time 15`] = `
+Object {
+  "more": false,
+  "rows": Array [
+    Object {
+      "account_name": "test_account",
+      "attention_rate": "0.00000000000000000",
+      "attention_rate_rating_position": 4294967295,
+      "id": 123,
+      "last_attention_rate_updated_step_number": 1,
+      "posts_ranked_in_last_period": 6,
+    },
+    Object {
+      "account_name": "test_account",
+      "attention_rate": "300.00000000000000000",
+      "attention_rate_rating_position": 1,
+      "id": 1007,
+      "last_attention_rate_updated_step_number": 1,
+      "posts_ranked_in_last_period": 10,
+    },
+    Object {
+      "account_name": "test_account",
+      "attention_rate": "50.00000000000000000",
+      "attention_rate_rating_position": 3,
+      "id": 1105,
+      "last_attention_rate_updated_step_number": 1,
+      "posts_ranked_in_last_period": 10,
+    },
+    Object {
+      "account_name": "test_account",
+      "attention_rate": "250.00000000000000000",
+      "attention_rate_rating_position": 2,
+      "id": 1200,
+      "last_attention_rate_updated_step_number": 1,
+      "posts_ranked_in_last_period": 10,
+    },
+  ],
+}
+`;
+
+exports[`Steem should process nextround with attempt to update same accounts second time 16`] = `
+Array [
+  Object {
+    "more": false,
+    "rows": Array [
+      Object {
+        "balance": "100795114.3333 SNAX",
+      },
+    ],
+  },
+  Object {
+    "more": false,
+    "rows": Array [],
+  },
+  Object {
+    "more": false,
+    "rows": Array [
+      Object {
+        "balance": "604770686.0000 SNAX",
+      },
+    ],
+  },
+  Object {
+    "more": false,
+    "rows": Array [
+      Object {
+        "balance": "503975571.6667 SNAX",
       },
     ],
   },
@@ -2022,7 +2514,7 @@ Object {
   "more": false,
   "rows": Array [
     Object {
-      "account_name": "",
+      "account_name": "test_account",
       "attention_rate": "300.00000000000000000",
       "attention_rate_rating_position": 1,
       "id": 1007,
@@ -2074,7 +2566,7 @@ Object {
   "more": false,
   "rows": Array [
     Object {
-      "account_name": "",
+      "account_name": "test_account",
       "attention_rate": "0.00000000000000000",
       "attention_rate_rating_position": 4294967295,
       "id": 123,
@@ -2082,7 +2574,7 @@ Object {
       "posts_ranked_in_last_period": 6,
     },
     Object {
-      "account_name": "",
+      "account_name": "test_account",
       "attention_rate": "300.00000000000000000",
       "attention_rate_rating_position": 1,
       "id": 1007,
@@ -2090,7 +2582,7 @@ Object {
       "posts_ranked_in_last_period": 10,
     },
     Object {
-      "account_name": "",
+      "account_name": "test_account",
       "attention_rate": "50.00000000000000000",
       "attention_rate_rating_position": 3,
       "id": 1105,
@@ -2098,7 +2590,7 @@ Object {
       "posts_ranked_in_last_period": 10,
     },
     Object {
-      "account_name": "",
+      "account_name": "test_account",
       "attention_rate": "250.00000000000000000",
       "attention_rate_rating_position": 2,
       "id": 1200,

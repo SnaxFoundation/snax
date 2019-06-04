@@ -30,7 +30,7 @@ cleanup:
     changes:
       - "*.md"
   tags:
-    - build2
+    - build1
 
 build:
   stage: build
@@ -50,7 +50,7 @@ build:
     changes:
       - "*.md"
   tags:
-    - build2
+    - build1
 
 build:tag:
   stage: build
@@ -67,7 +67,7 @@ build:tag:
   only:
   - tags
   tags:
-    - build2
+    - build1
 
 build:tag:macos:
   stage: build
@@ -108,21 +108,21 @@ build:tag:elastic:
   only:
   - tags
   tags:
-  - build2
+  - build1
 
 test:jest:
   stage: test
   script:
   - rm -rf $WALLET_DIR
   - if [ -f /tmp/build-$CI_COMMIT_REF_NAME.tar.gz ]; then tar -xf /tmp/build-$CI_COMMIT_REF_NAME.tar.gz; fi
-  - cd $JEST_TESTS && yarn install && yarn test
+  - cd $JEST_TESTS && yarn install && yarn test -u
   except:
     variables:
       - $CI_COMMIT_MESSAGE =~ /skip-test/
     changes:
       - "*.md"
   tags:
-  - build2
+  - build1
 
 test:core:
   stage: test
@@ -142,7 +142,7 @@ test:core:
       - "*.md"
       - contracts/*
   tags:
-  - build2
+  - build1
 
 build:docker:
   stage: build-docker
@@ -158,7 +158,7 @@ build:docker:
     changes:
       - "*.md"
   tags:
-  - build2
+  - build1
 
 build:docker:tag:
   stage: build-docker
@@ -174,7 +174,7 @@ build:docker:tag:
   only:
   - tags
   tags:
-  - build2
+  - build1
 
 build:docker:tag:elastic:
   stage: build-docker
@@ -190,7 +190,7 @@ build:docker:tag:elastic:
   only:
   - tags
   tags:
-  - build2
+  - build1
 
 publish:
   stage: publish

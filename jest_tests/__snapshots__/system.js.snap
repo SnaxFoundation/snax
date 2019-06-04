@@ -2172,29 +2172,21 @@ Array [
 ]
 `;
 
-exports[`System should work correctly with delegatebw system after initialization 14`] = `Array []`;
+exports[`System should work correctly with delegatebw system after initialization 14`] = `
+Array [
+  Object {
+    "cpu_amount": "230.0000 SNAX",
+    "net_amount": "370.0000 SNAX",
+    "owner": "snax.creator",
+  },
+]
+`;
 
 exports[`System should work correctly with delegatebw system after initialization 15`] = `Array []`;
 
-exports[`System should work correctly with delegatebw system after initialization 16`] = `
-Array [
-  Object {
-    "cpu_amount": "15.0000 SNAX",
-    "net_amount": "15.0000 SNAX",
-    "owner": "testacc2",
-  },
-]
-`;
+exports[`System should work correctly with delegatebw system after initialization 16`] = `Array []`;
 
-exports[`System should work correctly with delegatebw system after initialization 17`] = `
-Array [
-  Object {
-    "cpu_amount": "210.0000 SNAX",
-    "net_amount": "350.0000 SNAX",
-    "owner": "testacc1",
-  },
-]
-`;
+exports[`System should work correctly with delegatebw system after initialization 17`] = `Array []`;
 
 exports[`System should work correctly with escrow system 1`] = `"assertion failure with message: cant unstake this amount for account at the moment"`;
 
