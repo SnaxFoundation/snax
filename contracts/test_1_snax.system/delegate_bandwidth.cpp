@@ -214,8 +214,8 @@ namespace snaxsystem {
                                    const asset stake_net_delta, const asset stake_cpu_delta, bool transfer )
    {
       require_auth( from );
-      snax_assert( _gstate.resources_market_open || is_privileged( from ), "net and cpu market must be open or user must be privileged to change bandwidth" );
       snax_assert( stake_net_delta != asset(0) || stake_cpu_delta != asset(0), "should stake non-zero amount" );
+      snax_assert( _gstate.resources_market_open || is_privileged( from ), "net and cpu market must be open or user must be privileged to change bandwidth" );
       snax_assert( std::abs( (stake_net_delta + stake_cpu_delta).amount )
                      >= std::max( std::abs( stake_net_delta.amount ), std::abs( stake_cpu_delta.amount ) ),
                     "net and cpu deltas cannot be opposite signs" );
@@ -391,11 +391,12 @@ namespace snaxsystem {
        const bool transfer,
        const uint8_t period_count
    ) {
+       snax_assert(from == receiver || transfer, "must escrowbw to the same account or transfer");
        delegatebw(
            from, receiver, stake_net_quantity, stake_cpu_quantity, transfer
        );
-       escrow_bandwidth_table _escrow_bandwidth(_self, transfer ? receiver: from);
-       _escrow_bandwidth.emplace(transfer ? receiver: from, [&](auto& record) {
+       escrow_bandwidth_table _escrow_bandwidth(_self, receiver);
+       _escrow_bandwidth.emplace(receiver, [&](auto& record) {
            const auto current_time = snax::time_point_sec(now());
            record.initial_amount = stake_net_quantity + stake_cpu_quantity;
            record.amount = stake_net_quantity + stake_cpu_quantity;
@@ -438,7 +439,7 @@ namespace snaxsystem {
 
       bool enough = false;
 
-      while (escrow_iter != _escrow_bandwidth.end() && !enough) {
+      while (from == receiver && escrow_iter != _escrow_bandwidth.end() && !enough) {
           const auto escrow_record = *escrow_iter;
           if (escrow_record.owner == from) {
               const auto current_time = snax::time_point_sec(now());
