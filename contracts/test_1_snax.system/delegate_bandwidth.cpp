@@ -214,8 +214,8 @@ namespace snaxsystem {
                                    const asset stake_net_delta, const asset stake_cpu_delta, bool transfer )
    {
       require_auth( from );
-      snax_assert( _gstate.resources_market_open || is_privileged( from ), "net and cpu market must be open or user must be privileged to change bandwidth" );
       snax_assert( stake_net_delta != asset(0) || stake_cpu_delta != asset(0), "should stake non-zero amount" );
+      snax_assert( _gstate.resources_market_open || is_privileged( from ), "net and cpu market must be open or user must be privileged to change bandwidth" );
       snax_assert( std::abs( (stake_net_delta + stake_cpu_delta).amount )
                      >= std::max( std::abs( stake_net_delta.amount ), std::abs( stake_cpu_delta.amount ) ),
                     "net and cpu deltas cannot be opposite signs" );
