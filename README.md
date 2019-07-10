@@ -34,7 +34,7 @@ Snax currently supports only Linux x64 and macOS.
 ### 1. Minimal hardware configuration
 
 - 4 cores
-- 64 GB RAM
+- 32 GB RAM
 - 512 GB SSD
 - 100 mbit\s Internet speed
 
