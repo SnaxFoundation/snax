@@ -72,37 +72,29 @@ docker run -d --restart=always --network=host --name producer \
            --p2p-server-address=YOU.PUBLIC.IP:9876 \
            --agent-name="YOU_PRODUCER_NAME" \
            --network-version-match=1 \
-           --p2p-peer-address=92.53.79.186:9876 \
-           --p2p-peer-address=54.71.79.75:9876 \
+           --p2p-peer-address=18.194.132.186:9876 \
            --p2p-peer-address=80.66.90.29:9876 \
+           --p2p-peer-address=92.53.79.186:9876 \
            --p2p-peer-address=92.53.79.190:9876 \
            --p2p-peer-address=snax.eossweden.eu:9022 \
            --p2p-peer-address=snax-mainnet-p2p.eosarabia.one:7883 \
            --p2p-peer-address=snax-peer1.eoskh.com:8977 \
-           --p2p-peer-address=snax-peer3.eoskh.com:8847 \
+           --p2p-peer-address=snax-peer3.eoskh.com:8947 \
            --p2p-peer-address=213.133.102.220:9876 \
-           --p2p-peer-address=89.163.242.27:9876 \
-           --p2p-peer-address=18.217.111.82:9876 \
+           --p2p-peer-address=95.216.224.96:9876 \
            --p2p-peer-address=snaxp2p.eclipse24.io:9877 \
            --p2p-peer-address=snax.eosnairobi.io:7276 \
            --p2p-peer-address=95.216.245.221:5032 \
-           --p2p-peer-address=sxn1.eosviet.io:8848 \
+           --p2p-peer-address=sxn1.eosviet.io:8948 \
            --p2p-peer-address=sxn3.eosviet.io:8978 \
-           --p2p-peer-address=p1-snax.eosph.io:8849 \
+           --p2p-peer-address=p1-snax.eosph.io:8949 \
            --p2p-peer-address=p3-snax.eosph.io:8979 \
            --p2p-peer-address=speer1.nodeone.io:8976 \
-           --p2p-peer-address=speer3.nodeone.io:8846 \
+           --p2p-peer-address=speer3.nodeone.io:8946 \
            --p2p-peer-address=p2p.snax.telosunlimited.io:9876 \
-           --p2p-peer-address=sslapi.teloscentral.com:9993 \
-           --p2p-peer-address=node.snax.world:8821 \
-           --p2p-peer-address=157.230.219.218:8888 \
            --p2p-peer-address=snaxbp.germaneos.de:7777 \
-           --p2p-peer-address=snax.onedac.io:7976 \
            --p2p-peer-address=peer.snax-mainnet.eosblocksmith.io:9876 \
-           --p2p-peer-address=213.239.213.227:9876 \
-           --p2p-peer-address=157.230.135.197:9876 \
-           --p2p-peer-address=p2p.snax.kennybll.com:9876 \
-           --p2p-peer-address=snax.crypto4shopper.com:9876
+           --p2p-peer-address=144.76.155.18:9876
 ```
 
 ### 4. Run kxd keystore with Docker
