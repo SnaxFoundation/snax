@@ -2,7 +2,7 @@
   "dependencies": {
     "@snaxfoundation/snaxjs": "^20.0.0-beta5",
     "jest-cli": "23.6.0",
-    "node-fetch": "^2.2.0",
+    "node-fetch": "^3.1.1",
     "text-encoding": "^0.7.0"
   },
   "jest": {
